@@ -14,6 +14,7 @@
 		895D107A27F32DCA009FB26F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107927F32DCA009FB26F /* ViewController.swift */; };
 		895D107F27F32DCB009FB26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895D107E27F32DCB009FB26F /* Assets.xcassets */; };
 		895D108227F32DCB009FB26F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 895D108027F32DCB009FB26F /* LaunchScreen.storyboard */; };
+		9196AAD50C5BE048B1FD35B8 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */; };
 		FCD0448927F334F20005C5B3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448827F334F20005C5B3 /* SnapKit */; };
 		FCD0448C27F3351F0005C5B3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448B27F3351F0005C5B3 /* Alamofire */; };
 		FCD0448F27F336450005C5B3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448E27F336450005C5B3 /* FirebaseAuth */; };
@@ -32,6 +33,9 @@
 		895D107E27F32DCB009FB26F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		895D108127F32DCB009FB26F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		895D108327F32DCB009FB26F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B1B5B55E74C617CE7D0C8E1 /* Pods-ClassToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.debug.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.debug.xcconfig"; sourceTree = "<group>"; };
+		B4A6B5014A1414205450D390 /* Pods-ClassToday.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.release.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.release.xcconfig"; sourceTree = "<group>"; };
+		D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,12 +49,31 @@
 				FCD0448F27F336450005C5B3 /* FirebaseAuth in Frameworks */,
 				FCD0448C27F3351F0005C5B3 /* Alamofire in Frameworks */,
 				FCD0449527F336450005C5B3 /* FirebaseStorage in Frameworks */,
+				9196AAD50C5BE048B1FD35B8 /* Pods_ClassToday.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		50ADC23D7B4CF06FDA3D0EBF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9B1B5B55E74C617CE7D0C8E1 /* Pods-ClassToday.debug.xcconfig */,
+				B4A6B5014A1414205450D390 /* Pods-ClassToday.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6234D5C0F25079B940207F21 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6B7997BE27F33C4F00F37393 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +88,8 @@
 			children = (
 				895D107427F32DCA009FB26F /* ClassToday */,
 				895D107327F32DCA009FB26F /* Products */,
+				50ADC23D7B4CF06FDA3D0EBF /* Pods */,
+				6234D5C0F25079B940207F21 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +122,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 895D108627F32DCB009FB26F /* Build configuration list for PBXNativeTarget "ClassToday" */;
 			buildPhases = (
+				92BA0BC8EE3F3A9B74A237FB /* [CP] Check Pods Manifest.lock */,
 				895D106E27F32DCA009FB26F /* Sources */,
 				895D106F27F32DCA009FB26F /* Frameworks */,
 				895D107027F32DCA009FB26F /* Resources */,
@@ -143,9 +169,9 @@
 			);
 			mainGroup = 895D106927F32DCA009FB26F;
 			packageReferences = (
-				FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit.git" */,
+				FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire.git" */,
+				FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
 			);
 			productRefGroup = 895D107327F32DCA009FB26F /* Products */;
 			projectDirPath = "";
@@ -167,6 +193,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		92BA0BC8EE3F3A9B74A237FB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ClassToday-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		895D106E27F32DCA009FB26F /* Sources */ = {
@@ -313,6 +364,7 @@
 		};
 		895D108727F32DCB009FB26F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B1B5B55E74C617CE7D0C8E1 /* Pods-ClassToday.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -341,6 +393,7 @@
 		};
 		895D108827F32DCB009FB26F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4A6B5014A1414205450D390 /* Pods-ClassToday.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -391,7 +444,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -399,7 +452,7 @@
 				kind = branch;
 			};
 		};
-		FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -407,7 +460,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -420,32 +473,32 @@
 /* Begin XCSwiftPackageProductDependency section */
 		FCD0448827F334F20005C5B3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit.git" */;
 			productName = SnapKit;
 		};
 		FCD0448B27F3351F0005C5B3 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire.git" */;
 			productName = Alamofire;
 		};
 		FCD0448E27F336450005C5B3 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseAuth;
 		};
 		FCD0449027F336450005C5B3 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseFirestore;
 		};
 		FCD0449227F336450005C5B3 /* FirebaseFirestoreSwift-Beta */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = "FirebaseFirestoreSwift-Beta";
 		};
 		FCD0449427F336450005C5B3 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
