@@ -13,6 +13,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.view.backgroundColor = .white
+        configureVC()
+    }
+    
+    private func configureVC() {
+        navigationController?.title = "수업 판매글 등록하기"
     }
 }
-

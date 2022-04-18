@@ -14,6 +14,18 @@
 		895D107A27F32DCA009FB26F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107927F32DCA009FB26F /* ViewController.swift */; };
 		895D107F27F32DCB009FB26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895D107E27F32DCB009FB26F /* Assets.xcassets */; };
 		895D108227F32DCB009FB26F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 895D108027F32DCB009FB26F /* LaunchScreen.storyboard */; };
+		89AB8C64280D30E4003BC6C5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7997BC27F33C4C00F37393 /* User.swift */; };
+		89AB8C65280D30E4003BC6C5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107927F32DCA009FB26F /* ViewController.swift */; };
+		89AB8C66280D30E4003BC6C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107527F32DCA009FB26F /* AppDelegate.swift */; };
+		89AB8C67280D30E4003BC6C5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107727F32DCA009FB26F /* SceneDelegate.swift */; };
+		89AB8C68280D30E4003BC6C5 /* ClassItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7997BF27F33C5A00F37393 /* ClassItem.swift */; };
+		89AB8C6A280D30E4003BC6C5 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 89AB8C59280D30E4003BC6C5 /* SnapKit */; };
+		89AB8C6E280D30E4003BC6C5 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 89AB8C5B280D30E4003BC6C5 /* Alamofire */; };
+		89AB8C70280D30E4003BC6C5 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */; };
+		89AB8C72280D30E4003BC6C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 895D108027F32DCB009FB26F /* LaunchScreen.storyboard */; };
+		89AB8C73280D30E4003BC6C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895D107E27F32DCB009FB26F /* Assets.xcassets */; };
+		89AB8C7A280D32FA003BC6C5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB8C79280D32FA003BC6C5 /* MainViewController.swift */; };
+		89AB8C7B280D394D003BC6C5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB8C79280D32FA003BC6C5 /* MainViewController.swift */; };
 		9196AAD50C5BE048B1FD35B8 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */; };
 		FCD0448927F334F20005C5B3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448827F334F20005C5B3 /* SnapKit */; };
 		FCD0448C27F3351F0005C5B3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448B27F3351F0005C5B3 /* Alamofire */; };
@@ -33,6 +45,9 @@
 		895D107E27F32DCB009FB26F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		895D108127F32DCB009FB26F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		895D108327F32DCB009FB26F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89AB8C77280D30E4003BC6C5 /* ClassToday_NonFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassToday_NonFirebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		89AB8C78280D30E5003BC6C5 /* ClassToday NonFirebase-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ClassToday NonFirebase-Info.plist"; path = "/Users/yescoach/ClassToday/ClassToday/ClassToday NonFirebase-Info.plist"; sourceTree = "<absolute>"; };
+		89AB8C79280D32FA003BC6C5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9B1B5B55E74C617CE7D0C8E1 /* Pods-ClassToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.debug.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.debug.xcconfig"; sourceTree = "<group>"; };
 		B4A6B5014A1414205450D390 /* Pods-ClassToday.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.release.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.release.xcconfig"; sourceTree = "<group>"; };
 		D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,6 +68,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		89AB8C69280D30E4003BC6C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89AB8C6A280D30E4003BC6C5 /* SnapKit in Frameworks */,
+				89AB8C6E280D30E4003BC6C5 /* Alamofire in Frameworks */,
+				89AB8C70280D30E4003BC6C5 /* Pods_ClassToday.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -62,7 +87,6 @@
 				9B1B5B55E74C617CE7D0C8E1 /* Pods-ClassToday.debug.xcconfig */,
 				B4A6B5014A1414205450D390 /* Pods-ClassToday.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -90,6 +114,7 @@
 				895D107327F32DCA009FB26F /* Products */,
 				50ADC23D7B4CF06FDA3D0EBF /* Pods */,
 				6234D5C0F25079B940207F21 /* Frameworks */,
+				89AB8C78280D30E5003BC6C5 /* ClassToday NonFirebase-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				895D107227F32DCA009FB26F /* ClassToday.app */,
+				89AB8C77280D30E4003BC6C5 /* ClassToday_NonFirebase.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -106,8 +132,9 @@
 			children = (
 				895D107527F32DCA009FB26F /* AppDelegate.swift */,
 				895D107727F32DCA009FB26F /* SceneDelegate.swift */,
-				6B7997BE27F33C4F00F37393 /* Model */,
+				89AB8C79280D32FA003BC6C5 /* MainViewController.swift */,
 				895D107927F32DCA009FB26F /* ViewController.swift */,
+				6B7997BE27F33C4F00F37393 /* Model */,
 				895D107E27F32DCB009FB26F /* Assets.xcassets */,
 				895D108027F32DCB009FB26F /* LaunchScreen.storyboard */,
 				895D108327F32DCB009FB26F /* Info.plist */,
@@ -144,6 +171,28 @@
 			productReference = 895D107227F32DCA009FB26F /* ClassToday.app */;
 			productType = "com.apple.product-type.application";
 		};
+		89AB8C58280D30E4003BC6C5 /* ClassToday_NonFirebase */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89AB8C74280D30E4003BC6C5 /* Build configuration list for PBXNativeTarget "ClassToday_NonFirebase" */;
+			buildPhases = (
+				89AB8C62280D30E4003BC6C5 /* [CP] Check Pods Manifest.lock */,
+				89AB8C63280D30E4003BC6C5 /* Sources */,
+				89AB8C69280D30E4003BC6C5 /* Frameworks */,
+				89AB8C71280D30E4003BC6C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClassToday_NonFirebase;
+			packageProductDependencies = (
+				89AB8C59280D30E4003BC6C5 /* SnapKit */,
+				89AB8C5B280D30E4003BC6C5 /* Alamofire */,
+			);
+			productName = ClassToday;
+			productReference = 89AB8C77280D30E4003BC6C5 /* ClassToday_NonFirebase.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -169,15 +218,16 @@
 			);
 			mainGroup = 895D106927F32DCA009FB26F;
 			packageReferences = (
-				FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit.git" */,
-				FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire.git" */,
-				FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
+				FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 895D107327F32DCA009FB26F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				895D107127F32DCA009FB26F /* ClassToday */,
+				89AB8C58280D30E4003BC6C5 /* ClassToday_NonFirebase */,
 			);
 		};
 /* End PBXProject section */
@@ -192,9 +242,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		89AB8C71280D30E4003BC6C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89AB8C72280D30E4003BC6C5 /* LaunchScreen.storyboard in Resources */,
+				89AB8C73280D30E4003BC6C5 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		89AB8C62280D30E4003BC6C5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ClassToday-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		92BA0BC8EE3F3A9B74A237FB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -227,8 +308,22 @@
 				6B7997BD27F33C4C00F37393 /* User.swift in Sources */,
 				895D107A27F32DCA009FB26F /* ViewController.swift in Sources */,
 				895D107627F32DCA009FB26F /* AppDelegate.swift in Sources */,
+				89AB8C7A280D32FA003BC6C5 /* MainViewController.swift in Sources */,
 				895D107827F32DCA009FB26F /* SceneDelegate.swift in Sources */,
 				6B7997C027F33C5A00F37393 /* ClassItem.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		89AB8C63280D30E4003BC6C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89AB8C64280D30E4003BC6C5 /* User.swift in Sources */,
+				89AB8C65280D30E4003BC6C5 /* ViewController.swift in Sources */,
+				89AB8C66280D30E4003BC6C5 /* AppDelegate.swift in Sources */,
+				89AB8C7B280D394D003BC6C5 /* MainViewController.swift in Sources */,
+				89AB8C67280D30E4003BC6C5 /* SceneDelegate.swift in Sources */,
+				89AB8C68280D30E4003BC6C5 /* ClassItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +515,64 @@
 			};
 			name = Release;
 		};
+		89AB8C75280D30E4003BC6C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B1B5B55E74C617CE7D0C8E1 /* Pods-ClassToday.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 67D46DJNPH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ClassToday NonFirebase-Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yescoachdev.ClassToday;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		89AB8C76280D30E4003BC6C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4A6B5014A1414205450D390 /* Pods-ClassToday.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 67D46DJNPH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ClassToday NonFirebase-Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yescoachdev.ClassToday;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -441,10 +594,19 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		89AB8C74280D30E4003BC6C5 /* Build configuration list for PBXNativeTarget "ClassToday_NonFirebase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89AB8C75280D30E4003BC6C5 /* Debug */,
+				89AB8C76280D30E4003BC6C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit.git" */ = {
+		89AB8C5A280D30E4003BC6C5 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -452,7 +614,7 @@
 				kind = branch;
 			};
 		};
-		FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
+		89AB8C5C280D30E4003BC6C5 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -460,7 +622,23 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
+		FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+		FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -471,34 +649,44 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		89AB8C59280D30E4003BC6C5 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 89AB8C5A280D30E4003BC6C5 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		89AB8C5B280D30E4003BC6C5 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 89AB8C5C280D30E4003BC6C5 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		FCD0448827F334F20005C5B3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit.git" */;
+			package = FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 		FCD0448B27F3351F0005C5B3 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		FCD0448E27F336450005C5B3 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
 		FCD0449027F336450005C5B3 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
 		};
 		FCD0449227F336450005C5B3 /* FirebaseFirestoreSwift-Beta */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseFirestoreSwift-Beta";
 		};
 		FCD0449427F336450005C5B3 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
