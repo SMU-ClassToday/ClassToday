@@ -13,7 +13,8 @@ class ViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
         flowlayout.scrollDirection = .horizontal
-        
+        flowlayout.minimumInteritemSpacing = 16
+
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowlayout)
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -28,17 +29,20 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = .white
+
         configureUI()
     }
     
     private func configureUI() {
-        navigationController?.title = "수업 판매글 등록하기"
+        self.title = "판매글 등록"
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
+        self.view.backgroundColor = .white
+        
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(12)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(12)
-            make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-12)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.equalTo(view.safeAreaLayoutGuide)
+            make.trailing.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(view.safeAreaLayoutGuide.snp.height).multipliedBy(0.2)
         }
     }
@@ -77,5 +81,8 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         let height = collectionView.frame.height
         let itemsPerRow: CGFloat = 4
         return CGSize(width: width / itemsPerRow, height: height * 0.7)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
 }

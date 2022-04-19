@@ -29,8 +29,8 @@ class ClassImageCell: UICollectionViewCell {
         classImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(10)
         }
-        contentView.layer.cornerRadius = 15
-        contentView.layer.borderWidth = 3
+        contentView.layer.cornerRadius = 20
+        contentView.layer.borderWidth = 2
         contentView.layer.borderColor = UIColor.black.cgColor
         contentView.layer.masksToBounds = true
     }
