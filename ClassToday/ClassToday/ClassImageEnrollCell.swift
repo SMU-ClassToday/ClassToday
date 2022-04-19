@@ -40,8 +40,8 @@ class ClassImageEnrollCell: UICollectionViewCell {
             make.centerY.equalTo(contentView.snp.centerY).offset(30)
         }
 
-        contentView.layer.cornerRadius = 15
-        contentView.layer.borderWidth = 3
+        contentView.layer.cornerRadius = 20
+        contentView.layer.borderWidth = 2
         contentView.layer.borderColor = UIColor.black.cgColor
         contentView.layer.masksToBounds = true
     }
