@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         return collectionView
     }()
 
-    private var images: [UIImage?]? = []
+    private var images: [UIImage]? = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,9 +96,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 //MARK: CollectionView Delegate 구현부
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let picker = PHPickerViewController.makeImagePicker(selectLimit: availableImageCount)
-        picker.delegate = self
-
         if indexPath.row == 0 {
             if availableImageCount == 0 {
                 let alert = UIAlertController(title: "이미지 등록", message: "이미지 등록은 최대 8개 까지 가능합니다", preferredStyle: .alert)
@@ -107,7 +104,16 @@ extension ViewController: UICollectionViewDelegate {
                 present(alert, animated: true, completion: nil)
                 return
             }
+            let picker = PHPickerViewController.makeImagePicker(selectLimit: availableImageCount)
+            picker.delegate = self
             present(picker, animated: true, completion: nil)
+        } else {
+            let vc = FullImagesViewController()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .coverVertical
+            vc.delegate = self
+
+            present(vc, animated: true, completion: nil)
         }
     }
 }
@@ -121,8 +127,8 @@ extension ViewController: PHPickerViewControllerDelegate {
             let itemProvider = result.itemProvider
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
                 itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, _) in
-                    guard let self = self else { return }
-                    self.images?.append(image as? UIImage)
+                    guard let self = self, let image = image as? UIImage  else { return }
+                    self.images?.append(image)
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
                     }
@@ -141,5 +147,11 @@ extension PHPickerViewController {
         
         let picker = PHPickerViewController(configuration: configuration)
         return picker
+    }
+}
+
+extension ViewController: FullImagesViewControllerDelegate {
+    func getImages() -> [UIImage]? {
+        return images
     }
 }
