@@ -75,7 +75,8 @@ extension ViewController: UICollectionViewDataSource {
         guard let image = images?[indexPath.row-1] else {
             return classImageCell
         }
-        classImageCell.configureWith(image: image)
+        classImageCell.configureWith(image: image, indexPath: indexPath)
+        classImageCell.delegate = self
         return classImageCell
     }
 }
@@ -153,5 +154,15 @@ extension PHPickerViewController {
 extension ViewController: FullImagesViewControllerDelegate {
     func getImages() -> [UIImage]? {
         return images
+    }
+}
+
+extension ViewController: ClassImageCellDelegate {
+    func deleteImageCell(indexPath: IndexPath) {
+        images?.remove(at: indexPath.row - 1)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.collectionView.reloadData()
+        }
     }
 }
