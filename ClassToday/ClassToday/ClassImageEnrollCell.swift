@@ -9,6 +9,7 @@ import UIKit
 
 class ClassImageEnrollCell: UICollectionViewCell {
     static let identifier = "ClassImageEnrollCell"
+    private let limitImageCount = 8
     private lazy var classImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -16,6 +17,7 @@ class ClassImageEnrollCell: UICollectionViewCell {
     private lazy var imageCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize)
         return label
     }()
 
@@ -34,6 +36,8 @@ class ClassImageEnrollCell: UICollectionViewCell {
         classImageView.snp.makeConstraints { make in
             make.centerX.equalTo(contentView.snp.centerX)
             make.centerY.equalTo(contentView.snp.centerY)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.4)
+            make.height.equalTo(contentView.snp.height).multipliedBy(0.3)
         }
         imageCountLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -45,9 +49,9 @@ class ClassImageEnrollCell: UICollectionViewCell {
         contentView.layer.borderColor = UIColor.black.cgColor
         contentView.layer.masksToBounds = true
     }
-    
+
     func configureWith(count: Int) {
-        classImageView.image = UIImage(systemName: "plus")
-        imageCountLabel.text = "\(count) / 5"
+        classImageView.image = UIImage(systemName: "camera")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        imageCountLabel.text = "\(count) / \(limitImageCount)"
     }
 }
