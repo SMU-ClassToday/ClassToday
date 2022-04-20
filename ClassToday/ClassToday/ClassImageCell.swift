@@ -8,11 +8,18 @@
 import UIKit
 import SnapKit
 
+protocol ClassImageCellDelegate {
+    func deleteImageCell(indexPath: IndexPath)
+}
+
 class ClassImageCell: UICollectionViewCell {
     static let identifier = "ClassImageCell"
-    private lazy var classImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+    var delegate: ClassImageCellDelegate?
+    private var indexPath: IndexPath?
+
+    private lazy var classImageView: ClassImageView = {
+        let imageView = ClassImageView()
+        imageView.delegate = self
         return imageView
     }()
 
@@ -30,13 +37,17 @@ class ClassImageCell: UICollectionViewCell {
         classImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        contentView.layer.cornerRadius = 20
-        contentView.layer.borderWidth = 2
-        contentView.layer.borderColor = UIColor.black.cgColor
-        contentView.layer.masksToBounds = true
     }
     
-    func configureWith(image: UIImage) {
-        classImageView.image = image
+    func configureWith(image: UIImage, indexPath: IndexPath) {
+        self.indexPath = indexPath
+        classImageView.configureWith(image: image)
+    }
+}
+
+extension ClassImageCell: ClassImageViewDelegate {
+    func deleteClicked() {
+        guard let indexPath = indexPath else { return }
+        delegate?.deleteImageCell(indexPath: indexPath)
     }
 }

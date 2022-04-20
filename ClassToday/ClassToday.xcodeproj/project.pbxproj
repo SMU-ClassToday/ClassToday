@@ -19,6 +19,8 @@
 		8966CF57280EEE73001CBBDC /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */; };
 		8966CF5B28100652001CBBDC /* FullImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8966CF5A28100652001CBBDC /* FullImagesViewController.swift */; };
 		8966CF5C28100AFE001CBBDC /* FullImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8966CF5A28100652001CBBDC /* FullImagesViewController.swift */; };
+		8966CF5E2810787C001CBBDC /* ClassImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8966CF5D2810787C001CBBDC /* ClassImageView.swift */; };
+		8966CF5F281079C2001CBBDC /* ClassImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8966CF5D2810787C001CBBDC /* ClassImageView.swift */; };
 		89A0CD3C280D441A006FDF89 /* ClassImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */; };
 		89A0CD3D280D4656006FDF89 /* ClassImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */; };
 		89A0CD3F280D4E17006FDF89 /* ClassImageEnrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */; };
@@ -54,6 +56,7 @@
 		895D108127F32DCB009FB26F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		895D108327F32DCB009FB26F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8966CF5A28100652001CBBDC /* FullImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullImagesViewController.swift; sourceTree = "<group>"; };
+		8966CF5D2810787C001CBBDC /* ClassImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageView.swift; sourceTree = "<group>"; };
 		89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageCell.swift; sourceTree = "<group>"; };
 		89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageEnrollCell.swift; sourceTree = "<group>"; };
 		89AB8C77280D30E4003BC6C5 /* ClassToday_NonFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassToday_NonFirebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +151,7 @@
 				8966CF5A28100652001CBBDC /* FullImagesViewController.swift */,
 				89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */,
 				89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */,
+				8966CF5D2810787C001CBBDC /* ClassImageView.swift */,
 				6B7997BE27F33C4F00F37393 /* Model */,
 				895D107E27F32DCB009FB26F /* Assets.xcassets */,
 				895D108027F32DCB009FB26F /* LaunchScreen.storyboard */,
@@ -305,6 +309,7 @@
 				895D107827F32DCA009FB26F /* SceneDelegate.swift in Sources */,
 				8966CF5B28100652001CBBDC /* FullImagesViewController.swift in Sources */,
 				6B7997C027F33C5A00F37393 /* ClassItem.swift in Sources */,
+				8966CF5E2810787C001CBBDC /* ClassImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +326,7 @@
 				89A0CD3D280D4656006FDF89 /* ClassImageCell.swift in Sources */,
 				89AB8C67280D30E4003BC6C5 /* SceneDelegate.swift in Sources */,
 				89AB8C68280D30E4003BC6C5 /* ClassItem.swift in Sources */,
+				8966CF5F281079C2001CBBDC /* ClassImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
