@@ -12,6 +12,7 @@ class ClassImageCell: UICollectionViewCell {
     static let identifier = "ClassImageCell"
     private lazy var classImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
@@ -27,7 +28,7 @@ class ClassImageCell: UICollectionViewCell {
     private func configureUI() {
         contentView.addSubview(classImageView)
         classImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(10)
+            make.edges.equalToSuperview()
         }
         contentView.layer.cornerRadius = 20
         contentView.layer.borderWidth = 2
