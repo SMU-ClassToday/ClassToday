@@ -34,9 +34,15 @@ class ViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.spacing = 30
         return stackView
+    }()
+
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .white
+        return scrollView
     }()
 
     private lazy var nameTextField: UITextField = {
@@ -90,6 +96,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         configureUI()
+        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MyTapMethod(_:)))
+        singleTapGestureRecognizer.numberOfTapsRequired = 1
+        singleTapGestureRecognizer.isEnabled = true
+        singleTapGestureRecognizer.cancelsTouchesInView = false
+        scrollView.addGestureRecognizer(singleTapGestureRecognizer)
+        
     }
 
     override func viewWillLayoutSubviews() {
@@ -100,12 +112,22 @@ class ViewController: UIViewController {
         self.title = "판매글 등록"
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         self.view.backgroundColor = .white
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.width.equalTo(view.safeAreaLayoutGuide.snp.width)
+            make.height.equalTo(view.safeAreaLayoutGuide.snp.height)
+        }
 
-        view.addSubview(collectionView)
+        scrollView.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.leading.equalTo(view.safeAreaLayoutGuide)
-            make.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+            make.width.equalTo(view.safeAreaLayoutGuide.snp.width)
             make.height.equalTo(view.safeAreaLayoutGuide.snp.height).multipliedBy(0.2)
         }
 
@@ -116,12 +138,14 @@ class ViewController: UIViewController {
         stackView.addArrangedSubview(priceTextField)
         stackView.addArrangedSubview(descriptionTextView)
 
-        view.addSubview(stackView)
+        scrollView.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(16)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(16)
-            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-16)
+            make.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom)
+            make.leading.equalTo(scrollView.contentLayoutGuide.snp.leading).offset(16)
+            make.trailing.equalTo(scrollView.contentLayoutGuide.snp.trailing).offset(-16)
+            make.width.equalTo(view.snp.width).offset(-32)
+            make.centerX.equalTo(view.snp.centerX)
         }
     }
 
@@ -133,7 +157,7 @@ class ViewController: UIViewController {
         priceTextField.setUnderLine()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    @objc func MyTapMethod(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
 }
