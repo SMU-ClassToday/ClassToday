@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     private var availableImageCount: Int {
         return limitImageCount - (images?.count ?? 0)
     }
+    private let textViewPlaceHolder = "텍스트를 입력하세요"
 
     private lazy var collectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
@@ -29,20 +30,77 @@ class ViewController: UIViewController {
         return collectionView
     }()
 
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 30
+        return stackView
+    }()
+
+    private lazy var nameTextField: UITextField = {
+        let textField = UITextField()
+        textField.configureWith(placeholder: "제목을 입력해주세요(필수)")
+        textField.delegate = self
+        return textField
+    }()
+
+    private lazy var timeTextField: UITextField = {
+        let textField = UITextField()
+        textField.configureWith(placeholder: "수업 시간(필수)")
+        textField.delegate = self
+        return textField
+    }()
+
+    private lazy var dateTextField: UITextField = {
+        let textField = UITextField()
+        textField.configureWith(placeholder: "수업 요일(선택)")
+        textField.delegate = self
+        return textField
+    }()
+
+    private lazy var placeTextField: UITextField = {
+        let textField = UITextField()
+        textField.configureWith(placeholder: "수업 장소(선택)")
+        textField.delegate = self
+        return textField
+    }()
+
+    private lazy var priceTextField: UITextField = {
+        let textField = UITextField()
+        textField.configureWith(placeholder: "수업 가격(선택)")
+        textField.delegate = self
+        return textField
+    }()
+
+    private lazy var descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.systemFont(ofSize: 18)
+        textView.text = textViewPlaceHolder
+        textView.textColor = .systemGray
+        textView.backgroundColor = UIColor(red: 244/255, green: 244/255, blue: 244/255, alpha: 1)
+        textView.delegate = self
+        return textView
+    }()
+
     private var images: [UIImage]? = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
         configureUI()
     }
-    
+
+    override func viewWillLayoutSubviews() {
+        configureAfterAutoLayout()
+    }
+
     private func configureUI() {
         self.title = "판매글 등록"
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         self.view.backgroundColor = .white
-        
+
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -50,6 +108,33 @@ class ViewController: UIViewController {
             make.trailing.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(view.safeAreaLayoutGuide.snp.height).multipliedBy(0.2)
         }
+
+        stackView.addArrangedSubview(nameTextField)
+        stackView.addArrangedSubview(timeTextField)
+        stackView.addArrangedSubview(dateTextField)
+        stackView.addArrangedSubview(placeTextField)
+        stackView.addArrangedSubview(priceTextField)
+        stackView.addArrangedSubview(descriptionTextView)
+
+        view.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom).offset(16)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(16)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-16)
+        }
+    }
+
+    private func configureAfterAutoLayout() {
+        nameTextField.setUnderLine()
+        timeTextField.setUnderLine()
+        dateTextField.setUnderLine()
+        placeTextField.setUnderLine()
+        priceTextField.setUnderLine()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }
 
@@ -151,12 +236,14 @@ extension PHPickerViewController {
     }
 }
 
+//MARK: FullImagesViewControllerDelegate 구현부 - 데이터 전달
 extension ViewController: FullImagesViewControllerDelegate {
     func getImages() -> [UIImage]? {
         return images
     }
 }
 
+//MARK: ClassImageCellDelegate 구현부 - 이미지 셀 삭제
 extension ViewController: ClassImageCellDelegate {
     func deleteImageCell(indexPath: IndexPath) {
         images?.remove(at: indexPath.row - 1)
@@ -164,5 +251,72 @@ extension ViewController: ClassImageCellDelegate {
             guard let self = self else { return }
             self.collectionView.reloadData()
         }
+    }
+}
+
+//MARK: UITextViewDelegate 구현부
+extension ViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == textViewPlaceHolder {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = textViewPlaceHolder
+            textView.textColor = .systemGray
+        }
+    }
+}
+
+//MARK: UITextFieldDelegate 구현부
+extension ViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        switch textField {
+        case nameTextField:
+            timeTextField.becomeFirstResponder()
+        case timeTextField:
+            dateTextField.becomeFirstResponder()
+        case dateTextField:
+            placeTextField.becomeFirstResponder()
+        case placeTextField:
+            priceTextField.becomeFirstResponder()
+        case priceTextField:
+            descriptionTextView.becomeFirstResponder()
+        default:
+            return true
+        }
+        return true
+    }
+}
+
+//MARK: UITextField UI 작업
+extension UITextField {
+    func configureWith(placeholder: String) {
+        self.placeholder = placeholder
+        setPlaceholderColor(.systemGray)
+        setUnderLine()
+        textColor = .black
+        font = UIFont.systemFont(ofSize: 18)
+    }
+
+    func setPlaceholderColor(_ placeholderColor: UIColor) {
+        attributedPlaceholder = NSAttributedString(string: placeholder ?? "",
+                                                   attributes: [.foregroundColor: placeholderColor, .font: font].compactMapValues { $0 })
+    }
+
+    func setUnderLine() {
+        let border = CALayer()
+        guard let window = window else { return }
+        border.frame = CGRect(x: 0, y: 29, width: window.frame.width - 32, height: 1.5)
+        border.borderWidth = 1.5
+        border.backgroundColor = UIColor.systemGray.cgColor
+        border.borderColor = UIColor.systemGray.cgColor
+        borderStyle = .none
+        layer.masksToBounds = false
+        self.layer.addSublayer(border)
     }
 }
