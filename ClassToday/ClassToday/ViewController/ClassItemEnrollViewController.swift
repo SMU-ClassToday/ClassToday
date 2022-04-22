@@ -9,14 +9,14 @@ import UIKit
 import SnapKit
 import PhotosUI
 
-class ViewController: UIViewController {
+class ClassItemEnrollViewController: UIViewController {
     private let limitImageCount = 8
     private var availableImageCount: Int {
         return limitImageCount - (images?.count ?? 0)
     }
     private let textViewPlaceHolder = "텍스트를 입력하세요"
 
-    private lazy var collectionView: UICollectionView = {
+    private lazy var imageEnrollCollectinoView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
         flowlayout.scrollDirection = .horizontal
         flowlayout.minimumInteritemSpacing = 16
@@ -29,6 +29,11 @@ class ViewController: UIViewController {
         collectionView.backgroundColor = .white
         return collectionView
     }()
+    
+//    private lazy var selectableCollectionView: UICollectionView = {
+//
+//        let compostionalLayout = UICollectionViewCompositionalLayout(
+//    }
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -96,16 +101,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         configureUI()
-        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MyTapMethod(_:)))
-        singleTapGestureRecognizer.numberOfTapsRequired = 1
-        singleTapGestureRecognizer.isEnabled = true
-        singleTapGestureRecognizer.cancelsTouchesInView = false
-        scrollView.addGestureRecognizer(singleTapGestureRecognizer)
-        
+        configureGesture()
     }
 
     override func viewWillLayoutSubviews() {
-        configureAfterAutoLayout()
+        configureTextFieldLayer()
     }
 
     private func configureUI() {
@@ -122,8 +122,8 @@ class ViewController: UIViewController {
             make.height.equalTo(view.safeAreaLayoutGuide.snp.height)
         }
 
-        scrollView.addSubview(collectionView)
-        collectionView.snp.makeConstraints { make in
+        scrollView.addSubview(imageEnrollCollectinoView)
+        imageEnrollCollectinoView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
@@ -140,7 +140,7 @@ class ViewController: UIViewController {
 
         scrollView.addSubview(stackView)
         stackView.snp.makeConstraints { make in
-            make.top.equalTo(collectionView.snp.bottom).offset(16)
+            make.top.equalTo(imageEnrollCollectinoView.snp.bottom).offset(16)
             make.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom)
             make.leading.equalTo(scrollView.contentLayoutGuide.snp.leading).offset(16)
             make.trailing.equalTo(scrollView.contentLayoutGuide.snp.trailing).offset(-16)
@@ -149,7 +149,7 @@ class ViewController: UIViewController {
         }
     }
 
-    private func configureAfterAutoLayout() {
+    private func configureTextFieldLayer() {
         nameTextField.setUnderLine()
         timeTextField.setUnderLine()
         dateTextField.setUnderLine()
@@ -157,6 +157,14 @@ class ViewController: UIViewController {
         priceTextField.setUnderLine()
     }
     
+    private func configureGesture() {
+        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MyTapMethod(_:)))
+        singleTapGestureRecognizer.numberOfTapsRequired = 1
+        singleTapGestureRecognizer.isEnabled = true
+        singleTapGestureRecognizer.cancelsTouchesInView = false
+        scrollView.addGestureRecognizer(singleTapGestureRecognizer)
+    }
+
     @objc func MyTapMethod(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
@@ -164,7 +172,7 @@ class ViewController: UIViewController {
 
 
 //MARK: CollectionView DataSource 구현부
-extension ViewController: UICollectionViewDataSource {
+extension ClassItemEnrollViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = images?.count ?? 0
         return count + 1
@@ -191,7 +199,7 @@ extension ViewController: UICollectionViewDataSource {
 }
 
 //MARK: CollectionView DeleagetFlowLayout 구현부
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension ClassItemEnrollViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width
         let height = collectionView.frame.height
@@ -204,7 +212,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 }
 
 //MARK: CollectionView Delegate 구현부
-extension ViewController: UICollectionViewDelegate {
+extension ClassItemEnrollViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             if availableImageCount == 0 {
@@ -229,7 +237,7 @@ extension ViewController: UICollectionViewDelegate {
 }
 
 //MARK: PHPickerViewControllerDelegate 구현부
-extension ViewController: PHPickerViewControllerDelegate {
+extension ClassItemEnrollViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
 
@@ -240,7 +248,7 @@ extension ViewController: PHPickerViewControllerDelegate {
                     guard let self = self, let image = image as? UIImage  else { return }
                     self.images?.append(image)
                     DispatchQueue.main.async {
-                        self.collectionView.reloadData()
+                        self.imageEnrollCollectinoView.reloadData()
                     }
                 }
             }
@@ -248,38 +256,26 @@ extension ViewController: PHPickerViewControllerDelegate {
     }
 }
 
-//MARK: PHPickerViewController 생성 함수
-extension PHPickerViewController {
-    static func makeImagePicker(selectLimit: Int) -> PHPickerViewController {
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = selectLimit
-        configuration.filter = .images
-        
-        let picker = PHPickerViewController(configuration: configuration)
-        return picker
-    }
-}
-
 //MARK: FullImagesViewControllerDelegate 구현부 - 데이터 전달
-extension ViewController: FullImagesViewControllerDelegate {
+extension ClassItemEnrollViewController: FullImagesViewControllerDelegate {
     func getImages() -> [UIImage]? {
         return images
     }
 }
 
 //MARK: ClassImageCellDelegate 구현부 - 이미지 셀 삭제
-extension ViewController: ClassImageCellDelegate {
+extension ClassItemEnrollViewController: ClassImageCellDelegate {
     func deleteImageCell(indexPath: IndexPath) {
         images?.remove(at: indexPath.row - 1)
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.collectionView.reloadData()
+            self.imageEnrollCollectinoView.reloadData()
         }
     }
 }
 
 //MARK: UITextViewDelegate 구현부
-extension ViewController: UITextViewDelegate {
+extension ClassItemEnrollViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == textViewPlaceHolder {
             textView.text = nil
@@ -296,7 +292,7 @@ extension ViewController: UITextViewDelegate {
 }
 
 //MARK: UITextFieldDelegate 구현부
-extension ViewController: UITextFieldDelegate {
+extension ClassItemEnrollViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         switch textField {
@@ -317,30 +313,3 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-//MARK: UITextField UI 작업
-extension UITextField {
-    func configureWith(placeholder: String) {
-        self.placeholder = placeholder
-        setPlaceholderColor(.systemGray)
-        setUnderLine()
-        textColor = .black
-        font = UIFont.systemFont(ofSize: 18)
-    }
-
-    func setPlaceholderColor(_ placeholderColor: UIColor) {
-        attributedPlaceholder = NSAttributedString(string: placeholder ?? "",
-                                                   attributes: [.foregroundColor: placeholderColor, .font: font].compactMapValues { $0 })
-    }
-
-    func setUnderLine() {
-        let border = CALayer()
-        guard let window = window else { return }
-        border.frame = CGRect(x: 0, y: 29, width: window.frame.width - 32, height: 1.5)
-        border.borderWidth = 1.5
-        border.backgroundColor = UIColor.systemGray.cgColor
-        border.borderColor = UIColor.systemGray.cgColor
-        borderStyle = .none
-        layer.masksToBounds = false
-        self.layer.addSublayer(border)
-    }
-}
