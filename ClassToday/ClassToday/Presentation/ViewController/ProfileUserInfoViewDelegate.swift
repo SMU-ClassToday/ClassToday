@@ -2,7 +2,11 @@
 //  ProfileUserInfoViewDelegate.swift
 //  ClassToday
 //
-//  Created by yc on 2022/04/23.
+//  Created by yc on 2022/04/22.
 //
 
-import Foundation
+import UIKit
+
+protocol ProfileUserInfoViewDelegate: AnyObject {
+    func moveToClassHistoryViewController(viewController: UIViewController)
+}
