@@ -1,8 +1,14 @@
 //
 //  ClassHistory.swift
-//  ClassToday
+//  Practice
 //
-//  Created by yc on 2022/04/23.
+//  Created by yc on 2022/04/20.
 //
 
 import Foundation
+
+enum ClassHistory {
+    case buy
+    case sell
+    case bookmark
+}
