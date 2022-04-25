@@ -8,9 +8,53 @@
 import UIKit
 import SnapKit
 
+extension UIBarButtonItem {
+
+    static func menuButton(_ target: Any?, action: Selector, image: UIImage?) -> UIBarButtonItem {
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        button.addTarget(target, action: action, for: .touchUpInside)
+
+        let menuBarItem = UIBarButtonItem(customView: button)
+        menuBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false
+        menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 28).isActive = true
+
+        return menuBarItem
+    }
+}
 
 class MainViewController: UIViewController {
-    //MARK: UI Components
+    //MARK: NavigationBar Components
+    //내비게이션바의 좌측 타이틀 설정
+    private lazy var leftTitle: UILabel = {
+        let leftTitle = UILabel()
+        leftTitle.text = "서울시 노원구의 수업"
+        leftTitle.font = .systemFont(ofSize: 20.0, weight: .bold)
+        return leftTitle
+    }()
+    
+    private lazy var starItem: UIBarButtonItem = {
+        let starItem = UIBarButtonItem.menuButton(self, action: #selector(didTapStarButton), image: Icon.star.image)
+        return starItem
+    }()
+    
+    private lazy var categoryItem: UIBarButtonItem = {
+        let categoryItem = UIBarButtonItem.menuButton(self, action: #selector(didTapCategoryButton), image: Icon.category.image)
+        return categoryItem
+    }()
+    
+    private lazy var searchItem: UIBarButtonItem = {
+        let searchItem = UIBarButtonItem.menuButton(self, action: #selector(didTapSearchButton), image: Icon.search.image)
+        return searchItem
+    }()
+    
+    private func setupNavigationBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftTitle)
+        navigationItem.rightBarButtonItems = [starItem, searchItem, categoryItem]
+    }
+    
+    //MARK: Main View의 UI Components
     private lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
         segmentedControl.insertSegment(withTitle: "모두", at: 0, animated: true)
@@ -45,7 +89,6 @@ class MainViewController: UIViewController {
 }
 
 private extension MainViewController {
-    
     @objc func didChangedSegmentControlValue(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -64,38 +107,23 @@ private extension MainViewController {
         refreshControl.endRefreshing()
     }
     
-    
-    //MARK: set navigationbar
-    func setupNavigationBar() {
-        //내비게이션바의 좌측 타이틀 설정
-        lazy var leftTitle: UILabel = {
-            let leftTitle = UILabel()
-            leftTitle.text = "서울시 노원구의 수업"
-            leftTitle.font = .systemFont(ofSize: 20.0, weight: .semibold)
-            return leftTitle
-        }()
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftTitle)
-        
-        //내비게이션바의 우측 버튼들 설정
-        lazy var starItem: UIBarButtonItem = {
-            let starItem = UIBarButtonItem(image: Icon.star.image, style: .plain, target: nil, action: nil)
-            return starItem
-        }()
-        
-        lazy var categoryItem: UIBarButtonItem = {
-            let categoryItem = UIBarButtonItem(image: Icon.category.image, style: .plain, target: nil, action: nil)
-            return categoryItem
-        }()
-        
-        lazy var searchItem: UIBarButtonItem = {
-            let searchItem = UIBarButtonItem(image: Icon.search.image, style: .plain, target: nil, action: nil)
-            return searchItem
-        }()
-        
-        navigationItem.rightBarButtonItems = [starItem, categoryItem, searchItem]
+    @objc func didTapStarButton() {
+        let starViewController = StarViewController()
+        navigationController?.pushViewController(starViewController, animated: true)
     }
     
+    @objc func didTapCategoryButton() {
+        let categoryListViewController = CategoryListViewController()
+        navigationController?.pushViewController(categoryListViewController, animated: true)
+    }
+    
+    @objc func didTapSearchButton() {
+        let searchViewController = SearchViewController()
+        navigationController?.pushViewController(searchViewController, animated: true)
+    }
+}
+
+private extension MainViewController {
     //MARK: set autolayout
     func layout() {
         [
