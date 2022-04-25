@@ -18,6 +18,7 @@
 		FC58F0F8280F12FE00AB9B07 /* StarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */; };
 		FC58F0FA280F134D00AB9B07 /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */; };
 		FC58F0FC280F137900AB9B07 /* CategoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */; };
+		FC8C096B281745E400BC9AB1 /* MainColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8C096A281745E400BC9AB1 /* MainColor.swift */; };
 		FCC283F4280F1CB000D75125 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC283F3280F1CB000D75125 /* Category.swift */; };
 		FCD0448927F334F20005C5B3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448827F334F20005C5B3 /* SnapKit */; };
 		FCD0448C27F3351F0005C5B3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448B27F3351F0005C5B3 /* Alamofire */; };
@@ -50,6 +51,7 @@
 		FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarViewController.swift; sourceTree = "<group>"; };
 		FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
 		FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailViewController.swift; sourceTree = "<group>"; };
+		FC8C096A281745E400BC9AB1 /* MainColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainColor.swift; sourceTree = "<group>"; };
 		FCC283F3280F1CB000D75125 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		FCF850F1280DB65D00D5D3DC /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		FCF850F3280DB6F000D5D3DC /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
@@ -156,8 +158,8 @@
 		FC34586A2816F56D00EB7B43 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				FCF85100280E7F9F00D5D3DC /* SearchResultViewController.swift */,
 				FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */,
+				FCF85100280E7F9F00D5D3DC /* SearchResultViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -173,9 +175,9 @@
 		FC34586C2816F57D00EB7B43 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */,
 				FC3458662816E5A800EB7B43 /* CategoryListCollectionViewCell.swift */,
 				FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */,
+				FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -186,6 +188,7 @@
 				FCF850F3280DB6F000D5D3DC /* Tabbar.swift */,
 				FCF850F6280DBCFE00D5D3DC /* Icon.swift */,
 				FCC283F3280F1CB000D75125 /* Category.swift */,
+				FC8C096A281745E400BC9AB1 /* MainColor.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				FC58F0F8280F12FE00AB9B07 /* StarViewController.swift in Sources */,
 				895D107827F32DCA009FB26F /* SceneDelegate.swift in Sources */,
 				FCF850F4280DB6F000D5D3DC /* Tabbar.swift in Sources */,
+				FC8C096B281745E400BC9AB1 /* MainColor.swift in Sources */,
 				FCF850FF280E6AD300D5D3DC /* SearchViewController.swift in Sources */,
 				FCF850F2280DB65D00D5D3DC /* TabbarController.swift in Sources */,
 				FCF85101280E7F9F00D5D3DC /* SearchResultViewController.swift in Sources */,

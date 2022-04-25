@@ -25,8 +25,7 @@ extension UIBarButtonItem {
 }
 
 class MainViewController: UIViewController {
-    //MARK: NavigationBar Components
-    //내비게이션바의 좌측 타이틀 설정
+    //MARK: - NavigationBar Components
     private lazy var leftTitle: UILabel = {
         let leftTitle = UILabel()
         leftTitle.text = "서울시 노원구의 수업"
@@ -54,7 +53,7 @@ class MainViewController: UIViewController {
         navigationItem.rightBarButtonItems = [starItem, searchItem, categoryItem]
     }
     
-    //MARK: Main View의 UI Components
+    //MARK: - Main View의 UI Components
     private lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
         segmentedControl.insertSegment(withTitle: "모두", at: 0, animated: true)
@@ -80,7 +79,6 @@ class MainViewController: UIViewController {
         return refreshControl
     }()
     
-    //viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -124,7 +122,7 @@ private extension MainViewController {
 }
 
 private extension MainViewController {
-    //MARK: set autolayout
+    //MARK: - set autolayout
     func layout() {
         [
             segmentedControl,

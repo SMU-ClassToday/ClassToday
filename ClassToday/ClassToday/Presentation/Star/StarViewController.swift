@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class StarViewController: UIViewController {
-    //MARK: NavigationBar Components
+    //MARK: - NavigationBar Components
     private lazy var leftBarItem: UIBarButtonItem = {
         let leftBarItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(didTapBackButton))
         return leftBarItem

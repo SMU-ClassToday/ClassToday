@@ -8,13 +8,13 @@
 import UIKit
 
 class CategoryDetailViewController: UIViewController {
-    //MARK: NavigationBar Components
+    //MARK: - NavigationBar Components
     private lazy var leftBarItem: UIBarButtonItem = {
         let leftBarItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(didTapBackButton))
         return leftBarItem
     }()
     
-    private lazy var navigationTitle: UILabel = {
+    lazy var navigationTitle: UILabel = {
         let navigationTitle = UILabel()
         navigationTitle.text = Category.korean.text
         navigationTitle.font = .systemFont(ofSize: 18.0, weight: .semibold)
@@ -26,7 +26,7 @@ class CategoryDetailViewController: UIViewController {
         navigationItem.titleView = navigationTitle
     }
     
-    //MARK: TableView
+    //MARK: - TableView
     private lazy var classItemTableView: UITableView = {
         let classItemTableView = UITableView()
         classItemTableView.refreshControl = refreshControl

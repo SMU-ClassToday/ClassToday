@@ -11,11 +11,11 @@ class TabbarController: UITabBarController {
     //+탭을 알럿을 모달하는 버튼으로 사용할때 필요한 flag
     var isUploadTabBarEnabled: Bool = true
     
-    //MARK: UI Components
+    //MARK: - UI Components
     lazy var alertController: UIAlertController = {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        alertController.view.tintColor = UIColor(red: 93/255, green: 95/255, blue: 239/255, alpha: 1.0)
+        alertController.view.tintColor = UIColor.mainColor
         
         let buyUploadAction = UIAlertAction(title: "구매글 작성", style: .default, handler: nil)
         let sellUploadAction = UIAlertAction(title: "판매글 작성", style: .default, handler: nil)
@@ -28,11 +28,10 @@ class TabbarController: UITabBarController {
         return alertController
     }()
     
-    //viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.tintColor = UIColor(red: 93/255, green: 95/255, blue: 239/255, alpha: 1.0)
+        view.tintColor = UIColor.mainColor
         delegate = self
         
         let viewControllerList: [UIViewController] = Tabbar.allCases.map {

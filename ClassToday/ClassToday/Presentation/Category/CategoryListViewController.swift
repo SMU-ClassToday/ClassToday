@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class CategoryListViewController: UIViewController {
-    //MARK: NavigationBar Components
+    //MARK: - NavigationBar Components
     private lazy var leftBarItem: UIBarButtonItem = {
         let leftBarItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(didTapBackButton))
         return leftBarItem
@@ -27,7 +27,7 @@ class CategoryListViewController: UIViewController {
         navigationItem.titleView = navigationTitle
     }
     
-    //MARK: CollectionView
+    //MARK: - CollectionView
     private lazy var collectionViewLayout: UICollectionViewLayout = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .vertical
@@ -46,6 +46,11 @@ class CategoryListViewController: UIViewController {
         )
         return categoryCollectionView
     }()
+    
+    private let titles: [String] = Category.allCases.map {
+        guard let title = $0.text else { return "" }
+        return title
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,7 +94,17 @@ extension CategoryListViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryListCollectionViewCell.identifier, for: indexPath)
                 as? CategoryListCollectionViewCell else { return UICollectionViewCell() }
         cell.setupView()
+        cell.categoryLabel.text = titles[indexPath.item]
         return cell
+    }
+}
+
+extension CategoryListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as? CategoryListCollectionViewCell
+        let categoryDetailViewController = CategoryDetailViewController()
+        categoryDetailViewController.navigationTitle.text = cell?.categoryLabel.text
+        navigationController?.pushViewController(categoryDetailViewController, animated: true)
     }
 }
 
@@ -100,7 +115,7 @@ private extension CategoryListViewController {
         ].forEach { view.addSubview($0) }
         
         categoryCollectionView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(50.0)
+            $0.top.equalToSuperview().inset(70.0)
             $0.leading.trailing.bottom.equalToSuperview().inset(10.0)
         }
     }

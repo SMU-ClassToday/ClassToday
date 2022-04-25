@@ -8,13 +8,13 @@
 import UIKit
 
 class SearchResultViewController: UIViewController {
-    //MARK: NavigationBar Components
+    //MARK: - NavigationBar Components
     private lazy var toolBarKeyboard: UIToolbar = {
         let toolBarKeyboard = UIToolbar()
         toolBarKeyboard.sizeToFit()
         let doneButton = UIBarButtonItem(title: "done", style: .done, target: self, action: #selector(didTapDoneButton))
         toolBarKeyboard.items = [doneButton]
-        toolBarKeyboard.tintColor = UIColor(red: 93/255, green: 95/255, blue: 239/255, alpha: 1.0)
+        toolBarKeyboard.tintColor = UIColor.mainColor
         return toolBarKeyboard
     }()
     
@@ -33,16 +33,11 @@ class SearchResultViewController: UIViewController {
     }()
     
     func setNavigationBar() {
-        /*
-        let searchController = UISearchController(searchResultsController: nil)
-        navigationItem.searchController = searchController
-         */
-        
         navigationItem.leftBarButtonItem = leftBarButton
         navigationItem.titleView = searchBar
     }
     
-    //MARK: Main View Components
+    //MARK: - Main View Components
     private lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
         segmentedControl.insertSegment(withTitle: "모두", at: 0, animated: true)
@@ -149,6 +144,5 @@ extension SearchResultViewController: UISearchBarDelegate {
         let searchResultViewController = SearchResultViewController()
         searchResultViewController.searchBar.text = searchBar.text
         navigationController?.pushViewController(searchResultViewController, animated: true)
-        //searchBar.resignFirstResponder()
     }
 }
