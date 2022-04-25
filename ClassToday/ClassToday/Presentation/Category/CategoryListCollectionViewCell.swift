@@ -19,10 +19,10 @@ class CategoryListCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var categoryLabel: UILabel = {
+    lazy var categoryLabel: UILabel = {
         let categoryLabel = UILabel()
         categoryLabel.text = "test"
-        categoryLabel.font = .systemFont(ofSize: 10.0, weight: .regular)
+        categoryLabel.font = .systemFont(ofSize: 10.0, weight: .semibold)
         return categoryLabel
     }()
     
@@ -46,7 +46,7 @@ private extension CategoryListCollectionViewCell {
         
         categoryLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview()
-            $0.top.equalTo(imageView.snp.bottom).offset(1.0)
+            $0.top.equalTo(imageView.snp.bottom).offset(5.0)
             $0.centerX.equalTo(imageView)
         }
     }

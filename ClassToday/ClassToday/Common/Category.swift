@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Category {
+enum Category: CaseIterable {
     case korean
     case math
     case english
