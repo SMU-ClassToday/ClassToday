@@ -34,7 +34,7 @@ enum Icon {
         case .search:
             return UIImage(systemName: "magnifyingglass")
         case .category:
-            return UIImage(systemName: "square.grid.3x2")
+            return UIImage(systemName: "list.bullet")
         case .star:
             return UIImage(systemName: "star")
         case .xmark:

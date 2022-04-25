@@ -29,21 +29,21 @@ class ClassItemTableViewCell: UITableViewCell {
     private lazy var locationLabel: UILabel = {
         let locationLabel = UILabel()
         locationLabel.text = "노원구 중계 1동"
-        locationLabel.font = .systemFont(ofSize: 14.0, weight: .regular)
+        locationLabel.font = .systemFont(ofSize: 14.0, weight: .thin)
         return locationLabel
     }()
     
     private lazy var dateDiffLabel: UILabel = {
         let dateDiffLabel = UILabel()
         dateDiffLabel.text = " | 1분 전"
-        dateDiffLabel.font = .systemFont(ofSize: 14.0, weight: .regular)
+        dateDiffLabel.font = .systemFont(ofSize: 14.0, weight: .thin)
         return dateDiffLabel
     }()
     
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.text = "20,000원"
-        priceLabel.font = .systemFont(ofSize: 16.0, weight: .bold)
+        priceLabel.font = .systemFont(ofSize: 16.0, weight: .regular)
         return priceLabel
     }()
     

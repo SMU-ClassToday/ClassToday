@@ -14,6 +14,11 @@
 		895D107F27F32DCB009FB26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895D107E27F32DCB009FB26F /* Assets.xcassets */; };
 		895D108227F32DCB009FB26F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 895D108027F32DCB009FB26F /* LaunchScreen.storyboard */; };
 		9196AAD50C5BE048B1FD35B8 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */; };
+		FC3458672816E5A800EB7B43 /* CategoryListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3458662816E5A800EB7B43 /* CategoryListCollectionViewCell.swift */; };
+		FC58F0F8280F12FE00AB9B07 /* StarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */; };
+		FC58F0FA280F134D00AB9B07 /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */; };
+		FC58F0FC280F137900AB9B07 /* CategoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */; };
+		FCC283F4280F1CB000D75125 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC283F3280F1CB000D75125 /* Category.swift */; };
 		FCD0448927F334F20005C5B3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448827F334F20005C5B3 /* SnapKit */; };
 		FCD0448C27F3351F0005C5B3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448B27F3351F0005C5B3 /* Alamofire */; };
 		FCD0448F27F336450005C5B3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448E27F336450005C5B3 /* FirebaseAuth */; };
@@ -25,6 +30,8 @@
 		FCF850F7280DBCFE00D5D3DC /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F6280DBCFE00D5D3DC /* Icon.swift */; };
 		FCF850FA280DC02800D5D3DC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F9280DC02800D5D3DC /* MainViewController.swift */; };
 		FCF850FC280DC05900D5D3DC /* ClassItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850FB280DC05900D5D3DC /* ClassItemTableViewCell.swift */; };
+		FCF850FF280E6AD300D5D3DC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */; };
+		FCF85101280E7F9F00D5D3DC /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF85100280E7F9F00D5D3DC /* SearchResultViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,11 +46,18 @@
 		9B1B5B55E74C617CE7D0C8E1 /* Pods-ClassToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.debug.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.debug.xcconfig"; sourceTree = "<group>"; };
 		B4A6B5014A1414205450D390 /* Pods-ClassToday.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.release.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.release.xcconfig"; sourceTree = "<group>"; };
 		D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC3458662816E5A800EB7B43 /* CategoryListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListCollectionViewCell.swift; sourceTree = "<group>"; };
+		FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarViewController.swift; sourceTree = "<group>"; };
+		FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
+		FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailViewController.swift; sourceTree = "<group>"; };
+		FCC283F3280F1CB000D75125 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		FCF850F1280DB65D00D5D3DC /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		FCF850F3280DB6F000D5D3DC /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
 		FCF850F6280DBCFE00D5D3DC /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		FCF850F9280DC02800D5D3DC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		FCF850FB280DC05900D5D3DC /* ClassItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassItemTableViewCell.swift; sourceTree = "<group>"; };
+		FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		FCF85100280E7F9F00D5D3DC /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,25 +127,80 @@
 			children = (
 				895D107527F32DCA009FB26F /* AppDelegate.swift */,
 				895D107727F32DCA009FB26F /* SceneDelegate.swift */,
-				FCF850F8280DBDE900D5D3DC /* Data */,
+				FCF850F8280DBDE900D5D3DC /* Common */,
 				6B7997BE27F33C4F00F37393 /* Model */,
-				895D107E27F32DCB009FB26F /* Assets.xcassets */,
+				FCF850FD280E6A8700D5D3DC /* Presentation */,
 				895D108027F32DCB009FB26F /* LaunchScreen.storyboard */,
+				895D107E27F32DCB009FB26F /* Assets.xcassets */,
 				895D108327F32DCB009FB26F /* Info.plist */,
-				FCF850F1280DB65D00D5D3DC /* TabbarController.swift */,
-				FCF850F9280DC02800D5D3DC /* MainViewController.swift */,
-				FCF850FB280DC05900D5D3DC /* ClassItemTableViewCell.swift */,
 			);
 			path = ClassToday;
 			sourceTree = "<group>";
 		};
-		FCF850F8280DBDE900D5D3DC /* Data */ = {
+		FC3458682816F55A00EB7B43 /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				FCF850F1280DB65D00D5D3DC /* TabbarController.swift */,
+			);
+			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		FC3458692816F56300EB7B43 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				FCF850F9280DC02800D5D3DC /* MainViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		FC34586A2816F56D00EB7B43 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				FCF85100280E7F9F00D5D3DC /* SearchResultViewController.swift */,
+				FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		FC34586B2816F57600EB7B43 /* Star */ = {
+			isa = PBXGroup;
+			children = (
+				FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */,
+			);
+			path = Star;
+			sourceTree = "<group>";
+		};
+		FC34586C2816F57D00EB7B43 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */,
+				FC3458662816E5A800EB7B43 /* CategoryListCollectionViewCell.swift */,
+				FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		FCF850F8280DBDE900D5D3DC /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				FCF850F3280DB6F000D5D3DC /* Tabbar.swift */,
 				FCF850F6280DBCFE00D5D3DC /* Icon.swift */,
+				FCC283F3280F1CB000D75125 /* Category.swift */,
 			);
-			path = Data;
+			path = Common;
+			sourceTree = "<group>";
+		};
+		FCF850FD280E6A8700D5D3DC /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				FCF850FB280DC05900D5D3DC /* ClassItemTableViewCell.swift */,
+				FC3458682816F55A00EB7B43 /* Tabbar */,
+				FC3458692816F56300EB7B43 /* Main */,
+				FC34586A2816F56D00EB7B43 /* Search */,
+				FC34586C2816F57D00EB7B43 /* Category */,
+				FC34586B2816F57600EB7B43 /* Star */,
+			);
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,15 +312,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC3458672816E5A800EB7B43 /* CategoryListCollectionViewCell.swift in Sources */,
 				FCF850FC280DC05900D5D3DC /* ClassItemTableViewCell.swift in Sources */,
+				FC58F0FA280F134D00AB9B07 /* CategoryListViewController.swift in Sources */,
 				6B7997BD27F33C4C00F37393 /* User.swift in Sources */,
 				895D107627F32DCA009FB26F /* AppDelegate.swift in Sources */,
 				FCF850F7280DBCFE00D5D3DC /* Icon.swift in Sources */,
+				FC58F0F8280F12FE00AB9B07 /* StarViewController.swift in Sources */,
 				895D107827F32DCA009FB26F /* SceneDelegate.swift in Sources */,
 				FCF850F4280DB6F000D5D3DC /* Tabbar.swift in Sources */,
+				FCF850FF280E6AD300D5D3DC /* SearchViewController.swift in Sources */,
 				FCF850F2280DB65D00D5D3DC /* TabbarController.swift in Sources */,
+				FCF85101280E7F9F00D5D3DC /* SearchResultViewController.swift in Sources */,
+				FCC283F4280F1CB000D75125 /* Category.swift in Sources */,
 				6B7997C027F33C5A00F37393 /* ClassItem.swift in Sources */,
 				FCF850FA280DC02800D5D3DC /* MainViewController.swift in Sources */,
+				FC58F0FC280F137900AB9B07 /* CategoryDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,7 +469,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 67D46DJNPH;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClassToday/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -422,7 +498,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 67D46DJNPH;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClassToday/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
