@@ -47,7 +47,7 @@ class SearchViewController: UIViewController {
 
 private extension SearchViewController {
     @objc func didTapBackButton() {
-        navigationController?.popToRootViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func didTapDoneButton() {
