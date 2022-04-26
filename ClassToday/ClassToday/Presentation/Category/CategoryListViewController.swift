@@ -69,15 +69,13 @@ extension CategoryListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let noOfCellsInRow = 3
 
-            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+        let totalSpace = flowLayout.sectionInset.left
+            + flowLayout.sectionInset.right
+            + (flowLayout.minimumInteritemSpacing * CGFloat(noOfCellsInRow - 1))
 
-            let totalSpace = flowLayout.sectionInset.left
-                + flowLayout.sectionInset.right
-                + (flowLayout.minimumInteritemSpacing * CGFloat(noOfCellsInRow - 1))
-
-            let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(noOfCellsInRow))
-
-            return CGSize(width: size, height: size)
+        let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(noOfCellsInRow))
+        return CGSize(width: size, height: size)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -115,7 +113,7 @@ private extension CategoryListViewController {
         ].forEach { view.addSubview($0) }
         
         categoryCollectionView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(70.0)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(30.0)
             $0.leading.trailing.bottom.equalToSuperview().inset(10.0)
         }
     }

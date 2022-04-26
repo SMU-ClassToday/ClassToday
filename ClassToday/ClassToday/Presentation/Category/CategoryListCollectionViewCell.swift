@@ -22,7 +22,7 @@ class CategoryListCollectionViewCell: UICollectionViewCell {
     lazy var categoryLabel: UILabel = {
         let categoryLabel = UILabel()
         categoryLabel.text = "test"
-        categoryLabel.font = .systemFont(ofSize: 10.0, weight: .semibold)
+        categoryLabel.font = .systemFont(ofSize: 15.0, weight: .semibold)
         return categoryLabel
     }()
     
