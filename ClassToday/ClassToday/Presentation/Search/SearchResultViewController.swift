@@ -86,7 +86,7 @@ private extension SearchResultViewController {
     }
     
     @objc func didTapBackButton() {
-        navigationController?.popToRootViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func didTapSearchButton() {
