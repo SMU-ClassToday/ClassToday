@@ -12,8 +12,9 @@ class SearchResultViewController: UIViewController {
     private lazy var toolBarKeyboard: UIToolbar = {
         let toolBarKeyboard = UIToolbar()
         toolBarKeyboard.sizeToFit()
+        let blankSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didTapDoneButton))
-        toolBarKeyboard.items = [doneButton]
+        toolBarKeyboard.items = [blankSpace, doneButton]
         toolBarKeyboard.tintColor = UIColor.mainColor
         return toolBarKeyboard
     }()
