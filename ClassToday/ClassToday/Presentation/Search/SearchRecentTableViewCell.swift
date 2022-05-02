@@ -11,6 +11,7 @@ class SearchRecentTableViewCell: UITableViewCell {
     
     static let identifier = "SearchRecentTableViewCell"
     
+    //MARK: - Cell 내부 Components
     private lazy var recentImage: UIImageView = {
         let recentImage = UIImageView()
         recentImage.image = UIImage(systemName: "clock.arrow.circlepath")
@@ -18,7 +19,7 @@ class SearchRecentTableViewCell: UITableViewCell {
         return recentImage
     }()
     
-    private lazy var recentLabel: UILabel = {
+    lazy var recentLabel: UILabel = {
         let recentLabel = UILabel()
         recentLabel.text = "TEST"
         recentLabel.font = .systemFont(ofSize: 18.0, weight: .regular)

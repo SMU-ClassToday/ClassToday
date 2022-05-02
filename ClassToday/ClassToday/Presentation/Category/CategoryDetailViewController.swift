@@ -26,7 +26,18 @@ class CategoryDetailViewController: UIViewController {
         navigationItem.titleView = navigationTitle
     }
     
-    //MARK: - TableView
+    //MARK: - UI Components
+    
+    private lazy var segmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl()
+        segmentedControl.insertSegment(withTitle: "모두", at: 0, animated: true)
+        segmentedControl.insertSegment(withTitle: "구매글", at: 1, animated: true)
+        segmentedControl.insertSegment(withTitle: "판매글", at: 2, animated: true)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(didChangedSegmentControlValue(_:)), for: .valueChanged)
+        return segmentedControl
+    }()
+    
     private lazy var classItemTableView: UITableView = {
         let classItemTableView = UITableView()
         classItemTableView.refreshControl = refreshControl
@@ -50,6 +61,19 @@ class CategoryDetailViewController: UIViewController {
 }
 
 private extension CategoryDetailViewController {
+    @objc func didChangedSegmentControlValue(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            print("모두")
+        case 1:
+            print("구매글")
+        case 2:
+            print("판매글")
+        default:
+            break
+        }
+    }
+    
     @objc func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
@@ -63,11 +87,18 @@ private extension CategoryDetailViewController {
 private extension CategoryDetailViewController {
     func layout() {
         [
+            segmentedControl,
             classItemTableView
         ].forEach { view.addSubview($0) }
         
+        segmentedControl.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(16.0)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+        }
+        
         classItemTableView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(segmentedControl.snp.bottom)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
