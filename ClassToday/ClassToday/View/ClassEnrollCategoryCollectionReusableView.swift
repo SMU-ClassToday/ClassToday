@@ -12,6 +12,7 @@ class ClassEnrollCategoryCollectionReusableView: UICollectionReusableView {
     static let height = 36
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
     
@@ -19,7 +20,7 @@ class ClassEnrollCategoryCollectionReusableView: UICollectionReusableView {
         let label = UILabel()
         label.text = "중복선택 가능"
         label.textColor = .systemGray
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         return label
     }()
 
@@ -42,10 +43,10 @@ class ClassEnrollCategoryCollectionReusableView: UICollectionReusableView {
         }
         supplementaryLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel.snp.trailing).offset(8)
-            make.centerY.equalTo(titleLabel.snp.centerY).offset(4)
+            make.centerY.equalTo(titleLabel.snp.centerY).offset(3)
         }
     }
-    
+
     func configure(with categoryType: CategoryType) {
         switch categoryType {
         case .subject:
