@@ -52,6 +52,7 @@ class SearchViewController: UIViewController {
         let recentClearButton = UIButton()
         recentClearButton.setTitle("전체삭제", for: .normal)
         recentClearButton.setTitleColor(.lightGray, for: .normal)
+        recentClearButton.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
         return recentClearButton
     }()
     
@@ -64,14 +65,21 @@ class SearchViewController: UIViewController {
         return searchRecentTableView
     }()
     
+    //MARK: - SearchHistory
     
+    private var searchHistoryList = [SearchHistory]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBar()
+        loadSearchHistory()
         layout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        searchRecentTableView.reloadData()
+    }
 }
 
 private extension SearchViewController {
@@ -81,6 +89,12 @@ private extension SearchViewController {
     
     @objc func didTapDoneButton() {
         searchBar.resignFirstResponder()
+    }
+    
+    @objc func didTapClearButton() {
+        searchHistoryList.removeAll()
+        saveSearchHistory()
+        searchRecentTableView.reloadData()
     }
 }
 
@@ -112,24 +126,62 @@ private extension SearchViewController {
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else { return }
+        let newSearchHistory = SearchHistory(text: text)
+        searchHistoryList.insert(newSearchHistory, at: 0)
+        saveSearchHistory()
         let searchResultViewController = SearchResultViewController()
         searchResultViewController.searchBar.text = searchBar.text
         navigationController?.pushViewController(searchResultViewController, animated: true)
     }
 }
 
-extension SearchViewController: UITableViewDelegate {
-    
-}
-
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        return searchHistoryList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchRecentTableViewCell.identifier, for: indexPath) as? SearchRecentTableViewCell else { return UITableViewCell() }
+        let searchHistory = searchHistoryList[indexPath.row]
+        cell.recentLabel.text = searchHistory.text
         cell.setupView()
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        searchHistoryList.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+        saveSearchHistory()
+    }
+}
+
+extension SearchViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let searchResultViewController = SearchResultViewController()
+        searchResultViewController.searchBar.text = searchHistoryList[indexPath.row].text
+        navigationController?.pushViewController(searchResultViewController, animated: true)
+    }
+}
+
+extension SearchViewController {
+    private func saveSearchHistory() {
+        let searchHistory = searchHistoryList.map {
+            [
+                "text": $0.text
+            ]
+        }
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(searchHistory, forKey: "searchHistoryList")
+    }
+    
+    private func loadSearchHistory() {
+        let userDefaults = UserDefaults.standard
+        guard let data = userDefaults.object(forKey: "searchHistoryList") as? [[String: Any]] else { return }
+        searchHistoryList = data.compactMap {
+            guard let text = $0["text"] as? String else { return nil }
+            return SearchHistory(text: text)
+        }
+    }
+    
 }

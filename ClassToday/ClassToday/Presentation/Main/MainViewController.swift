@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 extension UIBarButtonItem {
-
+    //메뉴버튼 크기조정
     static func menuButton(_ target: Any?, action: Selector, image: UIImage?) -> UIBarButtonItem {
         let button = UIButton(type: .system)
         button.setImage(image, for: .normal)
@@ -141,6 +141,7 @@ private extension MainViewController {
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.top.equalTo(view.safeAreaLayoutGuide)
         }
+        
         classItemTableView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(segmentedControl.snp.bottom)
