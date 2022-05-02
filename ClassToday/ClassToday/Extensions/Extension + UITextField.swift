@@ -11,9 +11,9 @@ import UIKit
 extension UITextField {
     func configureWith(placeholder: String) {
         self.placeholder = placeholder
-        setPlaceholderColor(.systemGray)
+        setPlaceholderColor(.systemGray3)
         textColor = .black
-        font = UIFont.systemFont(ofSize: 18)
+        font = UIFont.systemFont(ofSize: 18, weight: .bold)
     }
 
     private func setPlaceholderColor(_ placeholderColor: UIColor) {

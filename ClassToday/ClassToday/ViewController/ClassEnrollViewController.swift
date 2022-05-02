@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import PhotosUI
 
-class ClassItemEnrollViewController: UIViewController {
+class ClassEnrollViewController: UIViewController {
     private let limitImageCount = 8
     private var availableImageCount: Int {
         return limitImageCount - (images?.count ?? 0)
@@ -30,17 +30,40 @@ class ClassItemEnrollViewController: UIViewController {
         return collectionView
     }()
     
-//    private lazy var selectableCollectionView: UICollectionView = {
-//
-//        let compostionalLayout = UICollectionViewCompositionalLayout(
-//    }
+    private lazy var categorySubjectCollectionView: ClassEnrollCategoryCollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(width: view.frame.width * 0.40, height: ClassEnrollCategoryCollectionViewCell.height)
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.scrollDirection = .vertical
+        let collectionView = ClassEnrollCategoryCollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.dataSource = categorySubjectDataSource
+        collectionView.delegate = categoryCollectionViewDelegate
+        collectionView.backgroundColor = .white
+        return collectionView
+    }()
+
+    private lazy var categoryAgeCollectionView: ClassEnrollCategoryCollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(width: view.frame.width * 0.40, height: ClassEnrollCategoryCollectionViewCell.height)
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.scrollDirection = .vertical
+        let collectionView = ClassEnrollCategoryCollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.dataSource = categoryAgeDataSource
+        collectionView.delegate = categoryCollectionViewDelegate
+        collectionView.backgroundColor = .white
+        return collectionView
+    }()
+
+    private let categorySubjectDataSource = ClassEnrollCategoryCollectionViewDataSource(categoryType: .subject)
+    private let categoryAgeDataSource = ClassEnrollCategoryCollectionViewDataSource(categoryType: .age)
+    private let categoryCollectionViewDelegate = ClassEnrollCategoryCollectionViewDelegate()
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        stackView.spacing = 30
+        stackView.distribution = .fill
+        stackView.spacing = 20
         return stackView
     }()
 
@@ -86,13 +109,26 @@ class ClassItemEnrollViewController: UIViewController {
     }()
 
     private lazy var descriptionTextView: UITextView = {
-        let textView = UITextView()
-        textView.font = UIFont.systemFont(ofSize: 18)
+        let textView = UITextView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: 300))
+        textView.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         textView.text = textViewPlaceHolder
-        textView.textColor = .systemGray
+        textView.textColor = .systemGray3
         textView.backgroundColor = UIColor(red: 244/255, green: 244/255, blue: 244/255, alpha: 1)
+        textView.isScrollEnabled = false
         textView.delegate = self
         return textView
+    }()
+
+    private lazy var categoryLabel: UILabel = {
+        let label = UILabel()
+        label.text = "선택사항"
+        return label
+    }()
+
+    private lazy var duplicatedLabel: UILabel = {
+        let label = UILabel()
+        label.text = "중복선택가능"
+        return label
     }()
 
     private var images: [UIImage]? = []
@@ -108,26 +144,27 @@ class ClassItemEnrollViewController: UIViewController {
         configureTextFieldLayer()
     }
 
+// MARK: UI 설정 부분
     private func configureUI() {
         self.title = "판매글 등록"
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         self.view.backgroundColor = .white
         view.addSubview(scrollView)
+
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             make.width.equalTo(view.safeAreaLayoutGuide.snp.width)
-            make.height.equalTo(view.safeAreaLayoutGuide.snp.height)
         }
 
         scrollView.addSubview(imageEnrollCollectinoView)
         imageEnrollCollectinoView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
-            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
-            make.width.equalTo(view.safeAreaLayoutGuide.snp.width)
+            make.top.equalTo(scrollView.snp.top)
+            make.leading.equalTo(scrollView.snp.leading)
+            make.trailing.equalTo(scrollView.snp.trailing)
+            make.width.equalTo(scrollView.snp.width)
             make.height.equalTo(view.safeAreaLayoutGuide.snp.height).multipliedBy(0.2)
         }
 
@@ -137,15 +174,35 @@ class ClassItemEnrollViewController: UIViewController {
         stackView.addArrangedSubview(placeTextField)
         stackView.addArrangedSubview(priceTextField)
         stackView.addArrangedSubview(descriptionTextView)
+        stackView.addArrangedSubview(categoryLabel)
+        stackView.addArrangedSubview(categorySubjectCollectionView)
+        stackView.addArrangedSubview(categoryAgeCollectionView)
+
+        descriptionTextView.snp.makeConstraints { make in
+            make.height.equalTo(250)
+        }
 
         scrollView.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.top.equalTo(imageEnrollCollectinoView.snp.bottom).offset(16)
-            make.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom)
-            make.leading.equalTo(scrollView.contentLayoutGuide.snp.leading).offset(16)
-            make.trailing.equalTo(scrollView.contentLayoutGuide.snp.trailing).offset(-16)
-            make.width.equalTo(view.snp.width).offset(-32)
-            make.centerX.equalTo(view.snp.centerX)
+            make.bottom.equalTo(scrollView.snp.bottom)
+            make.leading.equalTo(scrollView.snp.leading).offset(16)
+            make.trailing.equalTo(scrollView.snp.trailing).offset(-16)
+            make.width.equalTo(scrollView.snp.width).offset(-32)
+        }
+        
+        categorySubjectCollectionView.snp.makeConstraints { make in
+            let lines = SubjectCategory.count / 2 + SubjectCategory.count % 2
+            let height = Int(ClassEnrollCategoryCollectionViewCell.height) * lines +
+                        ClassEnrollCategoryCollectionReusableView.height
+            make.height.equalTo(height)
+        }
+
+        categoryAgeCollectionView.snp.makeConstraints { make in
+            let lines = SubjectCategory.count / 2 + SubjectCategory.count % 2
+            let height = Int(ClassEnrollCategoryCollectionViewCell.height) * lines +
+                        ClassEnrollCategoryCollectionReusableView.height
+            make.height.equalTo(height)
         }
     }
 
@@ -172,7 +229,7 @@ class ClassItemEnrollViewController: UIViewController {
 
 
 //MARK: CollectionView DataSource 구현부
-extension ClassItemEnrollViewController: UICollectionViewDataSource {
+extension ClassEnrollViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = images?.count ?? 0
         return count + 1
@@ -199,7 +256,7 @@ extension ClassItemEnrollViewController: UICollectionViewDataSource {
 }
 
 //MARK: CollectionView DeleagetFlowLayout 구현부
-extension ClassItemEnrollViewController: UICollectionViewDelegateFlowLayout {
+extension ClassEnrollViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width
         let height = collectionView.frame.height
@@ -212,7 +269,7 @@ extension ClassItemEnrollViewController: UICollectionViewDelegateFlowLayout {
 }
 
 //MARK: CollectionView Delegate 구현부
-extension ClassItemEnrollViewController: UICollectionViewDelegate {
+extension ClassEnrollViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             if availableImageCount == 0 {
@@ -237,7 +294,7 @@ extension ClassItemEnrollViewController: UICollectionViewDelegate {
 }
 
 //MARK: PHPickerViewControllerDelegate 구현부
-extension ClassItemEnrollViewController: PHPickerViewControllerDelegate {
+extension ClassEnrollViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
 
@@ -257,14 +314,14 @@ extension ClassItemEnrollViewController: PHPickerViewControllerDelegate {
 }
 
 //MARK: FullImagesViewControllerDelegate 구현부 - 데이터 전달
-extension ClassItemEnrollViewController: FullImagesViewControllerDelegate {
+extension ClassEnrollViewController: FullImagesViewControllerDelegate {
     func getImages() -> [UIImage]? {
         return images
     }
 }
 
 //MARK: ClassImageCellDelegate 구현부 - 이미지 셀 삭제
-extension ClassItemEnrollViewController: ClassImageCellDelegate {
+extension ClassEnrollViewController: ClassImageCellDelegate {
     func deleteImageCell(indexPath: IndexPath) {
         images?.remove(at: indexPath.row - 1)
         DispatchQueue.main.async { [weak self] in
@@ -275,7 +332,7 @@ extension ClassItemEnrollViewController: ClassImageCellDelegate {
 }
 
 //MARK: UITextViewDelegate 구현부
-extension ClassItemEnrollViewController: UITextViewDelegate {
+extension ClassEnrollViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == textViewPlaceHolder {
             textView.text = nil
@@ -292,7 +349,7 @@ extension ClassItemEnrollViewController: UITextViewDelegate {
 }
 
 //MARK: UITextFieldDelegate 구현부
-extension ClassItemEnrollViewController: UITextFieldDelegate {
+extension ClassEnrollViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         switch textField {
@@ -312,4 +369,3 @@ extension ClassItemEnrollViewController: UITextFieldDelegate {
         return true
     }
 }
-
