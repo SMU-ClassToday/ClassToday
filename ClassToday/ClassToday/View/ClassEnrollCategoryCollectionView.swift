@@ -7,45 +7,6 @@
 
 import UIKit
 
-protocol CategoryItem {
-    static var count: Int { get }
-    var name: String { get }
-}
-
-enum SubjectCategory: String, CategoryItem, CaseIterable {
-    case math = "수학"
-    case english = "영어"
-    case society = "사회"
-    case science = "과학"
-
-    static var count: Int {
-        return Self.allCases.count
-    }
-
-    var name: String {
-        return self.rawValue
-    }
-}
-
-enum AgeCategory: String, CategoryItem, CaseIterable {
-    case elementary = "초등학교"
-    case middle = "중학교"
-    case high = "고등학교"
-
-    static var count: Int {
-        return Self.allCases.count
-    }
-
-    var name: String {
-        return self.rawValue
-    }
-}
-
-enum CategoryType {
-    case subject
-    case age
-}
-
 class ClassEnrollCategoryCollectionView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)

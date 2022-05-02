@@ -122,6 +122,7 @@ class ClassEnrollViewController: UIViewController {
     private lazy var categoryLabel: UILabel = {
         let label = UILabel()
         label.text = "선택사항"
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
 
@@ -146,8 +147,13 @@ class ClassEnrollViewController: UIViewController {
 
 // MARK: UI 설정 부분
     private func configureUI() {
-        self.title = "판매글 등록"
+        self.title = "수업 판매글 등록하기"
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
+        let addButton = UIBarButtonItem(title: "완료",
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(enroll(_:)))
+        navigationItem.rightBarButtonItem = addButton
         self.view.backgroundColor = .white
         view.addSubview(scrollView)
 
@@ -224,6 +230,9 @@ class ClassEnrollViewController: UIViewController {
 
     @objc func MyTapMethod(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+        
+    @objc func enroll(_ button: UIBarButtonItem) {
     }
 }
 
@@ -337,13 +346,15 @@ extension ClassEnrollViewController: UITextViewDelegate {
         if textView.text == textViewPlaceHolder {
             textView.text = nil
             textView.textColor = .black
+            textView.font = UIFont.systemFont(ofSize: 16)
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textView.text = textViewPlaceHolder
-            textView.textColor = .systemGray
+            textView.textColor = .systemGray3
+            textView.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         }
     }
 }
