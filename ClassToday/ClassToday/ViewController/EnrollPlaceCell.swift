@@ -12,10 +12,19 @@ class EnrollPlaceCell: UITableViewCell {
     private lazy var placeTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 장소(선택)")
+        textField.rightView = button
+        textField.rightViewMode = .always
         textField.delegate = self
         return textField
     }()
-    
+
+    private lazy var button: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(systemName: "map"), for: .normal)
+        button.addTarget(self, action: #selector(selectPlace(_:)), for: .touchDown)
+        return button
+    }()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureUI()
@@ -36,6 +45,10 @@ class EnrollPlaceCell: UITableViewCell {
 
     func setUnderline() {
         placeTextField.setUnderLine()
+    }
+
+    @objc func selectPlace(_ button: UIButton) {
+
     }
 }
 

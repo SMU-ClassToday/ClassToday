@@ -13,6 +13,8 @@ class EnrollTimeCell: UITableViewCell {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 시간(필수)")
         textField.delegate = self
+        textField.keyboardType = .decimalPad
+        textField.clearsOnBeginEditing = true
         return textField
     }()
     
@@ -44,6 +46,14 @@ extension EnrollTimeCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.hasText, let text = textField.text {
+            if text.contains("시간") == false {
+                textField.text = text + "시간"
+            }
+        }
     }
 }
 

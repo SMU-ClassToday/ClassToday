@@ -23,6 +23,7 @@ class NewClassEnrollViewController: UIViewController {
                            forCellReuseIdentifier: EnrollDescriptionCell.identifier)
         tableView.register(EnrollCategorySubjectCell.self, forCellReuseIdentifier: EnrollCategorySubjectCell.identifier)
         tableView.separatorStyle = .none
+        tableView.selectionFollowsFocus = false
         return tableView
     }()
 

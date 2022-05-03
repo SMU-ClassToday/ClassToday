@@ -12,8 +12,35 @@ class EnrollPriceCell: UITableViewCell {
     private lazy var priceTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 가격(선택)")
+        textField.rightView = stackView
+        textField.rightViewMode = .always
+        textField.keyboardType = .numberPad
+        textField.clearsOnBeginEditing = true
         textField.delegate = self
         return textField
+    }()
+    
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.addArrangedSubview(label)
+        stackView.addArrangedSubview(button)
+        return stackView
+    }()
+    
+    private lazy var button: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(systemName: "ellipsis"), for: .normal)
+        button.addTarget(self, action: #selector(selectUnit(_:)), for: .touchDown)
+        return button
+    }()
+    
+    private lazy var label: UILabel = {
+        let label = UILabel()
+        label.text = "시간"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -37,6 +64,10 @@ class EnrollPriceCell: UITableViewCell {
     func setUnderline() {
         priceTextField.setUnderLine()
     }
+    
+    @objc func selectUnit(_ button: UIButton) {
+
+    }
 }
 
 //MARK: UITextFieldDelegate 구현부
@@ -45,5 +76,20 @@ extension EnrollPriceCell: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.hasText, let text = textField.text {
+            textField.text = text.formmatedWithCurrency()
+        }
+    }
 }
 
+extension String {
+    func formmatedWithCurrency() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = NSLocale.current
+        let result = formatter.string(from: (Int(self) ?? 0) as NSNumber)
+        return result ?? ""
+    }
+}
