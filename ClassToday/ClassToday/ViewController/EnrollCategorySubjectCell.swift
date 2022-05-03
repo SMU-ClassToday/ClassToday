@@ -39,6 +39,7 @@ class EnrollCategorySubjectCell: UITableViewCell {
             make.top.bottom.equalTo(contentView)
         }
     }
+
     func configureType(with categoryType: CategoryType) {
         self.categoryType = categoryType
     }
