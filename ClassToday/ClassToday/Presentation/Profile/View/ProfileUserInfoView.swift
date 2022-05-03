@@ -127,7 +127,7 @@ class ProfileUserInfoView: UIView {
     }()
     private lazy var bookmarkLabel: UILabel = {
         let label = UILabel()
-        label.text = "찜한 수업"
+        label.text = "후기"
         label.font = .systemFont(ofSize: 16.0, weight: .regular)
         return label
     }()
@@ -163,15 +163,15 @@ private extension ProfileUserInfoView {
         case 1:
             print("buy")
             let classHistoryViewController = ClassHistoryViewController(classHistory: .buy)
-            delegate?.moveToClassHistoryViewController(viewController: classHistoryViewController)
+            delegate?.moveToViewController(viewController: classHistoryViewController)
         case 2:
             print("sell")
             let classHistoryViewController = ClassHistoryViewController(classHistory: .sell)
-            delegate?.moveToClassHistoryViewController(viewController: classHistoryViewController)
+            delegate?.moveToViewController(viewController: classHistoryViewController)
         case 3:
-            print("bookmark")
-            let classHistoryViewController = ClassHistoryViewController(classHistory: .bookmark)
-            delegate?.moveToClassHistoryViewController(viewController: classHistoryViewController)
+            print("후기")
+            let reviewListViewController = ReviewListViewController()
+            delegate?.moveToViewController(viewController: reviewListViewController)
         default:
             break
         }

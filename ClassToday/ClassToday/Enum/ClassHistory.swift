@@ -10,5 +10,4 @@ import Foundation
 enum ClassHistory {
     case buy
     case sell
-    case bookmark
 }

@@ -8,5 +8,5 @@
 import UIKit
 
 protocol ProfileUserInfoViewDelegate: AnyObject {
-    func moveToClassHistoryViewController(viewController: UIViewController)
+    func moveToViewController(viewController: UIViewController)
 }
