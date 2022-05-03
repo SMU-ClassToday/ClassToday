@@ -53,7 +53,7 @@ class EnrollImageCell: UITableViewCell {
     func configureUI() {
         contentView.addSubview(imageEnrollCollectinoView)
         imageEnrollCollectinoView.snp.makeConstraints { make in
-            make.edges.equalTo(contentView)
+            make.top.leading.trailing.bottom.equalTo(contentView)
         }
     }
 }
@@ -88,7 +88,7 @@ extension EnrollImageCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width
         let height = collectionView.frame.height
-        let itemsPerRow: CGFloat = 4
+        let itemsPerRow: CGFloat = 3.5
         return CGSize(width: width / itemsPerRow, height: height * 0.7)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

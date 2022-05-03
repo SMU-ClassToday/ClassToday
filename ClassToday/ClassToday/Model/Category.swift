@@ -12,7 +12,7 @@ protocol CategoryItem {
     var name: String { get }
 }
 
-enum CategoryType {
+enum CategoryType: CaseIterable {
     case subject
     case age
 }
