@@ -19,6 +19,11 @@
 		89098E0A28202CF2006EFD4E /* Extension + UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E0828202C2D006EFD4E /* Extension + UITextView.swift */; };
 		89098E0D28203A04006EFD4E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E0C28203A04006EFD4E /* Category.swift */; };
 		89098E0E28203A23006EFD4E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E0C28203A04006EFD4E /* Category.swift */; };
+		89098E1A2820564F006EFD4E /* EnrollImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E192820564F006EFD4E /* EnrollImageCell.swift */; };
+		89098E1D2820C445006EFD4E /* NewClassEnrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E1C2820C445006EFD4E /* NewClassEnrollViewController.swift */; };
+		89098E202820C6A9006EFD4E /* NewClassEnrollTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E1F2820C6A9006EFD4E /* NewClassEnrollTableViewDataSource.swift */; };
+		89098E222820C80E006EFD4E /* NewClassEnrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E1C2820C445006EFD4E /* NewClassEnrollViewController.swift */; };
+		89098E232820C811006EFD4E /* EnrollImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E192820564F006EFD4E /* EnrollImageCell.swift */; };
 		893D70E4281B1935006CD232 /* ClassEnrollCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893D70E3281B1935006CD232 /* ClassEnrollCategoryCollectionViewCell.swift */; };
 		893D70E5281BA4DB006CD232 /* ClassEnrollCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893D70E3281B1935006CD232 /* ClassEnrollCategoryCollectionViewCell.swift */; };
 		895D107627F32DCA009FB26F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107527F32DCA009FB26F /* AppDelegate.swift */; };
@@ -70,6 +75,9 @@
 		89098E0528201B3D006EFD4E /* ClassEnrollCategoryCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassEnrollCategoryCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		89098E0828202C2D006EFD4E /* Extension + UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITextView.swift"; sourceTree = "<group>"; };
 		89098E0C28203A04006EFD4E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		89098E192820564F006EFD4E /* EnrollImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollImageCell.swift; sourceTree = "<group>"; };
+		89098E1C2820C445006EFD4E /* NewClassEnrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClassEnrollViewController.swift; sourceTree = "<group>"; };
+		89098E1F2820C6A9006EFD4E /* NewClassEnrollTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClassEnrollTableViewDataSource.swift; sourceTree = "<group>"; };
 		893D70E3281B1935006CD232 /* ClassEnrollCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassEnrollCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		895D107227F32DCA009FB26F /* ClassToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895D107527F32DCA009FB26F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +157,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		89098E1E2820C61B006EFD4E /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				89098E1C2820C445006EFD4E /* NewClassEnrollViewController.swift */,
+				89098E192820564F006EFD4E /* EnrollImageCell.swift */,
+				89098E1F2820C6A9006EFD4E /* NewClassEnrollTableViewDataSource.swift */,
+			);
+			name = "New Group";
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		895D106927F32DCA009FB26F = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				89C26A8D2811ED0200648206 /* Resources */,
+				89098E1E2820C61B006EFD4E /* New Group */,
 				89C26A8A2811EC1F00648206 /* ViewController */,
 				89C26A892811EC1400648206 /* View */,
 				6B7997BE27F33C4F00F37393 /* Model */,
@@ -368,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89098E202820C6A9006EFD4E /* NewClassEnrollTableViewDataSource.swift in Sources */,
 				89A3391E281E5A2000DBD319 /* ClassEnrollCategoryCollectionViewDataSource.swift in Sources */,
 				89098E0628201B3D006EFD4E /* ClassEnrollCategoryCollectionViewDelegate.swift in Sources */,
 				89098E0D28203A04006EFD4E /* Category.swift in Sources */,
@@ -375,6 +396,7 @@
 				895D107A27F32DCA009FB26F /* ClassEnrollViewController.swift in Sources */,
 				89098E03282015F2006EFD4E /* ClassEnrollCategoryCollectionReusableView.swift in Sources */,
 				89C26A8C2811EC3A00648206 /* Extension + UITextField.swift in Sources */,
+				89098E1A2820564F006EFD4E /* EnrollImageCell.swift in Sources */,
 				895D107627F32DCA009FB26F /* AppDelegate.swift in Sources */,
 				89A0CD3F280D4E17006FDF89 /* ClassImageEnrollCell.swift in Sources */,
 				89AB8C7A280D32FA003BC6C5 /* MainViewController.swift in Sources */,
@@ -384,6 +406,7 @@
 				8966CF5B28100652001CBBDC /* FullImagesViewController.swift in Sources */,
 				89098E0928202C2D006EFD4E /* Extension + UITextView.swift in Sources */,
 				6B7997C027F33C5A00F37393 /* ClassItem.swift in Sources */,
+				89098E1D2820C445006EFD4E /* NewClassEnrollViewController.swift in Sources */,
 				89C26A942812A27900648206 /* ClassEnrollCategoryCollectionView.swift in Sources */,
 				8966CF5E2810787C001CBBDC /* ClassImageView.swift in Sources */,
 				893D70E4281B1935006CD232 /* ClassEnrollCategoryCollectionViewCell.swift in Sources */,
@@ -403,6 +426,7 @@
 				89098E042820186E006EFD4E /* ClassEnrollCategoryCollectionReusableView.swift in Sources */,
 				8966CF56280EEC18001CBBDC /* ClassImageEnrollCell.swift in Sources */,
 				89C26A922811EE5D00648206 /* Extension + PHPickerViewController.swift in Sources */,
+				89098E232820C811006EFD4E /* EnrollImageCell.swift in Sources */,
 				89AB8C66280D30E4003BC6C5 /* AppDelegate.swift in Sources */,
 				89AB8C7B280D394D003BC6C5 /* MainViewController.swift in Sources */,
 				89A0CD3D280D4656006FDF89 /* ClassImageCell.swift in Sources */,
@@ -410,6 +434,7 @@
 				89AB8C67280D30E4003BC6C5 /* SceneDelegate.swift in Sources */,
 				89098E0A28202CF2006EFD4E /* Extension + UITextView.swift in Sources */,
 				89AB8C68280D30E4003BC6C5 /* ClassItem.swift in Sources */,
+				89098E222820C80E006EFD4E /* NewClassEnrollViewController.swift in Sources */,
 				89A3391F281E5A7400DBD319 /* ClassEnrollCategoryCollectionViewDataSource.swift in Sources */,
 				89C26A952812A35800648206 /* ClassEnrollCategoryCollectionView.swift in Sources */,
 				8966CF5F281079C2001CBBDC /* ClassImageView.swift in Sources */,

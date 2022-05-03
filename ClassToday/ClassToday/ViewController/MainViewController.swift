@@ -35,11 +35,11 @@ class MainViewController: UIViewController {
         let actionSheet = UIAlertController(title: "글을 등록하시겠습니까?", message: nil, preferredStyle: .actionSheet)
         let enrollForSale = UIAlertAction(title: "수업판매글", style: .default) { [weak self] action in
             guard let self = self else { return }
-            self.navigationController?.pushViewController(ClassEnrollViewController(), animated: true)
+            self.navigationController?.pushViewController(NewClassEnrollViewController(), animated: true)
         }
         let enrollForBuy = UIAlertAction(title: "수업구매글", style: .default) { [weak self] action in
             guard let self = self else { return }
-            self.navigationController?.pushViewController(ClassEnrollViewController(), animated: true)
+            self.navigationController?.pushViewController(NewClassEnrollViewController(), animated: true)
         }
         actionSheet.addAction(enrollForBuy)
         actionSheet.addAction(enrollForSale)
