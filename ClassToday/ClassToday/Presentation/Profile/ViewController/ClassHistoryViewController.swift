@@ -36,8 +36,6 @@ private extension ClassHistoryViewController {
             navigationItem.title = "구매한 수업"
         case .sell:
             navigationItem.title = "판매한 수업"
-        case .bookmark:
-            navigationItem.title = "찜한 수업"
         }
     }
     func attribute() {

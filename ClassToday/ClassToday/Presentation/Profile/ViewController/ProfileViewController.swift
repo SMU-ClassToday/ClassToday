@@ -105,7 +105,7 @@ extension ProfileViewController: UITableViewDataSource {
 
 // MARK: - ProfileUserInfoViewDelegate
 extension ProfileViewController: ProfileUserInfoViewDelegate {
-    func moveToClassHistoryViewController(viewController: UIViewController) {
+    func moveToViewController(viewController: UIViewController) {
         navigationController?.pushViewController(viewController, animated: true)
     }
 }

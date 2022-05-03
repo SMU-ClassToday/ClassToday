@@ -116,6 +116,7 @@ extension ReviewListViewController: UITableViewDataSource {
 private extension ReviewListViewController {
     func setupNavigationBar() {
         navigationItem.title = "후기"
+        navigationController?.navigationBar.topItem?.backButtonTitle = ""
     }
     func attribute() {
         view.backgroundColor = .systemBackground
