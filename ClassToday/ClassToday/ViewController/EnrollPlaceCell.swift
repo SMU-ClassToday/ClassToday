@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol EnrollPlaceCellDelegate {
+    func passData(place: String)
+}
+
 class EnrollPlaceCell: UITableViewCell {
     static let identifier = "EnrollPlaceCell"
+    var delegate: EnrollPlaceCellDelegate?
+
     private lazy var placeTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 장소(선택)")
@@ -57,6 +63,11 @@ extension EnrollPlaceCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let text = textField.text {
+            delegate?.passData(place: text)
+        }
     }
 }
 

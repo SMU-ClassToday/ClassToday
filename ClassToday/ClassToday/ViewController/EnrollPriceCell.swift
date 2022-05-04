@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol EnrollPriceCellDelegate {
+    func passData(price: String)
+}
+
 class EnrollPriceCell: UITableViewCell {
     static let identifier = "EnrollPriceCell"
+    var delegate: EnrollPlaceCellDelegate?
+
     private lazy var priceTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 가격(선택)")
@@ -80,6 +86,7 @@ extension EnrollPriceCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.hasText, let text = textField.text {
             textField.text = text.formmatedWithCurrency()
+            delegate?.passData(place: text)
         }
     }
 }

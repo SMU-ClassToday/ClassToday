@@ -6,14 +6,21 @@
 //
 
 import Foundation
+import UIKit
 
-struct ClassItem: Codable {
+struct ClassItem {
     let name: String
-    let isPurchase: Bool
-    let images: [String]?
-    let place: String?
-    let location: String
-    let price: String?
     let date: String?
+    let time: String?
+    let place: String?
+    let location: String?
+    let price: String?
+    let priceUnit: String
     let description: String
+    let images: [UIImage]?
+    let subjects: [Subject]?
+    let targets: [Target]?
+    let itemType: String
+    let validity: Bool
+    let writer: String
 }

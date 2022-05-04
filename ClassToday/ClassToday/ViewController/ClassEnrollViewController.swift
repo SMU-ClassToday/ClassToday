@@ -55,7 +55,7 @@ class ClassEnrollViewController: UIViewController {
     }()
 
     private let categorySubjectDataSource = ClassEnrollCategoryCollectionViewDataSource(categoryType: .subject)
-    private let categoryAgeDataSource = ClassEnrollCategoryCollectionViewDataSource(categoryType: .age)
+    private let categoryAgeDataSource = ClassEnrollCategoryCollectionViewDataSource(categoryType: .target)
     private let categoryCollectionViewDelegate = ClassEnrollCategoryCollectionViewDelegate()
 
     private lazy var stackView: UIStackView = {
@@ -198,14 +198,14 @@ class ClassEnrollViewController: UIViewController {
         }
         
         categorySubjectCollectionView.snp.makeConstraints { make in
-            let lines = SubjectCategory.count / 2 + SubjectCategory.count % 2
+            let lines = Subject.count / 2 + Subject.count % 2
             let height = Int(ClassEnrollCategoryCollectionViewCell.height) * lines +
                         ClassEnrollCategoryCollectionReusableView.height
             make.height.equalTo(height)
         }
 
         categoryAgeCollectionView.snp.makeConstraints { make in
-            let lines = SubjectCategory.count / 2 + SubjectCategory.count % 2
+            let lines = Subject.count / 2 + Subject.count % 2
             let height = Int(ClassEnrollCategoryCollectionViewCell.height) * lines +
                         ClassEnrollCategoryCollectionReusableView.height
             make.height.equalTo(height)
