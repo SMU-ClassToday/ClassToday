@@ -14,7 +14,7 @@ class NewClassEnrollViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(EnrollImageCell.self, forCellReuseIdentifier: EnrollImageCell.identifier)
-        tableView.register(EnrollTitleCell.self, forCellReuseIdentifier: EnrollTitleCell.identifier)
+        tableView.register(EnrollNameCell.self, forCellReuseIdentifier: EnrollNameCell.identifier)
         tableView.register(EnrollTimeCell.self, forCellReuseIdentifier: EnrollTimeCell.identifier)
         tableView.register(EnrollDateCell.self, forCellReuseIdentifier: EnrollDateCell.identifier)
         tableView.register(EnrollPlaceCell.self, forCellReuseIdentifier: EnrollPlaceCell.identifier)
@@ -26,6 +26,15 @@ class NewClassEnrollViewController: UIViewController {
         tableView.selectionFollowsFocus = false
         return tableView
     }()
+
+    private var images: [UIImage]?
+    private var className: String?
+    private var classTime: String?
+    private var classDate: String?
+    private var classPlace: String?
+    private var classPrice: String?
+    private var classPriceUnit: String = "시간"
+    private var classDescription: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +76,31 @@ class NewClassEnrollViewController: UIViewController {
     }
 
     @objc func enroll(_ button: UIBarButtonItem) {
+        // 등록
+        guard let className = className, let classTime = classTime, let classDescription = classDescription else {
+            let alert = UIAlertController(title: "알림", message: "필수 항목을 입력해주세요", preferredStyle: .alert)
+            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(action)
+            present(alert)
+            return
+        }
+
+        let classItem = ClassItem(name: className,
+                                  date: classDate,
+                                  time: classTime,
+                                  place: classPlace,
+                                  location: nil,
+                                  price: classPrice,
+                                  priceUnit: classPriceUnit,
+                                  description: classDescription,
+                                  images: images,
+                                  subjects: nil,
+                                  targets: nil,
+                                  itemType: "구매글",
+                                  validity: true,
+                                  writer: "yescoach")
+        print("\(classItem) 등록")
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -91,39 +125,45 @@ extension NewClassEnrollViewController: UITableViewDataSource {
             cell.delegate = self
             return cell
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollTitleCell.identifier, for: indexPath) as? EnrollTitleCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollNameCell.identifier, for: indexPath) as? EnrollNameCell else {
                 return UITableViewCell()
             }
             cell.setUnderline()
+            cell.delegate = self
             return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollTimeCell.identifier, for: indexPath) as? EnrollTimeCell else {
                 return UITableViewCell()
             }
             cell.setUnderline()
+            cell.delegate = self
             return cell
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDateCell.identifier, for: indexPath) as? EnrollDateCell else {
                 return UITableViewCell()
             }
             cell.setUnderline()
+            cell.delegate = self
             return cell
         case 4:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPlaceCell.identifier, for: indexPath) as? EnrollPlaceCell else {
                 return UITableViewCell()
             }
             cell.setUnderline()
+            cell.delegate = self
             return cell
         case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPriceCell.identifier, for: indexPath) as? EnrollPriceCell else {
                 return UITableViewCell()
             }
             cell.setUnderline()
+            cell.delegate = self
             return cell
         case 6:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDescriptionCell.identifier, for: indexPath) as? EnrollDescriptionCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             return cell
         case 7:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollCategorySubjectCell.identifier, for: indexPath) as? EnrollCategorySubjectCell else {
@@ -150,12 +190,12 @@ extension NewClassEnrollViewController: UITableViewDelegate {
         case 7:
             switch CategoryType.allCases[indexPath.row] {
             case .subject:
-                let lines = SubjectCategory.count / 2 + SubjectCategory.count % 2
+                let lines = Subject.count / 2 + Subject.count % 2
                 let height = Int(ClassEnrollCategoryCollectionViewCell.height) * lines +
                             ClassEnrollCategoryCollectionReusableView.height
                 return CGFloat(height)
-            case .age:
-                let lines = AgeCategory.count / 2 + AgeCategory.count % 2
+            case .target:
+                let lines = Target.count / 2 + Target.count % 2
                 let height = Int(ClassEnrollCategoryCollectionViewCell.height) * lines +
                             ClassEnrollCategoryCollectionReusableView.height
                 return CGFloat(height)
@@ -187,5 +227,41 @@ extension NewClassEnrollViewController {
         let contentInset = UIEdgeInsets.zero
         tableView.contentInset = contentInset
         tableView.scrollIndicatorInsets = contentInset
+    }
+}
+
+extension NewClassEnrollViewController: EnrollNameCellDelegate {
+    func passData(name: String) {
+        className = name
+    }
+}
+
+extension NewClassEnrollViewController: EnrollTimeCellDelegate {
+    func passData(time: String) {
+        classTime = time
+    }
+}
+
+extension NewClassEnrollViewController: EnrollDateCellDelegate {
+    func passData(date: String) {
+        classDate = date
+    }
+}
+
+extension NewClassEnrollViewController: EnrollPlaceCellDelegate {
+    func passData(place: String) {
+        classPlace = place
+    }
+}
+
+extension NewClassEnrollViewController: EnrollPriceCellDelegate {
+    func passData(price: String) {
+        classPrice = price
+    }
+}
+
+extension NewClassEnrollViewController: EnrollDescriptionCellDelegate {
+    func passData(description: String) {
+        classDescription = description
     }
 }

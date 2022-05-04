@@ -14,10 +14,10 @@ protocol CategoryItem {
 
 enum CategoryType: CaseIterable {
     case subject
-    case age
+    case target
 }
 
-enum SubjectCategory: String, CategoryItem, CaseIterable {
+enum Subject: String, CategoryItem, CaseIterable {
     case korean = "국어"
     case english = "영어"
     case math = "수학"
@@ -37,7 +37,7 @@ enum SubjectCategory: String, CategoryItem, CaseIterable {
     }
 }
 
-enum AgeCategory: String, CategoryItem, CaseIterable {
+enum Target: String, CategoryItem, CaseIterable {
     case elementary = "초등학생"
     case university = "대학생"
     case junior = "중학생"

@@ -50,9 +50,9 @@ extension EnrollCategorySubjectCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch categoryType {
         case .subject:
-            return SubjectCategory.allCases.count
-        case .age:
-            return AgeCategory.allCases.count
+            return Subject.allCases.count
+        case .target:
+            return Target.allCases.count
         default:
             return 0
         }
@@ -65,9 +65,9 @@ extension EnrollCategorySubjectCell: UICollectionViewDataSource {
         }
         switch categoryType {
         case .subject:
-            cell.configure(with: SubjectCategory.allCases[indexPath.row])
-        case .age:
-            cell.configure(with: AgeCategory.allCases[indexPath.row])
+            cell.configure(with: Subject.allCases[indexPath.row])
+        case .target:
+            cell.configure(with: Target.allCases[indexPath.row])
         }
         return cell
     }

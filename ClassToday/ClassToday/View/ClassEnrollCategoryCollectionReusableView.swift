@@ -51,7 +51,7 @@ class ClassEnrollCategoryCollectionReusableView: UICollectionReusableView {
         switch categoryType {
         case .subject:
             titleLabel.text = "수업 카테고리"
-        case .age:
+        case .target:
             titleLabel.text = "수업 대상"
         }
     }

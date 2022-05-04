@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol EnrollTimeCellDelegate {
+    func passData(time: String)
+}
+
 class EnrollTimeCell: UITableViewCell {
     static let identifier = "EnrollTimeCell"
+    var delegate: EnrollTimeCellDelegate?
+
     private lazy var timeTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 시간(필수)")
@@ -53,6 +59,7 @@ extension EnrollTimeCell: UITextFieldDelegate {
             if text.contains("시간") == false {
                 textField.text = text + "시간"
             }
+            delegate?.passData(time: text)
         }
     }
 }

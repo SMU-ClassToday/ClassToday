@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol EnrollDescriptionCellDelegate {
+    func passData(description: String)
+}
+
 class EnrollDescriptionCell: UITableViewCell {
     static let identifier = "EnrollDescriptionCell"
+    var delegate: EnrollDescriptionCellDelegate?
+
     private let textViewPlaceHolder = "텍스트를 입력하세요"
 
     private lazy var descriptionTextView: UITextView = {
@@ -57,6 +63,8 @@ extension EnrollDescriptionCell: UITextViewDelegate {
             textView.text = textViewPlaceHolder
             textView.textColor = .systemGray3
             textView.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        } else {
+            delegate?.passData(description: textView.text)
         }
     }
 }

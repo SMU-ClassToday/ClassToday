@@ -7,9 +7,15 @@
 
 import UIKit
 
-class EnrollTitleCell: UITableViewCell {
-    static let identifier = "EnrollTitleCell"
-    private lazy var titleTextField: UITextField = {
+protocol EnrollNameCellDelegate {
+    func passData(name: String)
+}
+
+class EnrollNameCell: UITableViewCell {
+    static let identifier = "EnrollNameCell"
+    var delegate: EnrollNameCellDelegate?
+
+    private lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "제목을 입력해주세요(필수)")
         textField.delegate = self
@@ -26,22 +32,26 @@ class EnrollTitleCell: UITableViewCell {
     }
 
     private func configureUI() {
-        contentView.addSubview(titleTextField)
-        titleTextField.snp.makeConstraints { make in
+        contentView.addSubview(nameTextField)
+        nameTextField.snp.makeConstraints { make in
             make.leading.equalTo(contentView.snp.leading).offset(16)
             make.trailing.equalTo(contentView.snp.trailing).offset(-16)
             make.top.bottom.equalTo(contentView)
         }
     }
     func setUnderline() {
-        titleTextField.setUnderLine()
+        nameTextField.setUnderLine()
     }
 }
 
 //MARK: UITextFieldDelegate 구현부
-extension EnrollTitleCell: UITextFieldDelegate {
+extension EnrollNameCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        delegate?.passData(name: text)
     }
 }

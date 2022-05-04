@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol EnrollDateCellDelegate {
+    func passData(date: String)
+}
 class EnrollDateCell: UITableViewCell {
     static let identifier = "EnrollDateCell"
+    var delegate: EnrollDateCellDelegate?
+
     private lazy var dateTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 요일(선택)")
@@ -44,6 +49,11 @@ extension EnrollDateCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let text = textField.text {
+            delegate?.passData(date: text)
+        }
     }
 }
 
