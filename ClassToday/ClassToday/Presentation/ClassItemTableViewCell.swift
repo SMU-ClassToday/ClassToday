@@ -47,13 +47,46 @@ class ClassItemTableViewCell: UITableViewCell {
         return priceLabel
     }()
     
+    private lazy var priceUnitLabel: UILabel = {
+        let priceUnitLabel = UILabel()
+        priceUnitLabel.text = "시간당"
+        priceUnitLabel.font = .systemFont(ofSize: 13.0, weight: .light)
+        priceUnitLabel.textColor = .gray
+        return priceUnitLabel
+    }()
+    
+    private lazy var nthClass: UILabel = {
+        let nthClass = UILabel()
+        nthClass.text = "11회차"
+        nthClass.font = .systemFont(ofSize: 12.0, weight: .regular)
+        return nthClass
+    }()
+    
+    //종료된 수업에 덮어씌우는 View
+    lazy var expiredCellIdentifier: UIView = {
+        let expiredCellIdentifier = UIView()
+        expiredCellIdentifier.layer.backgroundColor = (UIColor.black.cgColor).copy(alpha: 0.3)
+        let expiredCellLabel = UILabel()
+        expiredCellLabel.text = "종료된 수업입니다."
+        expiredCellLabel.font = .systemFont(ofSize: 24.0, weight: .bold)
+        expiredCellIdentifier.addSubview(expiredCellLabel)
+        expiredCellLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
+        return expiredCellIdentifier
+    }()
+    
     private func layout() {
         [
             thumbnailView,
             titleLabel,
             locationLabel,
             dateDiffLabel,
-            priceLabel
+            priceLabel,
+            priceUnitLabel,
+            expiredCellIdentifier,
+            nthClass
         ].forEach { contentView.addSubview($0) }
         
         let commonInset: CGFloat = 16.0
@@ -78,7 +111,16 @@ class ClassItemTableViewCell: UITableViewCell {
         priceLabel.snp.makeConstraints {
             $0.leading.equalTo(locationLabel.snp.leading)
             $0.top.equalTo(locationLabel.snp.bottom).offset(8.0)
-            $0.trailing.equalToSuperview().inset(commonInset)
+        }
+        priceUnitLabel.snp.makeConstraints {
+            $0.leading.equalTo(priceLabel.snp.trailing).offset(5.0)
+            $0.centerY.equalTo(priceLabel)
+        }
+        expiredCellIdentifier.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        nthClass.snp.makeConstraints{
+            $0.trailing.bottom.equalToSuperview().inset(commonInset)
         }
     }
     
