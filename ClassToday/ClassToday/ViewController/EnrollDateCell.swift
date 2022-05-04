@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EnrollDateCellDelegate {
-    func passData(date: String)
+    func passData(date: String?)
 }
 class EnrollDateCell: UITableViewCell {
     static let identifier = "EnrollDateCell"
@@ -50,10 +50,9 @@ extension EnrollDateCell: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let text = textField.text {
-            delegate?.passData(date: text)
-        }
+            delegate?.passData(date: textField.text)
     }
 }
 

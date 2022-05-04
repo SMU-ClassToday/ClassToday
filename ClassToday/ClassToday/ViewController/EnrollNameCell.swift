@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EnrollNameCellDelegate {
-    func passData(name: String)
+    func passData(name: String?)
 }
 
 class EnrollNameCell: UITableViewCell {
@@ -51,7 +51,6 @@ extension EnrollNameCell: UITextFieldDelegate {
         return true
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let text = textField.text else { return }
-        delegate?.passData(name: text)
+        delegate?.passData(name: textField.text)
     }
 }
