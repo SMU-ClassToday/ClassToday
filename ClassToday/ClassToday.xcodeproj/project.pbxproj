@@ -38,6 +38,12 @@
 		89098E352820FB9D006EFD4E /* EnrollDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E332820FB4F006EFD4E /* EnrollDescriptionCell.swift */; };
 		89098E372820FE5C006EFD4E /* EnrollCategorySubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E362820FE5C006EFD4E /* EnrollCategorySubjectCell.swift */; };
 		89098E382820FF1C006EFD4E /* EnrollCategorySubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E362820FE5C006EFD4E /* EnrollCategorySubjectCell.swift */; };
+		89098E3A282271E2006EFD4E /* ClassDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E39282271E2006EFD4E /* ClassDetailViewController.swift */; };
+		89098E3D28227293006EFD4E /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E3C28227293006EFD4E /* MockData.swift */; };
+		89098E3E2822730F006EFD4E /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E3C28227293006EFD4E /* MockData.swift */; };
+		89098E3F2822733E006EFD4E /* ClassDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E39282271E2006EFD4E /* ClassDetailViewController.swift */; };
+		89098E4428228BE5006EFD4E /* Extension + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E4328228BE5006EFD4E /* Extension + String.swift */; };
+		89098E4528228BF5006EFD4E /* Extension + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E4328228BE5006EFD4E /* Extension + String.swift */; };
 		893D70E4281B1935006CD232 /* ClassEnrollCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893D70E3281B1935006CD232 /* ClassEnrollCategoryCollectionViewCell.swift */; };
 		893D70E5281BA4DB006CD232 /* ClassEnrollCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893D70E3281B1935006CD232 /* ClassEnrollCategoryCollectionViewCell.swift */; };
 		895D107627F32DCA009FB26F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107527F32DCA009FB26F /* AppDelegate.swift */; };
@@ -99,6 +105,9 @@
 		89098E302820FA5B006EFD4E /* EnrollPriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollPriceCell.swift; sourceTree = "<group>"; };
 		89098E332820FB4F006EFD4E /* EnrollDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollDescriptionCell.swift; sourceTree = "<group>"; };
 		89098E362820FE5C006EFD4E /* EnrollCategorySubjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollCategorySubjectCell.swift; sourceTree = "<group>"; };
+		89098E39282271E2006EFD4E /* ClassDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDetailViewController.swift; sourceTree = "<group>"; };
+		89098E3C28227293006EFD4E /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		89098E4328228BE5006EFD4E /* Extension + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + String.swift"; sourceTree = "<group>"; };
 		893D70E3281B1935006CD232 /* ClassEnrollCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassEnrollCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		895D107227F32DCA009FB26F /* ClassToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895D107527F32DCA009FB26F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -182,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				89098E1C2820C445006EFD4E /* NewClassEnrollViewController.swift */,
+				89098E39282271E2006EFD4E /* ClassDetailViewController.swift */,
 				89098E192820564F006EFD4E /* EnrollImageCell.swift */,
 				89098E242820E636006EFD4E /* EnrollNameCell.swift */,
 				89098E272820EF75006EFD4E /* EnrollTimeCell.swift */,
@@ -194,6 +204,14 @@
 			);
 			name = "New Group";
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		89098E3B28227271006EFD4E /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				89098E3C28227293006EFD4E /* MockData.swift */,
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 		895D106927F32DCA009FB26F = {
@@ -221,6 +239,7 @@
 			children = (
 				89C26A8D2811ED0200648206 /* Resources */,
 				89098E1E2820C61B006EFD4E /* New Group */,
+				89098E3B28227271006EFD4E /* Mock */,
 				89C26A8A2811EC1F00648206 /* ViewController */,
 				89C26A892811EC1400648206 /* View */,
 				6B7997BE27F33C4F00F37393 /* Model */,
@@ -250,9 +269,9 @@
 		89C26A8A2811EC1F00648206 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				895D107927F32DCA009FB26F /* ClassEnrollViewController.swift */,
 				89AB8C79280D32FA003BC6C5 /* MainViewController.swift */,
 				8966CF5A28100652001CBBDC /* FullImagesViewController.swift */,
+				895D107927F32DCA009FB26F /* ClassEnrollViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -272,6 +291,7 @@
 				89098E0828202C2D006EFD4E /* Extension + UITextView.swift */,
 				89C26A8B2811EC3A00648206 /* Extension + UITextField.swift */,
 				89C26A902811EE1300648206 /* Extension + PHPickerViewController.swift */,
+				89098E4328228BE5006EFD4E /* Extension + String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -424,14 +444,17 @@
 				6B7997BD27F33C4C00F37393 /* User.swift in Sources */,
 				895D107A27F32DCA009FB26F /* ClassEnrollViewController.swift in Sources */,
 				89098E372820FE5C006EFD4E /* EnrollCategorySubjectCell.swift in Sources */,
+				89098E3D28227293006EFD4E /* MockData.swift in Sources */,
 				89098E2B2820F124006EFD4E /* EnrollDateCell.swift in Sources */,
 				89098E03282015F2006EFD4E /* ClassEnrollCategoryCollectionReusableView.swift in Sources */,
+				89098E3A282271E2006EFD4E /* ClassDetailViewController.swift in Sources */,
 				89C26A8C2811EC3A00648206 /* Extension + UITextField.swift in Sources */,
 				89098E1A2820564F006EFD4E /* EnrollImageCell.swift in Sources */,
 				89098E2E2820F996006EFD4E /* EnrollPlaceCell.swift in Sources */,
 				895D107627F32DCA009FB26F /* AppDelegate.swift in Sources */,
 				89A0CD3F280D4E17006FDF89 /* ClassImageEnrollCell.swift in Sources */,
 				89AB8C7A280D32FA003BC6C5 /* MainViewController.swift in Sources */,
+				89098E4428228BE5006EFD4E /* Extension + String.swift in Sources */,
 				89098E312820FA5B006EFD4E /* EnrollPriceCell.swift in Sources */,
 				89A0CD3C280D441A006FDF89 /* ClassImageCell.swift in Sources */,
 				895D107827F32DCA009FB26F /* SceneDelegate.swift in Sources */,
@@ -452,6 +475,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89098E3E2822730F006EFD4E /* MockData.swift in Sources */,
 				89AB8C64280D30E4003BC6C5 /* User.swift in Sources */,
 				89098E2C2820F18A006EFD4E /* EnrollDateCell.swift in Sources */,
 				89098E0728201BA5006EFD4E /* ClassEnrollCategoryCollectionViewDelegate.swift in Sources */,
@@ -461,8 +485,10 @@
 				89AB8C65280D30E4003BC6C5 /* ClassEnrollViewController.swift in Sources */,
 				89098E322820FAE0006EFD4E /* EnrollPriceCell.swift in Sources */,
 				89098E042820186E006EFD4E /* ClassEnrollCategoryCollectionReusableView.swift in Sources */,
+				89098E3F2822733E006EFD4E /* ClassDetailViewController.swift in Sources */,
 				89098E352820FB9D006EFD4E /* EnrollDescriptionCell.swift in Sources */,
 				8966CF56280EEC18001CBBDC /* ClassImageEnrollCell.swift in Sources */,
+				89098E4528228BF5006EFD4E /* Extension + String.swift in Sources */,
 				89C26A922811EE5D00648206 /* Extension + PHPickerViewController.swift in Sources */,
 				89098E382820FF1C006EFD4E /* EnrollCategorySubjectCell.swift in Sources */,
 				89098E232820C811006EFD4E /* EnrollImageCell.swift in Sources */,

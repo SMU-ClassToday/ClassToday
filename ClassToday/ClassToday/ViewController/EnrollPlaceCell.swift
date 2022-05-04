@@ -14,32 +14,33 @@ protocol EnrollPlaceCellDelegate {
 class EnrollPlaceCell: UITableViewCell {
     static let identifier = "EnrollPlaceCell"
     var delegate: EnrollPlaceCellDelegate?
-
+    
     private lazy var placeTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 장소(선택)")
         textField.rightView = button
         textField.rightViewMode = .always
         textField.delegate = self
+        textField.clearButtonMode = .whileEditing
         return textField
     }()
-
+    
     private lazy var button: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "map"), for: .normal)
         button.addTarget(self, action: #selector(selectPlace(_:)), for: .touchDown)
         return button
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureUI()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func configureUI() {
         contentView.addSubview(placeTextField)
         placeTextField.snp.makeConstraints { make in
@@ -48,13 +49,20 @@ class EnrollPlaceCell: UITableViewCell {
             make.top.bottom.equalTo(contentView)
         }
     }
-
+    
     func setUnderline() {
         placeTextField.setUnderLine()
     }
-
+    
     @objc func selectPlace(_ button: UIButton) {
-
+        
+    }
+    
+    func configureWith(place: String?) {
+        guard let place = place else {
+            return
+        }
+        placeTextField.text = place
     }
 }
 
@@ -64,9 +72,15 @@ extension EnrollPlaceCell: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-            delegate?.passData(place: textField.text)
+        guard let text = textField.text, text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false else {
+            delegate?.passData(place: nil)
+            textField.text = nil
+            return
+        }
+        delegate?.passData(place: textField.text)
     }
+    
 }
 

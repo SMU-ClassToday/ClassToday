@@ -1,16 +1,14 @@
 //
-//  NewClassEnrollViewController.swift
+//  ClassDetailViewController.swift
 //  ClassToday
 //
-//  Created by 박태현 on 2022/05/03.
+//  Created by 박태현 on 2022/05/04.
 //
 
 import UIKit
-import SnapKit
 
-class NewClassEnrollViewController: UIViewController {
-    private let classItemType: ClassItemType
-
+class ClassDetailViewController: UIViewController {
+    private var classItem: ClassItem
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
@@ -38,8 +36,16 @@ class NewClassEnrollViewController: UIViewController {
     private var classPriceUnit: String = "시간"
     private var classDescription: String?
 
-    init(classItemType: ClassItemType) {
-        self.classItemType = classItemType
+    init(classItem: ClassItem) {
+        self.classItem = classItem
+        images = classItem.images
+        className = classItem.name
+        classTime = classItem.time
+        classDate = classItem.date
+        classPlace = classItem.place
+        classPrice = classItem.price
+        classPriceUnit = classItem.priceUnit
+        classDescription = classItem.description
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -65,7 +71,7 @@ class NewClassEnrollViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        title = "수업 \(classItemType.rawValue) 등록하기"
+        title = "게시글 수정"
         
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         let addButton = UIBarButtonItem(title: "완료",
@@ -102,7 +108,7 @@ class NewClassEnrollViewController: UIViewController {
             present(alert)
             return
         }
-        if classItemType == .sell, classTime == nil {
+        if classItem.itemType == .sell, classTime == nil {
             present(alert)
             return
         }
@@ -118,7 +124,7 @@ class NewClassEnrollViewController: UIViewController {
                                   images: images,
                                   subjects: nil,
                                   targets: nil,
-                                  itemType: classItemType,
+                                  itemType: classItem.itemType,
                                   validity: true,
                                   writer: "yescoach")
         debugPrint("\(classItem) 등록")
@@ -126,7 +132,7 @@ class NewClassEnrollViewController: UIViewController {
     }
 }
 
-extension NewClassEnrollViewController: UITableViewDataSource {
+extension ClassDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 8
     }
@@ -145,6 +151,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.configureWith(images: classItem.images)
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollNameCell.identifier, for: indexPath) as? EnrollNameCell else {
@@ -152,6 +159,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.setUnderline()
+            cell.configureWith(name: classItem.name)
             return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollTimeCell.identifier, for: indexPath) as? EnrollTimeCell else {
@@ -160,6 +168,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
             cell.delegate = self
             cell.setUnderline()
             cell.configureWithItemType()
+            cell.configureWith(time: classItem.time)
             return cell
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDateCell.identifier, for: indexPath) as? EnrollDateCell else {
@@ -167,6 +176,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.setUnderline()
+            cell.configureWith(date: classItem.date)
             return cell
         case 4:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPlaceCell.identifier, for: indexPath) as? EnrollPlaceCell else {
@@ -174,6 +184,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.setUnderline()
+            cell.configureWith(place: classItem.place)
             return cell
         case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPriceCell.identifier, for: indexPath) as? EnrollPriceCell else {
@@ -181,12 +192,14 @@ extension NewClassEnrollViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.setUnderline()
+            cell.configureWith(price: classItem.price)
             return cell
         case 6:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDescriptionCell.identifier, for: indexPath) as? EnrollDescriptionCell else {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.configureWith(description: classDescription)
             return cell
         case 7:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollCategorySubjectCell.identifier, for: indexPath) as? EnrollCategorySubjectCell else {
@@ -201,7 +214,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
 }
 
 // MARK: Cell 높이 설정
-extension NewClassEnrollViewController: UITableViewDelegate {
+extension ClassDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
@@ -230,14 +243,14 @@ extension NewClassEnrollViewController: UITableViewDelegate {
 }
 
 // MARK: EnrollImageCellDelegate 구현부
-extension NewClassEnrollViewController: EnrollImageCellDelegate {
+extension ClassDetailViewController: EnrollImageCellDelegate {
     func present(_ viewController: UIViewController) {
         present(viewController, animated: true, completion: nil)
     }
 }
 
 // MARK: Keyboard 관련 로직
-extension NewClassEnrollViewController {
+extension ClassDetailViewController {
     @objc func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
             return
@@ -253,41 +266,42 @@ extension NewClassEnrollViewController {
     }
 }
 
-extension NewClassEnrollViewController: EnrollNameCellDelegate {
+extension ClassDetailViewController: EnrollNameCellDelegate {
     func passData(name: String?) {
         className = name
     }
 }
 
-extension NewClassEnrollViewController: EnrollTimeCellDelegate {
+extension ClassDetailViewController: EnrollTimeCellDelegate {
     func passData(time: String?) {
         classTime = time
     }
     func getClassItemType() -> ClassItemType {
-        return classItemType
+        return classItem.itemType
     }
 }
 
-extension NewClassEnrollViewController: EnrollDateCellDelegate {
+extension ClassDetailViewController: EnrollDateCellDelegate {
     func passData(date: String?) {
         classDate = date
     }
 }
 
-extension NewClassEnrollViewController: EnrollPlaceCellDelegate {
+extension ClassDetailViewController: EnrollPlaceCellDelegate {
     func passData(place: String?) {
         classPlace = place
     }
 }
 
-extension NewClassEnrollViewController: EnrollPriceCellDelegate {
+extension ClassDetailViewController: EnrollPriceCellDelegate {
     func passData(price: String?) {
         classPrice = price
     }
 }
 
-extension NewClassEnrollViewController: EnrollDescriptionCellDelegate {
+extension ClassDetailViewController: EnrollDescriptionCellDelegate {
     func passData(description: String?) {
         classDescription = description
     }
 }
+

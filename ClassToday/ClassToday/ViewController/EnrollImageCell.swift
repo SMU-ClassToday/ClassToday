@@ -50,11 +50,18 @@ class EnrollImageCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureUI() {
+    private func configureUI() {
         contentView.addSubview(imageEnrollCollectinoView)
         imageEnrollCollectinoView.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalTo(contentView)
         }
+    }
+    
+    func configureWith(images: [UIImage]?) {
+        guard let images = images else {
+            return
+        }
+        self.images = images
     }
 }
 

@@ -21,7 +21,7 @@ class EnrollTimeCell: UITableViewCell {
         textField.configureWith(placeholder: "수업 시간(필수)")
         textField.delegate = self
         textField.keyboardType = .decimalPad
-        textField.clearsOnBeginEditing = true
+        textField.clearButtonMode = .whileEditing
         return textField
     }()
     
@@ -52,6 +52,13 @@ class EnrollTimeCell: UITableViewCell {
             timeTextField.placeholder = "수업 시간(선택)"
         }
     }
+
+    func configureWith(time: String?) {
+        guard let time = time else {
+            return
+        }
+        timeTextField.text = time + "시간"
+    }
 }
 
 //MARK: UITextFieldDelegate 구현부
@@ -62,12 +69,15 @@ extension EnrollTimeCell: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.hasText, let text = textField.text {
-            if text.contains("시간") == false {
-                textField.text = text + "시간"
-            }
-            delegate?.passData(time: textField.text)
+        guard let text = textField.text, text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false else {
+            delegate?.passData(time: nil)
+            textField.text = nil
+            return
         }
+        if text.contains("시간") == false {
+            textField.text = text + "시간"
+        }
+        delegate?.passData(time: textField.text)
     }
 }
 

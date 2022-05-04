@@ -18,6 +18,7 @@ class EnrollNameCell: UITableViewCell {
     private lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "제목을 입력해주세요(필수)")
+        textField.clearButtonMode = .whileEditing
         textField.delegate = self
         return textField
     }()
@@ -42,6 +43,10 @@ class EnrollNameCell: UITableViewCell {
     func setUnderline() {
         nameTextField.setUnderLine()
     }
+    
+    func configureWith(name: String) {
+        nameTextField.text = name
+    }
 }
 
 //MARK: UITextFieldDelegate 구현부
@@ -51,6 +56,11 @@ extension EnrollNameCell: UITextFieldDelegate {
         return true
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
-        delegate?.passData(name: textField.text)
+        guard let text = textField.text, text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false else {
+            delegate?.passData(name: nil)
+            textField.text = nil
+            return
+        }
+            delegate?.passData(name: textField.text)
     }
 }

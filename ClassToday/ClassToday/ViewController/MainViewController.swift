@@ -17,6 +17,14 @@ class MainViewController: UIViewController {
         return button
     }()
 
+    private lazy var editButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("수정하기", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(edit(_:)), for: .touchUpInside)
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -25,9 +33,15 @@ class MainViewController: UIViewController {
     func configureUI() {
         view.backgroundColor = .white
         view.addSubview(enrollButton)
+        view.addSubview(editButton)
+
         enrollButton.snp.makeConstraints { make in
             make.centerX.equalTo(view.snp.centerX)
             make.centerY.equalTo(view.snp.centerY)
+        }
+        editButton.snp.makeConstraints { make in
+            make.top.equalTo(enrollButton.snp.bottom).offset(16)
+            make.centerX.equalTo(view.snp.centerX)
         }
     }
 
@@ -44,5 +58,9 @@ class MainViewController: UIViewController {
         actionSheet.addAction(enrollForBuy)
         actionSheet.addAction(enrollForSale)
         present(actionSheet, animated: true, completion: nil)
+    }
+
+    @objc func edit(_ button: UIButton) {
+        self.navigationController?.pushViewController(ClassDetailViewController(classItem: MockData.classItem), animated: true)
     }
 }
