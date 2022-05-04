@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EnrollPlaceCellDelegate {
-    func passData(place: String)
+    func passData(place: String?)
 }
 
 class EnrollPlaceCell: UITableViewCell {
@@ -64,10 +64,9 @@ extension EnrollPlaceCell: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let text = textField.text {
-            delegate?.passData(place: text)
-        }
+            delegate?.passData(place: textField.text)
     }
 }
 

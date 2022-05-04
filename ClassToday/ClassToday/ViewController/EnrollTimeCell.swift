@@ -8,7 +8,8 @@
 import UIKit
 
 protocol EnrollTimeCellDelegate {
-    func passData(time: String)
+    func passData(time: String?)
+    func getClassItemType() -> ClassItemType
 }
 
 class EnrollTimeCell: UITableViewCell {
@@ -45,6 +46,12 @@ class EnrollTimeCell: UITableViewCell {
     func setUnderline() {
         timeTextField.setUnderLine()
     }
+    
+    func configureWithItemType() {
+        if delegate?.getClassItemType() == .buy {
+            timeTextField.placeholder = "수업 시간(선택)"
+        }
+    }
 }
 
 //MARK: UITextFieldDelegate 구현부
@@ -59,7 +66,7 @@ extension EnrollTimeCell: UITextFieldDelegate {
             if text.contains("시간") == false {
                 textField.text = text + "시간"
             }
-            delegate?.passData(time: text)
+            delegate?.passData(time: textField.text)
         }
     }
 }

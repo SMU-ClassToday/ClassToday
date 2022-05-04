@@ -20,7 +20,12 @@ struct ClassItem {
     let images: [UIImage]?
     let subjects: [Subject]?
     let targets: [Target]?
-    let itemType: String
+    let itemType: ClassItemType
     let validity: Bool
     let writer: String
+}
+
+enum ClassItemType: String {
+    case buy = "구매글"
+    case sell = "판매글"
 }

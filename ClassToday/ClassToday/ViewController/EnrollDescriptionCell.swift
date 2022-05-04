@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EnrollDescriptionCellDelegate {
-    func passData(description: String)
+    func passData(description: String?)
 }
 
 class EnrollDescriptionCell: UITableViewCell {

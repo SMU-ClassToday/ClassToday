@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EnrollPriceCellDelegate {
-    func passData(price: String)
+    func passData(price: String?)
 }
 
 class EnrollPriceCell: UITableViewCell {
@@ -84,9 +84,9 @@ extension EnrollPriceCell: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
+        delegate?.passData(place: textField.text)
         if textField.hasText, let text = textField.text {
             textField.text = text.formmatedWithCurrency()
-            delegate?.passData(place: text)
         }
     }
 }

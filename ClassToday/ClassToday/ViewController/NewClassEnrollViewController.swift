@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 class NewClassEnrollViewController: UIViewController {
+    private let classItemType: ClassItemType
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
@@ -35,6 +37,15 @@ class NewClassEnrollViewController: UIViewController {
     private var classPrice: String?
     private var classPriceUnit: String = "시간"
     private var classDescription: String?
+
+    init(classItemType: ClassItemType) {
+        self.classItemType = classItemType
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,10 +88,19 @@ class NewClassEnrollViewController: UIViewController {
 
     @objc func enroll(_ button: UIBarButtonItem) {
         // 등록
-        guard let className = className, let classTime = classTime, let classDescription = classDescription else {
-            let alert = UIAlertController(title: "알림", message: "필수 항목을 입력해주세요", preferredStyle: .alert)
-            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-            alert.addAction(action)
+        view.endEditing(true)
+        let alert = UIAlertController(title: "알림", message: "필수 항목을 입력해주세요", preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(action)
+
+        // 구매글 -> 제목, 설명
+        // 판매글 -> 제목, 시간, 설명
+
+        guard let className = className, let classDescription = classDescription else {
+            present(alert)
+            return
+        }
+        if classItemType == .sell, classTime == nil {
             present(alert)
             return
         }
@@ -96,10 +116,10 @@ class NewClassEnrollViewController: UIViewController {
                                   images: images,
                                   subjects: nil,
                                   targets: nil,
-                                  itemType: "구매글",
+                                  itemType: classItemType,
                                   validity: true,
                                   writer: "yescoach")
-        print("\(classItem) 등록")
+        debugPrint("\(classItem) 등록")
         navigationController?.popViewController(animated: true)
     }
 }
@@ -128,36 +148,37 @@ extension NewClassEnrollViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollNameCell.identifier, for: indexPath) as? EnrollNameCell else {
                 return UITableViewCell()
             }
-            cell.setUnderline()
             cell.delegate = self
+            cell.setUnderline()
             return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollTimeCell.identifier, for: indexPath) as? EnrollTimeCell else {
                 return UITableViewCell()
             }
-            cell.setUnderline()
             cell.delegate = self
+            cell.setUnderline()
+            cell.configureWithItemType()
             return cell
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDateCell.identifier, for: indexPath) as? EnrollDateCell else {
                 return UITableViewCell()
             }
-            cell.setUnderline()
             cell.delegate = self
+            cell.setUnderline()
             return cell
         case 4:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPlaceCell.identifier, for: indexPath) as? EnrollPlaceCell else {
                 return UITableViewCell()
             }
-            cell.setUnderline()
             cell.delegate = self
+            cell.setUnderline()
             return cell
         case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPriceCell.identifier, for: indexPath) as? EnrollPriceCell else {
                 return UITableViewCell()
             }
-            cell.setUnderline()
             cell.delegate = self
+            cell.setUnderline()
             return cell
         case 6:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDescriptionCell.identifier, for: indexPath) as? EnrollDescriptionCell else {
@@ -231,37 +252,40 @@ extension NewClassEnrollViewController {
 }
 
 extension NewClassEnrollViewController: EnrollNameCellDelegate {
-    func passData(name: String) {
+    func passData(name: String?) {
         className = name
     }
 }
 
 extension NewClassEnrollViewController: EnrollTimeCellDelegate {
-    func passData(time: String) {
+    func passData(time: String?) {
         classTime = time
+    }
+    func getClassItemType() -> ClassItemType {
+        return classItemType
     }
 }
 
 extension NewClassEnrollViewController: EnrollDateCellDelegate {
-    func passData(date: String) {
+    func passData(date: String?) {
         classDate = date
     }
 }
 
 extension NewClassEnrollViewController: EnrollPlaceCellDelegate {
-    func passData(place: String) {
+    func passData(place: String?) {
         classPlace = place
     }
 }
 
 extension NewClassEnrollViewController: EnrollPriceCellDelegate {
-    func passData(price: String) {
+    func passData(price: String?) {
         classPrice = price
     }
 }
 
 extension NewClassEnrollViewController: EnrollDescriptionCellDelegate {
-    func passData(description: String) {
+    func passData(description: String?) {
         classDescription = description
     }
 }
