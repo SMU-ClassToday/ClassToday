@@ -13,7 +13,7 @@ protocol EnrollPriceCellDelegate {
 
 class EnrollPriceCell: UITableViewCell {
     static let identifier = "EnrollPriceCell"
-    var delegate: EnrollPlaceCellDelegate?
+    var delegate: EnrollPriceCellDelegate?
 
     private lazy var priceTextField: UITextField = {
         let textField = UITextField()
@@ -71,6 +71,13 @@ class EnrollPriceCell: UITableViewCell {
         priceTextField.setUnderLine()
     }
     
+    func configureWith(price: String?) {
+        guard let price = price else {
+            return
+        }
+        priceTextField.text = price.formmatedWithCurrency()
+    }
+
     @objc func selectUnit(_ button: UIButton) {
 
     }
@@ -84,19 +91,12 @@ extension EnrollPriceCell: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        delegate?.passData(place: textField.text)
-        if textField.hasText, let text = textField.text {
-            textField.text = text.formmatedWithCurrency()
+        guard let text = textField.text, text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false else {
+            delegate?.passData(price: nil)
+            textField.text = nil
+            return
         }
-    }
-}
-
-extension String {
-    func formmatedWithCurrency() -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.locale = NSLocale.current
-        let result = formatter.string(from: (Int(self) ?? 0) as NSNumber)
-        return result ?? ""
+        delegate?.passData(price: text)
+        textField.text = text.formmatedWithCurrency()
     }
 }

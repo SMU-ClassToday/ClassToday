@@ -46,6 +46,10 @@ class EnrollDescriptionCell: UITableViewCell {
             make.bottom.equalTo(contentView.snp.bottom).offset(-16)
         }
     }
+    func configureWith(description: String?) {
+        descriptionTextView.text = description
+        descriptionTextView.textColor = .black
+        descriptionTextView.font = UIFont.systemFont(ofSize: 16)    }
 }
 
 //MARK: UITextViewDelegate 구현부
@@ -63,6 +67,7 @@ extension EnrollDescriptionCell: UITextViewDelegate {
             textView.text = textViewPlaceHolder
             textView.textColor = .systemGray3
             textView.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+            delegate?.passData(description: nil)
         } else {
             delegate?.passData(description: textView.text)
         }
