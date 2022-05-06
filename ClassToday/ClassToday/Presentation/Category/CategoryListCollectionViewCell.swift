@@ -11,6 +11,7 @@ import SnapKit
 class CategoryListCollectionViewCell: UICollectionViewCell {
     static let identifier = "CategoryListCollectionViewCell"
     
+    //MARK: - cell 내부 UI Components
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .secondarySystemBackground
@@ -31,6 +32,7 @@ class CategoryListCollectionViewCell: UICollectionViewCell {
     }
 }
 
+//MARK: - set autolayout
 private extension CategoryListCollectionViewCell {
     func layout() {
         [

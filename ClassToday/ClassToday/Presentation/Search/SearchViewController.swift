@@ -21,7 +21,7 @@ class SearchViewController: UIViewController {
     }()
     
     private lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 280, height: 0))
+        let searchBar = UISearchBar()
         searchBar.setImage(UIImage(), for: UISearchBar.Icon.search, state: .normal)
         searchBar.placeholder = "검색어를 입력해주세요"
         searchBar.inputAccessoryView = toolBarKeyboard
@@ -69,8 +69,11 @@ class SearchViewController: UIViewController {
     
     private var searchHistoryList = [SearchHistory]()
     
+    
+    //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setNavigationBar()
         loadSearchHistory()
         layout()
@@ -82,6 +85,7 @@ class SearchViewController: UIViewController {
     }
 }
 
+//MARK: - objc functions
 private extension SearchViewController {
     @objc func didTapBackButton() {
         navigationController?.popViewController(animated: true)
@@ -98,6 +102,7 @@ private extension SearchViewController {
     }
 }
 
+//MARK: - set autolayout
 private extension SearchViewController {
     func layout() {
         [
@@ -124,6 +129,7 @@ private extension SearchViewController {
     }
 }
 
+//MARK: - SearchBar delegate
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text else { return }
@@ -136,6 +142,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
+//MARK: - tableview datasource
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchHistoryList.count
@@ -156,6 +163,7 @@ extension SearchViewController: UITableViewDataSource {
     }
 }
 
+//MARK: - tableview delegate
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let searchResultViewController = SearchResultViewController()
@@ -164,6 +172,7 @@ extension SearchViewController: UITableViewDelegate {
     }
 }
 
+//MARK: - search history save/load
 extension SearchViewController {
     private func saveSearchHistory() {
         let searchHistory = searchHistoryList.map {

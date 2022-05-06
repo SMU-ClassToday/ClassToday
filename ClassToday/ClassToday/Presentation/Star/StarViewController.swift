@@ -91,7 +91,6 @@ extension StarViewController: UITableViewDataSource {
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
         cell.setupView()
-        cell.expiredCellIdentifier.removeFromSuperview()
         return cell
     }
 }

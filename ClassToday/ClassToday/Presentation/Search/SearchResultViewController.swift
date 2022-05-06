@@ -64,14 +64,17 @@ class SearchResultViewController: UIViewController {
         return refreshControl
     }()
     
+    //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setNavigationBar()
         layout()
     }
 
 }
 
+//MARK: - objc functions
 private extension SearchResultViewController {
     @objc func didChangedSegmentControlValue(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -106,6 +109,7 @@ private extension SearchResultViewController {
     }
 }
 
+//MARK: - set autolayout
 private extension SearchResultViewController {
     func layout() {
         [
@@ -125,6 +129,7 @@ private extension SearchResultViewController {
     }
 }
 
+//MARK: - tableview datasource
 extension SearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
@@ -136,11 +141,11 @@ extension SearchResultViewController: UITableViewDataSource {
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
         cell.setupView()
-        cell.expiredCellIdentifier.removeFromSuperview()
         return cell
     }
 }
 
+//MARK: - searchbar delegate
 extension SearchResultViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let searchResultViewController = SearchResultViewController()

@@ -47,11 +47,13 @@ class CategoryListViewController: UIViewController {
         return categoryCollectionView
     }()
     
+    //MARK: - category titles
     private let titles: [String] = Category.allCases.map {
         guard let title = $0.text else { return "" }
         return title
     }
     
+    //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBar()
@@ -59,12 +61,14 @@ class CategoryListViewController: UIViewController {
     }
 }
 
+//MARK: - objc functions
 private extension CategoryListViewController {
     @objc func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
 }
 
+//MARK: - collectionview delegate flow layout
 extension CategoryListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let noOfCellsInRow = 3
@@ -83,6 +87,7 @@ extension CategoryListViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK: - collectionview datasource
 extension CategoryListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 9
@@ -97,6 +102,7 @@ extension CategoryListViewController: UICollectionViewDataSource {
     }
 }
 
+//MARK: - collectionview delegate
 extension CategoryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as? CategoryListCollectionViewCell
@@ -106,6 +112,7 @@ extension CategoryListViewController: UICollectionViewDelegate {
     }
 }
 
+//MARK: - set autolayout
 private extension CategoryListViewController {
     func layout() {
         [
