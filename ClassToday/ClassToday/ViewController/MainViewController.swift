@@ -61,6 +61,6 @@ class MainViewController: UIViewController {
     }
 
     @objc func edit(_ button: UIButton) {
-        self.navigationController?.pushViewController(ClassDetailViewController(classItem: MockData.classItem), animated: true)
+        self.navigationController?.pushViewController(ClassModifyViewController(classItem: MockData.classItem), animated: true)
     }
 }

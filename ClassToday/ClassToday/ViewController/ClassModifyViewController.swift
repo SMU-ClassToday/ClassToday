@@ -1,5 +1,5 @@
 //
-//  ClassDetailViewController.swift
+//  ClassModifyViewController.swift
 //  ClassToday
 //
 //  Created by 박태현 on 2022/05/04.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ClassDetailViewController: UIViewController {
+class ClassModifyViewController: UIViewController {
     private var classItem: ClassItem
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -132,7 +132,7 @@ class ClassDetailViewController: UIViewController {
     }
 }
 
-extension ClassDetailViewController: UITableViewDataSource {
+extension ClassModifyViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 8
     }
@@ -214,7 +214,7 @@ extension ClassDetailViewController: UITableViewDataSource {
 }
 
 // MARK: Cell 높이 설정
-extension ClassDetailViewController: UITableViewDelegate {
+extension ClassModifyViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
@@ -243,14 +243,14 @@ extension ClassDetailViewController: UITableViewDelegate {
 }
 
 // MARK: EnrollImageCellDelegate 구현부
-extension ClassDetailViewController: EnrollImageCellDelegate {
+extension ClassModifyViewController: EnrollImageCellDelegate {
     func present(_ viewController: UIViewController) {
         present(viewController, animated: true, completion: nil)
     }
 }
 
 // MARK: Keyboard 관련 로직
-extension ClassDetailViewController {
+extension ClassModifyViewController {
     @objc func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
             return
@@ -266,13 +266,13 @@ extension ClassDetailViewController {
     }
 }
 
-extension ClassDetailViewController: EnrollNameCellDelegate {
+extension ClassModifyViewController: EnrollNameCellDelegate {
     func passData(name: String?) {
         className = name
     }
 }
 
-extension ClassDetailViewController: EnrollTimeCellDelegate {
+extension ClassModifyViewController: EnrollTimeCellDelegate {
     func passData(time: String?) {
         classTime = time
     }
@@ -281,25 +281,28 @@ extension ClassDetailViewController: EnrollTimeCellDelegate {
     }
 }
 
-extension ClassDetailViewController: EnrollDateCellDelegate {
+extension ClassModifyViewController: EnrollDateCellDelegate {
     func passData(date: String?) {
         classDate = date
     }
+    func present(vc: UIViewController) {
+        present(vc, animated: true, completion: nil)
+    }
 }
 
-extension ClassDetailViewController: EnrollPlaceCellDelegate {
+extension ClassModifyViewController: EnrollPlaceCellDelegate {
     func passData(place: String?) {
         classPlace = place
     }
 }
 
-extension ClassDetailViewController: EnrollPriceCellDelegate {
+extension ClassModifyViewController: EnrollPriceCellDelegate {
     func passData(price: String?) {
         classPrice = price
     }
 }
 
-extension ClassDetailViewController: EnrollDescriptionCellDelegate {
+extension ClassModifyViewController: EnrollDescriptionCellDelegate {
     func passData(description: String?) {
         classDescription = description
     }

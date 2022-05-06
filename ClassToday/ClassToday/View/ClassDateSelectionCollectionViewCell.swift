@@ -1,16 +1,21 @@
 //
-//  ClassEnrollCategoryViewCell.swift
+//  ClassDateSelectionCollectionViewCell.swift
 //  ClassToday
 //
-//  Created by 박태현 on 2022/04/29.
+//  Created by 박태현 on 2022/05/06.
 //
 
 import UIKit
 
-class ClassEnrollCategoryCollectionViewCell: UICollectionViewCell {
-    static let identifier = "ClassEnrollCategoryCollectionViewCell"
+protocol ClassDateSelectionCollectionViewCellDelegate {
+    func reflectSelection(date: Date?, isChecked: Bool)
+}
+
+class ClassDateSelectionCollectionViewCell: UICollectionViewCell {
+    static let identifier = "ClassDateSelectionCollectionViewCell"
     static let height: CGFloat = 40.0
-    var isChecked: Bool = false
+    var delegate: ClassDateSelectionCollectionViewCellDelegate?
+    var date: Date?
 
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -53,17 +58,20 @@ class ClassEnrollCategoryCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(with category: CategoryItem) {
-        nameLabel.text = category.name
+    func configure(with date: Date, isSelected: Bool = false) {
+        nameLabel.text = date.description
+        if isSelected {
+            button.isSelected = true
+        }
+        self.date = date
     }
     
     @objc func clicked(_ button: UIButton) {
         if button.isSelected {
             button.isSelected = false
-            isChecked = false
         } else {
             button.isSelected = true
-            isChecked = true
         }
+        delegate?.reflectSelection(date: date, isChecked: button.isSelected)
     }
 }
