@@ -28,6 +28,7 @@
 		FCD0449127F336450005C5B3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0449027F336450005C5B3 /* FirebaseFirestore */; };
 		FCD0449327F336450005C5B3 /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0449227F336450005C5B3 /* FirebaseFirestoreSwift-Beta */; };
 		FCD0449527F336450005C5B3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0449427F336450005C5B3 /* FirebaseStorage */; };
+		FCDB85542824D78400273A9A /* CustomBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB85532824D78400273A9A /* CustomBarButton.swift */; };
 		FCF850F2280DB65D00D5D3DC /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F1280DB65D00D5D3DC /* TabbarController.swift */; };
 		FCF850F4280DB6F000D5D3DC /* Tabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F3280DB6F000D5D3DC /* Tabbar.swift */; };
 		FCF850F7280DBCFE00D5D3DC /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F6280DBCFE00D5D3DC /* Icon.swift */; };
@@ -57,6 +58,7 @@
 		FC87FA9F281ECF6500F57CE0 /* SearchRecentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecentTableViewCell.swift; sourceTree = "<group>"; };
 		FC8C096A281745E400BC9AB1 /* MainColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainColor.swift; sourceTree = "<group>"; };
 		FCC283F3280F1CB000D75125 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		FCDB85532824D78400273A9A /* CustomBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBarButton.swift; sourceTree = "<group>"; };
 		FCF850F1280DB65D00D5D3DC /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		FCF850F3280DB6F000D5D3DC /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
 		FCF850F6280DBCFE00D5D3DC /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				FCF850F6280DBCFE00D5D3DC /* Icon.swift */,
 				FCC283F3280F1CB000D75125 /* Category.swift */,
 				FC8C096A281745E400BC9AB1 /* MainColor.swift */,
+				FCDB85532824D78400273A9A /* CustomBarButton.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				FC8507D228202036008A8618 /* SearchHistory.swift in Sources */,
 				FCF850FC280DC05900D5D3DC /* ClassItemTableViewCell.swift in Sources */,
 				FC58F0FA280F134D00AB9B07 /* CategoryListViewController.swift in Sources */,
+				FCDB85542824D78400273A9A /* CustomBarButton.swift in Sources */,
 				6B7997BD27F33C4C00F37393 /* User.swift in Sources */,
 				895D107627F32DCA009FB26F /* AppDelegate.swift in Sources */,
 				FCF850F7280DBCFE00D5D3DC /* Icon.swift in Sources */,

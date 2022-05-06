@@ -8,21 +8,6 @@
 import UIKit
 import SnapKit
 
-extension UIBarButtonItem {
-    //메뉴버튼 크기조정
-    static func menuButton(_ target: Any?, action: Selector, image: UIImage?) -> UIBarButtonItem {
-        let button = UIButton(type: .system)
-        button.setImage(image, for: .normal)
-        button.addTarget(target, action: action, for: .touchUpInside)
-
-        let menuBarItem = UIBarButtonItem(customView: button)
-        menuBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false
-        menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24).isActive = true
-
-        return menuBarItem
-    }
-}
 
 class MainViewController: UIViewController {
     //MARK: - NavigationBar Components
@@ -79,6 +64,7 @@ class MainViewController: UIViewController {
         return refreshControl
     }()
     
+    //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -88,12 +74,14 @@ class MainViewController: UIViewController {
     }
 }
 
+//MARK: - gesture delegate
 extension MainViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
+//MARK: - objc functions
 private extension MainViewController {
     @objc func didChangedSegmentControlValue(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -150,6 +138,7 @@ private extension MainViewController {
     }
 }
 
+//MARK: - TableView datasource
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
@@ -161,7 +150,6 @@ extension MainViewController: UITableViewDataSource {
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
         cell.setupView()
-        cell.expiredCellIdentifier.removeFromSuperview()
         return cell
     }
 }

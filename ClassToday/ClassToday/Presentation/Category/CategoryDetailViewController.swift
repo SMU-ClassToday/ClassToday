@@ -53,6 +53,7 @@ class CategoryDetailViewController: UIViewController {
         return refreshControl
     }()
     
+    //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBar()
@@ -60,6 +61,7 @@ class CategoryDetailViewController: UIViewController {
     }
 }
 
+//MARK: - objc functions
 private extension CategoryDetailViewController {
     @objc func didChangedSegmentControlValue(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -84,6 +86,7 @@ private extension CategoryDetailViewController {
     }
 }
 
+//MARK: - set autolayout
 private extension CategoryDetailViewController {
     func layout() {
         [
@@ -104,6 +107,7 @@ private extension CategoryDetailViewController {
     }
 }
 
+//MARK: - tableview datasource
 extension CategoryDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
@@ -115,7 +119,6 @@ extension CategoryDetailViewController: UITableViewDataSource {
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
         cell.setupView()
-        cell.expiredCellIdentifier.removeFromSuperview()
         return cell
     }
 }

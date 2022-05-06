@@ -11,7 +11,7 @@ class SearchRecentTableViewCell: UITableViewCell {
     
     static let identifier = "SearchRecentTableViewCell"
     
-    //MARK: - Cell 내부 Components
+    //MARK: - Cell 내부  UI Components
     private lazy var recentImage: UIImageView = {
         let recentImage = UIImageView()
         recentImage.image = UIImage(systemName: "clock.arrow.circlepath")
@@ -26,6 +26,7 @@ class SearchRecentTableViewCell: UITableViewCell {
         return recentLabel
     }()
     
+    //MARK: - set autolayout
     private func layout() {
         [
             recentImage,

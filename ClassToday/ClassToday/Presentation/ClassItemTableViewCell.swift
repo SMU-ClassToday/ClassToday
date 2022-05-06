@@ -12,6 +12,7 @@ class ClassItemTableViewCell: UITableViewCell {
     
     static let identifier = "ClassItemTableViewCell"
     
+    //MARK: - Cell 내부 UI Components
     private lazy var thumbnailView: UIImageView = {
         let thumbnailView = UIImageView()
         thumbnailView.backgroundColor = .secondarySystemBackground
@@ -62,21 +63,7 @@ class ClassItemTableViewCell: UITableViewCell {
         return nthClass
     }()
     
-    //종료된 수업에 덮어씌우는 View
-    lazy var expiredCellIdentifier: UIView = {
-        let expiredCellIdentifier = UIView()
-        expiredCellIdentifier.layer.backgroundColor = (UIColor.black.cgColor).copy(alpha: 0.3)
-        let expiredCellLabel = UILabel()
-        expiredCellLabel.text = "종료된 수업입니다."
-        expiredCellLabel.font = .systemFont(ofSize: 24.0, weight: .bold)
-        expiredCellIdentifier.addSubview(expiredCellLabel)
-        expiredCellLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-        }
-        return expiredCellIdentifier
-    }()
-    
+    //MARK: - set autolayout
     private func layout() {
         [
             thumbnailView,
@@ -85,7 +72,6 @@ class ClassItemTableViewCell: UITableViewCell {
             dateDiffLabel,
             priceLabel,
             priceUnitLabel,
-            expiredCellIdentifier,
             nthClass
         ].forEach { contentView.addSubview($0) }
         
@@ -116,11 +102,9 @@ class ClassItemTableViewCell: UITableViewCell {
             $0.leading.equalTo(priceLabel.snp.trailing).offset(5.0)
             $0.centerY.equalTo(priceLabel)
         }
-        expiredCellIdentifier.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         nthClass.snp.makeConstraints{
-            $0.trailing.bottom.equalToSuperview().inset(commonInset)
+            $0.trailing.equalToSuperview().inset(commonInset*2)
+            $0.bottom.equalToSuperview().inset(commonInset)
         }
     }
     

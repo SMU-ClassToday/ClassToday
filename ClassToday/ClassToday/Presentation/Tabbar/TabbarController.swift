@@ -50,6 +50,7 @@ class TabbarController: UITabBarController {
     }
 }
 
+//MARK: - tabbarcontroller delegate
 extension TabbarController: UITabBarControllerDelegate {
     //+탭 선택시 얼럿을 표시
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
@@ -67,22 +68,22 @@ extension TabbarController: UITabBarControllerDelegate {
     }
 }
 
-
-// MARK: - MapVc
+//MARK: - 미구현 VC들
+//MapVc
 class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
     }
 }
-// MARK: - ChatVC
+//ChatVC
 class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
     }
 }
-// MARK: - ProfileVC
+//ProfileVC
 class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
