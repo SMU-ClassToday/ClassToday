@@ -1,17 +1,18 @@
 //
-//  ClassEnrollCategoryCollectionViewReusableView.swift
+//  ClassDateSelectionCollectionReusableView.swift
 //  ClassToday
 //
-//  Created by 박태현 on 2022/05/02.
+//  Created by 박태현 on 2022/05/06.
 //
 
 import UIKit
 
-class ClassEnrollCategoryCollectionReusableView: UICollectionReusableView {
-    static let identifier = "ClassEnrollCategoryCollectionReusableView"
+class ClassDateSelectionCollectionReusableView: UICollectionReusableView {
+    static let identifier = "ClassDateSelectionCollectionReusableView"
     static let height = 36
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.text = "수업 요일"
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
@@ -44,15 +45,6 @@ class ClassEnrollCategoryCollectionReusableView: UICollectionReusableView {
         supplementaryLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel.snp.trailing).offset(8)
             make.centerY.equalTo(titleLabel.snp.centerY).offset(3)
-        }
-    }
-
-    func configure(with categoryType: CategoryType) {
-        switch categoryType {
-        case .subject:
-            titleLabel.text = "수업 카테고리"
-        case .target:
-            titleLabel.text = "수업 대상"
         }
     }
 }

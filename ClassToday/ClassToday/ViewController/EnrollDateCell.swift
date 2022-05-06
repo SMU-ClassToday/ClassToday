@@ -9,16 +9,17 @@ import UIKit
 
 protocol EnrollDateCellDelegate {
     func passData(date: String?)
+    func present(vc: UIViewController)
 }
 class EnrollDateCell: UITableViewCell {
     static let identifier = "EnrollDateCell"
     var delegate: EnrollDateCellDelegate?
+    var selectedDate: Set<Date> = []
     
     private lazy var dateTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 요일(선택)")
         textField.delegate = self
-        textField.clearButtonMode = .whileEditing
         return textField
     }()
     
@@ -67,5 +68,32 @@ extension EnrollDateCell: UITextFieldDelegate {
         }
         delegate?.passData(date: textField.text)
     }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        let vc = ClassDateSelectionViewController()
+        vc.modalPresentationStyle = .formSheet
+        vc.preferredContentSize = .init(width: 100, height: 100)
+        vc.delegate = self
+        vc.configureData(selectedDate: selectedDate)
+        delegate?.present(vc: vc)
+    }
 }
 
+extension EnrollDateCell: ClassDateSelectionViewControllerDelegate {
+    func selectionResult(date: Set<Date>) {
+        self.selectedDate = date
+        var str = ""
+
+        let sortedDateSet = self.selectedDate.sorted(by: {$0 < $1})
+        for date in sortedDateSet {
+            str = str + "\(date.description), "
+            print(str)
+        }
+        str.removeLast(2)
+        self.dateTextField.text = str
+    }
+
+    func resignFirstResponder() {
+        dateTextField.resignFirstResponder()
+    }
+}

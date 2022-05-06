@@ -145,12 +145,14 @@ extension NewClassEnrollViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.selectionStyle = .none
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollNameCell.identifier, for: indexPath) as? EnrollNameCell else {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.selectionStyle = .none
             cell.setUnderline()
             return cell
         case 2:
@@ -158,6 +160,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.selectionStyle = .none
             cell.setUnderline()
             cell.configureWithItemType()
             return cell
@@ -166,6 +169,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.selectionStyle = .none
             cell.setUnderline()
             return cell
         case 4:
@@ -173,6 +177,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.selectionStyle = .none
             cell.setUnderline()
             return cell
         case 5:
@@ -180,6 +185,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.selectionStyle = .none
             cell.setUnderline()
             return cell
         case 6:
@@ -187,12 +193,14 @@ extension NewClassEnrollViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.selectionStyle = .none
             return cell
         case 7:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollCategorySubjectCell.identifier, for: indexPath) as? EnrollCategorySubjectCell else {
                 return UITableViewCell()
             }
             cell.configureType(with: CategoryType.allCases[indexPath.row])
+            cell.selectionStyle = .none
             return cell
         default:
             return UITableViewCell()
@@ -271,6 +279,10 @@ extension NewClassEnrollViewController: EnrollTimeCellDelegate {
 extension NewClassEnrollViewController: EnrollDateCellDelegate {
     func passData(date: String?) {
         classDate = date
+    }
+
+    func present(vc: UIViewController) {
+        self.present(vc, animated: true, completion: nil)
     }
 }
 
