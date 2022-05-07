@@ -66,6 +66,7 @@ extension ProfileDetailViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let cell = ProfileUserInfoTableViewCell(user: user, type: .detail)
+            cell.infoView.delegate = self
             cell.setupView()
             cell.selectionStyle = .none
             return cell
@@ -94,6 +95,14 @@ extension ProfileDetailViewController: UITableViewDataSource {
         }
     }
 }
+
+// MARK: - ProfileUserInfoViewDelegate
+extension ProfileDetailViewController: ProfileUserInfoViewDelegate {
+    func moveToViewController(viewController: UIViewController) {
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
 // MARK: - @objc Methods
 private extension ProfileDetailViewController {
     @objc func beginRefresh() {
@@ -112,14 +121,31 @@ private extension ProfileDetailViewController {
 private extension ProfileDetailViewController {
     func setupNavigationBar() {
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
-        navigationItem.title = "나의 프로필"
-        let rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "pencil"),
-            style: .plain,
-            target: self,
-            action: #selector(didTapRightBarButton)
-        )
-        navigationItem.rightBarButtonItem = rightBarButtonItem
+        // 본인 프로필 상세 뷰로 들어갈 때, 다른 사람의 프로필 상세 뷰로 들어갈 때
+        if user == User.mockUser2 {
+            navigationItem.title = "나의 프로필"
+            let rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(named: "pencil"),
+                style: .plain,
+                target: self,
+                action: #selector(didTapRightBarButton)
+            )
+            navigationItem.rightBarButtonItem = rightBarButtonItem
+        } else {
+            let chatButton = UIButton()
+            let infoButton = UIButton()
+            chatButton.setImage(UIImage(systemName: "message"), for: .normal)
+            infoButton.setImage(UIImage(systemName: "info.circle"), for: .normal)
+            [
+                chatButton,
+                infoButton
+            ].forEach { button in
+                button.snp.makeConstraints { $0.size.equalTo(24.0) }
+            }
+            let chatBarButtonItem = UIBarButtonItem(customView: chatButton)
+            let infoBarButtonItem = UIBarButtonItem(customView: infoButton)
+            navigationItem.rightBarButtonItems = [infoBarButtonItem, chatBarButtonItem]
+        }
     }
     func attribute() {
         view.backgroundColor = .systemBackground
