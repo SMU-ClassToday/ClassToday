@@ -10,8 +10,8 @@ import SnapKit
 
 class SubjectUserInfoTableViewCell: UITableViewCell {
     
-    let subjectFontSize: CGFloat = 14.0
-    
+    // MARK: - UI Components
+    private let subjectFont: UIFont = .systemFont(ofSize: 14.0, weight: .semibold) // 셀에 적용될 폰트
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "관심 분야"
@@ -41,13 +41,14 @@ class SubjectUserInfoTableViewCell: UITableViewCell {
         return label
     }()
     
+    // MARK: - Properties
     let user: User
     
+    // MARK: - init
     init(user: User) {
         self.user = user
         super.init(style: .default, reuseIdentifier: nil)
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -56,17 +57,26 @@ class SubjectUserInfoTableViewCell: UITableViewCell {
         layout()
     }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 extension SubjectUserInfoTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let height = collectionView.frame.height
-        let width = CGFloat(user.subjects[indexPath.item]!.text.count + 1) * subjectFontSize
-        return CGSize(width: width, height: height)
+        // 셀에 적용될 텍스트의 사이즈를 측정한 후
+        guard let fontCGSize = user.subjects[indexPath.item]?.text.size(
+            withAttributes: [NSAttributedString.Key.font : subjectFont]
+        ) else { return .zero }
+        let width = fontCGSize.width
+        let height = fontCGSize.height
+        // 여백을 포함한 CGSize를 반환한다
+        return CGSize(width: width + 24.0, height: height + 12.0)
     }
 }
+
+// MARK: - UICollectionViewDataSource
 extension SubjectUserInfoTableViewCell: UICollectionViewDataSource {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -83,12 +93,13 @@ extension SubjectUserInfoTableViewCell: UICollectionViewDataSource {
             for: indexPath
         ) as? SubjectCollectionViewCell else { return UICollectionViewCell() }
         if let subject = user.subjects[indexPath.item] {
-            cell.setupView(subject: subject, fontSize: subjectFontSize)
+            cell.setupView(subject: subject, font: subjectFont)
         }
         return cell
     }
 }
 
+// MARK: - UI Methods
 private extension SubjectUserInfoTableViewCell {
     func layout() {
         [
@@ -107,7 +118,7 @@ private extension SubjectUserInfoTableViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).offset(commonInset)
             $0.trailing.equalToSuperview().inset(commonInset)
             $0.bottom.equalToSuperview().inset(commonInset)
-            $0.height.greaterThanOrEqualTo(subjectFontSize * 2)
+            $0.height.equalTo(subjectFont.pointSize * 2.5)
         }
         emptyLabel.snp.makeConstraints {
             $0.leading.equalTo(titleLabel.snp.leading)

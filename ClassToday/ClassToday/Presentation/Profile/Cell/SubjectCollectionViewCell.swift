@@ -15,27 +15,29 @@ class SubjectCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .white
-        label.backgroundColor = .mainColor
-        label.clipsToBounds = true
         return label
     }()
     
-    func setupView(subject: Subject, fontSize: CGFloat) {
+    func setupView(subject: Subject, font: UIFont) {
+        attribute()
         layout()
-        setupSubjectLabel(subject: subject.text, fontSize: fontSize)
+        setupSubjectLabel(subject: subject.text, font: font)
     }
 }
 
 private extension SubjectCollectionViewCell {
-    func setupSubjectLabel(subject: String ,fontSize: CGFloat) {
+    func setupSubjectLabel(subject: String ,font: UIFont) {
         subjectLabel.text = subject
-        subjectLabel.font = .systemFont(ofSize: fontSize, weight: .semibold)
-        subjectLabel.layer.cornerRadius = fontSize
+        subjectLabel.font = font
+    }
+    func attribute() {
+        contentView.layer.cornerRadius = contentView.frame.height / 2.0
+        contentView.backgroundColor = .mainColor
     }
     func layout() {
         contentView.addSubview(subjectLabel)
         subjectLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.center.equalToSuperview()
         }
     }
 }
