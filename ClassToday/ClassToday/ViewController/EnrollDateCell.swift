@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EnrollDateCellDelegate {
-    func passData(date: String?)
+    func passData(date: Set<Date>?)
     func present(vc: UIViewController)
 }
 class EnrollDateCell: UITableViewCell {
@@ -45,31 +45,36 @@ class EnrollDateCell: UITableViewCell {
         dateTextField.setUnderLine()
     }
     
-    func configureWith(date: String?) {
+    func configureWith(date: Set<Date>?) {
         guard let date = date else {
             return
         }
-        dateTextField.text = date
+        var str = ""
+        if date.isEmpty == false {
+            let sortedDateSet = self.selectedDate.sorted(by: {$0 < $1})
+            for date in sortedDateSet {
+                str = str + "\(date.description), "
+                print(str)
+            }
+            str.removeLast(2)
+        }
+        self.dateTextField.text = str
     }
 }
 
 //MARK: UITextFieldDelegate 구현부
 extension EnrollDateCell: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let text = textField.text, text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false else {
             delegate?.passData(date: nil)
             textField.text = nil
             return
         }
-        delegate?.passData(date: textField.text)
+        delegate?.passData(date: selectedDate)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.resignFirstResponder()
         let vc = ClassDateSelectionViewController()
         vc.modalPresentationStyle = .formSheet
         vc.preferredContentSize = .init(width: 100, height: 100)
@@ -82,15 +87,7 @@ extension EnrollDateCell: UITextFieldDelegate {
 extension EnrollDateCell: ClassDateSelectionViewControllerDelegate {
     func selectionResult(date: Set<Date>) {
         self.selectedDate = date
-        var str = ""
-
-        let sortedDateSet = self.selectedDate.sorted(by: {$0 < $1})
-        for date in sortedDateSet {
-            str = str + "\(date.description), "
-            print(str)
-        }
-        str.removeLast(2)
-        self.dateTextField.text = str
+        configureWith(date: date)
     }
 
     func resignFirstResponder() {
