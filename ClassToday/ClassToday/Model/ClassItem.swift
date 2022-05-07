@@ -15,11 +15,11 @@ struct ClassItem {
     let place: String?
     let location: String?
     let price: String?
-    let priceUnit: String
+    let priceUnit: PriceUnit
     let description: String
     let images: [UIImage]?
-    let subjects: [Subject]?
-    let targets: [Target]?
+    let subjects: Set<Subject>?
+    let targets: Set<Target>?
     let itemType: ClassItemType
     let validity: Bool
     let writer: String

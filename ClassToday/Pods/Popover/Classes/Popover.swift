@@ -99,7 +99,7 @@ open class Popover: UIView {
 
   override open func layoutSubviews() {
     super.layoutSubviews()
-    self.contentView.frame = self.bounds
+//    self.contentView.frame = self.bounds
   }
 
   open func showAsDialog(_ contentView: UIView) {

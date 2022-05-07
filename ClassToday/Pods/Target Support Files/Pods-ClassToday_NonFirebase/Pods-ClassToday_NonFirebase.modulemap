@@ -1,0 +1,6 @@
+framework module Pods_ClassToday_NonFirebase {
+  umbrella header "Pods-ClassToday_NonFirebase-umbrella.h"
+
+  export *
+  module * { export * }
+}

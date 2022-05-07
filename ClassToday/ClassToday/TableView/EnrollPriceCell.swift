@@ -9,6 +9,8 @@ import UIKit
 
 protocol EnrollPriceCellDelegate {
     func passData(price: String?)
+    func passData(priceUnit: PriceUnit)
+    func showPopover(button: UIButton)
 }
 
 class EnrollPriceCell: UITableViewCell {
@@ -30,7 +32,7 @@ class EnrollPriceCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 8
-        stackView.addArrangedSubview(label)
+        stackView.addArrangedSubview(priceUnitLabel)
         stackView.addArrangedSubview(button)
         return stackView
     }()
@@ -38,13 +40,13 @@ class EnrollPriceCell: UITableViewCell {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "ellipsis"), for: .normal)
-        button.addTarget(self, action: #selector(selectUnit(_:)), for: .touchDown)
+        button.addTarget(self, action: #selector(selectUnit(_:)), for: .touchUpInside)
         return button
     }()
     
-    private lazy var label: UILabel = {
+    private lazy var priceUnitLabel: UILabel = {
         let label = UILabel()
-        label.text = "시간"
+        label.text = PriceUnit.perHour.description
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
@@ -71,15 +73,16 @@ class EnrollPriceCell: UITableViewCell {
         priceTextField.setUnderLine()
     }
     
-    func configureWith(price: String?) {
+    func configureWith(price: String?, priceUnit: PriceUnit) {
         guard let price = price else {
             return
         }
         priceTextField.text = price.formmatedWithCurrency()
+        priceUnitLabel.text = priceUnit.description
     }
 
     @objc func selectUnit(_ button: UIButton) {
-
+        delegate?.showPopover(button: button)
     }
 }
 
@@ -98,5 +101,11 @@ extension EnrollPriceCell: UITextFieldDelegate {
         }
         delegate?.passData(price: text)
         textField.text = text.formmatedWithCurrency()
+    }
+}
+
+extension EnrollPriceCell: ClassItemCellUpdateDelegate {
+    func updatePriceUnit(with priceUnit: PriceUnit) {
+        priceUnitLabel.text = priceUnit.description
     }
 }

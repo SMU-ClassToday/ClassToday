@@ -17,7 +17,7 @@ class ClassDateSelectionViewController: UIViewController {
 
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSize(width: view.frame.width * 0.30, height: ClassEnrollCategoryCollectionViewCell.height)
+        flowLayout.itemSize = CGSize(width: view.frame.width * 0.30, height: ClassCategoryCollectionViewCell.height)
         flowLayout.minimumLineSpacing = 0
         flowLayout.scrollDirection = .vertical
         
@@ -52,7 +52,7 @@ class ClassDateSelectionViewController: UIViewController {
         }
     }
 
-    func configureUI() {
+    private func configureUI() {
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
             make.edges.equalTo(containerView).inset(16)
