@@ -16,7 +16,7 @@ enum Subject: String, CaseIterable {
     case computerScience = "컴퓨터공학"
     case coding = "코딩"
     case language = "외국어"
-    case hobby = "취미"
+    case hobby = "hobby"
     
     var text: String { self.rawValue }
 }
