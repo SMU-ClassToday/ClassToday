@@ -22,52 +22,7 @@ class ReviewListViewController: UIViewController {
         )
         return label
     }()
-    private lazy var starImageView1: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star.fill")
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .mainColor
-        return imageView
-    }()
-    private lazy var starImageView2: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star.fill")
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .mainColor
-        return imageView
-    }()
-    private lazy var starImageView3: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star.fill")
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .mainColor
-        return imageView
-    }()
-    private lazy var starImageView4: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star")
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .mainColor
-        return imageView
-    }()
-    private lazy var starImageView5: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star")
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .mainColor
-        return imageView
-    }()
-    private lazy var starImageStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.spacing = 8.0
-        return stackView
-    }()
-    private lazy var scoreLabel: UILabel = {
-        let label = UILabel()
-        label.text = "3.25"
-        label.font = .systemFont(ofSize: 18.0, weight: .medium)
-        return label
-    }()
+    private lazy var gradeStarView = GradeStarView(grade: 3.141592)
     private lazy var reviewListCountLabel: UILabel = {
         let label = UILabel()
         label.text = "총 \(reviewList.count)건"
@@ -77,6 +32,7 @@ class ReviewListViewController: UIViewController {
     private lazy var reviewListTableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(
             ReviewListTableViewCell.self,
             forCellReuseIdentifier: ReviewListTableViewCell.identifier
@@ -93,6 +49,14 @@ class ReviewListViewController: UIViewController {
         setupNavigationBar()
         attribute()
         layout()
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension ReviewListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let reviewDetailViewController = ReviewDetailViewController()
+        navigationController?.pushViewController(reviewDetailViewController, animated: true)
     }
 }
 
@@ -123,22 +87,8 @@ private extension ReviewListViewController {
     }
     func layout() {
         [
-            starImageView1,
-            starImageView2,
-            starImageView3,
-            starImageView4,
-            starImageView5
-        ].forEach { star in
-            star.snp.makeConstraints {
-                $0.size.equalTo(36.0)
-            }
-            starImageStackView.addArrangedSubview(star)
-        }
-        
-        [
             titleLabel,
-            starImageStackView,
-            scoreLabel,
+            gradeStarView,
             reviewListCountLabel,
             reviewListTableView
         ].forEach { view.addSubview($0) }
@@ -148,18 +98,13 @@ private extension ReviewListViewController {
         titleLabel.snp.makeConstraints {
             $0.leading.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(commonInset)
         }
-        starImageStackView.snp.makeConstraints {
-            $0.leading.equalTo(view.safeAreaLayoutGuide).inset(commonInset)
+        gradeStarView.snp.makeConstraints {
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(commonInset)
             $0.top.equalTo(titleLabel.snp.bottom).offset(commonInset)
-        }
-        scoreLabel.snp.makeConstraints {
-            $0.leading.equalTo(starImageStackView.snp.trailing).offset(commonInset)
-            $0.bottom.equalTo(starImageStackView.snp.bottom)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(commonInset)
         }
         reviewListCountLabel.snp.makeConstraints {
             $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(commonInset)
-            $0.top.equalTo(starImageStackView.snp.bottom).offset(commonInset)
+            $0.top.equalTo(gradeStarView.snp.bottom).offset(commonInset)
         }
         reviewListTableView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
