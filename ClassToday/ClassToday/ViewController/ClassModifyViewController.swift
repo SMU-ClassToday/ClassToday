@@ -30,7 +30,7 @@ class ClassModifyViewController: UIViewController {
     private var images: [UIImage]?
     private var className: String?
     private var classTime: String?
-    private var classDate: String?
+    private var classDate: Set<Date>?
     private var classPlace: String?
     private var classPrice: String?
     private var classPriceUnit: String = "시간"
@@ -282,7 +282,7 @@ extension ClassModifyViewController: EnrollTimeCellDelegate {
 }
 
 extension ClassModifyViewController: EnrollDateCellDelegate {
-    func passData(date: String?) {
+    func passData(date: Set<Date>?) {
         classDate = date
     }
     func present(vc: UIViewController) {

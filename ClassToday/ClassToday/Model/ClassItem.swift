@@ -10,7 +10,7 @@ import UIKit
 
 struct ClassItem {
     let name: String
-    let date: String?
+    let date: Set<Date>?
     let time: String?
     let place: String?
     let location: String?

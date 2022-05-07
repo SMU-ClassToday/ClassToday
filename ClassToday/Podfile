@@ -8,6 +8,6 @@ target 'ClassToday' do
 
   # Pods for ClassToday
   pod 'SwiftLint'
-
+  pod 'Popover'
  
 end
