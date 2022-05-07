@@ -7,6 +7,11 @@
 
 import UIKit
 import SnapKit
+import Popover
+
+protocol ClassItemCellUpdateDelegate {
+    func updatePriceUnit(with priceUnit: PriceUnit)
+}
 
 class NewClassEnrollViewController: UIViewController {
     private let classItemType: ClassItemType
@@ -23,20 +28,28 @@ class NewClassEnrollViewController: UIViewController {
         tableView.register(EnrollPriceCell.self, forCellReuseIdentifier: EnrollPriceCell.identifier)
         tableView.register(EnrollDescriptionCell.self,
                            forCellReuseIdentifier: EnrollDescriptionCell.identifier)
-        tableView.register(EnrollCategorySubjectCell.self, forCellReuseIdentifier: EnrollCategorySubjectCell.identifier)
+        tableView.register(EnrollCategoryCell.self, forCellReuseIdentifier: EnrollCategoryCell.identifier)
         tableView.separatorStyle = .none
         tableView.selectionFollowsFocus = false
         return tableView
     }()
 
+    var delegate: ClassItemCellUpdateDelegate?
     private var images: [UIImage]?
     private var className: String?
     private var classTime: String?
     private var classDate: Set<Date>?
     private var classPlace: String?
     private var classPrice: String?
-    private var classPriceUnit: String = "시간"
+    private var classPriceUnit: PriceUnit = .perHour
     private var classDescription: String?
+    private var classSubject: Set<Subject>?
+    private var classTarget: Set<Target>?
+
+    private lazy var popover: Popover = {
+        let popover = Popover(options: nil, showHandler: nil, dismissHandler: nil)
+        return popover
+    }()
 
     init(classItemType: ClassItemType) {
         self.classItemType = classItemType
@@ -102,9 +115,20 @@ class NewClassEnrollViewController: UIViewController {
             present(alert)
             return
         }
+        
         if classItemType == .sell, classTime == nil {
             present(alert)
             return
+        }
+        
+        if let classDate = classDate, classDate.isEmpty {
+            self.classDate = nil
+        }
+        if let classSubject = classSubject, classSubject.isEmpty {
+            self.classSubject = nil
+        }
+        if let classTarget = classTarget, classTarget.isEmpty {
+            self.classTarget = nil
         }
 
         let classItem = ClassItem(name: className,
@@ -116,8 +140,8 @@ class NewClassEnrollViewController: UIViewController {
                                   priceUnit: classPriceUnit,
                                   description: classDescription,
                                   images: images,
-                                  subjects: nil,
-                                  targets: nil,
+                                  subjects: classSubject,
+                                  targets: classTarget,
                                   itemType: classItemType,
                                   validity: true,
                                   writer: "yescoach")
@@ -187,6 +211,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
             cell.delegate = self
             cell.selectionStyle = .none
             cell.setUnderline()
+            delegate = cell
             return cell
         case 6:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDescriptionCell.identifier, for: indexPath) as? EnrollDescriptionCell else {
@@ -196,11 +221,12 @@ extension NewClassEnrollViewController: UITableViewDataSource {
             cell.selectionStyle = .none
             return cell
         case 7:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollCategorySubjectCell.identifier, for: indexPath) as? EnrollCategorySubjectCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollCategoryCell.identifier, for: indexPath) as? EnrollCategoryCell else {
                 return UITableViewCell()
             }
-            cell.configureType(with: CategoryType.allCases[indexPath.row])
+            cell.delegate = self
             cell.selectionStyle = .none
+            cell.configureType(with: CategoryType.allCases[indexPath.row])
             return cell
         default:
             return UITableViewCell()
@@ -222,13 +248,13 @@ extension NewClassEnrollViewController: UITableViewDelegate {
             switch CategoryType.allCases[indexPath.row] {
             case .subject:
                 let lines = Subject.count / 2 + Subject.count % 2
-                let height = Int(ClassEnrollCategoryCollectionViewCell.height) * lines +
-                            ClassEnrollCategoryCollectionReusableView.height
+                let height = Int(ClassCategoryCollectionViewCell.height) * lines +
+                ClassCategoryCollectionReusableView.height
                 return CGFloat(height)
             case .target:
                 let lines = Target.count / 2 + Target.count % 2
-                let height = Int(ClassEnrollCategoryCollectionViewCell.height) * lines +
-                            ClassEnrollCategoryCollectionReusableView.height
+                let height = Int(ClassCategoryCollectionViewCell.height) * lines +
+                ClassCategoryCollectionReusableView.height
                 return CGFloat(height)
             }
         default:
@@ -293,13 +319,45 @@ extension NewClassEnrollViewController: EnrollPlaceCellDelegate {
 }
 
 extension NewClassEnrollViewController: EnrollPriceCellDelegate {
+    func showPopover(button: UIButton) {
+        let rect = button.convert(button.bounds, to: self.view)
+        let point = CGPoint(x: rect.midX, y: rect.midY)
+        let view = PriceUnitTableView(frame: CGRect(x: 0, y: 0,
+                                                    width: view.frame.width / 3,
+                                                    height: PriceUnitTableViewCell.height * CGFloat(PriceUnit.allCases.count)))
+        view.delegate = self
+        popover.show(view, point: point)
+    }
+    
     func passData(price: String?) {
         classPrice = price
+    }
+    
+    func passData(priceUnit: PriceUnit) {
+        classPriceUnit = priceUnit
     }
 }
 
 extension NewClassEnrollViewController: EnrollDescriptionCellDelegate {
     func passData(description: String?) {
         classDescription = description
+    }
+}
+
+extension NewClassEnrollViewController: PriceUnitTableViewDelegate {
+    func selectedPriceUnit(priceUnit: PriceUnit) {
+        classPriceUnit = priceUnit
+        delegate?.updatePriceUnit(with: priceUnit)
+        popover.dismiss()
+    }
+}
+
+extension NewClassEnrollViewController: EnrollCategoryCellDelegate {
+    func passData(subjects: Set<Subject>) {
+        classSubject = subjects
+    }
+    
+    func passData(targets: Set<Target>) {
+        classTarget = targets
     }
 }

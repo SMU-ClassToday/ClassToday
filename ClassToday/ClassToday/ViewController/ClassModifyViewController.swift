@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import SnapKit
+import Popover
+
 
 class ClassModifyViewController: UIViewController {
     private var classItem: ClassItem
@@ -21,20 +24,28 @@ class ClassModifyViewController: UIViewController {
         tableView.register(EnrollPriceCell.self, forCellReuseIdentifier: EnrollPriceCell.identifier)
         tableView.register(EnrollDescriptionCell.self,
                            forCellReuseIdentifier: EnrollDescriptionCell.identifier)
-        tableView.register(EnrollCategorySubjectCell.self, forCellReuseIdentifier: EnrollCategorySubjectCell.identifier)
+        tableView.register(EnrollCategoryCell.self, forCellReuseIdentifier: EnrollCategoryCell.identifier)
         tableView.separatorStyle = .none
         tableView.selectionFollowsFocus = false
         return tableView
     }()
 
+    var delegate: ClassItemCellUpdateDelegate?
     private var images: [UIImage]?
     private var className: String?
     private var classTime: String?
     private var classDate: Set<Date>?
     private var classPlace: String?
     private var classPrice: String?
-    private var classPriceUnit: String = "시간"
+    private var classPriceUnit: PriceUnit = .perHour
     private var classDescription: String?
+    private var classSubject: Set<Subject>?
+    private var classTarget: Set<Target>?
+
+    private lazy var popover: Popover = {
+        let popover = Popover(options: nil, showHandler: nil, dismissHandler: nil)
+        return popover
+    }()
 
     init(classItem: ClassItem) {
         self.classItem = classItem
@@ -46,6 +57,8 @@ class ClassModifyViewController: UIViewController {
         classPrice = classItem.price
         classPriceUnit = classItem.priceUnit
         classDescription = classItem.description
+        classSubject = classItem.subjects
+        classTarget = classItem.targets
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -113,6 +126,13 @@ class ClassModifyViewController: UIViewController {
             return
         }
 
+        if let classSubject = classSubject, classSubject.isEmpty {
+            self.classSubject = nil
+        }
+        if let classTarget = classTarget, classTarget.isEmpty {
+            self.classTarget = nil
+        }
+
         let classItem = ClassItem(name: className,
                                   date: classDate,
                                   time: classTime,
@@ -122,8 +142,8 @@ class ClassModifyViewController: UIViewController {
                                   priceUnit: classPriceUnit,
                                   description: classDescription,
                                   images: images,
-                                  subjects: nil,
-                                  targets: nil,
+                                  subjects: classSubject,
+                                  targets: classTarget,
                                   itemType: classItem.itemType,
                                   validity: true,
                                   writer: "yescoach")
@@ -151,6 +171,7 @@ extension ClassModifyViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.selectionStyle = .none
             cell.configureWith(images: classItem.images)
             return cell
         case 1:
@@ -159,6 +180,7 @@ extension ClassModifyViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.setUnderline()
+            cell.selectionStyle = .none
             cell.configureWith(name: classItem.name)
             return cell
         case 2:
@@ -167,6 +189,7 @@ extension ClassModifyViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.setUnderline()
+            cell.selectionStyle = .none
             cell.configureWithItemType()
             cell.configureWith(time: classItem.time)
             return cell
@@ -176,6 +199,7 @@ extension ClassModifyViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.setUnderline()
+            cell.selectionStyle = .none
             cell.configureWith(date: classItem.date)
             return cell
         case 4:
@@ -184,6 +208,7 @@ extension ClassModifyViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.setUnderline()
+            cell.selectionStyle = .none
             cell.configureWith(place: classItem.place)
             return cell
         case 5:
@@ -192,19 +217,24 @@ extension ClassModifyViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.setUnderline()
-            cell.configureWith(price: classItem.price)
+            cell.selectionStyle = .none
+            cell.configureWith(price: classItem.price, priceUnit: classPriceUnit)
+            delegate = cell
             return cell
         case 6:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDescriptionCell.identifier, for: indexPath) as? EnrollDescriptionCell else {
                 return UITableViewCell()
             }
             cell.delegate = self
+            cell.selectionStyle = .none
             cell.configureWith(description: classDescription)
             return cell
         case 7:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollCategorySubjectCell.identifier, for: indexPath) as? EnrollCategorySubjectCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollCategoryCell.identifier, for: indexPath) as? EnrollCategoryCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
+            cell.selectionStyle = .none
             cell.configureType(with: CategoryType.allCases[indexPath.row])
             return cell
         default:
@@ -227,13 +257,13 @@ extension ClassModifyViewController: UITableViewDelegate {
             switch CategoryType.allCases[indexPath.row] {
             case .subject:
                 let lines = Subject.count / 2 + Subject.count % 2
-                let height = Int(ClassEnrollCategoryCollectionViewCell.height) * lines +
-                            ClassEnrollCategoryCollectionReusableView.height
+                let height = Int(ClassCategoryCollectionViewCell.height) * lines +
+                ClassCategoryCollectionReusableView.height
                 return CGFloat(height)
             case .target:
                 let lines = Target.count / 2 + Target.count % 2
-                let height = Int(ClassEnrollCategoryCollectionViewCell.height) * lines +
-                            ClassEnrollCategoryCollectionReusableView.height
+                let height = Int(ClassCategoryCollectionViewCell.height) * lines +
+                ClassCategoryCollectionReusableView.height
                 return CGFloat(height)
             }
         default:
@@ -285,6 +315,7 @@ extension ClassModifyViewController: EnrollDateCellDelegate {
     func passData(date: Set<Date>?) {
         classDate = date
     }
+
     func present(vc: UIViewController) {
         present(vc, animated: true, completion: nil)
     }
@@ -297,8 +328,22 @@ extension ClassModifyViewController: EnrollPlaceCellDelegate {
 }
 
 extension ClassModifyViewController: EnrollPriceCellDelegate {
+    func showPopover(button: UIButton) {
+        let rect = button.convert(button.bounds, to: self.view)
+        let point = CGPoint(x: rect.midX, y: rect.midY)
+        let view = PriceUnitTableView(frame: CGRect(x: 0, y: 0,
+                                                    width: view.frame.width / 3,
+                                                    height: PriceUnitTableViewCell.height * CGFloat(PriceUnit.allCases.count)))
+        view.delegate = self
+        popover.show(view, point: point)
+    }
+    
     func passData(price: String?) {
         classPrice = price
+    }
+    
+    func passData(priceUnit: PriceUnit) {
+        classPriceUnit = priceUnit
     }
 }
 
@@ -308,3 +353,20 @@ extension ClassModifyViewController: EnrollDescriptionCellDelegate {
     }
 }
 
+extension ClassModifyViewController: PriceUnitTableViewDelegate {
+    func selectedPriceUnit(priceUnit: PriceUnit) {
+        classPriceUnit = priceUnit
+        delegate?.updatePriceUnit(with: priceUnit)
+        popover.dismiss()
+    }
+}
+
+extension ClassModifyViewController: EnrollCategoryCellDelegate {
+    func passData(subjects: Set<Subject>) {
+        classSubject = subjects
+    }
+    
+    func passData(targets: Set<Target>) {
+        classTarget = targets
+    }
+}

@@ -11,6 +11,7 @@ import UIKit
 protocol NewClassEnrollTableViewDataSourceDelegate {
     func present(_ viewController: UIViewController)
 }
+
 class NewClassEnrollTableViewDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1

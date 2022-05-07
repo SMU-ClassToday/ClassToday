@@ -1,5 +1,5 @@
 //
-//  ClassEnrollCategoryViewCell.swift
+//  ClassCategoryCollectionViewCell.swift
 //  ClassToday
 //
 //  Created by 박태현 on 2022/04/29.
@@ -7,10 +7,15 @@
 
 import UIKit
 
-class ClassEnrollCategoryCollectionViewCell: UICollectionViewCell {
-    static let identifier = "ClassEnrollCategoryCollectionViewCell"
+protocol ClassCategoryCollectionViewCellDelegate {
+    func reflectSelection(item: CategoryItem?, isChecked: Bool)
+}
+
+class ClassCategoryCollectionViewCell: UICollectionViewCell {
+    static let identifier = "ClassCategoryCollectionViewCell"
     static let height: CGFloat = 40.0
-    var isChecked: Bool = false
+    private var categoryItem: CategoryItem?
+    var delegate: ClassCategoryCollectionViewCellDelegate?
 
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -54,16 +59,16 @@ class ClassEnrollCategoryCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with category: CategoryItem) {
+        categoryItem = category
         nameLabel.text = category.name
     }
     
     @objc func clicked(_ button: UIButton) {
         if button.isSelected {
             button.isSelected = false
-            isChecked = false
         } else {
             button.isSelected = true
-            isChecked = true
         }
+        delegate?.reflectSelection(item: categoryItem, isChecked: button.isSelected)
     }
 }

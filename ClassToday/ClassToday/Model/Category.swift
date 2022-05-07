@@ -53,4 +53,3 @@ enum Target: String, CategoryItem, CaseIterable {
         return self.rawValue
     }
 }
-

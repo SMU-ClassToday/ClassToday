@@ -7,14 +7,23 @@
 
 import UIKit
 
-class EnrollCategorySubjectCell: UITableViewCell {
-    static let identifier = "EnrollCategorySubjectCell"
-    private lazy var collectionView: ClassEnrollCategoryCollectionView = {
+protocol EnrollCategoryCellDelegate {
+    func passData(subjects: Set<Subject>)
+    func passData(targets: Set<Target>)
+}
+
+class EnrollCategoryCell: UITableViewCell {
+    static let identifier = "EnrollCategoryCell"
+    var selectedSubjectCategory: Set<Subject> = []
+    var selectedTargetCategory: Set<Target> = []
+    var delegate: EnrollCategoryCellDelegate?
+
+    private lazy var collectionView: ClassCategoryCollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSize(width: contentView.frame.width * 0.50, height: ClassEnrollCategoryCollectionViewCell.height)
+        flowLayout.itemSize = CGSize(width: contentView.frame.width * 0.50, height: ClassCategoryCollectionViewCell.height)
         flowLayout.minimumLineSpacing = 0
         flowLayout.scrollDirection = .vertical
-        let collectionView = ClassEnrollCategoryCollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        let collectionView = ClassCategoryCollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .white
@@ -32,7 +41,7 @@ class EnrollCategorySubjectCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureUI() {
+    private func configureUI() {
         contentView.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(contentView).inset(16)
@@ -46,7 +55,7 @@ class EnrollCategorySubjectCell: UITableViewCell {
 }
 
 // MARK: UICollectionViewDataSource
-extension EnrollCategorySubjectCell: UICollectionViewDataSource {
+extension EnrollCategoryCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch categoryType {
         case .subject:
@@ -59,8 +68,8 @@ extension EnrollCategorySubjectCell: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClassEnrollCategoryCollectionViewCell.identifier,
-                                                            for: indexPath) as? ClassEnrollCategoryCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClassCategoryCollectionViewCell.identifier,
+                                                            for: indexPath) as? ClassCategoryCollectionViewCell else {
             return UICollectionViewCell()
         }
         switch categoryType {
@@ -69,13 +78,14 @@ extension EnrollCategorySubjectCell: UICollectionViewDataSource {
         case .target:
             cell.configure(with: Target.allCases[indexPath.row])
         }
+        cell.delegate = self
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ClassEnrollCategoryCollectionReusableView.identifier, for: indexPath) as? ClassEnrollCategoryCollectionReusableView else {
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ClassCategoryCollectionReusableView.identifier, for: indexPath) as? ClassCategoryCollectionReusableView else {
                 return UICollectionReusableView()
             }
             headerView.configure(with: categoryType)
@@ -87,10 +97,31 @@ extension EnrollCategorySubjectCell: UICollectionViewDataSource {
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
-extension EnrollCategorySubjectCell: UICollectionViewDelegateFlowLayout {
+extension EnrollCategoryCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let width: CGFloat = collectionView.frame.width
-        let height: CGFloat = CGFloat(ClassEnrollCategoryCollectionReusableView.height)
+        let height: CGFloat = CGFloat(ClassCategoryCollectionReusableView.height)
         return CGSize(width: width, height: height)
+    }
+}
+
+extension EnrollCategoryCell: ClassCategoryCollectionViewCellDelegate {
+    func reflectSelection(item: CategoryItem?, isChecked: Bool) {
+        guard let item = item else { return }
+        if let item = item as? Subject {
+            if isChecked {
+                selectedSubjectCategory.insert(item)
+            } else {
+                selectedSubjectCategory.remove(item)
+            }
+            delegate?.passData(subjects: selectedSubjectCategory)
+        } else if let item = item as? Target {
+            if isChecked {
+                selectedTargetCategory.insert(item)
+            } else {
+                selectedTargetCategory.remove(item)
+            }
+            delegate?.passData(targets: selectedTargetCategory)
+        }
     }
 }

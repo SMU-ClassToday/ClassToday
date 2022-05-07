@@ -1,5 +1,5 @@
 //
-//  ClassEnrollCategoryCollectionViewReusableView.swift
+//  ClassCategoryCollectionReusableView.swift
 //  ClassToday
 //
 //  Created by 박태현 on 2022/05/02.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-class ClassEnrollCategoryCollectionReusableView: UICollectionReusableView {
-    static let identifier = "ClassEnrollCategoryCollectionReusableView"
+class ClassCategoryCollectionReusableView: UICollectionReusableView {
+    static let identifier = "ClassCategoryCollectionReusableView"
     static let height = 36
     private lazy var titleLabel: UILabel = {
         let label = UILabel()

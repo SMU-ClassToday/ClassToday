@@ -49,9 +49,10 @@ class EnrollDateCell: UITableViewCell {
         guard let date = date else {
             return
         }
+        self.selectedDate = date
         var str = ""
         if date.isEmpty == false {
-            let sortedDateSet = self.selectedDate.sorted(by: {$0 < $1})
+            let sortedDateSet = date.sorted(by: {$0 < $1})
             for date in sortedDateSet {
                 str = str + "\(date.description), "
                 print(str)
@@ -64,15 +65,6 @@ class EnrollDateCell: UITableViewCell {
 
 //MARK: UITextFieldDelegate 구현부
 extension EnrollDateCell: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let text = textField.text, text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false else {
-            delegate?.passData(date: nil)
-            textField.text = nil
-            return
-        }
-        delegate?.passData(date: selectedDate)
-    }
-    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.resignFirstResponder()
         let vc = ClassDateSelectionViewController()
@@ -86,8 +78,8 @@ extension EnrollDateCell: UITextFieldDelegate {
 
 extension EnrollDateCell: ClassDateSelectionViewControllerDelegate {
     func selectionResult(date: Set<Date>) {
-        self.selectedDate = date
         configureWith(date: date)
+        delegate?.passData(date: date)
     }
 
     func resignFirstResponder() {
