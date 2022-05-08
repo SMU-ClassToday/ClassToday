@@ -14,8 +14,8 @@ class ClassDetailViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        
         tableView.register(DetailImageCell.self, forCellReuseIdentifier: DetailImageCell.identifier)
+        tableView.register(DetailContentCell.self, forCellReuseIdentifier: DetailContentCell.identifier)
         tableView.separatorStyle = .none
         tableView.selectionFollowsFocus = false
         return tableView
@@ -48,17 +48,32 @@ class ClassDetailViewController: UIViewController {
 }
 
 extension ClassDetailViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailImageCell.identifier, for: indexPath) as? DetailImageCell else {
+        switch indexPath.section {
+        case 0:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailImageCell.identifier, for: indexPath) as? DetailImageCell else {
+                return UITableViewCell()
+            }
+            cell.delegate = self
+            cell.configureWith(images: classItem.images)
+            return cell
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailContentCell.identifier, for: indexPath) as? DetailContentCell else {
+                return UITableViewCell()
+            }
+            cell.configureWith(classItem: classItem)
+            return cell
+        default:
             return UITableViewCell()
         }
-        cell.delegate = self
-        cell.configureWith(images: classItem.images)
-        return cell
     }
 }
 
@@ -67,6 +82,8 @@ extension ClassDetailViewController: UITableViewDelegate {
         switch indexPath.section {
         case 0:
             return view.frame.height * 0.4
+        case 1:
+            return UITableView.automaticDimension
         default:
             return 100
         }
