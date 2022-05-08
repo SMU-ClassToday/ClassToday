@@ -40,7 +40,6 @@ class PriceUnitTableView: UIView {
             make.top.bottom.trailing.equalToSuperview()
         }
     }
-    
 }
 
 extension PriceUnitTableView: UITableViewDataSource {
