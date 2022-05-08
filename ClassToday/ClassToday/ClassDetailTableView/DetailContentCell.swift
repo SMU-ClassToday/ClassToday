@@ -54,6 +54,16 @@ class DetailContentCell: UITableViewCell {
         return stackView
     }()
     
+    private lazy var subjectView: DetailContentCategoryView = {
+        let view = DetailContentCategoryView()
+        return view
+    }()
+    
+    private lazy var targetView: DetailContentCategoryView = {
+        let view = DetailContentCategoryView()
+        return view
+    }()
+    
     private lazy var timeLabel: DetailContentTimeView = {
         let label = DetailContentTimeView()
         return label
@@ -64,8 +74,8 @@ class DetailContentCell: UITableViewCell {
         return label
     }()
     
-    private lazy var placeLabel: DetailContentTimeView = {
-        let label = DetailContentTimeView()
+    private lazy var placeLabel: DetailContentPlaceView = {
+        let label = DetailContentPlaceView()
         return label
     }()
 
@@ -90,14 +100,19 @@ class DetailContentCell: UITableViewCell {
         self.classItem = classItem
         stackView.addArrangedSubview(nameLabel)
         stackView.addArrangedSubview(descriptionTextView)
-        if let subject = classItem.subjects {
-            
-        }
-        if let target = classItem.targets {
-            
-        }
+        stackView.setCustomSpacing(8, after: nameLabel)
+
         nameLabel.text = classItem.name
         descriptionTextView.text = classItem.description
+
+        if let subject = classItem.subjects {
+            subjectView.configureWith(categoryItems: subject.sorted(by: {$0 < $1}))
+            stackView.addArrangedSubview(subjectView)
+        }
+        if let target = classItem.targets {
+            targetView.configureWith(categoryItems: target.sorted(by: {$0 < $1}))
+            stackView.addArrangedSubview(targetView)
+        }
 
         if let time = classItem.time {
             stackView.addArrangedSubview(timeLabel)
@@ -108,7 +123,10 @@ class DetailContentCell: UITableViewCell {
             stackView.addArrangedSubview(priceLabel)
             priceLabel.configureWith(priceUnit: classItem.priceUnit, price: price)
         }
-        stackView.setCustomSpacing(8, after: nameLabel)
 
+        if let place = classItem.place {
+            stackView.addArrangedSubview(placeLabel)
+            placeLabel.configureWith(place: place)
+        }
     }
 }
