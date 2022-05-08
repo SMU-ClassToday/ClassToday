@@ -24,6 +24,14 @@ class MainViewController: UIViewController {
         button.addTarget(self, action: #selector(edit(_:)), for: .touchUpInside)
         return button
     }()
+    
+    private lazy var detailButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("내용보기", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(detail(_:)), for: .touchUpInside)
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +42,7 @@ class MainViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(enrollButton)
         view.addSubview(editButton)
+        view.addSubview(detailButton)
 
         enrollButton.snp.makeConstraints { make in
             make.centerX.equalTo(view.snp.centerX)
@@ -43,17 +52,21 @@ class MainViewController: UIViewController {
             make.top.equalTo(enrollButton.snp.bottom).offset(16)
             make.centerX.equalTo(view.snp.centerX)
         }
+        detailButton.snp.makeConstraints { make in
+            make.top.equalTo(editButton.snp.bottom).offset(16)
+            make.centerX.equalTo(view.snp.centerX)
+        }
     }
 
     @objc func enroll(_ button: UIButton) {
         let actionSheet = UIAlertController(title: "글을 등록하시겠습니까?", message: nil, preferredStyle: .actionSheet)
         let enrollForSale = UIAlertAction(title: "수업판매글", style: .default) { [weak self] action in
             guard let self = self else { return }
-            self.navigationController?.pushViewController(NewClassEnrollViewController(classItemType: .sell), animated: true)
+            self.navigationController?.pushViewController(ClassEnrollViewController(classItemType: .sell), animated: true)
         }
         let enrollForBuy = UIAlertAction(title: "수업구매글", style: .default) { [weak self] action in
             guard let self = self else { return }
-            self.navigationController?.pushViewController(NewClassEnrollViewController(classItemType: .buy), animated: true)
+            self.navigationController?.pushViewController(ClassEnrollViewController(classItemType: .buy), animated: true)
         }
         actionSheet.addAction(enrollForBuy)
         actionSheet.addAction(enrollForSale)
@@ -62,5 +75,9 @@ class MainViewController: UIViewController {
 
     @objc func edit(_ button: UIButton) {
         self.navigationController?.pushViewController(ClassModifyViewController(classItem: MockData.classItem), animated: true)
+    }
+
+    @objc func detail(_ button: UIButton) {
+        self.navigationController?.pushViewController(ClassDetailViewController(classItem: MockData.classItem), animated: true)
     }
 }

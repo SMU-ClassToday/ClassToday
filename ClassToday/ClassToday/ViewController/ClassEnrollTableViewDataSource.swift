@@ -8,11 +8,11 @@
 import UIKit
 
 
-protocol NewClassEnrollTableViewDataSourceDelegate {
+protocol ClassEnrollTableViewDataSourceDelegate {
     func present(_ viewController: UIViewController)
 }
 
-class NewClassEnrollTableViewDataSource: NSObject, UITableViewDataSource {
+class ClassEnrollTableViewDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }

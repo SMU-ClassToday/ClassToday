@@ -11,6 +11,7 @@ import PhotosUI
 
 protocol EnrollImageCellDelegate {
     func present(_ viewController: UIViewController)
+    func passData(images: [UIImage])
 }
 
 class EnrollImageCell: UITableViewCell {
@@ -20,14 +21,15 @@ class EnrollImageCell: UITableViewCell {
     private var images: [UIImage] = [] {
         didSet {
             DispatchQueue.main.async {
-                self.imageEnrollCollectinoView.reloadData()
+                self.imageEnrollCollectionView.reloadData()
             }
+            delegate?.passData(images: images)
         }
     }
     private var availableImageCount: Int {
         return limitImageCount - (images.count)
     }
-    private lazy var imageEnrollCollectinoView: UICollectionView = {
+    private lazy var imageEnrollCollectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
         flowlayout.scrollDirection = .horizontal
         flowlayout.minimumInteritemSpacing = 16
@@ -51,8 +53,8 @@ class EnrollImageCell: UITableViewCell {
     }
 
     private func configureUI() {
-        contentView.addSubview(imageEnrollCollectinoView)
-        imageEnrollCollectinoView.snp.makeConstraints { make in
+        contentView.addSubview(imageEnrollCollectionView)
+        imageEnrollCollectionView.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalTo(contentView)
         }
     }
@@ -120,11 +122,13 @@ extension EnrollImageCell: UICollectionViewDelegate {
             picker.delegate = self
             delegate?.present(picker)
         } else {
-            let fullImageViewcontroller = FullImagesViewController()
-            fullImageViewcontroller.modalPresentationStyle = .fullScreen
-            fullImageViewcontroller.modalTransitionStyle = .coverVertical
-            fullImageViewcontroller.delegate = self
-            delegate?.present(fullImageViewcontroller)
+            let selectedIndex = indexPath.row - 1
+            let fullImageViewController = FullImagesViewController()
+            fullImageViewController.startIndex = selectedIndex
+            fullImageViewController.modalPresentationStyle = .fullScreen
+            fullImageViewController.modalTransitionStyle = .coverVertical
+            fullImageViewController.delegate = self
+            delegate?.present(fullImageViewController)
         }
     }
 }
@@ -135,7 +139,7 @@ extension EnrollImageCell: ClassImageCellDelegate {
         images.remove(at: indexPath.row - 1)
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.imageEnrollCollectinoView.reloadData()
+            self.imageEnrollCollectionView.reloadData()
         }
     }
 }
@@ -159,7 +163,7 @@ extension EnrollImageCell: PHPickerViewControllerDelegate {
                     guard let self = self, let image = image as? UIImage  else { return }
                     self.images.append(image)
                     DispatchQueue.main.async {
-                        self.imageEnrollCollectinoView.reloadData()
+                        self.imageEnrollCollectionView.reloadData()
                     }
                 }
             }

@@ -31,7 +31,7 @@ class ClassModifyViewController: UIViewController {
     }()
 
     var delegate: ClassItemCellUpdateDelegate?
-    private var images: [UIImage]?
+    private var classImages: [UIImage]?
     private var className: String?
     private var classTime: String?
     private var classDate: Set<Date>?
@@ -49,7 +49,7 @@ class ClassModifyViewController: UIViewController {
 
     init(classItem: ClassItem) {
         self.classItem = classItem
-        images = classItem.images
+        classImages = classItem.images
         className = classItem.name
         classTime = classItem.time
         classDate = classItem.date
@@ -141,7 +141,7 @@ class ClassModifyViewController: UIViewController {
                                   price: classPrice,
                                   priceUnit: classPriceUnit,
                                   description: classDescription,
-                                  images: images,
+                                  images: classImages,
                                   subjects: classSubject,
                                   targets: classTarget,
                                   itemType: classItem.itemType,
@@ -274,6 +274,10 @@ extension ClassModifyViewController: UITableViewDelegate {
 
 // MARK: EnrollImageCellDelegate 구현부
 extension ClassModifyViewController: EnrollImageCellDelegate {
+    func passData(images: [UIImage]) {
+        classImages = images.isEmpty ? nil : images
+    }
+    
     func present(_ viewController: UIViewController) {
         present(viewController, animated: true, completion: nil)
     }

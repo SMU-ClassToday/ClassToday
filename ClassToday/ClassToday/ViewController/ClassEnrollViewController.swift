@@ -1,5 +1,5 @@
 //
-//  NewClassEnrollViewController.swift
+//  ClassEnrollViewController.swift
 //  ClassToday
 //
 //  Created by 박태현 on 2022/05/03.
@@ -13,7 +13,7 @@ protocol ClassItemCellUpdateDelegate {
     func updatePriceUnit(with priceUnit: PriceUnit)
 }
 
-class NewClassEnrollViewController: UIViewController {
+class ClassEnrollViewController: UIViewController {
     private let classItemType: ClassItemType
 
     private lazy var tableView: UITableView = {
@@ -35,7 +35,7 @@ class NewClassEnrollViewController: UIViewController {
     }()
 
     var delegate: ClassItemCellUpdateDelegate?
-    private var images: [UIImage]?
+    private var classImages: [UIImage]?
     private var className: String?
     private var classTime: String?
     private var classDate: Set<Date>?
@@ -139,7 +139,7 @@ class NewClassEnrollViewController: UIViewController {
                                   price: classPrice,
                                   priceUnit: classPriceUnit,
                                   description: classDescription,
-                                  images: images,
+                                  images: classImages,
                                   subjects: classSubject,
                                   targets: classTarget,
                                   itemType: classItemType,
@@ -150,7 +150,7 @@ class NewClassEnrollViewController: UIViewController {
     }
 }
 
-extension NewClassEnrollViewController: UITableViewDataSource {
+extension ClassEnrollViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 8
     }
@@ -235,7 +235,7 @@ extension NewClassEnrollViewController: UITableViewDataSource {
 }
 
 // MARK: Cell 높이 설정
-extension NewClassEnrollViewController: UITableViewDelegate {
+extension ClassEnrollViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
@@ -264,14 +264,18 @@ extension NewClassEnrollViewController: UITableViewDelegate {
 }
 
 // MARK: EnrollImageCellDelegate 구현부
-extension NewClassEnrollViewController: EnrollImageCellDelegate {
+extension ClassEnrollViewController: EnrollImageCellDelegate {
+    func passData(images: [UIImage]) {
+        classImages = images.isEmpty ? nil : images
+    }
+
     func present(_ viewController: UIViewController) {
         present(viewController, animated: true, completion: nil)
     }
 }
 
 // MARK: Keyboard 관련 로직
-extension NewClassEnrollViewController {
+extension ClassEnrollViewController {
     @objc func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
             return
@@ -287,13 +291,13 @@ extension NewClassEnrollViewController {
     }
 }
 
-extension NewClassEnrollViewController: EnrollNameCellDelegate {
+extension ClassEnrollViewController: EnrollNameCellDelegate {
     func passData(name: String?) {
         className = name
     }
 }
 
-extension NewClassEnrollViewController: EnrollTimeCellDelegate {
+extension ClassEnrollViewController: EnrollTimeCellDelegate {
     func passData(time: String?) {
         classTime = time
     }
@@ -302,7 +306,7 @@ extension NewClassEnrollViewController: EnrollTimeCellDelegate {
     }
 }
 
-extension NewClassEnrollViewController: EnrollDateCellDelegate {
+extension ClassEnrollViewController: EnrollDateCellDelegate {
     func passData(date: Set<Date>?) {
         classDate = date
     }
@@ -312,13 +316,13 @@ extension NewClassEnrollViewController: EnrollDateCellDelegate {
     }
 }
 
-extension NewClassEnrollViewController: EnrollPlaceCellDelegate {
+extension ClassEnrollViewController: EnrollPlaceCellDelegate {
     func passData(place: String?) {
         classPlace = place
     }
 }
 
-extension NewClassEnrollViewController: EnrollPriceCellDelegate {
+extension ClassEnrollViewController: EnrollPriceCellDelegate {
     func showPopover(button: UIButton) {
         let rect = button.convert(button.bounds, to: self.view)
         let point = CGPoint(x: rect.midX, y: rect.midY)
@@ -338,13 +342,13 @@ extension NewClassEnrollViewController: EnrollPriceCellDelegate {
     }
 }
 
-extension NewClassEnrollViewController: EnrollDescriptionCellDelegate {
+extension ClassEnrollViewController: EnrollDescriptionCellDelegate {
     func passData(description: String?) {
         classDescription = description
     }
 }
 
-extension NewClassEnrollViewController: PriceUnitTableViewDelegate {
+extension ClassEnrollViewController: PriceUnitTableViewDelegate {
     func selectedPriceUnit(priceUnit: PriceUnit) {
         classPriceUnit = priceUnit
         delegate?.updatePriceUnit(with: priceUnit)
@@ -352,7 +356,7 @@ extension NewClassEnrollViewController: PriceUnitTableViewDelegate {
     }
 }
 
-extension NewClassEnrollViewController: EnrollCategoryCellDelegate {
+extension ClassEnrollViewController: EnrollCategoryCellDelegate {
     func passData(subjects: Set<Subject>) {
         classSubject = subjects
     }

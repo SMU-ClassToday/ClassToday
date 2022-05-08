@@ -15,6 +15,7 @@ protocol FullImagesViewControllerDelegate {
 class FullImagesViewController: UIViewController {
     private var images: [UIImage]? = []
     var delegate: FullImagesViewControllerDelegate?
+    var startIndex: Int = 0
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: view.frame)
@@ -66,6 +67,8 @@ class FullImagesViewController: UIViewController {
             imageView.image = images[index]
             scrollView.addSubview(imageView)
         }
+        pageControl.currentPage = startIndex
+        scrollView.contentOffset = CGPoint(x: (startIndex) * Int(width), y: 0)
 
         view.addSubview(scrollView)
         scrollView.addSubview(pageControl)
