@@ -7,17 +7,9 @@
 
 import Foundation
 
-enum Date: Int, CaseIterable, Comparable {
-    static func < (lhs: Date, rhs: Date) -> Bool {
-        if lhs.rawValue < rhs.rawValue {
-            return true
-        } else {
-            return false
-        }
-    }
-    
+enum Date: Int, CaseIterable {
     case mon, tue, wed, thu, fri, sat, sun
-    
+
     var description: String {
         switch self {
         case .mon:
@@ -34,6 +26,16 @@ enum Date: Int, CaseIterable, Comparable {
             return "토"
         case .sun:
             return "일"
+        }
+    }
+}
+
+extension Date: Comparable {
+    static func < (lhs: Date, rhs: Date) -> Bool {
+        if lhs.rawValue < rhs.rawValue {
+            return true
+        } else {
+            return false
         }
     }
 }

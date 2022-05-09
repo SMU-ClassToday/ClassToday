@@ -38,8 +38,6 @@ enum Subject: String, CategoryItem, CaseIterable {
 }
 
 enum Target: String, CategoryItem, CaseIterable {
-
-    
     case elementary = "초등학생"
     case university = "대학생"
     case junior = "중학생"

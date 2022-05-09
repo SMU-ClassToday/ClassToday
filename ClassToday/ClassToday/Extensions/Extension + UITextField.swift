@@ -7,7 +7,8 @@
 
 import UIKit
 
-//MARK: UITextField UI 작업
+// MARK: UITextField UI 작업
+
 extension UITextField {
     func configureWith(placeholder: String) {
         self.placeholder = placeholder
@@ -18,8 +19,7 @@ extension UITextField {
 
     private func setPlaceholderColor(_ placeholderColor: UIColor) {
         attributedPlaceholder = NSAttributedString(string: placeholder ?? "",
-                                                   attributes: [.foregroundColor: placeholderColor,
-                                                                .font: font].compactMapValues { $0 })
+                                                   attributes: [.foregroundColor: placeholderColor, .font: font].compactMapValues { $0 })
     }
 
     func setUnderLine() {
