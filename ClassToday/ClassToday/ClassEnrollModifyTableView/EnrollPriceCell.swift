@@ -77,7 +77,7 @@ class EnrollPriceCell: UITableViewCell {
         guard let price = price else {
             return
         }
-        priceTextField.text = price.formmatedWithCurrency()
+        priceTextField.text = price.formattedWithWon()
         priceUnitLabel.text = priceUnit.description
     }
 
@@ -100,7 +100,7 @@ extension EnrollPriceCell: UITextFieldDelegate {
             return
         }
         delegate?.passData(price: text)
-        textField.text = text.formmatedWithCurrency()
+        textField.text = text.formattedWithWon()
     }
 }
 

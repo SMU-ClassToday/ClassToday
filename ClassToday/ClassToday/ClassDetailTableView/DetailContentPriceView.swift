@@ -66,6 +66,6 @@ class DetailContentPriceView: UIView {
     
     func configureWith(priceUnit: PriceUnit, price: String) {
         priceUnitLabel.text = priceUnit.description
-        priceLabel.text = price.formmatedWithCurrency()
+        priceLabel.text = price.formattedWithWon()
     }
 }
