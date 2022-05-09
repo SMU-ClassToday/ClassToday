@@ -111,8 +111,6 @@
 		89C26A8E2811ED1C00648206 /* Extension + UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A8B2811EC3A00648206 /* Extension + UITextField.swift */; };
 		89C26A912811EE1300648206 /* Extension + PHPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A902811EE1300648206 /* Extension + PHPickerViewController.swift */; };
 		89C26A922811EE5D00648206 /* Extension + PHPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A902811EE1300648206 /* Extension + PHPickerViewController.swift */; };
-		89C26A942812A27900648206 /* ClassCategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A932812A27900648206 /* ClassCategoryCollectionView.swift */; };
-		89C26A952812A35800648206 /* ClassCategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A932812A27900648206 /* ClassCategoryCollectionView.swift */; };
 		8E1FB103E60A4A0C0949509A /* Pods_ClassToday_NonFirebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 289A1A3A17B9BEFEE0752FC0 /* Pods_ClassToday_NonFirebase.framework */; };
 		9196AAD50C5BE048B1FD35B8 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */; };
 		FCD0448927F334F20005C5B3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448827F334F20005C5B3 /* SnapKit */; };
@@ -174,6 +172,7 @@
 		89675B412828336B00933C48 /* DetailContentPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentPlaceView.swift; sourceTree = "<group>"; };
 		89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCustomNavigationBar.swift; sourceTree = "<group>"; };
 		89675B482828C84400933C48 /* Extension + NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + NavigationBar.swift"; sourceTree = "<group>"; };
+		89675B4C282976CA00933C48 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageCell.swift; sourceTree = "<group>"; };
 		89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageEnrollCell.swift; sourceTree = "<group>"; };
 		89AB8C77280D30E4003BC6C5 /* ClassToday_NonFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassToday_NonFirebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -181,7 +180,6 @@
 		89AB8C79280D32FA003BC6C5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		89C26A8B2811EC3A00648206 /* Extension + UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITextField.swift"; sourceTree = "<group>"; };
 		89C26A902811EE1300648206 /* Extension + PHPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + PHPickerViewController.swift"; sourceTree = "<group>"; };
-		89C26A932812A27900648206 /* ClassCategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCategoryCollectionView.swift; sourceTree = "<group>"; };
 		89E3A14B2826685300E720C3 /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7FF7A0220DE013346881477 /* Pods-ClassToday.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.release.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.release.xcconfig"; sourceTree = "<group>"; };
@@ -252,15 +250,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		89098E1E2820C61B006EFD4E /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-				89098E1F2820C6A9006EFD4E /* ClassEnrollTableViewDataSource.swift */,
-			);
-			name = "New Group";
-			path = ViewController;
-			sourceTree = "<group>";
-		};
 		89098E3B28227271006EFD4E /* Mock */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +263,7 @@
 		895D106927F32DCA009FB26F = {
 			isa = PBXGroup;
 			children = (
+				89675B4C282976CA00933C48 /* .swiftlint.yml */,
 				895D107427F32DCA009FB26F /* ClassToday */,
 				895D107327F32DCA009FB26F /* Products */,
 				50ADC23D7B4CF06FDA3D0EBF /* Pods */,
@@ -295,14 +285,12 @@
 			isa = PBXGroup;
 			children = (
 				89C26A8D2811ED0200648206 /* Resources */,
-				89098E1E2820C61B006EFD4E /* New Group */,
-				89C26A8A2811EC1F00648206 /* ViewController */,
-				89675B1A2826C0BE00933C48 /* ClassEnrollModifyTableView */,
-				89675B242826F07300933C48 /* ClassDetailTableView */,
-				89C26A892811EC1400648206 /* CollectionView */,
+				89C26A8A2811EC1F00648206 /* Common */,
+				89675B4D282990B900933C48 /* ClassEnrollModify */,
+				89675B4F2829916500933C48 /* ClassDetail */,
 				6B7997BE27F33C4F00F37393 /* Model */,
-				89098E3B28227271006EFD4E /* Mock */,
 				89C26A8F2811ED9200648206 /* Extensions */,
+				89098E3B28227271006EFD4E /* Mock */,
 				895D107E27F32DCB009FB26F /* Assets.xcassets */,
 				895D108027F32DCB009FB26F /* LaunchScreen.storyboard */,
 				895D108327F32DCB009FB26F /* Info.plist */,
@@ -313,6 +301,7 @@
 		89675B1A2826C0BE00933C48 /* ClassEnrollModifyTableView */ = {
 			isa = PBXGroup;
 			children = (
+				8966CF5D2810787C001CBBDC /* ClassImageView.swift */,
 				89098E192820564F006EFD4E /* EnrollImageCell.swift */,
 				89098E242820E636006EFD4E /* EnrollNameCell.swift */,
 				89098E272820EF75006EFD4E /* EnrollTimeCell.swift */,
@@ -321,6 +310,7 @@
 				89098E302820FA5B006EFD4E /* EnrollPriceCell.swift */,
 				89098E332820FB4F006EFD4E /* EnrollDescriptionCell.swift */,
 				89098E362820FE5C006EFD4E /* EnrollCategoryCell.swift */,
+				89098E1F2820C6A9006EFD4E /* ClassEnrollTableViewDataSource.swift */,
 			);
 			path = ClassEnrollModifyTableView;
 			sourceTree = "<group>";
@@ -331,44 +321,107 @@
 				89675B252826F11900933C48 /* DetailImageCell.swift */,
 				89675B2E2827BFDE00933C48 /* DetailUserCell.swift */,
 				89675B312827C0A300933C48 /* DetailContentCell.swift */,
-				89675B342827DC3A00933C48 /* DetailContentTimeView.swift */,
-				89675B372827F10C00933C48 /* DetailContentPriceView.swift */,
-				89675B412828336B00933C48 /* DetailContentPlaceView.swift */,
-				89675B3B28280D8800933C48 /* DetailContentCategoryView.swift */,
-				89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */,
 			);
 			path = ClassDetailTableView;
 			sourceTree = "<group>";
 		};
-		89C26A892811EC1400648206 /* CollectionView */ = {
+		89675B4D282990B900933C48 /* ClassEnrollModify */ = {
 			isa = PBXGroup;
 			children = (
-				8966CF5D2810787C001CBBDC /* ClassImageView.swift */,
+				89675B512829937400933C48 /* ViewController */,
+				89675B522829938B00933C48 /* View */,
+			);
+			path = ClassEnrollModify;
+			sourceTree = "<group>";
+		};
+		89675B4E2829911500933C48 /* ClassEnrollModifyCollectionView */ = {
+			isa = PBXGroup;
+			children = (
 				89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */,
 				89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */,
-				89C26A932812A27900648206 /* ClassCategoryCollectionView.swift */,
 				89098E02282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift */,
 				893D70E3281B1935006CD232 /* ClassCategoryCollectionViewCell.swift */,
 				89098E482824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift */,
 				89098E4A282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift */,
-				89675B112826776100933C48 /* PriceUnitTableView.swift */,
-				89675B14282677B900933C48 /* PriceUnitTableViewCell.swift */,
-				89675B3E2828101400933C48 /* DetailContentCategoryCollectionViewCell.swift */,
 			);
-			path = CollectionView;
+			path = ClassEnrollModifyCollectionView;
 			sourceTree = "<group>";
 		};
-		89C26A8A2811EC1F00648206 /* ViewController */ = {
+		89675B4F2829916500933C48 /* ClassDetail */ = {
 			isa = PBXGroup;
 			children = (
-				89AB8C79280D32FA003BC6C5 /* MainViewController.swift */,
+				89675B542829941900933C48 /* ViewController */,
+				89675B50282991E000933C48 /* View */,
+			);
+			path = ClassDetail;
+			sourceTree = "<group>";
+		};
+		89675B50282991E000933C48 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				89675B242826F07300933C48 /* ClassDetailTableView */,
+				89C26A892811EC1400648206 /* ClassDetailCollectionView */,
+				89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */,
+				89675B342827DC3A00933C48 /* DetailContentTimeView.swift */,
+				89675B372827F10C00933C48 /* DetailContentPriceView.swift */,
+				89675B412828336B00933C48 /* DetailContentPlaceView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		89675B512829937400933C48 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
 				89098E1C2820C445006EFD4E /* ClassEnrollViewController.swift */,
 				89098E39282271E2006EFD4E /* ClassModifyViewController.swift */,
-				89675B212826EC1A00933C48 /* ClassDetailViewController.swift */,
-				8966CF5A28100652001CBBDC /* FullImagesViewController.swift */,
 				89098E4628245371006EFD4E /* ClassDateSelectionViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		89675B522829938B00933C48 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				89675B1A2826C0BE00933C48 /* ClassEnrollModifyTableView */,
+				89675B4E2829911500933C48 /* ClassEnrollModifyCollectionView */,
+				89675B53282993DE00933C48 /* PopOverContentsView */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		89675B53282993DE00933C48 /* PopOverContentsView */ = {
+			isa = PBXGroup;
+			children = (
+				89675B112826776100933C48 /* PriceUnitTableView.swift */,
+				89675B14282677B900933C48 /* PriceUnitTableViewCell.swift */,
+			);
+			path = PopOverContentsView;
+			sourceTree = "<group>";
+		};
+		89675B542829941900933C48 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				89675B212826EC1A00933C48 /* ClassDetailViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		89C26A892811EC1400648206 /* ClassDetailCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				89675B3B28280D8800933C48 /* DetailContentCategoryView.swift */,
+				89675B3E2828101400933C48 /* DetailContentCategoryCollectionViewCell.swift */,
+			);
+			path = ClassDetailCollectionView;
+			sourceTree = "<group>";
+		};
+		89C26A8A2811EC1F00648206 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				89AB8C79280D32FA003BC6C5 /* MainViewController.swift */,
+				8966CF5A28100652001CBBDC /* FullImagesViewController.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		89C26A8D2811ED0200648206 /* Resources */ = {
@@ -431,6 +484,7 @@
 				89AB8C69280D30E4003BC6C5 /* Frameworks */,
 				89AB8C71280D30E4003BC6C5 /* Resources */,
 				18405DBC1AEE81D67F6BA281 /* [CP] Embed Pods Frameworks */,
+				89675B4B28295C8800933C48 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -526,6 +580,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClassToday_NonFirebase/Pods-ClassToday_NonFirebase-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		89675B4B28295C8800933C48 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		92BA0BC8EE3F3A9B74A237FB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -632,7 +703,6 @@
 				6B7997C027F33C5A00F37393 /* ClassItem.swift in Sources */,
 				89675B322827C0A300933C48 /* DetailContentCell.swift in Sources */,
 				89098E1D2820C445006EFD4E /* ClassEnrollViewController.swift in Sources */,
-				89C26A942812A27900648206 /* ClassCategoryCollectionView.swift in Sources */,
 				89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */,
 				89675B492828C84400933C48 /* Extension + NavigationBar.swift in Sources */,
 				8966CF5E2810787C001CBBDC /* ClassImageView.swift in Sources */,
@@ -690,7 +760,6 @@
 				89AB8C68280D30E4003BC6C5 /* ClassItem.swift in Sources */,
 				89098E4E28245899006EFD4E /* ClassDateSelectionViewController.swift in Sources */,
 				89098E222820C80E006EFD4E /* ClassEnrollViewController.swift in Sources */,
-				89C26A952812A35800648206 /* ClassCategoryCollectionView.swift in Sources */,
 				89098E262820E71B006EFD4E /* EnrollNameCell.swift in Sources */,
 				89675B232826EC1A00933C48 /* ClassDetailViewController.swift in Sources */,
 				89675B392827F10C00933C48 /* DetailContentPriceView.swift in Sources */,

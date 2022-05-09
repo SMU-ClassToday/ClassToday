@@ -11,7 +11,7 @@ enum PriceUnit: CaseIterable {
     case perHour
     case perProblem
     case perClass
-    
+
     var description: String {
         switch self {
         case .perHour:
