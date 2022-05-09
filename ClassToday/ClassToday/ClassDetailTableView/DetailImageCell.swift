@@ -22,7 +22,7 @@ class DetailImageCell: UITableViewCell {
     }
     var delegate: DetailImageCellDelegate?
 
-    private lazy var scrollView: UIScrollView = {
+    lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: contentView.frame)
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -78,11 +78,17 @@ class DetailImageCell: UITableViewCell {
 
         contentView.addSubview(scrollView)
         scrollView.addSubview(pageControl)
+        scrollView.snp.makeConstraints { make in
+            make.top.bottom.equalTo(self)
+            make.leading.trailing.equalTo(self)
+            make.height.equalTo(self)
+        }
+
         pageControl.snp.makeConstraints { make in
-            make.width.equalTo(contentView.snp.width)
-            make.height.equalTo(contentView.snp.height).multipliedBy(0.1)
-            make.centerX.equalTo(contentView.snp.centerX)
-            make.bottom.equalTo(contentView.snp.bottom)
+            make.width.equalTo(self.snp.width)
+            make.height.equalTo(30)
+            make.centerX.equalTo(self.snp.centerX)
+            make.bottom.equalTo(self.snp.bottom)
         }
     }
 

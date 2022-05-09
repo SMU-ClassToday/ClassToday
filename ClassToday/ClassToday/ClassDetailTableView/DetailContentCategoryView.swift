@@ -21,14 +21,15 @@ class DetailContentCategoryView: UIView {
         sepertor.backgroundColor = .black
         return sepertor
     }()
-    
-    private lazy var collectionView: UICollectionView = {
+    private lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout()
-//        flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width * 0.20,
-//                                     height: DetailContentCategoryCollectionViewCell.height)
         flowLayout.minimumLineSpacing = 0
         flowLayout.scrollDirection = .vertical
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        return flowLayout
+    }()
+    
+    private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.register(DetailContentCategoryCollectionViewCell.self,
                                 forCellWithReuseIdentifier: DetailContentCategoryCollectionViewCell.identifier)
@@ -96,7 +97,4 @@ extension DetailContentCategoryView: UICollectionViewDataSource {
         cell.configureWith(category: data[indexPath.row])
         return cell
     }
-}
-
-extension DetailContentCategoryView: UICollectionViewDelegate {
 }

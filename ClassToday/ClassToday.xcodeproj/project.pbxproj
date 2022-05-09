@@ -90,6 +90,10 @@
 		89675B402828101400933C48 /* DetailContentCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B3E2828101400933C48 /* DetailContentCategoryCollectionViewCell.swift */; };
 		89675B422828336C00933C48 /* DetailContentPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B412828336B00933C48 /* DetailContentPlaceView.swift */; };
 		89675B432828336C00933C48 /* DetailContentPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B412828336B00933C48 /* DetailContentPlaceView.swift */; };
+		89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */; };
+		89675B462828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */; };
+		89675B492828C84400933C48 /* Extension + NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B482828C84400933C48 /* Extension + NavigationBar.swift */; };
+		89675B4A2828C84400933C48 /* Extension + NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B482828C84400933C48 /* Extension + NavigationBar.swift */; };
 		89A0CD3C280D441A006FDF89 /* ClassImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */; };
 		89A0CD3D280D4656006FDF89 /* ClassImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */; };
 		89A0CD3F280D4E17006FDF89 /* ClassImageEnrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */; };
@@ -168,6 +172,8 @@
 		89675B3B28280D8800933C48 /* DetailContentCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryView.swift; sourceTree = "<group>"; };
 		89675B3E2828101400933C48 /* DetailContentCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		89675B412828336B00933C48 /* DetailContentPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentPlaceView.swift; sourceTree = "<group>"; };
+		89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCustomNavigationBar.swift; sourceTree = "<group>"; };
+		89675B482828C84400933C48 /* Extension + NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + NavigationBar.swift"; sourceTree = "<group>"; };
 		89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageCell.swift; sourceTree = "<group>"; };
 		89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageEnrollCell.swift; sourceTree = "<group>"; };
 		89AB8C77280D30E4003BC6C5 /* ClassToday_NonFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassToday_NonFirebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -329,6 +335,7 @@
 				89675B372827F10C00933C48 /* DetailContentPriceView.swift */,
 				89675B412828336B00933C48 /* DetailContentPlaceView.swift */,
 				89675B3B28280D8800933C48 /* DetailContentCategoryView.swift */,
+				89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */,
 			);
 			path = ClassDetailTableView;
 			sourceTree = "<group>";
@@ -380,6 +387,7 @@
 				89C26A8B2811EC3A00648206 /* Extension + UITextField.swift */,
 				89C26A902811EE1300648206 /* Extension + PHPickerViewController.swift */,
 				89098E4328228BE5006EFD4E /* Extension + String.swift */,
+				89675B482828C84400933C48 /* Extension + NavigationBar.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -625,6 +633,8 @@
 				89675B322827C0A300933C48 /* DetailContentCell.swift in Sources */,
 				89098E1D2820C445006EFD4E /* ClassEnrollViewController.swift in Sources */,
 				89C26A942812A27900648206 /* ClassCategoryCollectionView.swift in Sources */,
+				89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */,
+				89675B492828C84400933C48 /* Extension + NavigationBar.swift in Sources */,
 				8966CF5E2810787C001CBBDC /* ClassImageView.swift in Sources */,
 				89675B122826776100933C48 /* PriceUnitTableView.swift in Sources */,
 				89675B222826EC1A00933C48 /* ClassDetailViewController.swift in Sources */,
@@ -648,6 +658,7 @@
 				8966CF5C28100AFE001CBBDC /* FullImagesViewController.swift in Sources */,
 				89098E322820FAE0006EFD4E /* EnrollPriceCell.swift in Sources */,
 				89098E042820186E006EFD4E /* ClassCategoryCollectionReusableView.swift in Sources */,
+				89675B4A2828C84400933C48 /* Extension + NavigationBar.swift in Sources */,
 				89098E3F2822733E006EFD4E /* ClassModifyViewController.swift in Sources */,
 				89675B272826F11900933C48 /* DetailImageCell.swift in Sources */,
 				89098E352820FB9D006EFD4E /* EnrollDescriptionCell.swift in Sources */,
@@ -669,6 +680,7 @@
 				89675B13282677A100933C48 /* PriceUnitTableView.swift in Sources */,
 				89098E4F2824589D006EFD4E /* ClassDateSelectionCollectionReusableView.swift in Sources */,
 				89098E2F2820FA23006EFD4E /* EnrollPlaceCell.swift in Sources */,
+				89675B462828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */,
 				89C26A8E2811ED1C00648206 /* Extension + UITextField.swift in Sources */,
 				89AB8C67280D30E4003BC6C5 /* SceneDelegate.swift in Sources */,
 				89675B1928267A2C00933C48 /* PriceUnit.swift in Sources */,

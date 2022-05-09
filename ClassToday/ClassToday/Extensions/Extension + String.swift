@@ -8,11 +8,12 @@
 import Foundation
 
 extension String {
-    func formmatedWithCurrency() -> String {
+    func formattedWithWon() -> String {
         let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.locale = NSLocale.current
-        let result = formatter.string(from: (Int(self) ?? 0) as NSNumber)
-        return result ?? ""
+        formatter.numberStyle = .decimal
+        guard let result = formatter.string(from: (Int(self) ?? 0) as NSNumber) else {
+            return ""
+        }
+        return result + "원"
     }
 }
