@@ -69,6 +69,11 @@ class DetailContentCell: UITableViewCell {
         return label
     }()
 
+    private lazy var spacer: UIView = {
+        let view = UIView()
+        return view
+    }()
+
     // MARK: Properties
 
     static let identifier = "DetailContentCell"
@@ -89,6 +94,9 @@ class DetailContentCell: UITableViewCell {
         contentView.addSubview(stackView)
         stackView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(16)
+        }
+        spacer.snp.makeConstraints {
+            $0.height.equalTo(40)
         }
     }
 
@@ -124,5 +132,6 @@ class DetailContentCell: UITableViewCell {
             stackView.addArrangedSubview(placeLabel)
             placeLabel.configureWith(place: place)
         }
+        stackView.addArrangedSubview(spacer)
     }
 }

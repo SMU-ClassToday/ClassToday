@@ -51,6 +51,6 @@ class DetailContentCategoryCollectionViewCell: UICollectionViewCell {
     }
 
     func configureWith(category: CategoryItem) {
-        categoryButton.setTitle(category.text, for: .normal)
+        categoryButton.setTitle(category.description, for: .normal)
     }
 }

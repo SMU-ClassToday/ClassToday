@@ -20,6 +20,8 @@ class DetailContentPriceView: UIView {
 
     private lazy var priceUnitLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.textColor = .gray
         return label
     }()
 
@@ -31,6 +33,7 @@ class DetailContentPriceView: UIView {
 
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         return label
     }()
 
@@ -56,7 +59,7 @@ class DetailContentPriceView: UIView {
         }
         priceUnitLabel.snp.makeConstraints {
             $0.bottom.equalTo(headLabel.snp.bottom)
-            $0.leading.equalTo(headLabel.snp.trailing).offset(16)
+            $0.leading.equalTo(headLabel.snp.trailing).offset(8)
         }
         seperator.snp.makeConstraints {
             $0.top.equalTo(headLabel.snp.bottom).offset(8)

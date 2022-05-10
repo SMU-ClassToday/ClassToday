@@ -48,7 +48,12 @@ class StarViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
         return refreshControl
     }()
-    
+
+    // MARK: Properties
+
+    private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
+
+    // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBar()
@@ -82,7 +87,7 @@ private extension StarViewController {
 
 extension StarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return datas.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,7 +95,7 @@ extension StarViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        cell.setupView()
+        cell.configureWith(classItem: MockData.classItem)
         return cell
     }
 }

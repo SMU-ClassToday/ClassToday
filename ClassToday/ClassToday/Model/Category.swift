@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol CategoryItem {
-    static var count: Int { get }
-    var text: String { get }
-}
-
 enum CategoryType: CaseIterable {
     case subject
     case target
+}
+
+protocol CategoryItem {
+    static var count: Int { get }
+    var description: String { get }
 }
 
 enum Subject: CategoryItem, CaseIterable {
@@ -32,7 +32,7 @@ enum Subject: CategoryItem, CaseIterable {
         return Self.allCases.count
     }
 
-    var text: String {
+    var description: String {
         switch self {
             case .korean:
                 return "국어"
@@ -68,7 +68,7 @@ enum Target: CategoryItem, CaseIterable {
         return Self.allCases.count
     }
 
-    var text: String {
+    var description: String {
         switch self {
         case .elementary:
             return "초등학생"
@@ -88,6 +88,6 @@ enum Target: CategoryItem, CaseIterable {
 
 extension CategoryItem {
     static func < (lhs: Self, rhs: Self) -> Bool {
-        return lhs.text < rhs.text
+        return lhs.description < rhs.description
     }
 }
