@@ -46,6 +46,10 @@ class ProfileModifyViewController: UIViewController {
         attribute()
         layout()
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 }
 
 // MARK: - @objc Methods

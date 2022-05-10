@@ -122,7 +122,7 @@ private extension ProfileDetailViewController {
     func setupNavigationBar() {
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
         // 본인 프로필 상세 뷰로 들어갈 때, 다른 사람의 프로필 상세 뷰로 들어갈 때
-        if user == User.mockUser2 {
+        if user == User.mockUser {
             navigationItem.title = "나의 프로필"
             let rightBarButtonItem = UIBarButtonItem(
                 image: UIImage(named: "pencil"),

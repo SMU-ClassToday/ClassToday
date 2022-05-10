@@ -28,6 +28,10 @@ class ModifyProfileUserInfoView: UIView {
     private lazy var userNameTextField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 16.0, weight: .medium)
+        textField.returnKeyType = .done
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.delegate = self
         return textField
     }()
     private lazy var companyLabel: UILabel = {
@@ -41,9 +45,30 @@ class ModifyProfileUserInfoView: UIView {
         label.font = .systemFont(ofSize: 14.0, weight: .regular)
         return label
     }()
+    private lazy var toolBarKeyboard: UIToolbar = {
+        let toolBar = UIToolbar(frame: CGRect(
+            x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: 0.0
+        ))
+        toolBar.sizeToFit()
+        let blankSpace = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        let doneButton = UIBarButtonItem(
+            title: "완료",
+            style: .done,
+            target: self,
+            action: #selector(didTapDoneButton)
+        )
+        toolBar.items = [blankSpace, doneButton]
+        toolBar.tintColor = .mainColor
+        return toolBar
+    }()
     private lazy var desciptionTextView: UITextView = {
         let textView = UITextView()
         textView.font = .systemFont(ofSize: 14.0, weight: .medium)
+        textView.inputAccessoryView = toolBarKeyboard
         return textView
     }()
     private lazy var separatorView: UIView = {
@@ -60,6 +85,21 @@ class ModifyProfileUserInfoView: UIView {
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension ModifyProfileUserInfoView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
+    }
+}
+
+// MARK: - @objc Methods
+private extension ModifyProfileUserInfoView {
+    @objc func didTapDoneButton() {
+        desciptionTextView.endEditing(true)
     }
 }
 
