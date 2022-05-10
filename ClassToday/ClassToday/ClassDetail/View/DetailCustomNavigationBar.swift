@@ -152,10 +152,10 @@ class DetailCustomNavigationBar: UIView {
 
     @objc func didTapStarButton(_ button: UIButton) {
         button.isSelected.toggle()
-        print("didTapSendOptionButton")
+        debugPrint(#function)
     }
 
     @objc func didTapReportButton(_ button: UIButton) {
-        print("didTapOtherOptionButton")
+        debugPrint(#function)
     }
 }

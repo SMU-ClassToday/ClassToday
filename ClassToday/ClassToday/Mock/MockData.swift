@@ -8,7 +8,7 @@
 import UIKit
 
 struct MockData {
-    static var classItem = ClassItem(name: "수학",
+    static let classItem = ClassItem(name: "수학",
                                      date: [.mon,.wed,.fri],
                                      time: "2",
                                      place: nil,
@@ -30,5 +30,6 @@ struct MockData {
                                      targets: [.elementary,.senior],
                                      itemType: .sell,
                                      validity: true,
-                                     writer: "me")
+                                     writer: userInfo)
+    static let userInfo = User(name: "yescoach", email: "sbsii1020@gmail.com")
 }

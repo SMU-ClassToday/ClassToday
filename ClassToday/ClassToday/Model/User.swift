@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct User: Codable {
+struct User: Codable, Equatable {
     let name: String
     let email: String
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return (lhs.name == rhs.name) && (lhs.email == rhs.email)
+    }
 }
