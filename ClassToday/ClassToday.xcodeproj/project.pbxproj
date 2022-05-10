@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C6173AAE564B291F7947799 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */; };
-		258E235E9C7A954625240AC3 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3A14B2826685300E720C3 /* Pods_ClassToday.framework */; };
-		5574177D672A064BA8EACE7A /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */; };
 		6B7997BD27F33C4C00F37393 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7997BC27F33C4C00F37393 /* User.swift */; };
 		6B7997C027F33C5A00F37393 /* ClassItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7997BF27F33C5A00F37393 /* ClassItem.swift */; };
 		89098E03282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E02282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift */; };
@@ -113,8 +110,6 @@
 		89C26A8E2811ED1C00648206 /* Extension + UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A8B2811EC3A00648206 /* Extension + UITextField.swift */; };
 		89C26A912811EE1300648206 /* Extension + PHPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A902811EE1300648206 /* Extension + PHPickerViewController.swift */; };
 		89C26A922811EE5D00648206 /* Extension + PHPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A902811EE1300648206 /* Extension + PHPickerViewController.swift */; };
-		8E1FB103E60A4A0C0949509A /* Pods_ClassToday_NonFirebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 289A1A3A17B9BEFEE0752FC0 /* Pods_ClassToday_NonFirebase.framework */; };
-		9196AAD50C5BE048B1FD35B8 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */; };
 		FCD0448927F334F20005C5B3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448827F334F20005C5B3 /* SnapKit */; };
 		FCD0448C27F3351F0005C5B3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448B27F3351F0005C5B3 /* Alamofire */; };
 		FCD0448F27F336450005C5B3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448E27F336450005C5B3 /* FirebaseAuth */; };
@@ -124,7 +119,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		289A1A3A17B9BEFEE0752FC0 /* Pods_ClassToday_NonFirebase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday_NonFirebase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		487FF9A4C439BF31DE53CB09 /* Pods-ClassToday_NonFirebase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday_NonFirebase.release.xcconfig"; path = "Target Support Files/Pods-ClassToday_NonFirebase/Pods-ClassToday_NonFirebase.release.xcconfig"; sourceTree = "<group>"; };
 		6B7997BC27F33C4C00F37393 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6B7997BF27F33C5A00F37393 /* ClassItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassItem.swift; sourceTree = "<group>"; };
@@ -183,8 +177,6 @@
 		89AB8C79280D32FA003BC6C5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		89C26A8B2811EC3A00648206 /* Extension + UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITextField.swift"; sourceTree = "<group>"; };
 		89C26A902811EE1300648206 /* Extension + PHPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + PHPickerViewController.swift"; sourceTree = "<group>"; };
-		89E3A14B2826685300E720C3 /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7FF7A0220DE013346881477 /* Pods-ClassToday.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.release.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.release.xcconfig"; sourceTree = "<group>"; };
 		F959602C3B27C7EECB19A108 /* Pods-ClassToday_NonFirebase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday_NonFirebase.debug.xcconfig"; path = "Target Support Files/Pods-ClassToday_NonFirebase/Pods-ClassToday_NonFirebase.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -200,10 +192,6 @@
 				FCD0448F27F336450005C5B3 /* FirebaseAuth in Frameworks */,
 				FCD0448C27F3351F0005C5B3 /* Alamofire in Frameworks */,
 				FCD0449527F336450005C5B3 /* FirebaseStorage in Frameworks */,
-				9196AAD50C5BE048B1FD35B8 /* Pods_ClassToday.framework in Frameworks */,
-				1C6173AAE564B291F7947799 /* Pods_ClassToday.framework in Frameworks */,
-				5574177D672A064BA8EACE7A /* Pods_ClassToday.framework in Frameworks */,
-				258E235E9C7A954625240AC3 /* Pods_ClassToday.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +201,6 @@
 			files = (
 				89AB8C6A280D30E4003BC6C5 /* SnapKit in Frameworks */,
 				89AB8C6E280D30E4003BC6C5 /* Alamofire in Frameworks */,
-				8E1FB103E60A4A0C0949509A /* Pods_ClassToday_NonFirebase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,16 +216,6 @@
 				487FF9A4C439BF31DE53CB09 /* Pods-ClassToday_NonFirebase.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		6234D5C0F25079B940207F21 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				89E3A14B2826685300E720C3 /* Pods_ClassToday.framework */,
-				D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */,
-				289A1A3A17B9BEFEE0752FC0 /* Pods_ClassToday_NonFirebase.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		6B7997BE27F33C4F00F37393 /* Model */ = {
@@ -270,7 +247,6 @@
 				895D107427F32DCA009FB26F /* ClassToday */,
 				895D107327F32DCA009FB26F /* Products */,
 				50ADC23D7B4CF06FDA3D0EBF /* Pods */,
-				6234D5C0F25079B940207F21 /* Frameworks */,
 				89AB8C78280D30E5003BC6C5 /* ClassToday NonFirebase-Info.plist */,
 			);
 			sourceTree = "<group>";
@@ -288,7 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				89C26A8D2811ED0200648206 /* Resources */,
-				89C26A8A2811EC1F00648206 /* Common */,
+				89C26A8A2811EC1F00648206 /* Main */,
 				89675B4D282990B900933C48 /* ClassEnrollModify */,
 				89675B4F2829916500933C48 /* ClassDetail */,
 				6B7997BE27F33C4F00F37393 /* Model */,
@@ -418,13 +394,13 @@
 			path = ClassDetailCollectionView;
 			sourceTree = "<group>";
 		};
-		89C26A8A2811EC1F00648206 /* Common */ = {
+		89C26A8A2811EC1F00648206 /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				89AB8C79280D32FA003BC6C5 /* MainViewController.swift */,
 				8966CF5A28100652001CBBDC /* FullImagesViewController.swift */,
 			);
-			path = Common;
+			path = Main;
 			sourceTree = "<group>";
 		};
 		89C26A8D2811ED0200648206 /* Resources */ = {

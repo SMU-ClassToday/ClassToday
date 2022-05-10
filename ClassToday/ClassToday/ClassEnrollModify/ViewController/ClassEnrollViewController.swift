@@ -104,7 +104,7 @@ class ClassEnrollViewController: UIViewController {
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(myTapMethod(_:)))
         singleTapGestureRecognizer.numberOfTapsRequired = 1
         singleTapGestureRecognizer.isEnabled = true
-        singleTapGestureRecognizer.cancelsTouchesInView = true
+        singleTapGestureRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(singleTapGestureRecognizer)
     }
 

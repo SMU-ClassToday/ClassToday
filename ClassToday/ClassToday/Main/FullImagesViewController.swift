@@ -48,6 +48,7 @@ class FullImagesViewController: UIViewController {
         self.images = images
         self.startIndex = startIndex
         super.init(nibName: nil, bundle: nil)
+        self.modalPresentationStyle = .fullScreen
     }
 
     required init?(coder: NSCoder) {
@@ -63,6 +64,7 @@ class FullImagesViewController: UIViewController {
     private func configureUI() {
         self.modalPresentationStyle = .fullScreen
         self.modalTransitionStyle = .coverVertical
+        view.backgroundColor = .black
         let width = view.frame.width
         let height = view.frame.height
         guard let images = images else { return }
@@ -80,7 +82,7 @@ class FullImagesViewController: UIViewController {
         scrollView.addSubview(pageControl)
         scrollView.addSubview(dismissButton)
         pageControl.snp.makeConstraints {
-            $0.width.centerX.bottom.equalToSuperview()
+            $0.width.centerX.bottom.equalTo(view)
             $0.height.equalToSuperview().multipliedBy(0.1)
         }
         dismissButton.snp.makeConstraints {
