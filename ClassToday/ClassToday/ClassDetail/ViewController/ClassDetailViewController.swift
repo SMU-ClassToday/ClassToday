@@ -23,10 +23,20 @@ class ClassDetailViewController: UIViewController {
         return tableView
     }()
 
-    lazy var navigationBar: DetailCustomNavigationBar = {
+    private lazy var navigationBar: DetailCustomNavigationBar = {
         let navigationBar = DetailCustomNavigationBar()
         navigationBar.delegate = self
         return navigationBar
+    }()
+
+    private lazy var matchingButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(classItem.writer == MockData.userInfo ? "채팅 목록" : "신청하기", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        button.backgroundColor = .blue
+        button.addTarget(self, action: #selector(didTapMatchingButton(_:)), for: .touchUpInside)
+        button.layer.cornerRadius = 20
+        return button
     }()
 
     // MARK: Properties
@@ -71,10 +81,17 @@ class ClassDetailViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(tableView)
         view.addSubview(navigationBar)
+        tableView.addSubview(matchingButton)
 
         tableView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.top.equalToSuperview()
+        }
+
+        matchingButton.snp.makeConstraints {
+            $0.centerX.equalTo(view)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-24)
+            $0.width.equalTo(view).multipliedBy(0.5)
         }
     }
 
@@ -96,6 +113,12 @@ class ClassDetailViewController: UIViewController {
             navigationBar.lineView.isHidden = true
             navigationController?.navigationBar.barStyle = .black
         }
+    }
+
+    // MARK: Actions
+
+    @objc func didTapMatchingButton(_ button: UIButton) {
+        debugPrint(#function)
     }
 }
 

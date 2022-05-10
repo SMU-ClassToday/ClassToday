@@ -166,7 +166,7 @@ class ClassModifyViewController: UIViewController {
                                   targets: classTarget,
                                   itemType: classItem.itemType,
                                   validity: true,
-                                  writer: "yescoach")
+                                  writer: MockData.userInfo)
         debugPrint("\(classItem) 등록")
         navigationController?.popViewController(animated: true)
     }

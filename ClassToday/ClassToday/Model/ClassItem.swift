@@ -22,7 +22,7 @@ struct ClassItem {
     let targets: Set<Target>?
     let itemType: ClassItemType
     let validity: Bool
-    let writer: String
+    let writer: User
 }
 
 enum ClassItemType: String {

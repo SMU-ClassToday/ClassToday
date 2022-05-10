@@ -31,7 +31,7 @@ class EnrollTimeCell: UITableViewCell {
         textField.inputAccessoryView = toolBarKeyboard
         textField.delegate = self
         textField.keyboardType = .decimalPad
-        textField.clearButtonMode = .whileEditing
+        textField.clearsOnBeginEditing = true
         return textField
     }()
 
