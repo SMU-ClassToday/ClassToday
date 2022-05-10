@@ -312,6 +312,10 @@ extension ClassModifyViewController: EnrollNameCellDelegate {
     func passData(name: String?) {
         className = name
     }
+
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 extension ClassModifyViewController: EnrollTimeCellDelegate {

@@ -53,6 +53,8 @@
 		89098E51282458F9006EFD4E /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E4C28245503006EFD4E /* Date.swift */; };
 		893D70E4281B1935006CD232 /* ClassCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893D70E3281B1935006CD232 /* ClassCategoryCollectionViewCell.swift */; };
 		893D70E5281BA4DB006CD232 /* ClassCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893D70E3281B1935006CD232 /* ClassCategoryCollectionViewCell.swift */; };
+		895209DA282A0D520009E97B /* Extension + UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895209D9282A0D520009E97B /* Extension + UIApplication.swift */; };
+		895209DB282A0DE70009E97B /* Extension + UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895209D9282A0D520009E97B /* Extension + UIApplication.swift */; };
 		895D107627F32DCA009FB26F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107527F32DCA009FB26F /* AppDelegate.swift */; };
 		895D107827F32DCA009FB26F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107727F32DCA009FB26F /* SceneDelegate.swift */; };
 		895D107F27F32DCB009FB26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895D107E27F32DCB009FB26F /* Assets.xcassets */; };
@@ -148,6 +150,7 @@
 		89098E4A282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDateSelectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		89098E4C28245503006EFD4E /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		893D70E3281B1935006CD232 /* ClassCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		895209D9282A0D520009E97B /* Extension + UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIApplication.swift"; sourceTree = "<group>"; };
 		895D107227F32DCA009FB26F /* ClassToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895D107527F32DCA009FB26F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		895D107727F32DCA009FB26F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -441,6 +444,7 @@
 				89C26A902811EE1300648206 /* Extension + PHPickerViewController.swift */,
 				89098E4328228BE5006EFD4E /* Extension + String.swift */,
 				89675B482828C84400933C48 /* Extension + NavigationBar.swift */,
+				895209D9282A0D520009E97B /* Extension + UIApplication.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -691,6 +695,7 @@
 				89AB8C7A280D32FA003BC6C5 /* MainViewController.swift in Sources */,
 				89098E4728245371006EFD4E /* ClassDateSelectionViewController.swift in Sources */,
 				89098E4428228BE5006EFD4E /* Extension + String.swift in Sources */,
+				895209DA282A0D520009E97B /* Extension + UIApplication.swift in Sources */,
 				89098E312820FA5B006EFD4E /* EnrollPriceCell.swift in Sources */,
 				89A0CD3C280D441A006FDF89 /* ClassImageCell.swift in Sources */,
 				895D107827F32DCA009FB26F /* SceneDelegate.swift in Sources */,
@@ -761,6 +766,7 @@
 				89098E4E28245899006EFD4E /* ClassDateSelectionViewController.swift in Sources */,
 				89098E222820C80E006EFD4E /* ClassEnrollViewController.swift in Sources */,
 				89098E262820E71B006EFD4E /* EnrollNameCell.swift in Sources */,
+				895209DB282A0DE70009E97B /* Extension + UIApplication.swift in Sources */,
 				89675B232826EC1A00933C48 /* ClassDetailViewController.swift in Sources */,
 				89675B392827F10C00933C48 /* DetailContentPriceView.swift in Sources */,
 				8966CF5F281079C2001CBBDC /* ClassImageView.swift in Sources */,
