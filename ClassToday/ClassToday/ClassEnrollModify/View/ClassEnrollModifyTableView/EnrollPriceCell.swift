@@ -17,12 +17,23 @@ class EnrollPriceCell: UITableViewCell {
 
     // MARK: Views
 
+    private lazy var toolBarKeyboard: UIToolbar = {
+        let toolBarKeyboard = UIToolbar()
+        toolBarKeyboard.sizeToFit()
+        let blankSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didTapDoneButton))
+        toolBarKeyboard.items = [blankSpace, doneButton]
+        toolBarKeyboard.tintColor = UIColor.gray
+        return toolBarKeyboard
+    }()
+
     private lazy var priceTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 가격(선택)")
         textField.rightView = stackView
         textField.rightViewMode = .always
         textField.keyboardType = .numberPad
+        textField.inputAccessoryView = toolBarKeyboard
         textField.clearsOnBeginEditing = true
         textField.delegate = self
         return textField
@@ -93,6 +104,10 @@ class EnrollPriceCell: UITableViewCell {
 
     @objc func selectUnit(_ button: UIButton) {
         delegate?.showPopover(button: button)
+    }
+
+    @objc func didTapDoneButton(_ button: UIButton) {
+        priceTextField.resignFirstResponder()
     }
 }
 

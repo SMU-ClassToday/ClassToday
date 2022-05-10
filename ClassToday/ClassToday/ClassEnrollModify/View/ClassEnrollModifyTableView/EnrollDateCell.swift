@@ -19,7 +19,7 @@ class EnrollDateCell: UITableViewCell {
     private lazy var dateTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 요일(선택)")
-        textField.delegate = self
+        textField.isUserInteractionEnabled = false
         return textField
     }()
 
@@ -35,6 +35,7 @@ class EnrollDateCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         configureUI()
+        configureGesture()
     }
 
     required init?(coder: NSCoder) {
@@ -74,9 +75,19 @@ class EnrollDateCell: UITableViewCell {
 
 // MARK: UITextFieldDelegate
 
-extension EnrollDateCell: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.resignFirstResponder()
+extension EnrollDateCell {
+
+    private func configureGesture() {
+        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(myTapMethod(_:)))
+        singleTapGestureRecognizer.numberOfTapsRequired = 1
+        singleTapGestureRecognizer.isEnabled = true
+        singleTapGestureRecognizer.cancelsTouchesInView = true
+        self.addGestureRecognizer(singleTapGestureRecognizer)
+    }
+
+    // MARK: Actions
+
+    @objc func myTapMethod(_ sender: UITapGestureRecognizer) {
         let viewController = ClassDateSelectionViewController()
         viewController.modalPresentationStyle = .formSheet
         viewController.preferredContentSize = .init(width: 100, height: 100)
@@ -84,6 +95,7 @@ extension EnrollDateCell: UITextFieldDelegate {
         viewController.configureData(selectedDate: selectedDate)
         delegate?.presentFromDateCell(viewController)
     }
+
 }
 
 // MARK: DateSelectionViewControllerDelegate

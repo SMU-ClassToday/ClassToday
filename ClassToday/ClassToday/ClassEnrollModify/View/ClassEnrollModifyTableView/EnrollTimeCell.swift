@@ -15,10 +15,20 @@ protocol EnrollTimeCellDelegate: AnyObject {
 class EnrollTimeCell: UITableViewCell {
 
     // MARK: Views
+    private lazy var toolBarKeyboard: UIToolbar = {
+        let toolBarKeyboard = UIToolbar()
+        toolBarKeyboard.sizeToFit()
+        let blankSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didTapDoneButton))
+        toolBarKeyboard.items = [blankSpace, doneButton]
+        toolBarKeyboard.tintColor = UIColor.gray
+        return toolBarKeyboard
+    }()
 
     private lazy var timeTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업 시간(필수)")
+        textField.inputAccessoryView = toolBarKeyboard
         textField.delegate = self
         textField.keyboardType = .decimalPad
         textField.clearButtonMode = .whileEditing
@@ -66,6 +76,12 @@ class EnrollTimeCell: UITableViewCell {
             return
         }
         timeTextField.text = time + "시간"
+    }
+
+    // MARK: Actions
+
+    @objc func didTapDoneButton(_ button: UIButton) {
+        timeTextField.resignFirstResponder()
     }
 }
 

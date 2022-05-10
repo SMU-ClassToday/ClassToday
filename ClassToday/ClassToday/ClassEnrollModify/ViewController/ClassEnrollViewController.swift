@@ -104,7 +104,7 @@ class ClassEnrollViewController: UIViewController {
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(myTapMethod(_:)))
         singleTapGestureRecognizer.numberOfTapsRequired = 1
         singleTapGestureRecognizer.isEnabled = true
-        singleTapGestureRecognizer.cancelsTouchesInView = false
+        singleTapGestureRecognizer.cancelsTouchesInView = true
         tableView.addGestureRecognizer(singleTapGestureRecognizer)
     }
 
@@ -301,6 +301,7 @@ extension ClassEnrollViewController: EnrollNameCellDelegate {
 extension ClassEnrollViewController: EnrollTimeCellDelegate {
     func passData(time: String?) {
         classTime = time
+        view.endEditing(true)
     }
     func getClassItemType() -> ClassItemType {
         return classItemType
@@ -313,6 +314,7 @@ extension ClassEnrollViewController: EnrollDateCellDelegate {
     }
 
     func presentFromDateCell(_ viewController: UIViewController) {
+        view.endEditing(true)
         self.present(viewController, animated: true, completion: nil)
     }
 }
