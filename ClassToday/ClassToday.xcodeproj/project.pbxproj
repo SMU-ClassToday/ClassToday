@@ -136,7 +136,6 @@
 		89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageEnrollCell.swift; sourceTree = "<group>"; };
 		89A67340282A634C00951300 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		89A67341282A634C00951300 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		89AB8C78280D30E5003BC6C5 /* ClassToday NonFirebase-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ClassToday NonFirebase-Info.plist"; path = "/Users/yescoach/ClassToday/ClassToday/ClassToday NonFirebase-Info.plist"; sourceTree = "<absolute>"; };
 		89C26A8B2811EC3A00648206 /* Extension + UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITextField.swift"; sourceTree = "<group>"; };
 		89C26A902811EE1300648206 /* Extension + PHPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + PHPickerViewController.swift"; sourceTree = "<group>"; };
 		990420C98CBC7BA2031CEFC4 /* Pods_ClassToday_NonFirebase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday_NonFirebase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,7 +216,6 @@
 				895D107427F32DCA009FB26F /* ClassToday */,
 				895D107327F32DCA009FB26F /* Products */,
 				50ADC23D7B4CF06FDA3D0EBF /* Pods */,
-				89AB8C78280D30E5003BC6C5 /* ClassToday NonFirebase-Info.plist */,
 				89A6734B282A67F500951300 /* Frameworks */,
 			);
 			sourceTree = "<group>";
