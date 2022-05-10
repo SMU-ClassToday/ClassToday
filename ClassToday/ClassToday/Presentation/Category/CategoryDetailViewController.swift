@@ -16,7 +16,7 @@ class CategoryDetailViewController: UIViewController {
     
     lazy var navigationTitle: UILabel = {
         let navigationTitle = UILabel()
-        navigationTitle.text = Category.korean.text
+        navigationTitle.text = Subject.korean.text
         navigationTitle.font = .systemFont(ofSize: 18.0, weight: .semibold)
         return navigationTitle
     }()

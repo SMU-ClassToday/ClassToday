@@ -17,6 +17,23 @@ class ClassEnrollViewController: UIViewController {
 
     // MARK: Views
 
+    private lazy var customNavigationBar: UINavigationBar = {
+        let navigationBar = UINavigationBar()
+        navigationBar.isTranslucent = false
+        navigationBar.barTintColor = UIColor.white
+        navigationBar.setItems([customNavigationItem], animated: true)
+        return navigationBar
+    }()
+
+    private lazy var customNavigationItem: UINavigationItem = {
+        let item = UINavigationItem(title: "수업 \(classItemType.rawValue) 등록하기")
+        let leftButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(didTapBackButton(_:)))
+        let rightButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(didTapEnrollButton(_:)))
+        item.leftBarButtonItem = leftButton
+        item.rightBarButtonItem = rightButton
+        return item
+    }()
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
@@ -59,6 +76,7 @@ class ClassEnrollViewController: UIViewController {
     init(classItemType: ClassItemType) {
         self.classItemType = classItemType
         super.init(nibName: nil, bundle: nil)
+        self.modalPresentationStyle = .fullScreen
     }
 
     required init?(coder: NSCoder) {
@@ -78,7 +96,8 @@ class ClassEnrollViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.edges.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(customNavigationBar.snp.bottom)
         }
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -91,13 +110,10 @@ class ClassEnrollViewController: UIViewController {
     }
 
     private func configureNavigationBar() {
-        title = "수업 \(classItemType.rawValue) 등록하기"
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
-        let addButton = UIBarButtonItem(title: "완료",
-                                        style: .plain,
-                                        target: self,
-                                        action: #selector(enroll(_:)))
-        navigationItem.rightBarButtonItem = addButton
+        view.addSubview(customNavigationBar)
+        customNavigationBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 
     private func configureGesture() {
@@ -114,7 +130,11 @@ class ClassEnrollViewController: UIViewController {
         view.endEditing(true)
     }
 
-    @objc func enroll(_ button: UIBarButtonItem) {
+    @objc func didTapBackButton(_ button: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
         view.endEditing(true)
 
         let alert: UIAlertController = {
@@ -161,7 +181,7 @@ class ClassEnrollViewController: UIViewController {
                                   validity: true,
                                   writer: MockData.userInfo)
         debugPrint("\(classItem) 등록")
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
 }
 

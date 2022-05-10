@@ -9,7 +9,7 @@ import Foundation
 
 protocol CategoryItem {
     static var count: Int { get }
-    var name: String { get }
+    var text: String { get }
 }
 
 enum CategoryType: CaseIterable {
@@ -17,45 +17,77 @@ enum CategoryType: CaseIterable {
     case target
 }
 
-enum Subject: String, CategoryItem, CaseIterable {
-    case korean = "국어"
-    case english = "영어"
-    case math = "수학"
-    case science = "과학탐구"
-    case society = "사회탐구"
-    case computerScience = "컴퓨터공학"
-    case coding = "코딩"
-    case foreigneLanguage = "외국어"
-    case hobby = "취미"
-
+enum Subject: CategoryItem, CaseIterable {
+    case korean
+    case math
+    case english
+    case science
+    case society
+    case language
+    case major
+    case computer
+    case hobby
+    
     static var count: Int {
         return Self.allCases.count
     }
 
-    var name: String {
-        return self.rawValue
+    var text: String {
+        switch self {
+            case .korean:
+                return "국어"
+            case .math:
+                return "수학"
+            case .english:
+                return "영어"
+            case .science:
+                return "과학"
+            case .society:
+                return "사회"
+            case .language:
+                return "외국어"
+            case .major:
+                return "전공"
+            case .computer:
+                return "컴퓨터"
+            case .hobby:
+                return "취미"
+        }
     }
 }
 
-enum Target: String, CategoryItem, CaseIterable {
-    case elementary = "초등학생"
-    case university = "대학생"
-    case junior = "중학생"
-    case housewife = "주부"
-    case senior = "고등학생"
-    case all = "전연령"
+enum Target: CategoryItem, CaseIterable {
+    case elementary
+    case university
+    case junior
+    case housewife
+    case senior
+    case all
 
     static var count: Int {
         return Self.allCases.count
     }
 
-    var name: String {
-        return self.rawValue
+    var text: String {
+        switch self {
+        case .elementary:
+            return "초등학생"
+        case .university:
+            return "대학생"
+        case .junior:
+            return "중학생"
+        case .housewife:
+            return "주부"
+        case .senior:
+            return "고등학생"
+        case .all:
+            return "전연령"
+        }
     }
 }
 
 extension CategoryItem {
     static func < (lhs: Self, rhs: Self) -> Bool {
-        return lhs.name < rhs.name
+        return lhs.text < rhs.text
     }
 }

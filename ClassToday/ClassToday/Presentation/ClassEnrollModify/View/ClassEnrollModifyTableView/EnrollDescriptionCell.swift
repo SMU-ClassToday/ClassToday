@@ -29,7 +29,7 @@ class EnrollDescriptionCell: UITableViewCell {
 
     weak var delegate: EnrollDescriptionCellDelegate?
     static let identifier = "EnrollDescriptionCell"
-    private let textViewPlaceHolder = "텍스트를 입력하세요"
+    private let textViewPlaceHolder = "텍스트를 입력하세요(필수)"
 
     // MARK: Initialize
 
