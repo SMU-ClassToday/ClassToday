@@ -48,14 +48,14 @@ class CategoryListViewController: UIViewController {
     }()
     
     //MARK: - category titles
-    private let titles: [String] = Category.allCases.map {
-        guard let title = $0.text else { return "" }
-        return title
+    private let titles: [String] = Subject.allCases.map {
+        return $0.text
     }
     
     //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setNavigationBar()
         layout()
     }

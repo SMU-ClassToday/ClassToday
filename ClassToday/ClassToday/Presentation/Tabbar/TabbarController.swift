@@ -15,10 +15,16 @@ class TabbarController: UITabBarController {
     lazy var alertController: UIAlertController = {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        alertController.view.tintColor = UIColor.mainColor
+        alertController.view.tintColor = UIColor.gray
         
-        let buyUploadAction = UIAlertAction(title: "구매글 작성", style: .default, handler: nil)
-        let sellUploadAction = UIAlertAction(title: "판매글 작성", style: .default, handler: nil)
+        let buyUploadAction = UIAlertAction(title: "구매글 작성", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.present(ClassEnrollViewController(classItemType: .buy), animated: true, completion: nil)
+        }
+        let sellUploadAction = UIAlertAction(title: "판매글 작성", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.present(ClassEnrollViewController(classItemType: .sell), animated: true, completion: nil)
+        }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         
         [buyUploadAction, sellUploadAction, cancelAction].forEach {
@@ -31,6 +37,7 @@ class TabbarController: UITabBarController {
     func setupStyle() {
         UITabBar.clearShadow()
         tabBar.layer.applyShadow(color: .gray, alpha: 0.3, x: 0, y: 0, blur: 12)
+        tabBar.layer.shadowPath = UIBezierPath(roundedRect: tabBar.bounds, cornerRadius: tabBar.layer.cornerRadius).cgPath
     }
     
     override func viewDidLoad() {

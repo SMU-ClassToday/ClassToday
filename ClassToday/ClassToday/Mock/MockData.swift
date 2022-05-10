@@ -26,7 +26,7 @@ struct MockData {
                                      평가원 모의고사 수학영역 질문 클래스 진행경험 多
                                      """,
                                      images: [UIImage(named: "1.jpeg")!, UIImage(named: "2.jpeg")!],
-                                     subjects: [.korean,.coding, .computerScience, .foreigneLanguage],
+                                     subjects: [.korean, .computer, .english, .major],
                                      targets: [.elementary,.senior],
                                      itemType: .sell,
                                      validity: true,

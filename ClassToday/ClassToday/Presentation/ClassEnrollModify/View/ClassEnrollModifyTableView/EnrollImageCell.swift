@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 import PhotosUI
 
 protocol EnrollImageCellDelegate: AnyObject {
@@ -129,6 +128,7 @@ extension EnrollImageCell: UICollectionViewDelegate {
             }
             let picker = PHPickerViewController.makeImagePicker(selectLimit: availableImageCount)
             picker.delegate = self
+            picker.modalPresentationStyle = .fullScreen
             delegate?.presentFromImageCell(picker)
         } else {
             let selectedIndex = indexPath.row - 1
