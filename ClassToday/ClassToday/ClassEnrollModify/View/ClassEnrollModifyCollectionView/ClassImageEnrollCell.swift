@@ -8,6 +8,7 @@
 import UIKit
 
 class ClassImageEnrollCell: UICollectionViewCell {
+
     // MARK: Views
 
     private lazy var classImageView: UIImageView = {

@@ -73,7 +73,7 @@ class EnrollDateCell: UITableViewCell {
     }
 }
 
-// MARK: UITextFieldDelegate
+// MARK: Touch 관련 Extension
 
 extension EnrollDateCell {
 
@@ -95,7 +95,6 @@ extension EnrollDateCell {
         viewController.configureData(selectedDate: selectedDate)
         delegate?.presentFromDateCell(viewController)
     }
-
 }
 
 // MARK: DateSelectionViewControllerDelegate

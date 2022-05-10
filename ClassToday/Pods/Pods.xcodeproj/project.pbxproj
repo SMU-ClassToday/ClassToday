@@ -15,7 +15,6 @@
 			dependencies = (
 			);
 			name = SwiftLint;
-			productName = SwiftLint;
 		};
 /* End PBXAggregateTarget section */
 
@@ -85,11 +84,11 @@
 		78E42E26F2D8C67E57611DA65B2E9661 /* Popover.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Popover.swift; path = Classes/Popover.swift; sourceTree = "<group>"; };
 		82D12ABBC6F2255D426AEE5ACEECE82A /* Popover.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Popover.release.xcconfig; sourceTree = "<group>"; };
 		8607DDFA8AEBAE1408F0433753303F28 /* Pods-ClassToday_NonFirebase.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-ClassToday_NonFirebase.modulemap"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A8A452E4505FFB9058DC19032B0FB56B /* Pods-ClassToday_NonFirebase-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ClassToday_NonFirebase-acknowledgements.markdown"; sourceTree = "<group>"; };
 		B0AACB3EEF427399AD65FE8F90C3C6B2 /* Pods-ClassToday */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-ClassToday"; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B639F3A4E513129ABD64E8A970875B35 /* Pods-ClassToday_NonFirebase-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ClassToday_NonFirebase-frameworks.sh"; sourceTree = "<group>"; };
-		B72A389B0E6A6DD2F3D61F4DC7F84D83 /* Popover.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Popover.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B72A389B0E6A6DD2F3D61F4DC7F84D83 /* Popover */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Popover; path = Popover.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD39955DE9C2AEDCBF17AE894BBB0A02 /* SwiftLint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.debug.xcconfig; sourceTree = "<group>"; };
 		CED34F4EE3F4E0A3299D339E69CE1B0F /* Pods-ClassToday-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ClassToday-acknowledgements.markdown"; sourceTree = "<group>"; };
 		D38720711350F1E79CF1FC6BFD9EBCC0 /* Pods-ClassToday_NonFirebase */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-ClassToday_NonFirebase"; path = Pods_ClassToday_NonFirebase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,6 +148,7 @@
 			children = (
 				61F493FC366502DD79BA2703B19DB3EB /* Support Files */,
 			);
+			name = SwiftLint;
 			path = SwiftLint;
 			sourceTree = "<group>";
 		};
@@ -245,6 +245,7 @@
 				78E42E26F2D8C67E57611DA65B2E9661 /* Popover.swift */,
 				C3DCC98F219A43935AF50B454F6F7383 /* Support Files */,
 			);
+			name = Popover;
 			path = Popover;
 			sourceTree = "<group>";
 		};
@@ -253,7 +254,7 @@
 			children = (
 				B0AACB3EEF427399AD65FE8F90C3C6B2 /* Pods-ClassToday */,
 				D38720711350F1E79CF1FC6BFD9EBCC0 /* Pods-ClassToday_NonFirebase */,
-				B72A389B0E6A6DD2F3D61F4DC7F84D83 /* Popover.framework */,
+				B72A389B0E6A6DD2F3D61F4DC7F84D83 /* Popover */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -303,7 +304,7 @@
 			);
 			name = Popover;
 			productName = Popover;
-			productReference = B72A389B0E6A6DD2F3D61F4DC7F84D83 /* Popover.framework */;
+			productReference = B72A389B0E6A6DD2F3D61F4DC7F84D83 /* Popover */;
 			productType = "com.apple.product-type.framework";
 		};
 		D33224B1B720D71E3FC83C46A78F4DE9 /* Pods-ClassToday */ = {
@@ -612,7 +613,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/Popover/Popover-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Popover/Popover-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -801,7 +802,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/Popover/Popover-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Popover/Popover-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -127,7 +127,6 @@ extension EnrollImageCell: UICollectionViewDelegate {
                 delegate?.presentFromImageCell(alert)
                 return
             }
-
             let picker = PHPickerViewController.makeImagePicker(selectLimit: availableImageCount)
             picker.delegate = self
             delegate?.presentFromImageCell(picker)
