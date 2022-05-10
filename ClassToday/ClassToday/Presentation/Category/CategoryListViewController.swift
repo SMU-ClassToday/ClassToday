@@ -49,7 +49,7 @@ class CategoryListViewController: UIViewController {
     
     //MARK: - category titles
     private let titles: [String] = Subject.allCases.map {
-        return $0.text
+        return $0.description
     }
     
     //MARK: - view lifecycle
@@ -90,14 +90,13 @@ extension CategoryListViewController: UICollectionViewDelegateFlowLayout {
 //MARK: - collectionview datasource
 extension CategoryListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return Subject.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryListCollectionViewCell.identifier, for: indexPath)
                 as? CategoryListCollectionViewCell else { return UICollectionViewCell() }
-        cell.setupView()
-        cell.categoryLabel.text = titles[indexPath.item]
+        cell.configureWith(categoryItem: Subject.allCases[indexPath.row])
         return cell
     }
 }
@@ -105,9 +104,7 @@ extension CategoryListViewController: UICollectionViewDataSource {
 //MARK: - collectionview delegate
 extension CategoryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as? CategoryListCollectionViewCell
-        let categoryDetailViewController = CategoryDetailViewController()
-        categoryDetailViewController.navigationTitle.text = cell?.categoryLabel.text
+        let categoryDetailViewController = CategoryDetailViewController(categoryItem: Subject.allCases[indexPath.row])
         navigationController?.pushViewController(categoryDetailViewController, animated: true)
     }
 }

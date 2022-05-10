@@ -66,7 +66,7 @@ class ClassCategoryCollectionViewCell: UICollectionViewCell {
 
     func configure(with category: CategoryItem) {
         categoryItem = category
-        nameLabel.text = category.text
+        nameLabel.text = category.description
     }
 
     // MARK: Actions

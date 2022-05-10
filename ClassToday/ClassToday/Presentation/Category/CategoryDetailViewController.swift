@@ -16,7 +16,7 @@ class CategoryDetailViewController: UIViewController {
     
     lazy var navigationTitle: UILabel = {
         let navigationTitle = UILabel()
-        navigationTitle.text = Subject.korean.text
+        navigationTitle.text = Subject.korean.description
         navigationTitle.font = .systemFont(ofSize: 18.0, weight: .semibold)
         return navigationTitle
     }()
@@ -43,6 +43,7 @@ class CategoryDetailViewController: UIViewController {
         classItemTableView.refreshControl = refreshControl
         classItemTableView.rowHeight = 150.0
         classItemTableView.dataSource = self
+        classItemTableView.delegate = self
         classItemTableView.register(ClassItemTableViewCell.self, forCellReuseIdentifier: ClassItemTableViewCell.identifier)
         return classItemTableView
     }()
@@ -52,7 +53,22 @@ class CategoryDetailViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
         return refreshControl
     }()
+
+    // MARK: Properties
+
+    private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
     
+    // MARK: Initialize
+
+    init(categoryItem: CategoryItem) {
+        super.init(nibName: nil, bundle: nil)
+        navigationTitle.text = categoryItem.description
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,7 +126,7 @@ private extension CategoryDetailViewController {
 //MARK: - tableview datasource
 extension CategoryDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return datas.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -118,7 +134,17 @@ extension CategoryDetailViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        cell.setupView()
+        let classItem = datas[indexPath.row]
+        cell.configureWith(classItem: classItem)
         return cell
+    }
+}
+
+// MARK: TableViewDelegate
+
+extension CategoryDetailViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let classItem = datas[indexPath.row]
+        navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
     }
 }
