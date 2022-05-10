@@ -11,16 +11,31 @@
 		6B7997C027F33C5A00F37393 /* ClassItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7997BF27F33C5A00F37393 /* ClassItem.swift */; };
 		895D107627F32DCA009FB26F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107527F32DCA009FB26F /* AppDelegate.swift */; };
 		895D107827F32DCA009FB26F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107727F32DCA009FB26F /* SceneDelegate.swift */; };
-		895D107A27F32DCA009FB26F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D107927F32DCA009FB26F /* ViewController.swift */; };
 		895D107F27F32DCB009FB26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895D107E27F32DCB009FB26F /* Assets.xcassets */; };
 		895D108227F32DCB009FB26F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 895D108027F32DCB009FB26F /* LaunchScreen.storyboard */; };
 		9196AAD50C5BE048B1FD35B8 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */; };
+		FC3458672816E5A800EB7B43 /* CategoryListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3458662816E5A800EB7B43 /* CategoryListCollectionViewCell.swift */; };
+		FC58F0F8280F12FE00AB9B07 /* StarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */; };
+		FC58F0FA280F134D00AB9B07 /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */; };
+		FC58F0FC280F137900AB9B07 /* CategoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */; };
+		FC8507D228202036008A8618 /* SearchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8507D128202036008A8618 /* SearchHistory.swift */; };
+		FC87FAA0281ECF6500F57CE0 /* SearchRecentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC87FA9F281ECF6500F57CE0 /* SearchRecentTableViewCell.swift */; };
+		FC8C096B281745E400BC9AB1 /* MainColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8C096A281745E400BC9AB1 /* MainColor.swift */; };
+		FCC283F4280F1CB000D75125 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC283F3280F1CB000D75125 /* Category.swift */; };
 		FCD0448927F334F20005C5B3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448827F334F20005C5B3 /* SnapKit */; };
 		FCD0448C27F3351F0005C5B3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448B27F3351F0005C5B3 /* Alamofire */; };
 		FCD0448F27F336450005C5B3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0448E27F336450005C5B3 /* FirebaseAuth */; };
 		FCD0449127F336450005C5B3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0449027F336450005C5B3 /* FirebaseFirestore */; };
 		FCD0449327F336450005C5B3 /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0449227F336450005C5B3 /* FirebaseFirestoreSwift-Beta */; };
 		FCD0449527F336450005C5B3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FCD0449427F336450005C5B3 /* FirebaseStorage */; };
+		FCDB85542824D78400273A9A /* CustomBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB85532824D78400273A9A /* CustomBarButton.swift */; };
+		FCF850F2280DB65D00D5D3DC /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F1280DB65D00D5D3DC /* TabbarController.swift */; };
+		FCF850F4280DB6F000D5D3DC /* Tabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F3280DB6F000D5D3DC /* Tabbar.swift */; };
+		FCF850F7280DBCFE00D5D3DC /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F6280DBCFE00D5D3DC /* Icon.swift */; };
+		FCF850FA280DC02800D5D3DC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F9280DC02800D5D3DC /* MainViewController.swift */; };
+		FCF850FC280DC05900D5D3DC /* ClassItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850FB280DC05900D5D3DC /* ClassItemTableViewCell.swift */; };
+		FCF850FF280E6AD300D5D3DC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */; };
+		FCF85101280E7F9F00D5D3DC /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF85100280E7F9F00D5D3DC /* SearchResultViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,13 +44,28 @@
 		895D107227F32DCA009FB26F /* ClassToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895D107527F32DCA009FB26F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		895D107727F32DCA009FB26F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		895D107927F32DCA009FB26F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		895D107E27F32DCB009FB26F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		895D108127F32DCB009FB26F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		895D108327F32DCB009FB26F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B1B5B55E74C617CE7D0C8E1 /* Pods-ClassToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.debug.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.debug.xcconfig"; sourceTree = "<group>"; };
 		B4A6B5014A1414205450D390 /* Pods-ClassToday.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.release.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.release.xcconfig"; sourceTree = "<group>"; };
 		D0B7506373E8876C1B9CB2FB /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC3458662816E5A800EB7B43 /* CategoryListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListCollectionViewCell.swift; sourceTree = "<group>"; };
+		FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarViewController.swift; sourceTree = "<group>"; };
+		FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
+		FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailViewController.swift; sourceTree = "<group>"; };
+		FC8507D128202036008A8618 /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
+		FC87FA9F281ECF6500F57CE0 /* SearchRecentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecentTableViewCell.swift; sourceTree = "<group>"; };
+		FC8C096A281745E400BC9AB1 /* MainColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainColor.swift; sourceTree = "<group>"; };
+		FCC283F3280F1CB000D75125 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		FCDB85532824D78400273A9A /* CustomBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBarButton.swift; sourceTree = "<group>"; };
+		FCF850F1280DB65D00D5D3DC /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
+		FCF850F3280DB6F000D5D3DC /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
+		FCF850F6280DBCFE00D5D3DC /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
+		FCF850F9280DC02800D5D3DC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		FCF850FB280DC05900D5D3DC /* ClassItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassItemTableViewCell.swift; sourceTree = "<group>"; };
+		FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		FCF85100280E7F9F00D5D3DC /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +92,6 @@
 				9B1B5B55E74C617CE7D0C8E1 /* Pods-ClassToday.debug.xcconfig */,
 				B4A6B5014A1414205450D390 /* Pods-ClassToday.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -106,13 +135,84 @@
 			children = (
 				895D107527F32DCA009FB26F /* AppDelegate.swift */,
 				895D107727F32DCA009FB26F /* SceneDelegate.swift */,
+				FCF850F8280DBDE900D5D3DC /* Common */,
 				6B7997BE27F33C4F00F37393 /* Model */,
-				895D107927F32DCA009FB26F /* ViewController.swift */,
-				895D107E27F32DCB009FB26F /* Assets.xcassets */,
+				FCF850FD280E6A8700D5D3DC /* Presentation */,
 				895D108027F32DCB009FB26F /* LaunchScreen.storyboard */,
+				895D107E27F32DCB009FB26F /* Assets.xcassets */,
 				895D108327F32DCB009FB26F /* Info.plist */,
 			);
 			path = ClassToday;
+			sourceTree = "<group>";
+		};
+		FC3458682816F55A00EB7B43 /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				FCF850F1280DB65D00D5D3DC /* TabbarController.swift */,
+			);
+			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		FC3458692816F56300EB7B43 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				FCF850F9280DC02800D5D3DC /* MainViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		FC34586A2816F56D00EB7B43 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				FC87FA9F281ECF6500F57CE0 /* SearchRecentTableViewCell.swift */,
+				FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */,
+				FCF85100280E7F9F00D5D3DC /* SearchResultViewController.swift */,
+				FC8507D128202036008A8618 /* SearchHistory.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		FC34586B2816F57600EB7B43 /* Star */ = {
+			isa = PBXGroup;
+			children = (
+				FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */,
+			);
+			path = Star;
+			sourceTree = "<group>";
+		};
+		FC34586C2816F57D00EB7B43 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				FC3458662816E5A800EB7B43 /* CategoryListCollectionViewCell.swift */,
+				FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */,
+				FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		FCF850F8280DBDE900D5D3DC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				FCF850F3280DB6F000D5D3DC /* Tabbar.swift */,
+				FCF850F6280DBCFE00D5D3DC /* Icon.swift */,
+				FCC283F3280F1CB000D75125 /* Category.swift */,
+				FC8C096A281745E400BC9AB1 /* MainColor.swift */,
+				FCDB85532824D78400273A9A /* CustomBarButton.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		FCF850FD280E6A8700D5D3DC /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				FCF850FB280DC05900D5D3DC /* ClassItemTableViewCell.swift */,
+				FC3458682816F55A00EB7B43 /* Tabbar */,
+				FC3458692816F56300EB7B43 /* Main */,
+				FC34586A2816F56D00EB7B43 /* Search */,
+				FC34586C2816F57D00EB7B43 /* Category */,
+				FC34586B2816F57600EB7B43 /* Star */,
+			);
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,9 +269,9 @@
 			);
 			mainGroup = 895D106927F32DCA009FB26F;
 			packageReferences = (
-				FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit.git" */,
-				FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire.git" */,
-				FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
+				FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 895D107327F32DCA009FB26F /* Products */;
 			projectDirPath = "";
@@ -224,11 +324,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC3458672816E5A800EB7B43 /* CategoryListCollectionViewCell.swift in Sources */,
+				FC8507D228202036008A8618 /* SearchHistory.swift in Sources */,
+				FCF850FC280DC05900D5D3DC /* ClassItemTableViewCell.swift in Sources */,
+				FC58F0FA280F134D00AB9B07 /* CategoryListViewController.swift in Sources */,
+				FCDB85542824D78400273A9A /* CustomBarButton.swift in Sources */,
 				6B7997BD27F33C4C00F37393 /* User.swift in Sources */,
-				895D107A27F32DCA009FB26F /* ViewController.swift in Sources */,
 				895D107627F32DCA009FB26F /* AppDelegate.swift in Sources */,
+				FCF850F7280DBCFE00D5D3DC /* Icon.swift in Sources */,
+				FC58F0F8280F12FE00AB9B07 /* StarViewController.swift in Sources */,
 				895D107827F32DCA009FB26F /* SceneDelegate.swift in Sources */,
+				FCF850F4280DB6F000D5D3DC /* Tabbar.swift in Sources */,
+				FC8C096B281745E400BC9AB1 /* MainColor.swift in Sources */,
+				FCF850FF280E6AD300D5D3DC /* SearchViewController.swift in Sources */,
+				FCF850F2280DB65D00D5D3DC /* TabbarController.swift in Sources */,
+				FCF85101280E7F9F00D5D3DC /* SearchResultViewController.swift in Sources */,
+				FCC283F4280F1CB000D75125 /* Category.swift in Sources */,
 				6B7997C027F33C5A00F37393 /* ClassItem.swift in Sources */,
+				FCF850FA280DC02800D5D3DC /* MainViewController.swift in Sources */,
+				FC87FAA0281ECF6500F57CE0 /* SearchRecentTableViewCell.swift in Sources */,
+				FC58F0FC280F137900AB9B07 /* CategoryDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,7 +485,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 67D46DJNPH;
+				DEVELOPMENT_TEAM = UZ47X98976;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClassToday/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -399,7 +514,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 67D46DJNPH;
+				DEVELOPMENT_TEAM = UZ47X98976;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClassToday/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -444,7 +559,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit.git" */ = {
+		FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -452,7 +567,7 @@
 				kind = branch;
 			};
 		};
-		FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
+		FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -460,7 +575,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
+		FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -473,32 +588,32 @@
 /* Begin XCSwiftPackageProductDependency section */
 		FCD0448827F334F20005C5B3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit.git" */;
+			package = FCD0448727F334F20005C5B3 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 		FCD0448B27F3351F0005C5B3 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = FCD0448A27F3351F0005C5B3 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		FCD0448E27F336450005C5B3 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
 		FCD0449027F336450005C5B3 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
 		};
 		FCD0449227F336450005C5B3 /* FirebaseFirestoreSwift-Beta */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseFirestoreSwift-Beta";
 		};
 		FCD0449427F336450005C5B3 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FCD0448D27F336450005C5B3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
