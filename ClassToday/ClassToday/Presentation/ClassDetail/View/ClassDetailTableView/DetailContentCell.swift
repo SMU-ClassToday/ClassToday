@@ -44,30 +44,15 @@ class DetailContentCell: UITableViewCell {
         return stackView
     }()
 
-    private lazy var subjectView: DetailContentCategoryView = {
-        let view = DetailContentCategoryView()
-        return view
-    }()
+    private lazy var subjectView = DetailContentCategoryView()
 
-    private lazy var targetView: DetailContentCategoryView = {
-        let view = DetailContentCategoryView()
-        return view
-    }()
+    private lazy var targetView = DetailContentCategoryView()
 
-    private lazy var timeLabel: DetailContentTimeView = {
-        let label = DetailContentTimeView()
-        return label
-    }()
+    private lazy var timeLabel = DetailContentTimeView()
 
-    private lazy var priceLabel: DetailContentPriceView = {
-        let label = DetailContentPriceView()
-        return label
-    }()
+    private lazy var priceLabel = DetailContentPriceView()
 
-    private lazy var placeLabel: DetailContentPlaceView = {
-        let label = DetailContentPlaceView()
-        return label
-    }()
+    private lazy var placeLabel = DetailContentPlaceView()
 
     private lazy var spacer: UIView = {
         let view = UIView()
