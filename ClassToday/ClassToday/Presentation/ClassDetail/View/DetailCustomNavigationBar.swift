@@ -13,7 +13,7 @@ protocol DetailCustomNavigationBarDelegate: AnyObject {
 
 class DetailCustomNavigationBar: UIView {
 
-    // MARK: Views
+    // MARK: - Views
 
     lazy var backButton: UIButton = {
         let button = UIButton()
@@ -56,12 +56,12 @@ class DetailCustomNavigationBar: UIView {
         return view
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: DetailCustomNavigationBarDelegate?
     private let viewWidth = UIScreen.main.bounds.width
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -81,6 +81,8 @@ class DetailCustomNavigationBar: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func setupUI() {
         setupAttributes()
@@ -126,7 +128,7 @@ class DetailCustomNavigationBar: UIView {
         }
     }
 
-    // MARK: Method for change bar status
+    // MARK: - Method for change bar status
 
     func setupWhiteBackground() {
         gradientLayer.backgroundColor = UIColor.white.cgColor
@@ -144,7 +146,7 @@ class DetailCustomNavigationBar: UIView {
         }
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func didTapBackButton(_ button: UIButton) {
         delegate?.goBackPage()

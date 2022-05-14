@@ -14,7 +14,7 @@ protocol EnrollDateCellDelegate: AnyObject {
 
 class EnrollDateCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var dateTextField: UITextField = {
         let textField = UITextField()
@@ -23,13 +23,13 @@ class EnrollDateCell: UITableViewCell {
         return textField
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: EnrollDateCellDelegate?
     static let identifier = "EnrollDateCell"
     var selectedDate: Set<Date> = []
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,6 +41,8 @@ class EnrollDateCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(dateTextField)
@@ -73,7 +75,7 @@ class EnrollDateCell: UITableViewCell {
     }
 }
 
-// MARK: Touch 관련 Extension
+// MARK: - Touch 관련 Extension
 
 extension EnrollDateCell {
 
@@ -85,7 +87,7 @@ extension EnrollDateCell {
         self.addGestureRecognizer(singleTapGestureRecognizer)
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func myTapMethod(_ sender: UITapGestureRecognizer) {
         let viewController = ClassDateSelectionViewController()
@@ -97,7 +99,8 @@ extension EnrollDateCell {
     }
 }
 
-// MARK: DateSelectionViewControllerDelegate
+// MARK: - DateSelectionViewControllerDelegate
+
 extension EnrollDateCell: ClassDateSelectionViewControllerDelegate {
     func selectionResult(date: Set<Date>) {
         configureWith(date: date)

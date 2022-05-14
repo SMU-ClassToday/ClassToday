@@ -13,7 +13,7 @@ protocol EnrollPlaceCellDelegate: AnyObject {
 
 class EnrollPlaceCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var placeTextField: UITextField = {
         let textField = UITextField()
@@ -33,12 +33,12 @@ class EnrollPlaceCell: UITableViewCell {
         return button
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: EnrollPlaceCellDelegate?
     static let identifier = "EnrollPlaceCell"
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -49,6 +49,8 @@ class EnrollPlaceCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(placeTextField)
@@ -70,14 +72,15 @@ class EnrollPlaceCell: UITableViewCell {
         placeTextField.text = place
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func selectPlace(_ button: UIButton) {
         debugPrint(#function)
     }
 }
 
-// MARK: UITextFieldDelegate
+// MARK: - UITextFieldDelegate
+
 extension EnrollPlaceCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

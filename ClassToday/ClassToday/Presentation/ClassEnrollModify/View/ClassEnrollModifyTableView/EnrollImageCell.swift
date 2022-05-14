@@ -15,7 +15,7 @@ protocol EnrollImageCellDelegate: AnyObject {
 
 class EnrollImageCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var imageEnrollCollectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
@@ -31,7 +31,7 @@ class EnrollImageCell: UITableViewCell {
         return collectionView
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: EnrollImageCellDelegate?
     static var identifier = "EnrollImageCell"
@@ -48,7 +48,7 @@ class EnrollImageCell: UITableViewCell {
         return limitImageCount - (images.count)
     }
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -59,6 +59,8 @@ class EnrollImageCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(imageEnrollCollectionView)
@@ -73,7 +75,7 @@ class EnrollImageCell: UITableViewCell {
     }
 }
 
-// MARK: CollectionViewDataSource
+// MARK: - CollectionViewDataSource
 
 extension EnrollImageCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -99,7 +101,7 @@ extension EnrollImageCell: UICollectionViewDataSource {
     }
 }
 
-// MARK: CollectionViewDeleagetFlowLayout
+// MARK: - CollectionViewDeleagetFlowLayout
 
 extension EnrollImageCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -113,7 +115,7 @@ extension EnrollImageCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: CollectionViewDelegate
+// MARK: - CollectionViewDelegate
 
 extension EnrollImageCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -138,7 +140,7 @@ extension EnrollImageCell: UICollectionViewDelegate {
     }
 }
 
-// MARK: ClassImageCellDelegate
+// MARK: - ClassImageCellDelegate
 
 extension EnrollImageCell: ClassImageCellDelegate {
     func deleteImageCell(indexPath: IndexPath) {
@@ -150,7 +152,7 @@ extension EnrollImageCell: ClassImageCellDelegate {
     }
 }
 
-// MARK: PHPickerViewControllerDelegate
+// MARK: - PHPickerViewControllerDelegate
 
 extension EnrollImageCell: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {

@@ -9,7 +9,7 @@ import UIKit
 
 class DetailContentCategoryCollectionViewCell: UICollectionViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var categoryButton: UIButton = {
         let button = UIButton()
@@ -27,12 +27,12 @@ class DetailContentCategoryCollectionViewCell: UICollectionViewCell {
         return button
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     static let identifier = "DetailContentCategoryCollectionViewCell"
     static let height = CGFloat(32)
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,6 +42,8 @@ class DetailContentCategoryCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(categoryButton)

@@ -13,7 +13,8 @@ protocol EnrollDescriptionCellDelegate: AnyObject {
 
 class EnrollDescriptionCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
+
     private lazy var descriptionTextView: UITextView = {
         let textView = UITextView(frame: .zero)
         textView.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -25,13 +26,13 @@ class EnrollDescriptionCell: UITableViewCell {
         return textView
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: EnrollDescriptionCellDelegate?
     static let identifier = "EnrollDescriptionCell"
     private let textViewPlaceHolder = "텍스트를 입력하세요(필수)"
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -42,6 +43,8 @@ class EnrollDescriptionCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(descriptionTextView)
@@ -57,7 +60,7 @@ class EnrollDescriptionCell: UITableViewCell {
     }
 }
 
-// MARK: UITextViewDelegate
+// MARK: - UITextViewDelegate
 
 extension EnrollDescriptionCell: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {

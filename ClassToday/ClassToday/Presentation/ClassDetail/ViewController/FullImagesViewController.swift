@@ -10,7 +10,7 @@ import SnapKit
 
 class FullImagesViewController: UIViewController {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: view.frame)
@@ -37,12 +37,12 @@ class FullImagesViewController: UIViewController {
         return button
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     private var images: [UIImage]? = []
     private var startIndex: Int = 0
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     init(images: [UIImage]?, startIndex: Int) {
         self.images = images
@@ -55,11 +55,14 @@ class FullImagesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: Life Cycle
+    // MARK: - Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         self.modalPresentationStyle = .fullScreen
@@ -91,14 +94,14 @@ class FullImagesViewController: UIViewController {
         }
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func dismiss(_ button: UIButton) {
         presentingViewController?.dismiss(animated: true)
     }
 }
 
-// MARK: ScrollViewDelegate
+// MARK: - ScrollViewDelegate
 
 extension FullImagesViewController: UIScrollViewDelegate {
     override func didReceiveMemoryWarning() {

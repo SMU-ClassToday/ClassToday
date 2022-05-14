@@ -14,7 +14,7 @@ protocol PriceUnitTableViewDelegate: AnyObject {
 
 class PriceUnitTableView: UIView {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -26,11 +26,11 @@ class PriceUnitTableView: UIView {
         return tableView
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: PriceUnitTableViewDelegate?
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,6 +41,8 @@ class PriceUnitTableView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Method
+
     private func configureUI() {
         self.addSubview(tableView)
         tableView.snp.makeConstraints {
@@ -50,7 +52,7 @@ class PriceUnitTableView: UIView {
     }
 }
 
-// MARK: TableViewDataSource
+// MARK: - TableViewDataSource
 
 extension PriceUnitTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,7 +68,7 @@ extension PriceUnitTableView: UITableViewDataSource {
     }
 }
 
-// MARK: TableViewDelegate
+// MARK: - TableViewDelegate
 
 extension PriceUnitTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

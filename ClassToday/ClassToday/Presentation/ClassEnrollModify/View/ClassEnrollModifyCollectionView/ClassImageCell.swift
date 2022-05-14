@@ -14,20 +14,21 @@ protocol ClassImageCellDelegate: AnyObject {
 
 class ClassImageCell: UICollectionViewCell {
 
-    // MARK: Views
+    // MARK: - Views
+
     private lazy var classImageView: ClassImageView = {
         let imageView = ClassImageView()
         imageView.delegate = self
         return imageView
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: ClassImageCellDelegate?
     static let identifier = "ClassImageCell"
     private var indexPath: IndexPath?
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,6 +38,8 @@ class ClassImageCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(classImageView)
@@ -51,7 +54,7 @@ class ClassImageCell: UICollectionViewCell {
     }
 }
 
-// MARK: ClassImageViewDelegate
+// MARK: - ClassImageViewDelegate
 
 extension ClassImageCell: ClassImageViewDelegate {
     func deleteClicked() {

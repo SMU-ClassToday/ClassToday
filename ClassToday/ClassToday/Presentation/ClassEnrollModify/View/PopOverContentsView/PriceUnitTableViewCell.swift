@@ -10,18 +10,19 @@ import SnapKit
 
 class PriceUnitTableViewCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
+
     private lazy var label: UILabel = {
         let label = UILabel()
         return label
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     static let identifier = "PriceUnitTableViewCell"
     static let height: CGFloat = 40.0
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,6 +32,8 @@ class PriceUnitTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(label)

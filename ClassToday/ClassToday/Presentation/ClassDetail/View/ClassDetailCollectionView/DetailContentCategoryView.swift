@@ -9,7 +9,7 @@ import UIKit
 
 class DetailContentCategoryView: UIView {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var headLabel: UILabel = {
         let label = UILabel()
@@ -42,11 +42,11 @@ class DetailContentCategoryView: UIView {
         return collectionView
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     var data: [CategoryItem] = []
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,6 +56,8 @@ class DetailContentCategoryView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         self.addSubview(headLabel)
@@ -92,7 +94,7 @@ class DetailContentCategoryView: UIView {
     }
 }
 
-// MARK: CollectionViewDataSource
+// MARK: - CollectionViewDataSource
 
 extension DetailContentCategoryView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -110,7 +112,7 @@ extension DetailContentCategoryView: UICollectionViewDataSource {
     }
 }
 
-// MARK: CollectionViewDelegateFlowLayout
+// MARK: - CollectionViewDelegateFlowLayout
 
 extension DetailContentCategoryView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

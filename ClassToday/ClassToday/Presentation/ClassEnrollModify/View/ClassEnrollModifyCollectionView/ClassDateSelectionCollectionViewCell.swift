@@ -13,7 +13,7 @@ protocol ClassDateSelectionCollectionViewCellDelegate: AnyObject {
 
 class ClassDateSelectionCollectionViewCell: UICollectionViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -32,14 +32,14 @@ class ClassDateSelectionCollectionViewCell: UICollectionViewCell {
         return button
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: ClassDateSelectionCollectionViewCellDelegate?
     static let identifier = "ClassDateSelectionCollectionViewCell"
     static let height: CGFloat = 40.0
     private var date: Date?
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,6 +49,8 @@ class ClassDateSelectionCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureLayout() {
         contentView.addSubview(nameLabel)
