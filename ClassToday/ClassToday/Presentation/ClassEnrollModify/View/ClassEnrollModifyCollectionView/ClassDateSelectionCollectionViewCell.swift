@@ -27,6 +27,7 @@ class ClassDateSelectionCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "square"), for: .normal)
         button.setImage(UIImage(systemName: "checkmark.square"), for: .selected)
+        button.tintColor = .mainColor
         button.addTarget(self, action: #selector(clicked(_:)), for: .touchDown)
         return button
     }()

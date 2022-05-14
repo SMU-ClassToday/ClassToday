@@ -28,6 +28,7 @@ class EnrollPlaceCell: UITableViewCell {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "map"), for: .normal)
+        button.tintColor = .mainColor
         button.addTarget(self, action: #selector(selectPlace(_:)), for: .touchDown)
         return button
     }()

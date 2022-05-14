@@ -14,9 +14,9 @@ class TabbarController: UITabBarController {
     //MARK: - UI Components
     lazy var alertController: UIAlertController = {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        alertController.view.tintColor = UIColor.gray
-        
+
+        alertController.view.tintColor = UIColor.mainColor
+
         let buyUploadAction = UIAlertAction(title: "구매글 작성", style: .default) { [weak self] _ in
             guard let self = self else { return }
             self.present(ClassEnrollViewController(classItemType: .buy), animated: true, completion: nil)

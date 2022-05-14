@@ -17,9 +17,9 @@ class DetailCustomNavigationBar: UIView {
 
     lazy var backButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "arrow.left"), for: .normal)
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
-        button.tintColor = .black
+        button.tintColor = .mainColor
         button.addTarget(self, action: #selector(didTapBackButton(_:)), for: .touchUpInside)
         return button
     }()
@@ -29,7 +29,7 @@ class DetailCustomNavigationBar: UIView {
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.setImage(UIImage(systemName: "star.fill"), for: .selected)
         button.imageView?.contentMode = .scaleAspectFit
-        button.tintColor = .black
+        button.tintColor = .mainColor
         button.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
         return button
     }()
@@ -38,7 +38,7 @@ class DetailCustomNavigationBar: UIView {
         let button = UIButton()
         button.setImage(UIImage(systemName: "exclamationmark.circle"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
-        button.tintColor = .black
+        button.tintColor = .mainColor
         button.addTarget(self, action: #selector(didTapReportButton(_:)), for: .touchUpInside)
         return button
     }()
