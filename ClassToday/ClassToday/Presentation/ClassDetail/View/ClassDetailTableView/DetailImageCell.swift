@@ -34,6 +34,16 @@ class DetailImageCell: UITableViewCell {
         return pageControl
     }()
 
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 0
+        stackView.distribution = .fill
+        return stackView
+    }()
+    
+    private lazy var scrollContentView = UIView()
+    
     // MARK: Properties
 
     weak var delegate: DetailImageCellDelegate?
@@ -60,27 +70,33 @@ class DetailImageCell: UITableViewCell {
     }
 
     private func configureUI() {
-        let width = contentView.frame.width
-        let height = contentView.frame.height
         guard let images = images else { return }
 
         for index in 0 ..< images.count {
-            let imageView = UIImageView(frame: CGRect(x: CGFloat(index) * width, y: 0, width: width, height: height))
+            let imageView = UIImageView()
             imageView.contentMode = .scaleToFill
             imageView.image = images[index]
             imageView.isUserInteractionEnabled = true
-            scrollView.addSubview(imageView)
+            stackView.addArrangedSubview(imageView)
+            imageView.snp.makeConstraints {
+                $0.width.equalTo(contentView.frame.width)
+                $0.height.equalTo(contentView.frame.height)
+            }
         }
 
         contentView.addSubview(scrollView)
-        scrollView.addSubview(pageControl)
         scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        scrollView.addSubview(stackView)
+        scrollView.addSubview(pageControl)
+        stackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.height.equalToSuperview()
         }
-
         pageControl.snp.makeConstraints {
-            $0.width.bottom.centerX.equalToSuperview()
+            $0.width.bottom.centerX.equalTo(contentView)
             $0.height.equalTo(30)
         }
     }

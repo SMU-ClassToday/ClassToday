@@ -36,6 +36,7 @@ class DetailContentCategoryView: UIView {
         collectionView.register(DetailContentCategoryCollectionViewCell.self,
                                 forCellWithReuseIdentifier: DetailContentCategoryCollectionViewCell.identifier)
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.backgroundColor = .white
         collectionView.isScrollEnabled = false
         return collectionView
@@ -104,7 +105,18 @@ extension DetailContentCategoryView: UICollectionViewDataSource {
                 for: indexPath) as? DetailContentCategoryCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.configureWith(category: data[indexPath.row])
+        cell.configureWith(category: data[indexPath.item])
         return cell
+    }
+}
+
+// MARK: CollectionViewDelegateFlowLayout
+
+extension DetailContentCategoryView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let fontsize = data[indexPath.item].description.size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium)])
+        let width = fontsize.width
+        let height = fontsize.height
+        return CGSize(width: width + 24, height: height)
     }
 }

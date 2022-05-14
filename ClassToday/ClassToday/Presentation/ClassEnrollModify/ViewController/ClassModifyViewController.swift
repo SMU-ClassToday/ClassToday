@@ -34,15 +34,6 @@ class ClassModifyViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(EnrollImageCell.self, forCellReuseIdentifier: EnrollImageCell.identifier)
-        tableView.register(EnrollNameCell.self, forCellReuseIdentifier: EnrollNameCell.identifier)
-        tableView.register(EnrollTimeCell.self, forCellReuseIdentifier: EnrollTimeCell.identifier)
-        tableView.register(EnrollDateCell.self, forCellReuseIdentifier: EnrollDateCell.identifier)
-        tableView.register(EnrollPlaceCell.self, forCellReuseIdentifier: EnrollPlaceCell.identifier)
-        tableView.register(EnrollPriceCell.self, forCellReuseIdentifier: EnrollPriceCell.identifier)
-        tableView.register(EnrollDescriptionCell.self,
-                           forCellReuseIdentifier: EnrollDescriptionCell.identifier)
-        tableView.register(EnrollCategoryCell.self, forCellReuseIdentifier: EnrollCategoryCell.identifier)
         tableView.separatorStyle = .none
         tableView.selectionFollowsFocus = false
         return tableView
@@ -209,57 +200,49 @@ extension ClassModifyViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollImageCell.identifier, for: indexPath)
-                    as? EnrollImageCell else { return UITableViewCell() }
+            let cell = EnrollImageCell()
             cell.delegate = self
             cell.configureWith(images: classItem.images)
             return cell
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollNameCell.identifier, for: indexPath)
-                    as? EnrollNameCell else { return UITableViewCell() }
+            let cell = EnrollNameCell()
             cell.delegate = self
             cell.setUnderline()
             cell.configureWith(name: classItem.name)
             return cell
         case 2:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollTimeCell.identifier, for: indexPath)
-                    as? EnrollTimeCell else { return UITableViewCell() }
+            let cell = EnrollTimeCell()
             cell.delegate = self
             cell.setUnderline()
             cell.configureWithItemType()
             cell.configureWith(time: classItem.time)
             return cell
         case 3:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDateCell.identifier, for: indexPath)
-                    as? EnrollDateCell else { return UITableViewCell() }
+            let cell = EnrollDateCell()
             cell.delegate = self
             cell.setUnderline()
             cell.configureWith(date: classItem.date)
             return cell
         case 4:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPlaceCell.identifier, for: indexPath)
-                    as? EnrollPlaceCell else { return UITableViewCell() }
+            let cell = EnrollPlaceCell()
             cell.delegate = self
             cell.setUnderline()
             cell.configureWith(place: classItem.place)
             return cell
         case 5:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPriceCell.identifier, for: indexPath)
-                    as? EnrollPriceCell else { return UITableViewCell() }
+            let cell = EnrollPriceCell()
             cell.delegate = self
             cell.setUnderline()
             cell.configureWith(price: classItem.price, priceUnit: classPriceUnit)
             delegate = cell
             return cell
         case 6:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDescriptionCell.identifier, for: indexPath)
-                    as? EnrollDescriptionCell else { return UITableViewCell() }
+            let cell = EnrollDescriptionCell()
             cell.delegate = self
             cell.configureWith(description: classDescription)
             return cell
         case 7:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollCategoryCell.identifier, for: indexPath)
-                    as? EnrollCategoryCell else { return UITableViewCell() }
+            let cell = EnrollCategoryCell()
             cell.delegate = self
             cell.configureType(with: CategoryType.allCases[indexPath.row])
             return cell

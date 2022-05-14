@@ -13,6 +13,7 @@ class ClassImageEnrollCell: UICollectionViewCell {
 
     private lazy var classImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "camera")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         return imageView
     }()
 
@@ -61,7 +62,6 @@ class ClassImageEnrollCell: UICollectionViewCell {
     }
 
     func configureWith(count: Int) {
-        classImageView.image = UIImage(systemName: "camera")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         imageCountLabel.text = "\(count) / \(limitImageCount)"
     }
 }
