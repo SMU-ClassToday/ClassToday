@@ -13,7 +13,7 @@ protocol EnrollNameCellDelegate: AnyObject {
 
 class EnrollNameCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var nameTextField: UITextField = {
         let textField = UITextField()
@@ -23,12 +23,12 @@ class EnrollNameCell: UITableViewCell {
         return textField
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     static let identifier = "EnrollNameCell"
     weak var delegate: EnrollNameCellDelegate?
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -39,6 +39,8 @@ class EnrollNameCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(nameTextField)
@@ -58,7 +60,7 @@ class EnrollNameCell: UITableViewCell {
     }
 }
 
-// MARK: UITextFieldDelegate
+// MARK: - UITextFieldDelegate
 extension EnrollNameCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

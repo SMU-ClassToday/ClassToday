@@ -14,7 +14,7 @@ protocol EnrollCategoryCellDelegate: AnyObject {
 
 class EnrollCategoryCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -37,7 +37,7 @@ class EnrollCategoryCell: UITableViewCell {
         return collectionView
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: EnrollCategoryCellDelegate?
     static let identifier = "EnrollCategoryCell"
@@ -45,7 +45,7 @@ class EnrollCategoryCell: UITableViewCell {
     private var selectedTargetCategory: Set<Target> = []
     private var categoryType: CategoryType = .subject
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -56,6 +56,8 @@ class EnrollCategoryCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(collectionView)
@@ -70,7 +72,7 @@ class EnrollCategoryCell: UITableViewCell {
     }
 }
 
-// MARK: UICollectionViewDataSource
+// MARK: - UICollectionViewDataSource
 
 extension EnrollCategoryCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -111,7 +113,7 @@ extension EnrollCategoryCell: UICollectionViewDataSource {
     }
 }
 
-// MARK: UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension EnrollCategoryCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -121,7 +123,7 @@ extension EnrollCategoryCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: CategoryCollectionViewCellDelegate
+// MARK: - CategoryCollectionViewCellDelegate
 
 extension EnrollCategoryCell: ClassCategoryCollectionViewCellDelegate {
     func reflectSelection(item: CategoryItem?, isChecked: Bool) {

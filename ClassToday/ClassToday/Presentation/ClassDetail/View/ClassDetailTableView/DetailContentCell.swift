@@ -9,7 +9,7 @@ import UIKit
 
 class DetailContentCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -59,12 +59,12 @@ class DetailContentCell: UITableViewCell {
         return view
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     static let identifier = "DetailContentCell"
     private var classItem: ClassItem?
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -74,6 +74,8 @@ class DetailContentCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(stackView)

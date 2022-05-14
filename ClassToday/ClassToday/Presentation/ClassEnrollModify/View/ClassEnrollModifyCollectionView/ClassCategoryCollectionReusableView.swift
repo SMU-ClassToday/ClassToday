@@ -9,7 +9,7 @@ import UIKit
 
 class ClassCategoryCollectionReusableView: UICollectionReusableView {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -25,12 +25,12 @@ class ClassCategoryCollectionReusableView: UICollectionReusableView {
         return label
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     static let identifier = "ClassCategoryCollectionReusableView"
     static let height = 36
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,6 +40,8 @@ class ClassCategoryCollectionReusableView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         self.addSubview(titleLabel)

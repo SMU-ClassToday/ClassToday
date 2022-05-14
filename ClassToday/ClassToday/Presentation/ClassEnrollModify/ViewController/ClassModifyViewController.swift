@@ -11,7 +11,7 @@ import Popover
 
 class ClassModifyViewController: UIViewController {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var customNavigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar()
@@ -44,7 +44,7 @@ class ClassModifyViewController: UIViewController {
         return popover
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: ClassItemCellUpdateDelegate?
     private var classItem: ClassItem
@@ -59,7 +59,7 @@ class ClassModifyViewController: UIViewController {
     private var classSubject: Set<Subject>?
     private var classTarget: Set<Target>?
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     init(classItem: ClassItem) {
         self.classItem = classItem
@@ -81,13 +81,15 @@ class ClassModifyViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: Life Cycle
+    // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureGesture()
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         configureNavigationBar()
@@ -122,7 +124,7 @@ class ClassModifyViewController: UIViewController {
         tableView.addGestureRecognizer(singleTapGestureRecognizer)
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func myTapMethod(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -183,7 +185,7 @@ class ClassModifyViewController: UIViewController {
     }
 }
 
-// MARK: TableViewDataSource
+// MARK: - TableViewDataSource
 
 extension ClassModifyViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -252,7 +254,7 @@ extension ClassModifyViewController: UITableViewDataSource {
     }
 }
 
-// MARK: TableViewDelegate
+// MARK: - TableViewDelegate
 
 extension ClassModifyViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -282,7 +284,7 @@ extension ClassModifyViewController: UITableViewDelegate {
     }
 }
 
-// MARK: Keyboard 관련 로직
+// MARK: - Keyboard 관련 로직
 
 extension ClassModifyViewController {
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -299,7 +301,7 @@ extension ClassModifyViewController {
     }
 }
 
-// MARK: CellDelegate Extensions
+// MARK: - CellDelegate Extensions
 
 extension ClassModifyViewController: EnrollImageCellDelegate {
     func passData(images: [UIImage]) {
@@ -383,7 +385,7 @@ extension ClassModifyViewController: EnrollCategoryCellDelegate {
     }
 }
 
-// MARK: PriceUnitTableViewDelegate
+// MARK: - PriceUnitTableViewDelegate
 
 extension ClassModifyViewController: PriceUnitTableViewDelegate {
     func selectedPriceUnit(priceUnit: PriceUnit) {

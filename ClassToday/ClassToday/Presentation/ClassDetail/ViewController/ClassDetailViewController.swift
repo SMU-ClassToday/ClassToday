@@ -8,9 +8,9 @@
 import UIKit
 
 class ClassDetailViewController: UIViewController {
-    
-    // MARK: Views
-    
+
+    // MARK: - Views
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
@@ -36,37 +36,37 @@ class ClassDetailViewController: UIViewController {
         button.layer.cornerRadius = 20
         return button
     }()
-    
-    // MARK: Properties
-    
+
+    // MARK: - Properties
+
     private var classItem: ClassItem
     let viewWidth = UIScreen.main.bounds.width
-    
-    // MARK: Initialize
-    
+
+    // MARK: - Initialize
+
     init(classItem: ClassItem) {
         self.classItem = classItem
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: Life Cycle
-    
+
+    // MARK: - Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         self.setNeedsStatusBarAppearanceUpdate()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
         blackBackNavigationBar()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -74,7 +74,9 @@ class ClassDetailViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
         self.hidesBottomBarWhenPushed = false
     }
-    
+
+    // MARK: - Method
+
     private func configureUI() {
         view.backgroundColor = .white
         view.addSubview(tableView)
@@ -113,14 +115,14 @@ class ClassDetailViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .black
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func didTapMatchingButton(_ button: UIButton) {
         debugPrint(#function)
     }
 }
 
-// MARK: TableViewDataSource
+// MARK: - TableViewDataSource
 
 extension ClassDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -148,7 +150,7 @@ extension ClassDetailViewController: UITableViewDataSource {
     }
 }
 
-// MARK: TableViewDelegate
+// MARK: - TableViewDelegate
 
 extension ClassDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -173,7 +175,7 @@ extension ClassDetailViewController: UITableViewDelegate {
     }
 }
 
-// MARK: CellDelegate
+// MARK: - CellDelegate
 extension ClassDetailViewController: DetailImageCellDelegate {
     func present(_ viewController: UIViewController) {
         present(viewController, animated: true, completion: nil)
@@ -183,7 +185,7 @@ extension ClassDetailViewController: DetailImageCellDelegate {
     }
 }
 
-// MARK: NavigationBarDelegate
+// MARK: - NavigationBarDelegate
 extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
     func goBackPage() {
         navigationController?.popViewController(animated: true)

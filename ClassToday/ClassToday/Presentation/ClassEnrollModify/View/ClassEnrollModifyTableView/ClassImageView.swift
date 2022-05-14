@@ -13,7 +13,7 @@ protocol ClassImageViewDelegate: AnyObject {
 
 class ClassImageView: UIView {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var classImageView: UIImageView = {
         let imageView = UIImageView()
@@ -36,11 +36,11 @@ class ClassImageView: UIView {
         return button
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: ClassImageViewDelegate?
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,6 +50,8 @@ class ClassImageView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         self.addSubview(classImageView)
@@ -69,7 +71,7 @@ class ClassImageView: UIView {
         classImageView.image = image
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func deleteClicked(_ button: UIButton) {
         delegate?.deleteClicked()

@@ -15,7 +15,7 @@ protocol ClassItemCellUpdateDelegate: AnyObject {
 
 class ClassEnrollViewController: UIViewController {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var customNavigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar()
@@ -50,7 +50,7 @@ class ClassEnrollViewController: UIViewController {
         return popover
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: ClassItemCellUpdateDelegate?
     private let classItemType: ClassItemType
@@ -65,7 +65,7 @@ class ClassEnrollViewController: UIViewController {
     private var classSubject: Set<Subject>?
     private var classTarget: Set<Target>?
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     init(classItemType: ClassItemType) {
         self.classItemType = classItemType
@@ -77,13 +77,15 @@ class ClassEnrollViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: Life Cycle
+    // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureGesture()
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         configureNavigationBar()
@@ -118,7 +120,7 @@ class ClassEnrollViewController: UIViewController {
         tableView.addGestureRecognizer(singleTapGestureRecognizer)
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func myTapMethod(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -179,7 +181,7 @@ class ClassEnrollViewController: UIViewController {
     }
 }
 
-// MARK: TableViewDataSource
+// MARK: - TableViewDataSource
 
 extension ClassEnrollViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -238,7 +240,7 @@ extension ClassEnrollViewController: UITableViewDataSource {
     }
 }
 
-// MARK: TableViewDelegate
+// MARK: - TableViewDelegate
 
 extension ClassEnrollViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -268,7 +270,7 @@ extension ClassEnrollViewController: UITableViewDelegate {
     }
 }
 
-// MARK: Keyboard 관련 로직
+// MARK: - Keyboard 관련 로직
 
 extension ClassEnrollViewController {
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -286,7 +288,7 @@ extension ClassEnrollViewController {
     }
 }
 
-// MARK: CellDelegate Extensions
+// MARK: - CellDelegate Extensions
 
 extension ClassEnrollViewController: EnrollImageCellDelegate {
     func passData(images: [UIImage]) {
@@ -368,7 +370,7 @@ extension ClassEnrollViewController: EnrollCategoryCellDelegate {
     }
 }
 
-// MARK: PriceUnitTableViewDelegate
+// MARK: - PriceUnitTableViewDelegate
 
 extension ClassEnrollViewController: PriceUnitTableViewDelegate {
     func selectedPriceUnit(priceUnit: PriceUnit) {

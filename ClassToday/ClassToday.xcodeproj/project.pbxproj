@@ -15,7 +15,6 @@
 		89098E0D28203A04006EFD4E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E0C28203A04006EFD4E /* Category.swift */; };
 		89098E1A2820564F006EFD4E /* EnrollImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E192820564F006EFD4E /* EnrollImageCell.swift */; };
 		89098E1D2820C445006EFD4E /* ClassEnrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E1C2820C445006EFD4E /* ClassEnrollViewController.swift */; };
-		89098E202820C6A9006EFD4E /* ClassEnrollTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E1F2820C6A9006EFD4E /* ClassEnrollTableViewDataSource.swift */; };
 		89098E252820E636006EFD4E /* EnrollNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E242820E636006EFD4E /* EnrollNameCell.swift */; };
 		89098E282820EF75006EFD4E /* EnrollTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E272820EF75006EFD4E /* EnrollTimeCell.swift */; };
 		89098E2B2820F124006EFD4E /* EnrollDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E2A2820F124006EFD4E /* EnrollDateCell.swift */; };
@@ -92,7 +91,6 @@
 		89098E0C28203A04006EFD4E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		89098E192820564F006EFD4E /* EnrollImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollImageCell.swift; sourceTree = "<group>"; };
 		89098E1C2820C445006EFD4E /* ClassEnrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassEnrollViewController.swift; sourceTree = "<group>"; };
-		89098E1F2820C6A9006EFD4E /* ClassEnrollTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassEnrollTableViewDataSource.swift; sourceTree = "<group>"; };
 		89098E242820E636006EFD4E /* EnrollNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollNameCell.swift; sourceTree = "<group>"; };
 		89098E272820EF75006EFD4E /* EnrollTimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollTimeCell.swift; sourceTree = "<group>"; };
 		89098E2A2820F124006EFD4E /* EnrollDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollDateCell.swift; sourceTree = "<group>"; };
@@ -257,7 +255,6 @@
 				89098E302820FA5B006EFD4E /* EnrollPriceCell.swift */,
 				89098E332820FB4F006EFD4E /* EnrollDescriptionCell.swift */,
 				89098E362820FE5C006EFD4E /* EnrollCategoryCell.swift */,
-				89098E1F2820C6A9006EFD4E /* ClassEnrollTableViewDataSource.swift */,
 			);
 			path = ClassEnrollModifyTableView;
 			sourceTree = "<group>";
@@ -590,7 +587,6 @@
 				89098E4B282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift in Sources */,
 				89098E492824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift in Sources */,
 				89865EA5282A70EE00113242 /* StarViewController.swift in Sources */,
-				89098E202820C6A9006EFD4E /* ClassEnrollTableViewDataSource.swift in Sources */,
 				89675B172826782600933C48 /* PriceUnit.swift in Sources */,
 				89098E0D28203A04006EFD4E /* Category.swift in Sources */,
 				89098E4D28245503006EFD4E /* Date.swift in Sources */,

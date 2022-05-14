@@ -9,7 +9,7 @@ import UIKit
 
 class DetailContentPriceView: UIView {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var headLabel: UILabel = {
         let label = UILabel()
@@ -37,7 +37,7 @@ class DetailContentPriceView: UIView {
         return label
     }()
 
-    // MARK: Intialize
+    // MARK: - Intialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,6 +47,8 @@ class DetailContentPriceView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         self.addSubview(headLabel)

@@ -9,7 +9,7 @@ import UIKit
 
 class ClassImageEnrollCell: UICollectionViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var classImageView: UIImageView = {
         let imageView = UIImageView()
@@ -24,12 +24,12 @@ class ClassImageEnrollCell: UICollectionViewCell {
         return label
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     static let identifier = "ClassImageEnrollCell"
     private let limitImageCount = 8
 
-    // MARK: Initialize 
+    // MARK: - Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,6 +39,8 @@ class ClassImageEnrollCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(classImageView)

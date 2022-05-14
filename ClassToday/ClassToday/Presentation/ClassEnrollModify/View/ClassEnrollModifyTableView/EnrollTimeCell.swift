@@ -14,7 +14,8 @@ protocol EnrollTimeCellDelegate: AnyObject {
 
 class EnrollTimeCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
+
     private lazy var toolBarKeyboard: UIToolbar = {
         let toolBarKeyboard = UIToolbar()
         toolBarKeyboard.sizeToFit()
@@ -35,12 +36,12 @@ class EnrollTimeCell: UITableViewCell {
         return textField
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: EnrollTimeCellDelegate?
     static let identifier = "EnrollTimeCell"
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -51,6 +52,8 @@ class EnrollTimeCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(timeTextField)
@@ -78,14 +81,14 @@ class EnrollTimeCell: UITableViewCell {
         timeTextField.text = time + "시간"
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func didTapDoneButton(_ button: UIButton) {
         timeTextField.resignFirstResponder()
     }
 }
 
-// MARK: UITextFieldDelegate
+// MARK: - UITextFieldDelegate
 
 extension EnrollTimeCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

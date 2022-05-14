@@ -14,7 +14,7 @@ protocol ClassDateSelectionViewControllerDelegate: AnyObject {
 
 class ClassDateSelectionViewController: UIViewController {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -44,15 +44,18 @@ class ClassDateSelectionViewController: UIViewController {
         return view
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
+ 
     weak var delegate: ClassDateSelectionViewControllerDelegate?
     var selectedDate: Set<Date> = []
 
-    // MARK: Life Cycle
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         containerView.addSubview(collectionView)
@@ -72,7 +75,7 @@ class ClassDateSelectionViewController: UIViewController {
     }
 }
 
-// MARK: Touch 관련 메소드
+// MARK: - Touch 관련 메소드
 
 extension ClassDateSelectionViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -84,7 +87,7 @@ extension ClassDateSelectionViewController {
     }
 }
 
-// MARK: CollectionViewDataSource
+// MARK: - CollectionViewDataSource
 extension ClassDateSelectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Date.allCases.count
@@ -117,7 +120,7 @@ extension ClassDateSelectionViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: CollectionViewDelegateFlowLayout
+// MARK: - CollectionViewDelegateFlowLayout
 
 extension ClassDateSelectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -127,7 +130,7 @@ extension ClassDateSelectionViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: DateSelectionCellDelegate
+// MARK: - DateSelectionCellDelegate
 extension ClassDateSelectionViewController: ClassDateSelectionCollectionViewCellDelegate {
     func reflectSelection(date: Date?, isChecked: Bool) {
         guard let date = date else { return }

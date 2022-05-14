@@ -13,7 +13,7 @@ protocol ClassCategoryCollectionViewCellDelegate: AnyObject {
 
 class ClassCategoryCollectionViewCell: UICollectionViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -31,14 +31,14 @@ class ClassCategoryCollectionViewCell: UICollectionViewCell {
         return button
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: ClassCategoryCollectionViewCellDelegate?
     static let identifier = "ClassCategoryCollectionViewCell"
     static let height: CGFloat = 40.0
     private var categoryItem: CategoryItem?
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,6 +48,8 @@ class ClassCategoryCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureLayout() {
         contentView.addSubview(nameLabel)
@@ -69,7 +71,7 @@ class ClassCategoryCollectionViewCell: UICollectionViewCell {
         nameLabel.text = category.description
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func clicked(_ button: UIButton) {
         if button.isSelected {

@@ -14,7 +14,7 @@ protocol DetailImageCellDelegate: AnyObject {
 
 class DetailImageCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: contentView.frame)
@@ -44,7 +44,7 @@ class DetailImageCell: UITableViewCell {
     
     private lazy var scrollContentView = UIView()
     
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: DetailImageCellDelegate?
     static var identifier = "DetailImageCell"
@@ -54,7 +54,7 @@ class DetailImageCell: UITableViewCell {
         }
     }
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -68,6 +68,8 @@ class DetailImageCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         guard let images = images else { return }
@@ -107,7 +109,7 @@ class DetailImageCell: UITableViewCell {
         configureUI()
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func touchImageView(_ sender: UITapGestureRecognizer) {
         let selectedIndex = pageControl.currentPage
@@ -116,7 +118,7 @@ class DetailImageCell: UITableViewCell {
     }
 }
 
-// MARK: ScrollViewDelegate
+// MARK: - ScrollViewDelegate
 
 extension DetailImageCell: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

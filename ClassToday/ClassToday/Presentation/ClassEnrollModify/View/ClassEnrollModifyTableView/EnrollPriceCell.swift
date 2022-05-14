@@ -15,7 +15,7 @@ protocol EnrollPriceCellDelegate: AnyObject {
 
 class EnrollPriceCell: UITableViewCell {
 
-    // MARK: Views
+    // MARK: - Views
 
     private lazy var toolBarKeyboard: UIToolbar = {
         let toolBarKeyboard = UIToolbar()
@@ -62,12 +62,12 @@ class EnrollPriceCell: UITableViewCell {
         return label
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     weak var delegate: EnrollPriceCellDelegate?
     static let identifier = "EnrollPriceCell"
 
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -78,6 +78,8 @@ class EnrollPriceCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Method
 
     private func configureUI() {
         contentView.addSubview(priceTextField)
@@ -100,7 +102,7 @@ class EnrollPriceCell: UITableViewCell {
         priceUnitLabel.text = priceUnit.description
     }
 
-    // MARK: Actions
+    // MARK: - Actions
 
     @objc func selectUnit(_ button: UIButton) {
         delegate?.showPopover(button: button)
@@ -111,7 +113,7 @@ class EnrollPriceCell: UITableViewCell {
     }
 }
 
-// MARK: UITextFieldDelegate
+// MARK: - UITextFieldDelegate
 
 extension EnrollPriceCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -130,7 +132,7 @@ extension EnrollPriceCell: UITextFieldDelegate {
     }
 }
 
-// MARK: CellUpdateDelegate
+// MARK: - CellUpdateDelegate
 extension EnrollPriceCell: ClassItemCellUpdateDelegate {
     func updatePriceUnit(with priceUnit: PriceUnit) {
         priceUnitLabel.text = priceUnit.description
