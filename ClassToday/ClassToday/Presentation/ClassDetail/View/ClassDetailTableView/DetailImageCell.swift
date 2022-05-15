@@ -38,7 +38,7 @@ class DetailImageCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 0
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
         return stackView
     }()
     
@@ -48,11 +48,7 @@ class DetailImageCell: UITableViewCell {
 
     weak var delegate: DetailImageCellDelegate?
     static var identifier = "DetailImageCell"
-    private var images: [UIImage]? = [] {
-        didSet {
-            scrollView.contentSize = CGSize(width: CGFloat(images?.count ?? 0) * contentView.frame.maxX, height: 0)
-        }
-    }
+    private var images: [UIImage]? = []
 
     // MARK: - Initialize
 
@@ -81,7 +77,7 @@ class DetailImageCell: UITableViewCell {
             imageView.isUserInteractionEnabled = true
             stackView.addArrangedSubview(imageView)
             imageView.snp.makeConstraints {
-                $0.width.equalTo(contentView.frame.width)
+                $0.width.equalTo(UIScreen.main.bounds.width)
                 $0.height.equalTo(contentView.frame.height)
             }
         }
@@ -90,12 +86,15 @@ class DetailImageCell: UITableViewCell {
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-
-        scrollView.addSubview(stackView)
-        scrollView.addSubview(pageControl)
-        stackView.snp.makeConstraints {
+        scrollView.addSubview(scrollContentView)
+        scrollContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.height.equalToSuperview()
+        }
+        scrollContentView.addSubview(stackView)
+        scrollContentView.addSubview(pageControl)
+        stackView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         pageControl.snp.makeConstraints {
             $0.width.bottom.centerX.equalTo(contentView)
