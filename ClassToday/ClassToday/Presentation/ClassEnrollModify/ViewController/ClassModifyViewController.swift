@@ -34,6 +34,14 @@ class ClassModifyViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(EnrollImageCell.self, forCellReuseIdentifier: EnrollImageCell.identifier)
+        tableView.register(EnrollNameCell.self, forCellReuseIdentifier: EnrollNameCell.identifier)
+        tableView.register(EnrollTimeCell.self, forCellReuseIdentifier: EnrollTimeCell.identifier)
+        tableView.register(EnrollDateCell.self, forCellReuseIdentifier: EnrollDateCell.identifier)
+        tableView.register(EnrollPlaceCell.self, forCellReuseIdentifier: EnrollPlaceCell.identifier)
+        tableView.register(EnrollPriceCell.self, forCellReuseIdentifier: EnrollPriceCell.identifier)
+        tableView.register(EnrollDescriptionCell.self, forCellReuseIdentifier: EnrollDescriptionCell.identifier)
+        tableView.register(EnrollCategoryCell.self, forCellReuseIdentifier: EnrollCategoryCell.identifier)
         tableView.separatorStyle = .none
         tableView.selectionFollowsFocus = false
         return tableView
@@ -47,11 +55,12 @@ class ClassModifyViewController: UIViewController {
     // MARK: - Properties
 
     weak var delegate: ClassItemCellUpdateDelegate?
+    private let firestoreManager = FirestoreManager.singleton
     private var classItem: ClassItem
-    private var classImages: [UIImage]?
+    private var classImages: [String]?
     private var className: String?
     private var classTime: String?
-    private var classDate: Set<Date>?
+    private var classDate: Set<DayWeek>?
     private var classPlace: String?
     private var classPrice: String?
     private var classPriceUnit: PriceUnit = .perHour
@@ -166,7 +175,8 @@ class ClassModifyViewController: UIViewController {
             self.classTarget = nil
         }
 
-        let classItem = ClassItem(name: className,
+        let modifiedClassItem = ClassItem(id: classItem.id,
+                                  name: className,
                                   date: classDate,
                                   time: classTime,
                                   place: classPlace,
@@ -179,8 +189,12 @@ class ClassModifyViewController: UIViewController {
                                   targets: classTarget,
                                   itemType: classItem.itemType,
                                   validity: true,
-                                  writer: MockData.userInfo)
-        debugPrint("\(classItem) 등록")
+                                  writer: MockData.mockUser,
+                                  createdTime: Date(),
+                                  modifiedTime: nil,
+                                  match: nil)
+        firestoreManager.upload(classItem: modifiedClassItem)
+        debugPrint("\(classItem) 수정")
         dismiss(animated: true, completion: nil)
     }
 }
@@ -202,49 +216,68 @@ extension ClassModifyViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let cell = EnrollImageCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollImageCell.identifier, for: indexPath) as? EnrollImageCell else {
+                return UITableViewCell()
+            }
             cell.delegate = self
-            cell.configureWith(images: classItem.images)
+            let images: [UIImage] = classItem.images!.map {
+               UIImage(named: $0)!
+            }
+            cell.configureWith(images: images)
             return cell
         case 1:
-            let cell = EnrollNameCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollNameCell.identifier, for: indexPath) as? EnrollNameCell else {
+                return UITableViewCell()
+            }
             cell.delegate = self
             cell.setUnderline()
             cell.configureWith(name: classItem.name)
             return cell
         case 2:
-            let cell = EnrollTimeCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollTimeCell.identifier, for: indexPath) as? EnrollTimeCell else {
+                return UITableViewCell()
+            }
             cell.delegate = self
             cell.setUnderline()
             cell.configureWithItemType()
             cell.configureWith(time: classItem.time)
             return cell
         case 3:
-            let cell = EnrollDateCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDateCell.identifier, for: indexPath) as? EnrollDateCell else {
+                return UITableViewCell()
+            }
             cell.delegate = self
             cell.setUnderline()
             cell.configureWith(date: classItem.date)
             return cell
         case 4:
-            let cell = EnrollPlaceCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPlaceCell.identifier, for: indexPath) as? EnrollPlaceCell else {
+                return UITableViewCell()
+            }
             cell.delegate = self
             cell.setUnderline()
             cell.configureWith(place: classItem.place)
             return cell
         case 5:
-            let cell = EnrollPriceCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPriceCell.identifier, for: indexPath) as? EnrollPriceCell else {
+                return UITableViewCell()
+            }
             cell.delegate = self
             cell.setUnderline()
             cell.configureWith(price: classItem.price, priceUnit: classPriceUnit)
             delegate = cell
             return cell
         case 6:
-            let cell = EnrollDescriptionCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDescriptionCell.identifier, for: indexPath) as? EnrollDescriptionCell else {
+                return UITableViewCell()
+            }
             cell.delegate = self
             cell.configureWith(description: classDescription)
             return cell
         case 7:
-            let cell = EnrollCategoryCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollCategoryCell.identifier, for: indexPath) as? EnrollCategoryCell else {
+                return UITableViewCell()
+            }
             cell.delegate = self
             cell.configureType(with: CategoryType.allCases[indexPath.row])
             return cell
@@ -305,7 +338,7 @@ extension ClassModifyViewController {
 
 extension ClassModifyViewController: EnrollImageCellDelegate {
     func passData(images: [UIImage]) {
-        classImages = images.isEmpty ? nil : images
+        classImages = images.isEmpty ? nil : images.map { $0.description }
     }
 
     func presentFromImageCell(_ viewController: UIViewController) {
@@ -333,7 +366,7 @@ extension ClassModifyViewController: EnrollTimeCellDelegate {
 }
 
 extension ClassModifyViewController: EnrollDateCellDelegate {
-    func passData(date: Set<Date>) {
+    func passData(date: Set<DayWeek>) {
         classDate = date.isEmpty ? nil : date
     }
 

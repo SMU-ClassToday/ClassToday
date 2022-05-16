@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Popover
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 protocol ClassItemCellUpdateDelegate: AnyObject {
     func updatePriceUnit(with priceUnit: PriceUnit)
@@ -42,6 +44,14 @@ class ClassEnrollViewController: UIViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.selectionFollowsFocus = false
+        tableView.register(EnrollImageCell.self, forCellReuseIdentifier: EnrollImageCell.identifier)
+        tableView.register(EnrollNameCell.self, forCellReuseIdentifier: EnrollNameCell.identifier)
+        tableView.register(EnrollTimeCell.self, forCellReuseIdentifier: EnrollTimeCell.identifier)
+        tableView.register(EnrollDateCell.self, forCellReuseIdentifier: EnrollDateCell.identifier)
+        tableView.register(EnrollPlaceCell.self, forCellReuseIdentifier: EnrollPlaceCell.identifier)
+        tableView.register(EnrollPriceCell.self, forCellReuseIdentifier: EnrollPriceCell.identifier)
+        tableView.register(EnrollDescriptionCell.self, forCellReuseIdentifier: EnrollDescriptionCell.identifier)
+        tableView.register(EnrollCategoryCell.self, forCellReuseIdentifier: EnrollCategoryCell.identifier)
         return tableView
     }()
 
@@ -53,11 +63,12 @@ class ClassEnrollViewController: UIViewController {
     // MARK: - Properties
 
     weak var delegate: ClassItemCellUpdateDelegate?
+    private let firestoreManager = FirestoreManager.singleton
     private let classItemType: ClassItemType
-    private var classImages: [UIImage]?
+    private var classImages: [String]?
     private var className: String?
     private var classTime: String?
-    private var classDate: Set<Date>?
+    private var classDate: Set<DayWeek>?
     private var classPlace: String?
     private var classPrice: String?
     private var classPriceUnit: PriceUnit = .perHour
@@ -175,7 +186,13 @@ class ClassEnrollViewController: UIViewController {
                                   targets: classTarget,
                                   itemType: classItemType,
                                   validity: true,
-                                  writer: MockData.userInfo)
+                                  writer: MockData.mockUser,
+                                  createdTime: Date(),
+                                  modifiedTime: nil,
+                                  match: nil
+        )
+
+        firestoreManager.upload(classItem: classItem)
         debugPrint("\(classItem) 등록")
         dismiss(animated: true, completion: nil)
     }
@@ -195,42 +212,50 @@ extension ClassEnrollViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let cell = EnrollImageCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollImageCell.identifier, for: indexPath)
+                    as? EnrollImageCell else { return UITableViewCell() }
             cell.delegate = self
             return cell
         case 1:
-            let cell = EnrollNameCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollNameCell.identifier, for: indexPath)
+                    as? EnrollNameCell else { return UITableViewCell() }
             cell.delegate = self
             cell.setUnderline()
             return cell
         case 2:
-            let cell = EnrollTimeCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollTimeCell.identifier, for: indexPath)
+                    as? EnrollTimeCell else { return UITableViewCell() }
             cell.delegate = self
             cell.setUnderline()
             cell.configureWithItemType()
             return cell
         case 3:
-            let cell = EnrollDateCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDateCell.identifier, for: indexPath)
+                    as? EnrollDateCell else { return UITableViewCell() }
             cell.delegate = self
             cell.setUnderline()
             return cell
         case 4:
-            let cell = EnrollPlaceCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPlaceCell.identifier, for: indexPath)
+                    as? EnrollPlaceCell else { return UITableViewCell() }
             cell.delegate = self
             cell.setUnderline()
             return cell
         case 5:
-            let cell = EnrollPriceCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPriceCell.identifier, for: indexPath)
+                    as? EnrollPriceCell else { return UITableViewCell() }
             cell.delegate = self
             cell.setUnderline()
             delegate = cell
             return cell
         case 6:
-            let cell = EnrollDescriptionCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollDescriptionCell.identifier, for: indexPath)
+                    as? EnrollDescriptionCell else { return UITableViewCell() }
             cell.delegate = self
             return cell
         case 7:
-            let cell = EnrollCategoryCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollCategoryCell.identifier, for: indexPath)
+                    as? EnrollCategoryCell else { return UITableViewCell() }
             cell.delegate = self
             cell.configureType(with: CategoryType.allCases[indexPath.row])
             return cell
@@ -292,7 +317,7 @@ extension ClassEnrollViewController {
 
 extension ClassEnrollViewController: EnrollImageCellDelegate {
     func passData(images: [UIImage]) {
-        classImages = images.isEmpty ? nil : images
+        classImages = images.isEmpty ? nil : images.map { $0.description }
     }
 
     func presentFromImageCell(_ viewController: UIViewController) {
@@ -317,7 +342,7 @@ extension ClassEnrollViewController: EnrollTimeCellDelegate {
 }
 
 extension ClassEnrollViewController: EnrollDateCellDelegate {
-    func passData(date: Set<Date>) {
+    func passData(date: Set<DayWeek>) {
         classDate = date
     }
 

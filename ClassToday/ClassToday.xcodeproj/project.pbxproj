@@ -28,8 +28,14 @@
 		89098E4728245371006EFD4E /* ClassDateSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E4628245371006EFD4E /* ClassDateSelectionViewController.swift */; };
 		89098E492824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E482824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift */; };
 		89098E4B282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E4A282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift */; };
-		89098E4D28245503006EFD4E /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E4C28245503006EFD4E /* Date.swift */; };
+		89098E4D28245503006EFD4E /* DayWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E4C28245503006EFD4E /* DayWeek.swift */; };
+		892C1CC9283211B300DE27D3 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892C1CC8283211B300DE27D3 /* FirestoreManager.swift */; };
 		893D70E4281B1935006CD232 /* ClassCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893D70E3281B1935006CD232 /* ClassCategoryCollectionViewCell.swift */; };
+		8941FF1D2830C2B600A90AB0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8941FF1C2830C2B600A90AB0 /* GoogleService-Info.plist */; };
+		8941FF1F2830C97300A90AB0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8941FF1E2830C97300A90AB0 /* Location.swift */; };
+		8941FF212830CDA200A90AB0 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8941FF202830CDA200A90AB0 /* Match.swift */; };
+		8941FF232830CF7D00A90AB0 /* ReviewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8941FF222830CF7D00A90AB0 /* ReviewItem.swift */; };
+		8941FF252830D03C00A90AB0 /* ChatItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8941FF242830D03C00A90AB0 /* ChatItem.swift */; };
 		895209DA282A0D520009E97B /* Extension+UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895209D9282A0D520009E97B /* Extension+UIApplication.swift */; };
 		895D107F27F32DCB009FB26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895D107E27F32DCB009FB26F /* Assets.xcassets */; };
 		895D108227F32DCB009FB26F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 895D108027F32DCB009FB26F /* LaunchScreen.storyboard */; };
@@ -104,8 +110,14 @@
 		89098E4628245371006EFD4E /* ClassDateSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDateSelectionViewController.swift; sourceTree = "<group>"; };
 		89098E482824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDateSelectionCollectionReusableView.swift; sourceTree = "<group>"; };
 		89098E4A282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDateSelectionCollectionViewCell.swift; sourceTree = "<group>"; };
-		89098E4C28245503006EFD4E /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		89098E4C28245503006EFD4E /* DayWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayWeek.swift; sourceTree = "<group>"; };
+		892C1CC8283211B300DE27D3 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		893D70E3281B1935006CD232 /* ClassCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		8941FF1C2830C2B600A90AB0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8941FF1E2830C97300A90AB0 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		8941FF202830CDA200A90AB0 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		8941FF222830CF7D00A90AB0 /* ReviewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewItem.swift; sourceTree = "<group>"; };
+		8941FF242830D03C00A90AB0 /* ChatItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatItem.swift; sourceTree = "<group>"; };
 		895209D9282A0D520009E97B /* Extension+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIApplication.swift"; sourceTree = "<group>"; };
 		895D107227F32DCA009FB26F /* ClassToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895D107E27F32DCB009FB26F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -189,9 +201,13 @@
 			isa = PBXGroup;
 			children = (
 				6B7997BF27F33C5A00F37393 /* ClassItem.swift */,
+				8941FF202830CDA200A90AB0 /* Match.swift */,
 				6B7997BC27F33C4C00F37393 /* User.swift */,
+				8941FF1E2830C97300A90AB0 /* Location.swift */,
+				8941FF222830CF7D00A90AB0 /* ReviewItem.swift */,
+				8941FF242830D03C00A90AB0 /* ChatItem.swift */,
 				89098E0C28203A04006EFD4E /* Category.swift */,
-				89098E4C28245503006EFD4E /* Date.swift */,
+				89098E4C28245503006EFD4E /* DayWeek.swift */,
 				89675B162826782500933C48 /* PriceUnit.swift */,
 			);
 			path = Model;
@@ -205,6 +221,14 @@
 				89675B2B28277AF600933C48 /* 2.jpeg */,
 			);
 			path = Mock;
+			sourceTree = "<group>";
+		};
+		892C1CC72832118500DE27D3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				892C1CC8283211B300DE27D3 /* FirestoreManager.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		895D106927F32DCA009FB26F = {
@@ -229,16 +253,18 @@
 		895D107427F32DCA009FB26F /* ClassToday */ = {
 			isa = PBXGroup;
 			children = (
+				FCF850FD280E6A8700D5D3DC /* Presentation */,
 				6B7997BE27F33C4F00F37393 /* Model */,
 				89C26A8F2811ED9200648206 /* Extensions */,
 				FCF850F8280DBDE900D5D3DC /* Common */,
-				FCF850FD280E6A8700D5D3DC /* Presentation */,
+				89098E3B28227271006EFD4E /* Mock */,
+				892C1CC72832118500DE27D3 /* Network */,
 				895D108027F32DCB009FB26F /* LaunchScreen.storyboard */,
 				89A67341282A634C00951300 /* AppDelegate.swift */,
 				89A67340282A634C00951300 /* SceneDelegate.swift */,
+				8941FF1C2830C2B600A90AB0 /* GoogleService-Info.plist */,
 				895D108327F32DCB009FB26F /* Info.plist */,
 				895D107E27F32DCB009FB26F /* Assets.xcassets */,
-				89098E3B28227271006EFD4E /* Mock */,
 			);
 			path = ClassToday;
 			sourceTree = "<group>";
@@ -528,6 +554,7 @@
 			files = (
 				89675B2928277AE500933C48 /* 1.jpeg in Resources */,
 				895D108227F32DCB009FB26F /* LaunchScreen.storyboard in Resources */,
+				8941FF1D2830C2B600A90AB0 /* GoogleService-Info.plist in Resources */,
 				89675B2C28277AF600933C48 /* 2.jpeg in Resources */,
 				895D107F27F32DCB009FB26F /* Assets.xcassets in Resources */,
 			);
@@ -584,12 +611,13 @@
 			files = (
 				89098E252820E636006EFD4E /* EnrollNameCell.swift in Sources */,
 				89A67346282A638800951300 /* TabbarController.swift in Sources */,
+				8941FF232830CF7D00A90AB0 /* ReviewItem.swift in Sources */,
 				89098E4B282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift in Sources */,
 				89098E492824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift in Sources */,
 				89865EA5282A70EE00113242 /* StarViewController.swift in Sources */,
 				89675B172826782600933C48 /* PriceUnit.swift in Sources */,
 				89098E0D28203A04006EFD4E /* Category.swift in Sources */,
-				89098E4D28245503006EFD4E /* Date.swift in Sources */,
+				89098E4D28245503006EFD4E /* DayWeek.swift in Sources */,
 				89865EA6282A70F600113242 /* MainColor.swift in Sources */,
 				6B7997BD27F33C4C00F37393 /* User.swift in Sources */,
 				89098E372820FE5C006EFD4E /* EnrollCategoryCell.swift in Sources */,
@@ -598,6 +626,7 @@
 				89675B15282677B900933C48 /* PriceUnitTableViewCell.swift in Sources */,
 				89865EA3282A70E900113242 /* CategoryDetailViewController.swift in Sources */,
 				89A67344282A634C00951300 /* AppDelegate.swift in Sources */,
+				8941FF1F2830C97300A90AB0 /* Location.swift in Sources */,
 				89098E03282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift in Sources */,
 				89098E3A282271E2006EFD4E /* ClassModifyViewController.swift in Sources */,
 				89675B2F2827BFDE00933C48 /* DetailUserCell.swift in Sources */,
@@ -606,6 +635,7 @@
 				89098E1A2820564F006EFD4E /* EnrollImageCell.swift in Sources */,
 				89098E2E2820F996006EFD4E /* EnrollPlaceCell.swift in Sources */,
 				89675B262826F11900933C48 /* DetailImageCell.swift in Sources */,
+				892C1CC9283211B300DE27D3 /* FirestoreManager.swift in Sources */,
 				89A0CD3F280D4E17006FDF89 /* ClassImageEnrollCell.swift in Sources */,
 				89675B382827F10C00933C48 /* DetailContentPriceView.swift in Sources */,
 				89098E4728245371006EFD4E /* ClassDateSelectionViewController.swift in Sources */,
@@ -634,7 +664,9 @@
 				89A67348282A639600951300 /* Tabbar.swift in Sources */,
 				89675B492828C84400933C48 /* Extension+NavigationBar.swift in Sources */,
 				8966CF5E2810787C001CBBDC /* ClassImageView.swift in Sources */,
+				8941FF212830CDA200A90AB0 /* Match.swift in Sources */,
 				89865E9E282A70DC00113242 /* SearchRecentTableViewCell.swift in Sources */,
+				8941FF252830D03C00A90AB0 /* ChatItem.swift in Sources */,
 				89675B122826776100933C48 /* PriceUnitTableView.swift in Sources */,
 				89675B222826EC1A00933C48 /* ClassDetailViewController.swift in Sources */,
 				89675B3C28280D8800933C48 /* DetailContentCategoryView.swift in Sources */,
@@ -790,13 +822,14 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yescoachdev.ClassToday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -819,13 +852,14 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yescoachdev.ClassToday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -121,7 +121,7 @@ class ClassItemTableViewCell: UITableViewCell {
 
     func configureWith(classItem: ClassItem) {
         if let image = classItem.images?.first {
-            thumbnailView.image = image
+            thumbnailView.image = UIImage(named: image)
         }
         titleLabel.text = classItem.name
         if let price = classItem.price {

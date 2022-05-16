@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PriceUnit: CaseIterable {
+enum PriceUnit: CaseIterable, Codable {
     case perHour
     case perProblem
     case perClass

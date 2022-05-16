@@ -15,6 +15,8 @@ class ClassDetailViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(DetailImageCell.self, forCellReuseIdentifier: DetailImageCell.identifier)
+        tableView.register(DetailContentCell.self, forCellReuseIdentifier: DetailContentCell.identifier)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.contentInsetAdjustmentBehavior = .never
@@ -23,13 +25,14 @@ class ClassDetailViewController: UIViewController {
     
     private lazy var navigationBar: DetailCustomNavigationBar = {
         let navigationBar = DetailCustomNavigationBar(isImages: true)
+        navigationBar.setupButton(with: classItem.id)
         navigationBar.delegate = self
         return navigationBar
     }()
     
     private lazy var matchingButton: UIButton = {
         let button = UIButton()
-        button.setTitle(classItem.writer == MockData.userInfo ? "채팅 목록" : "신청하기", for: .normal)
+        button.setTitle(classItem.writer == MockData.mockUser ? "채팅 목록" : "신청하기", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         button.backgroundColor = .mainColor
         button.addTarget(self, action: #selector(didTapMatchingButton(_:)), for: .touchUpInside)
@@ -40,7 +43,6 @@ class ClassDetailViewController: UIViewController {
     // MARK: - Properties
 
     private var classItem: ClassItem
-    let viewWidth = UIScreen.main.bounds.width
 
     // MARK: - Initialize
 
@@ -98,7 +100,7 @@ class ClassDetailViewController: UIViewController {
     private func whiteBackNavigationBar() {
         navigationBar.gradientLayer.backgroundColor = UIColor.white.cgColor
         navigationBar.gradientLayer.colors = [UIColor.white.cgColor]
-        [navigationBar.backButton, navigationBar.starButton, navigationBar.reportButton].forEach {
+        [navigationBar.backButton, navigationBar.starButton, navigationBar.rightButton].forEach {
             $0.tintColor = .mainColor
         }
         navigationBar.lineView.isHidden = false
@@ -108,7 +110,7 @@ class ClassDetailViewController: UIViewController {
     private func blackBackNavigationBar() {
         navigationBar.gradientLayer.backgroundColor = UIColor.clear.cgColor
         navigationBar.gradientLayer.colors = [UIColor.black.withAlphaComponent(0.7).cgColor, UIColor.clear.cgColor]
-        [navigationBar.backButton, navigationBar.starButton, navigationBar.reportButton].forEach {
+        [navigationBar.backButton, navigationBar.starButton, navigationBar.rightButton].forEach {
             $0.tintColor = .white
         }
         navigationBar.lineView.isHidden = true
@@ -136,12 +138,19 @@ extension ClassDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let cell = DetailImageCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailImageCell.identifier, for: indexPath) as? DetailImageCell else {
+                return UITableViewCell()
+            }
             cell.delegate = self
-            cell.configureWith(images: classItem.images)
+            let images: [UIImage] = classItem.images!.map {
+               UIImage(named: $0)!
+            }
+            cell.configureWith(images: images)
             return cell
         case 1:
-            let cell = DetailContentCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailContentCell.identifier, for: indexPath) as? DetailContentCell else {
+                return UITableViewCell()
+            }
             cell.configureWith(classItem: classItem)
             return cell
         default:
@@ -189,5 +198,8 @@ extension ClassDetailViewController: DetailImageCellDelegate {
 extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
     func goBackPage() {
         navigationController?.popViewController(animated: true)
+    }
+    func pushEditPage() {
+        present(ClassModifyViewController(classItem: classItem), animated: true, completion: nil)
     }
 }

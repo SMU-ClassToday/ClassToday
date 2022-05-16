@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ClassDateSelectionCollectionViewCellDelegate: AnyObject {
-    func reflectSelection(date: Date?, isChecked: Bool)
+    func reflectSelection(date: DayWeek?, isChecked: Bool)
 }
 
 class ClassDateSelectionCollectionViewCell: UICollectionViewCell {
@@ -37,7 +37,7 @@ class ClassDateSelectionCollectionViewCell: UICollectionViewCell {
     weak var delegate: ClassDateSelectionCollectionViewCellDelegate?
     static let identifier = "ClassDateSelectionCollectionViewCell"
     static let height: CGFloat = 40.0
-    private var date: Date?
+    private var date: DayWeek?
 
     // MARK: - Initialize
 
@@ -67,7 +67,7 @@ class ClassDateSelectionCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    func configure(with date: Date, isSelected: Bool = false) {
+    func configure(with date: DayWeek, isSelected: Bool = false) {
         nameLabel.text = date.description
         if isSelected {
             button.isSelected = true

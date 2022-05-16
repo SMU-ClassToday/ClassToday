@@ -9,6 +9,7 @@ import UIKit
 
 protocol DetailCustomNavigationBarDelegate: AnyObject {
     func goBackPage()
+    func pushEditPage()
 }
 
 class DetailCustomNavigationBar: UIView {
@@ -34,12 +35,10 @@ class DetailCustomNavigationBar: UIView {
         return button
     }()
 
-    lazy var reportButton: UIButton = {
+    lazy var rightButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "exclamationmark.circle"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.tintColor = .mainColor
-        button.addTarget(self, action: #selector(didTapReportButton(_:)), for: .touchUpInside)
         return button
     }()
 
@@ -100,7 +99,7 @@ class DetailCustomNavigationBar: UIView {
 
         self.addSubview(backButton)
         self.addSubview(starButton)
-        self.addSubview(reportButton)
+        self.addSubview(rightButton)
         self.addSubview(lineView)
 
         backButton.snp.makeConstraints {
@@ -111,11 +110,11 @@ class DetailCustomNavigationBar: UIView {
 
         starButton.snp.makeConstraints {
             $0.top.equalTo(backButton)
-            $0.trailing.equalTo(reportButton.snp.leading).offset(-spacing)
+            $0.trailing.equalTo(rightButton.snp.leading).offset(-spacing)
             $0.width.height.equalTo(24)
         }
 
-        reportButton.snp.makeConstraints {
+        rightButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-spacing)
             $0.top.equalTo(backButton)
             $0.width.height.equalTo(24)
@@ -128,12 +127,22 @@ class DetailCustomNavigationBar: UIView {
         }
     }
 
+    func setupButton(with userID: String) {
+        if userID == MockData.mockUser.id {
+            rightButton.setImage(UIImage(systemName: "exclamationmark.circle"), for: .normal)
+            rightButton.addTarget(self, action: #selector(didTapReportButton(_:)), for: .touchUpInside)
+        } else {
+            rightButton.setImage(UIImage(systemName: "pencil"), for: .normal)
+            rightButton.addTarget(self, action: #selector(didTapEditButton(_:)), for: .touchUpInside)
+        }
+    }
+
     // MARK: - Method for change bar status
 
     func setupWhiteBackground() {
         gradientLayer.backgroundColor = UIColor.white.cgColor
         gradientLayer.colors = [UIColor.white.cgColor]
-        [backButton, starButton, reportButton].forEach {
+        [backButton, starButton, rightButton].forEach {
             $0.tintColor = .black
         }
     }
@@ -141,7 +150,7 @@ class DetailCustomNavigationBar: UIView {
     func setupBlackBackground() {
         gradientLayer.backgroundColor = UIColor.clear.cgColor
         gradientLayer.colors = [UIColor.black.withAlphaComponent(0.7).cgColor, UIColor.clear.cgColor]
-        [backButton, starButton, reportButton].forEach {
+        [backButton, starButton, rightButton].forEach {
             $0.tintColor = .white
         }
     }
@@ -159,5 +168,9 @@ class DetailCustomNavigationBar: UIView {
 
     @objc func didTapReportButton(_ button: UIButton) {
         debugPrint(#function)
+    }
+
+    @objc func didTapEditButton(_ button: UIButton) {
+        delegate?.pushEditPage()
     }
 }
