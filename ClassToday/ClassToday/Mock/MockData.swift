@@ -25,11 +25,41 @@ struct MockData {
                                      *** 수학학원 고등부 문제풀이 조교 경험 多
                                      평가원 모의고사 수학영역 질문 클래스 진행경험 多
                                      """,
-                                     images: [UIImage(named: "1.jpeg")!, UIImage(named: "2.jpeg")!],
+                                     images: ["1.jpeg", "2.jpeg"],
                                      subjects: [.korean, .computer, .english, .major],
                                      targets: [.elementary,.senior],
                                      itemType: .sell,
                                      validity: true,
-                                     writer: userInfo)
-    static let userInfo = User(name: "yescoach", email: "sbsii1020@gmail.com")
+                                     writer: mockUser,
+                                     createdTime: Date(),
+                                     modifiedTime: nil,
+                                     match: nil
+    )
+
+    static let mockUser = User(
+        name: "이영찬",
+        nickName: "Cobugi",
+        gender: "남",
+        location: nil,
+        email: "yc13033@gmail.com",
+        profileImage: nil,
+        company: "상명대학교 수학교육과",
+        description: "수학에 관심이 많은, 개발자를 지망하는 수학교육 전공자입니다. 궁금하신 점은 메세지 문의 언제든지 주세요!",
+        subjects: [.korean, .math, .english, .science, .hobby],
+        chatItems: nil
+    )
+
+    static let mockUser2 = User(
+        name: "박태현",
+        nickName: "YesCoach",
+        gender: "남",
+        location: nil,
+        email: "test123@gmail.com",
+        profileImage: nil,
+        company: "상명대학교 한일문화콘텐츠전공",
+        description: "수학에 관심이 많은, 개발자를 지망하는 일본어 전공자입니다. 궁금하신 점은 메세지 문의 언제든지 주세요!",
+        subjects: [.korean, .math, .english, .science, .hobby],
+        chatItems: nil
+    )
+
 }

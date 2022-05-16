@@ -12,12 +12,12 @@ enum CategoryType: CaseIterable {
     case target
 }
 
-protocol CategoryItem {
+protocol CategoryItem: Codable {
     static var count: Int { get }
     var description: String { get }
 }
 
-enum Subject: CategoryItem, CaseIterable {
+enum Subject: String, CategoryItem, CaseIterable {
     case korean
     case math
     case english
@@ -27,7 +27,7 @@ enum Subject: CategoryItem, CaseIterable {
     case major
     case computer
     case hobby
-    
+
     static var count: Int {
         return Self.allCases.count
     }
@@ -56,7 +56,7 @@ enum Subject: CategoryItem, CaseIterable {
     }
 }
 
-enum Target: CategoryItem, CaseIterable {
+enum Target: String, CategoryItem, CaseIterable {
     case elementary
     case university
     case junior

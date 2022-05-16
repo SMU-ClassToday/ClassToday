@@ -24,7 +24,8 @@ extension UITextField {
 
     func setUnderLine() {
         let border = CALayer()
-        border.frame = CGRect(x: 0, y: 60, width: UIScreen.main.bounds.width - 32, height: 1.5)
+        guard let window = window else { return }
+        border.frame = CGRect(x: 0, y: 60, width: window.frame.width - 32, height: 1.5)
         border.borderWidth = 1.0
         border.backgroundColor = UIColor.systemGray5.cgColor
         border.borderColor = UIColor.systemGray5.cgColor

@@ -34,16 +34,6 @@ class DetailImageCell: UITableViewCell {
         return pageControl
     }()
 
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 0
-        stackView.distribution = .fillProportionally
-        return stackView
-    }()
-    
-    private lazy var scrollContentView = UIView()
-    
     // MARK: - Properties
 
     weak var delegate: DetailImageCellDelegate?
@@ -68,36 +58,27 @@ class DetailImageCell: UITableViewCell {
     // MARK: - Method
 
     private func configureUI() {
+        let width = contentView.frame.width
+        let height = contentView.frame.height
         guard let images = images else { return }
 
         for index in 0 ..< images.count {
-            let imageView = UIImageView()
+            let imageView = UIImageView(frame: CGRect(x: CGFloat(index) * width, y: 0, width: width, height: height))
             imageView.contentMode = .scaleToFill
             imageView.image = images[index]
             imageView.isUserInteractionEnabled = true
-            stackView.addArrangedSubview(imageView)
-            imageView.snp.makeConstraints {
-                $0.width.equalTo(UIScreen.main.bounds.width)
-                $0.height.equalTo(contentView.frame.height)
-            }
+            scrollView.addSubview(imageView)
         }
 
         contentView.addSubview(scrollView)
+        contentView.addSubview(pageControl)
         scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        scrollView.addSubview(scrollContentView)
-        scrollContentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.height.equalToSuperview()
         }
-        scrollContentView.addSubview(stackView)
-        scrollContentView.addSubview(pageControl)
-        stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+
         pageControl.snp.makeConstraints {
-            $0.width.bottom.centerX.equalTo(contentView)
+            $0.width.bottom.centerX.equalToSuperview()
             $0.height.equalTo(30)
         }
     }

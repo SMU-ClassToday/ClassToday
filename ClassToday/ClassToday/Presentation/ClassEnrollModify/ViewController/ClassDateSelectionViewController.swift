@@ -9,7 +9,7 @@ import UIKit
 
 protocol ClassDateSelectionViewControllerDelegate: AnyObject {
     func resignFirstResponder()
-    func selectionResult(date: Set<Date>)
+    func selectionResult(date: Set<DayWeek>)
 }
 
 class ClassDateSelectionViewController: UIViewController {
@@ -47,7 +47,7 @@ class ClassDateSelectionViewController: UIViewController {
     // MARK: - Properties
  
     weak var delegate: ClassDateSelectionViewControllerDelegate?
-    var selectedDate: Set<Date> = []
+    var selectedDate: Set<DayWeek> = []
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -70,7 +70,7 @@ class ClassDateSelectionViewController: UIViewController {
         }
     }
 
-    func configureData(selectedDate: Set<Date>) {
+    func configureData(selectedDate: Set<DayWeek>) {
         self.selectedDate = selectedDate
     }
 }
@@ -90,7 +90,7 @@ extension ClassDateSelectionViewController {
 // MARK: - CollectionViewDataSource
 extension ClassDateSelectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Date.allCases.count
+        return DayWeek.allCases.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -98,8 +98,8 @@ extension ClassDateSelectionViewController: UICollectionViewDataSource {
                                                             for: indexPath) as? ClassDateSelectionCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let date = Date.allCases[indexPath.row]
-        cell.configure(with: Date.allCases[indexPath.row], isSelected: selectedDate.contains(date))
+        let date = DayWeek.allCases[indexPath.row]
+        cell.configure(with: DayWeek.allCases[indexPath.row], isSelected: selectedDate.contains(date))
         cell.delegate = self
         return cell
     }
@@ -132,7 +132,7 @@ extension ClassDateSelectionViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - DateSelectionCellDelegate
 extension ClassDateSelectionViewController: ClassDateSelectionCollectionViewCellDelegate {
-    func reflectSelection(date: Date?, isChecked: Bool) {
+    func reflectSelection(date: DayWeek?, isChecked: Bool) {
         guard let date = date else { return }
         if isChecked {
             selectedDate.insert(date)

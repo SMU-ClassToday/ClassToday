@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EnrollDateCellDelegate: AnyObject {
-    func passData(date: Set<Date>)
+    func passData(date: Set<DayWeek>)
     func presentFromDateCell(_ viewController: UIViewController)
 }
 
@@ -27,7 +27,7 @@ class EnrollDateCell: UITableViewCell {
 
     weak var delegate: EnrollDateCellDelegate?
     static let identifier = "EnrollDateCell"
-    var selectedDate: Set<Date> = []
+    var selectedDate: Set<DayWeek> = []
 
     // MARK: - Initialize
 
@@ -57,7 +57,7 @@ class EnrollDateCell: UITableViewCell {
         dateTextField.setUnderLine()
     }
 
-    func configureWith(date: Set<Date>?) {
+    func configureWith(date: Set<DayWeek>?) {
         guard let date = date else {
             return
         }
@@ -102,7 +102,7 @@ extension EnrollDateCell {
 // MARK: - DateSelectionViewControllerDelegate
 
 extension EnrollDateCell: ClassDateSelectionViewControllerDelegate {
-    func selectionResult(date: Set<Date>) {
+    func selectionResult(date: Set<DayWeek>) {
         configureWith(date: date)
         delegate?.passData(date: date)
     }
