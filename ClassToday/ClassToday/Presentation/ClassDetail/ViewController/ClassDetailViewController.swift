@@ -142,10 +142,11 @@ extension ClassDetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
-            let images: [UIImage] = classItem.images!.map {
-               UIImage(named: $0)!
+            if let images = classItem.images {
+                cell.configureWith(images: images.map { UIImage(named: "\($0)")! } )
+            } else {
+                cell.configureWith(images: nil)
             }
-            cell.configureWith(images: images)
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailContentCell.identifier, for: indexPath) as? DetailContentCell else {
