@@ -75,6 +75,11 @@ class MainViewController: UIViewController {
         layout()
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+        FirestoreManager.singleton.fetch { [weak self] data in
+            guard let self = self else { return }
+            self.datas = data
+            self.classItemTableView.reloadData()
+        }
     }
 }
 
