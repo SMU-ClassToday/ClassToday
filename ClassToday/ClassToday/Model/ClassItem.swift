@@ -68,8 +68,3 @@ struct ClassItem: Codable {
         self.match = match
     }
 }
-
-enum ClassItemType: String, Codable {
-    case buy = "구매글"
-    case sell = "판매글"
-}
