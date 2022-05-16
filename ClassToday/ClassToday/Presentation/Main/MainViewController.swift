@@ -67,6 +67,7 @@ class MainViewController: UIViewController {
     
     // MARK: Properties
     private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
+    private let firestoreManager = FirestoreManager.singleton
     
     //MARK: - view lifecycle
     override func viewDidLoad() {
@@ -75,7 +76,12 @@ class MainViewController: UIViewController {
         layout()
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        FirestoreManager.singleton.fetch { [weak self] data in
+        fetchData()
+    }
+
+    // MARK: - Method
+    private func fetchData() {
+        firestoreManager.fetch { [weak self] data in
             guard let self = self else { return }
             self.datas = data
             self.classItemTableView.reloadData()
@@ -107,6 +113,7 @@ private extension MainViewController {
     
     @objc func beginRefresh() {
         print("beginRefresh!")
+        fetchData()
         refreshControl.endRefreshing()
     }
     
