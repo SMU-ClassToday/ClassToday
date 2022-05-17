@@ -5,15 +5,26 @@
 //  Created by yc on 2022/03/29.
 //
 
-import Foundation
+import UIKit
+import CoreLocation
 
 struct ClassItem: Codable {
+    var id: String = UUID().uuidString
     let name: String
-    let isPurchase: Bool
-    let images: [String]?
+    let date: Set<DayWeek>?
+    let time: String?
     let place: String?
-    let location: String
+    let location: Location?
     let price: String?
-    let date: String?
+    let priceUnit: PriceUnit
     let description: String
+    let images: [String]?
+    let subjects: Set<Subject>?
+    let targets: Set<Target>?
+    let itemType: ClassItemType
+    let validity: Bool
+    let writer: User
+    let createdTime: Date
+    let modifiedTime: Date?
+    let match: [Match]?
 }

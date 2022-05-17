@@ -17,27 +17,27 @@ class MainViewController: UIViewController {
         leftTitle.font = .systemFont(ofSize: 20.0, weight: .bold)
         return leftTitle
     }()
-    
+
     private lazy var starItem: UIBarButtonItem = {
         let starItem = UIBarButtonItem.menuButton(self, action: #selector(didTapStarButton), image: Icon.star.image)
         return starItem
     }()
-    
+
     private lazy var categoryItem: UIBarButtonItem = {
         let categoryItem = UIBarButtonItem.menuButton(self, action: #selector(didTapCategoryButton), image: Icon.category.image)
         return categoryItem
     }()
-    
+
     private lazy var searchItem: UIBarButtonItem = {
         let searchItem = UIBarButtonItem.menuButton(self, action: #selector(didTapSearchButton), image: Icon.search.image)
         return searchItem
     }()
-    
+
     private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftTitle)
         navigationItem.rightBarButtonItems = [starItem, searchItem, categoryItem]
     }
-    
+
     //MARK: - Main View의 UI Components
     private lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
@@ -54,6 +54,7 @@ class MainViewController: UIViewController {
         classItemTableView.refreshControl = refreshControl
         classItemTableView.rowHeight = 150.0
         classItemTableView.dataSource = self
+        classItemTableView.delegate = self
         classItemTableView.register(ClassItemTableViewCell.self, forCellReuseIdentifier: ClassItemTableViewCell.identifier)
         return classItemTableView
     }()
@@ -64,6 +65,10 @@ class MainViewController: UIViewController {
         return refreshControl
     }()
     
+    // MARK: Properties
+    private var data: [ClassItem] = []
+    private let firestoreManager = FirestoreManager.shared
+
     //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +76,20 @@ class MainViewController: UIViewController {
         layout()
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+        fetchData()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        fetchData()
+    }
+
+    // MARK: - Method
+    private func fetchData() {
+        firestoreManager.fetch { [weak self] data in
+            guard let self = self else { return }
+            self.data = data
+            self.classItemTableView.reloadData()
+        }
     }
 }
 
@@ -95,22 +114,23 @@ private extension MainViewController {
             break
         }
     }
-    
+
     @objc func beginRefresh() {
         print("beginRefresh!")
+        fetchData()
         refreshControl.endRefreshing()
     }
-    
+
     @objc func didTapStarButton() {
         let starViewController = StarViewController()
         navigationController?.pushViewController(starViewController, animated: true)
     }
-    
+
     @objc func didTapCategoryButton() {
         let categoryListViewController = CategoryListViewController()
         navigationController?.pushViewController(categoryListViewController, animated: true)
     }
-    
+
     @objc func didTapSearchButton() {
         let searchViewController = SearchViewController()
         navigationController?.pushViewController(searchViewController, animated: true)
@@ -141,7 +161,7 @@ private extension MainViewController {
 //MARK: - TableView datasource
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -149,7 +169,16 @@ extension MainViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        cell.setupView()
+        let classItem = data[indexPath.row]
+        cell.configureWith(classItem: classItem)
         return cell
+    }
+}
+
+//MARK: - TableView Delegate
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let classItem = data[indexPath.row]
+        navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
     }
 }
