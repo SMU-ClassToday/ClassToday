@@ -63,9 +63,10 @@ class ClassEnrollViewController: UIViewController {
     // MARK: - Properties
 
     weak var delegate: ClassItemCellUpdateDelegate?
-    private let firestoreManager = FirestoreManager.singleton
+    private let firestoreManager = FirestoreManager.shared
+    private let storageManager = StorageManager.shared
     private let classItemType: ClassItemType
-    private var classImages: [String]?
+    private var classImages: [UIImage]?
     private var className: String?
     private var classTime: String?
     private var classDate: Set<DayWeek>?
@@ -143,6 +144,8 @@ class ClassEnrollViewController: UIViewController {
 
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
         view.endEditing(true)
+        var classImagesURL: [String] = []
+        let group = DispatchGroup()
 
         let alert: UIAlertController = {
             let alert = UIAlertController(title: "알림", message: "필수 항목을 입력해주세요", preferredStyle: .alert)
@@ -172,29 +175,46 @@ class ClassEnrollViewController: UIViewController {
         if let classTarget = classTarget, classTarget.isEmpty {
             self.classTarget = nil
         }
+        if let classImages = classImages {
+            for image in classImages {
+                group.enter()
+                do {
+                    try storageManager.upload(image: image) { url in
+                        classImagesURL.append(url)
+                        group.leave()
+                    }
+                } catch {
+                    debugPrint(error)
+                    return
+                }
+            }
+        }
 
-        let classItem = ClassItem(name: className,
-                                  date: classDate,
-                                  time: classTime,
-                                  place: classPlace,
-                                  location: nil,
-                                  price: classPrice,
-                                  priceUnit: classPriceUnit,
-                                  description: classDescription,
-                                  images: classImages,
-                                  subjects: classSubject,
-                                  targets: classTarget,
-                                  itemType: classItemType,
-                                  validity: true,
-                                  writer: MockData.mockUser,
-                                  createdTime: Date(),
-                                  modifiedTime: nil,
-                                  match: nil
-        )
+        group.notify(queue: DispatchQueue.main) { [weak self] in
+            guard let self = self else { return }
+            let classItem = ClassItem(name: className,
+                                      date: self.classDate,
+                                      time: self.classTime,
+                                      place: self.classPlace,
+                                      location: nil,
+                                      price: self.classPrice,
+                                      priceUnit: self.classPriceUnit,
+                                      description: classDescription,
+                                      images: classImagesURL,
+                                      subjects: self.classSubject,
+                                      targets: self.classTarget,
+                                      itemType: self.classItemType,
+                                      validity: true,
+                                      writer: MockData.mockUser,
+                                      createdTime: Date(),
+                                      modifiedTime: nil,
+                                      match: nil
+            )
 
-        firestoreManager.upload(classItem: classItem)
-        debugPrint("\(classItem) 등록")
-        dismiss(animated: true, completion: nil)
+            self.firestoreManager.upload(classItem: classItem)
+            debugPrint("\(classItem) 등록")
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
@@ -316,8 +336,12 @@ extension ClassEnrollViewController {
 // MARK: - CellDelegate Extensions
 
 extension ClassEnrollViewController: EnrollImageCellDelegate {
+    func passData(imagesURL: [String]) {
+        return
+    }
+
     func passData(images: [UIImage]) {
-        classImages = images.isEmpty ? nil : images.map { $0.description }
+        classImages = images.isEmpty ? nil : images
     }
 
     func presentFromImageCell(_ viewController: UIViewController) {

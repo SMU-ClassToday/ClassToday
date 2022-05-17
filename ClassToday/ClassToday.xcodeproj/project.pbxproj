@@ -32,6 +32,7 @@
 		892C1CC9283211B300DE27D3 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892C1CC8283211B300DE27D3 /* FirestoreManager.swift */; };
 		892C1CCF28322AD600DE27D3 /* ClassItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892C1CCE28322AD600DE27D3 /* ClassItemType.swift */; };
 		892C1CD128322B9D00DE27D3 /* FirestoreRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892C1CD028322B9D00DE27D3 /* FirestoreRoute.swift */; };
+		892C1CD32832DABF00DE27D3 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892C1CD22832DABF00DE27D3 /* StorageManager.swift */; };
 		893D70E4281B1935006CD232 /* ClassCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893D70E3281B1935006CD232 /* ClassCategoryCollectionViewCell.swift */; };
 		8941FF1D2830C2B600A90AB0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8941FF1C2830C2B600A90AB0 /* GoogleService-Info.plist */; };
 		8941FF1F2830C97300A90AB0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8941FF1E2830C97300A90AB0 /* Location.swift */; };
@@ -116,6 +117,7 @@
 		892C1CC8283211B300DE27D3 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		892C1CCE28322AD600DE27D3 /* ClassItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassItemType.swift; sourceTree = "<group>"; };
 		892C1CD028322B9D00DE27D3 /* FirestoreRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreRoute.swift; sourceTree = "<group>"; };
+		892C1CD22832DABF00DE27D3 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		893D70E3281B1935006CD232 /* ClassCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		8941FF1C2830C2B600A90AB0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8941FF1E2830C97300A90AB0 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				892C1CC8283211B300DE27D3 /* FirestoreManager.swift */,
+				892C1CD22832DABF00DE27D3 /* StorageManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -286,7 +289,6 @@
 		89675B1A2826C0BE00933C48 /* ClassEnrollModifyTableView */ = {
 			isa = PBXGroup;
 			children = (
-				8966CF5D2810787C001CBBDC /* ClassImageView.swift */,
 				89098E192820564F006EFD4E /* EnrollImageCell.swift */,
 				89098E242820E636006EFD4E /* EnrollNameCell.swift */,
 				89098E272820EF75006EFD4E /* EnrollTimeCell.swift */,
@@ -321,6 +323,7 @@
 		89675B4E2829911500933C48 /* ClassEnrollModifyCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				8966CF5D2810787C001CBBDC /* ClassImageView.swift */,
 				89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */,
 				89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */,
 				89098E02282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift */,
@@ -682,6 +685,7 @@
 				8966CF5E2810787C001CBBDC /* ClassImageView.swift in Sources */,
 				8941FF212830CDA200A90AB0 /* Match.swift in Sources */,
 				89865E9E282A70DC00113242 /* SearchRecentTableViewCell.swift in Sources */,
+				892C1CD32832DABF00DE27D3 /* StorageManager.swift in Sources */,
 				8941FF252830D03C00A90AB0 /* ChatItem.swift in Sources */,
 				89675B122826776100933C48 /* PriceUnitTableView.swift in Sources */,
 				89675B222826EC1A00933C48 /* ClassDetailViewController.swift in Sources */,

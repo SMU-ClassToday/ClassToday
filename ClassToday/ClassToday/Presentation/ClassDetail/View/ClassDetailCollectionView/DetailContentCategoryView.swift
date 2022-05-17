@@ -74,7 +74,7 @@ class DetailContentCategoryView: UIView {
         }
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(seperator.snp.bottom).offset(16)
-            make.height.equalTo(CGFloat((data.count/5 + 2)) *
+            make.height.equalTo(CGFloat((data.count/5 + 1)) *
                                 DetailContentCategoryCollectionViewCell.height )
             make.leading.trailing.bottom.equalTo(self)
         }

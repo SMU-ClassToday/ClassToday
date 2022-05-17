@@ -10,8 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class FirestoreManager {
-    static let singleton = FirestoreManager()
-    let db = Firestore.firestore()
+    static let shared = FirestoreManager()
 
     private init() {}
 
@@ -24,7 +23,7 @@ class FirestoreManager {
             debugPrint(error)
         }
     }
-    
+
     func fetch(completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
         FirestoreRoute.classItem.ref.getDocuments() { (snapshot, error) in
@@ -44,5 +43,9 @@ class FirestoreManager {
             }
             completion(data)
         }
+    }
+
+    func update(classItem: ClassItem) {
+        upload(classItem: classItem)
     }
 }

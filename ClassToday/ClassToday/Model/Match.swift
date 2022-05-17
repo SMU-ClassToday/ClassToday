@@ -8,7 +8,7 @@
 import Foundation
 
 struct Match: Codable {
-    let id: String
+    var id: String = UUID().uuidString
     let seller: String
     let buyer: String
     let dayWeek: [DayWeek]?
@@ -18,27 +18,4 @@ struct Match: Codable {
     let price: String?
     let priceUnit: PriceUnit
     let review: ReviewItem?
-
-    init(id: String = UUID().uuidString,
-         seller: String,
-         buyer: String,
-         dayWeek: [DayWeek]?,
-         time: String?,
-         place: Location?,
-         location: Location?,
-         price: String?,
-         priceUnit: PriceUnit,
-         review: ReviewItem?
-    ) {
-        self.id = id
-        self.seller = seller
-        self.buyer = buyer
-        self.dayWeek = dayWeek
-        self.time = time
-        self.place = place
-        self.location = location
-        self.price = price
-        self.priceUnit = priceUnit
-        self.review = review
-    }
 }

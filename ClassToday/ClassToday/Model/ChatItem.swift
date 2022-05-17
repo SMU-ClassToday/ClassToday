@@ -8,24 +8,11 @@
 import Foundation
 
 struct ChatItem: Codable {
-    let id: String
+    var id: String = UUID().uuidString
     let classItemID: String
     let sellerID: String
     let buyerID: String
     let messages: [Message]?
-    
-    init(id: String = UUID().uuidString,
-         classItemID: String,
-         sellerID: String,
-         buyerID: String,
-         messages: [Message]?
-    ) {
-        self.id = id
-        self.classItemID = classItemID
-        self.sellerID = sellerID
-        self.buyerID = buyerID
-        self.messages = messages
-    }
 }
 
 struct Message: Codable {
