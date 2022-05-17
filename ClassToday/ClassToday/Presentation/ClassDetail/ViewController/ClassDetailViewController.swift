@@ -43,6 +43,7 @@ class ClassDetailViewController: UIViewController {
     // MARK: - Properties
 
     private var classItem: ClassItem
+    private let storageManager = StorageManager.shared
 
     // MARK: - Initialize
 
@@ -142,8 +143,24 @@ extension ClassDetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
-            if let images = classItem.images {
-                cell.configureWith(images: images.map { UIImage(named: "\($0)")! } )
+            let group = DispatchGroup()
+            if let imagesURL = classItem.images {
+                var images: [UIImage] = []
+                for url in imagesURL {
+                    group.enter()
+                    storageManager.downloadImage(urlString: url) { result in
+                        switch result {
+                        case .success(let image):
+                            images.append(image)
+                        case .failure(let error):
+                            debugPrint(error)
+                        }
+                        group.leave()
+                    }
+                }
+                group.notify(queue: DispatchQueue.main) {
+                    cell.configureWith(images: images)
+                }
             } else {
                 cell.configureWith(images: nil)
             }

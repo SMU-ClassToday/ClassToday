@@ -58,11 +58,12 @@ class ClassItemTableViewCell: UITableViewCell {
         return nthClass
     }()
 
-    // MARK: Properties
+    // MARK: - Properties
 
     static let identifier = "ClassItemTableViewCell"
+    private let storageManager = StorageManager.shared
     
-    // MARK: Initialize
+    // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -120,8 +121,18 @@ class ClassItemTableViewCell: UITableViewCell {
     }
 
     func configureWith(classItem: ClassItem) {
-        if let image = classItem.images?.first {
-            thumbnailView.image = UIImage(named: image)
+        if let imageURL = classItem.images?.first {
+            DispatchQueue.main.async {
+                self.storageManager.downloadImage(urlString: imageURL) { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success(let image):
+                        self.thumbnailView.image = image
+                    case .failure(let error):
+                        debugPrint(error)
+                    }
+                }
+            }
         }
         titleLabel.text = classItem.name
         if let price = classItem.price {

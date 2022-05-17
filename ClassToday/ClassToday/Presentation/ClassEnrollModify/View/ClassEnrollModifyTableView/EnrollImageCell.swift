@@ -7,10 +7,12 @@
 
 import UIKit
 import PhotosUI
+import SwiftUI
 
 protocol EnrollImageCellDelegate: AnyObject {
     func presentFromImageCell(_ viewController: UIViewController)
     func passData(images: [UIImage])
+    func passData(imagesURL: [String])
 }
 
 class EnrollImageCell: UITableViewCell {
@@ -34,18 +36,21 @@ class EnrollImageCell: UITableViewCell {
     // MARK: - Properties
 
     weak var delegate: EnrollImageCellDelegate?
+    private var storageManager = StorageManager.shared
     static var identifier = "EnrollImageCell"
     private let limitImageCount = 8
+    private var imagesURL: [String] = [] {
+        didSet {
+            delegate?.passData(imagesURL: imagesURL)
+        }
+    }
     private var images: [UIImage] = [] {
         didSet {
-            DispatchQueue.main.async {
-                self.imageEnrollCollectionView.reloadData()
-            }
             delegate?.passData(images: images)
         }
     }
     private var availableImageCount: Int {
-        return limitImageCount - (images.count)
+        return limitImageCount - (imagesURL.count)
     }
 
     // MARK: - Initialize
@@ -68,10 +73,29 @@ class EnrollImageCell: UITableViewCell {
             $0.edges.equalToSuperview()
         }
     }
-
-    func configureWith(images: [UIImage]?) {
-        guard let images = images else { return }
-        self.images = images
+    
+    func configureWith(imagesURL: [String]?) {
+        guard let imagesURL = imagesURL else { return }
+        self.imagesURL = imagesURL
+        let group = DispatchGroup()
+        var images: [UIImage] = []
+        for url in imagesURL {
+            group.enter()
+            storageManager.downloadImage(urlString: url) { result in
+                switch result {
+                case .success(let image):
+                    images.append(image)
+                case .failure(let error):
+                    debugPrint(error)
+                }
+                group.leave()
+            }
+        }
+        group.notify(queue: DispatchQueue.main) { [weak self] in
+            guard let self = self else { return }
+            self.images = images
+            self.imageEnrollCollectionView.reloadData()
+        }
     }
 }
 
@@ -82,7 +106,7 @@ extension EnrollImageCell: UICollectionViewDataSource {
         let count = images.count
         return count + 1
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 {
             guard let classImageEnrollCell = collectionView.dequeueReusableCell(withReuseIdentifier: ClassImageEnrollCell.identifier, for: indexPath) as? ClassImageEnrollCell else {
@@ -144,9 +168,11 @@ extension EnrollImageCell: UICollectionViewDelegate {
 
 extension EnrollImageCell: ClassImageCellDelegate {
     func deleteImageCell(indexPath: IndexPath) {
+        if !imagesURL.isEmpty {
+            imagesURL.remove(at: indexPath.row - 1)
+        }
         images.remove(at: indexPath.row - 1)
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+        DispatchQueue.main.async {
             self.imageEnrollCollectionView.reloadData()
         }
     }
@@ -157,7 +183,6 @@ extension EnrollImageCell: ClassImageCellDelegate {
 extension EnrollImageCell: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
-
         for result in results {
             let itemProvider = result.itemProvider
             if itemProvider.canLoadObject(ofClass: UIImage.self) {

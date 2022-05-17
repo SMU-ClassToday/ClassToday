@@ -9,10 +9,14 @@ import UIKit
 import SnapKit
 import Popover
 
+protocol ClassImageUpdateDelegate: AnyObject {
+    func passDeletedImageIndex() -> Int
+}
+
 class ClassModifyViewController: UIViewController {
-
+    
     // MARK: - Views
-
+    
     private lazy var customNavigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar()
         navigationBar.isTranslucent = false
@@ -20,7 +24,7 @@ class ClassModifyViewController: UIViewController {
         navigationBar.setItems([customNavigationItem], animated: true)
         return navigationBar
     }()
-
+    
     private lazy var customNavigationItem: UINavigationItem = {
         let item = UINavigationItem(title: "게시글 수정")
         let leftButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(didTapBackButton(_:)))
@@ -29,7 +33,7 @@ class ClassModifyViewController: UIViewController {
         item.rightBarButtonItem = rightButton
         return item
     }()
-
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
@@ -46,18 +50,21 @@ class ClassModifyViewController: UIViewController {
         tableView.selectionFollowsFocus = false
         return tableView
     }()
-
+    
     private lazy var popover: Popover = {
         let popover = Popover(options: nil, showHandler: nil, dismissHandler: nil)
         return popover
     }()
-
+    
     // MARK: - Properties
-
+    
     weak var delegate: ClassItemCellUpdateDelegate?
-    private let firestoreManager = FirestoreManager.singleton
+    weak var imageDelegate :ClassImageUpdateDelegate?
+    private let firestoreManager = FirestoreManager.shared
+    private let storageManager = StorageManager.shared
     private var classItem: ClassItem
-    private var classImages: [String]?
+    private var classImages: [UIImage]?
+    private var classImagesURL: [String]?
     private var className: String?
     private var classTime: String?
     private var classDate: Set<DayWeek>?
@@ -69,10 +76,9 @@ class ClassModifyViewController: UIViewController {
     private var classTarget: Set<Target>?
 
     // MARK: - Initialize
-
+    
     init(classItem: ClassItem) {
         self.classItem = classItem
-        classImages = classItem.images
         className = classItem.name
         classTime = classItem.time
         classDate = classItem.date
@@ -82,24 +88,25 @@ class ClassModifyViewController: UIViewController {
         classDescription = classItem.description
         classSubject = classItem.subjects
         classTarget = classItem.targets
+        classImagesURL = classItem.images
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .fullScreen
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureGesture()
     }
-
+    
     // MARK: - Method
-
+    
     private func configureUI() {
         configureNavigationBar()
         view.backgroundColor = .white
@@ -117,14 +124,14 @@ class ClassModifyViewController: UIViewController {
                                                name: UIResponder.keyboardDidHideNotification,
                                                object: nil)
     }
-
+    
     private func configureNavigationBar() {
         view.addSubview(customNavigationBar)
         customNavigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
     }
-
+    
     private func configureGesture() {
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(myTapMethod(_:)))
         singleTapGestureRecognizer.numberOfTapsRequired = 1
@@ -132,19 +139,20 @@ class ClassModifyViewController: UIViewController {
         singleTapGestureRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(singleTapGestureRecognizer)
     }
-
+    
     // MARK: - Actions
-
+    
     @objc func myTapMethod(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
-
+    
     @objc func didTapBackButton(_ button: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
-
+    
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
         view.endEditing(true)
+        let group = DispatchGroup()
 
         let alert: UIAlertController = {
             let alert = UIAlertController(title: "알림", message: "필수 항목을 입력해주세요", preferredStyle: .alert)
@@ -164,7 +172,7 @@ class ClassModifyViewController: UIViewController {
             present(alert, animated: true)
             return
         }
-
+        
         if let classDate = classDate, classDate.isEmpty {
             self.classDate = nil
         }
@@ -175,27 +183,55 @@ class ClassModifyViewController: UIViewController {
             self.classTarget = nil
         }
 
-        let modifiedClassItem = ClassItem(id: classItem.id,
-                                  name: className,
-                                  date: classDate,
-                                  time: classTime,
-                                  place: classPlace,
-                                  location: nil,
-                                  price: classPrice,
-                                  priceUnit: classPriceUnit,
-                                  description: classDescription,
-                                  images: classImages,
-                                  subjects: classSubject,
-                                  targets: classTarget,
-                                  itemType: classItem.itemType,
-                                  validity: true,
-                                  writer: MockData.mockUser,
-                                  createdTime: Date(),
-                                  modifiedTime: nil,
-                                  match: nil)
-        firestoreManager.upload(classItem: modifiedClassItem)
-        debugPrint("\(classItem) 수정")
-        dismiss(animated: true, completion: nil)
+        // 1. 삭제한 사진 Storage에서 삭제
+        // 2. 삭제하지 않은 사진 파악 -> Storage에 올리지 않기
+        var existingImagesCount = 0
+        classItem.images?.forEach({ url in
+            if classImagesURL?.contains(url) == false {
+                storageManager.deleteImage(urlString: url)
+            } else {
+                existingImagesCount += 1
+            }
+        })
+        if let classImages = classImages {
+            for index in existingImagesCount ..< classImages.count {
+                group.enter()
+                do {
+                    try storageManager.upload(image: classImages[index]) { url in
+                        self.classImagesURL?.append(url)
+                        group.leave()
+                    }
+                } catch {
+                    debugPrint(error)
+                    return
+                }
+            }
+        }
+
+        group.notify(queue: DispatchQueue.main) { [weak self] in
+            guard let self = self else { return }
+            let modifiedClassItem = ClassItem(id: self.classItem.id,
+                                              name: className,
+                                              date: self.classDate,
+                                              time: self.classTime,
+                                              place: self.classPlace,
+                                              location: nil,
+                                              price: self.classPrice,
+                                              priceUnit: self.classPriceUnit,
+                                              description: classDescription,
+                                              images: self.classImagesURL,
+                                              subjects: self.classSubject,
+                                              targets: self.classTarget,
+                                              itemType: self.classItem.itemType,
+                                              validity: true,
+                                              writer: MockData.mockUser,
+                                              createdTime: Date(),
+                                              modifiedTime: nil,
+                                              match: nil)
+        self.firestoreManager.update(classItem: modifiedClassItem)
+        debugPrint("\(modifiedClassItem) 수정")
+        self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
@@ -205,14 +241,14 @@ extension ClassModifyViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 8
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 7 {
             return CategoryType.allCases.count
         }
         return 1
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
@@ -220,10 +256,7 @@ extension ClassModifyViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
-            let images: [UIImage] = classItem.images!.map {
-               UIImage(named: $0)!
-            }
-            cell.configureWith(images: images)
+            cell.configureWith(imagesURL: classItem.images)
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollNameCell.identifier, for: indexPath) as? EnrollNameCell else {
@@ -337,8 +370,12 @@ extension ClassModifyViewController {
 // MARK: - CellDelegate Extensions
 
 extension ClassModifyViewController: EnrollImageCellDelegate {
+    func passData(imagesURL: [String]) {
+        classImagesURL = imagesURL
+    }
+
     func passData(images: [UIImage]) {
-        classImages = images.isEmpty ? nil : images.map { $0.description }
+        classImages = images.isEmpty ? nil : images
     }
 
     func presentFromImageCell(_ viewController: UIViewController) {
@@ -350,7 +387,7 @@ extension ClassModifyViewController: EnrollNameCellDelegate {
     func passData(name: String?) {
         className = name
     }
-
+    
     func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -369,7 +406,7 @@ extension ClassModifyViewController: EnrollDateCellDelegate {
     func passData(date: Set<DayWeek>) {
         classDate = date.isEmpty ? nil : date
     }
-
+    
     func presentFromDateCell(_ viewController: UIViewController) {
         present(viewController, animated: true, completion: nil)
     }
@@ -392,11 +429,11 @@ extension ClassModifyViewController: EnrollPriceCellDelegate {
         view.delegate = self
         popover.show(view, point: point)
     }
-
+    
     func passData(price: String?) {
         classPrice = price
     }
-
+    
     func passData(priceUnit: PriceUnit) {
         classPriceUnit = priceUnit
     }
@@ -412,7 +449,7 @@ extension ClassModifyViewController: EnrollCategoryCellDelegate {
     func passData(subjects: Set<Subject>) {
         classSubject = subjects.isEmpty ? nil : subjects
     }
-
+    
     func passData(targets: Set<Target>) {
         classTarget = targets.isEmpty ? nil : targets
     }
