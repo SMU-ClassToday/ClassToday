@@ -54,6 +54,7 @@ class SearchResultViewController: UIViewController {
         classItemTableView.refreshControl = refreshControl
         classItemTableView.rowHeight = 150.0
         classItemTableView.dataSource = self
+        classItemTableView.delegate = self
         classItemTableView.register(ClassItemTableViewCell.self, forCellReuseIdentifier: ClassItemTableViewCell.identifier)
         return classItemTableView
     }()
@@ -63,7 +64,10 @@ class SearchResultViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
         return refreshControl
     }()
-    
+
+    // MARK: Properties
+    private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
+
     //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,7 +136,7 @@ private extension SearchResultViewController {
 //MARK: - tableview datasource
 extension SearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return datas.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -140,8 +144,17 @@ extension SearchResultViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        cell.setupView()
+        let classItem = datas[indexPath.row]
+        cell.configureWith(classItem: classItem)
         return cell
+    }
+}
+
+//MARK: - TableView Delegate
+extension SearchResultViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let classItem = datas[indexPath.row]
+        navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
     }
 }
 
@@ -153,3 +166,4 @@ extension SearchResultViewController: UISearchBarDelegate {
         navigationController?.pushViewController(searchResultViewController, animated: true)
     }
 }
+

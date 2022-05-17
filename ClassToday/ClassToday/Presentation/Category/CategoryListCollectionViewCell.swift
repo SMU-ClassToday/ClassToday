@@ -26,10 +26,23 @@ class CategoryListCollectionViewCell: UICollectionViewCell {
         categoryLabel.font = .systemFont(ofSize: 15.0, weight: .semibold)
         return categoryLabel
     }()
-    
-    func setupView() {
+
+    // MARK: Initialize
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         layout()
     }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // 이후에 이미지 설정도 여기서 진행
+    func configureWith(categoryItem: CategoryItem) {
+        categoryLabel.text = categoryItem.description
+    }
+
 }
 
 //MARK: - set autolayout
