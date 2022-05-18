@@ -14,6 +14,7 @@ class MainViewController: UIViewController {
     private lazy var leftTitle: UILabel = {
         let leftTitle = UILabel()
         leftTitle.text = "서울시 노원구의 수업"
+        leftTitle.textColor = .black
         leftTitle.font = .systemFont(ofSize: 20.0, weight: .bold)
         return leftTitle
     }()
