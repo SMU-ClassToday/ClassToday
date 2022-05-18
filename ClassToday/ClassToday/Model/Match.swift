@@ -14,7 +14,7 @@ struct Match: Codable {
     let dayWeek: [DayWeek]?
     let time: String?
     let place: Location?
-    let location: Location?
+    let location: Location
     let price: String?
     let priceUnit: PriceUnit
     let review: ReviewItem?
