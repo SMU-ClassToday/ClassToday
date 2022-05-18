@@ -102,9 +102,9 @@ extension EnrollTimeCell: UITextFieldDelegate {
             textField.text = nil
             return
         }
+        delegate?.passData(time: textField.text)
         if text.contains("시간") == false {
             textField.text = text + "시간"
         }
-        delegate?.passData(time: textField.text)
     }
 }
