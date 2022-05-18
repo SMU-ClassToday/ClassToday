@@ -45,6 +45,7 @@ struct MockData {
         profileImage: nil,
         company: "상명대학교 수학교육과",
         description: "수학에 관심이 많은, 개발자를 지망하는 수학교육 전공자입니다. 궁금하신 점은 메세지 문의 언제든지 주세요!",
+        stars: nil,
         subjects: [.korean, .math, .english, .science, .hobby],
         chatItems: nil
     )
@@ -58,6 +59,7 @@ struct MockData {
         profileImage: nil,
         company: "상명대학교 한일문화콘텐츠전공",
         description: "수학에 관심이 많은, 개발자를 지망하는 일본어 전공자입니다. 궁금하신 점은 메세지 문의 언제든지 주세요!",
+        stars: nil,
         subjects: [.korean, .math, .english, .science, .hobby],
         chatItems: nil
     )
