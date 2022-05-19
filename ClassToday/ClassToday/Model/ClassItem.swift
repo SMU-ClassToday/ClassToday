@@ -27,4 +27,43 @@ struct ClassItem: Codable {
     let createdTime: Date
     let modifiedTime: Date?
     let match: [Match]?
+
+    func thumbnailImage(completion: @escaping (UIImage?) -> Void) {
+        guard let imagesURL = images, let url = imagesURL.first  else {
+            completion(nil)
+            return
+        }
+        StorageManager.shared.downloadImage(urlString: url) { result in
+            switch result {
+            case .success(let image):
+                completion(image)
+            case .failure(let error):
+                debugPrint(error)
+            }
+        }
+    }
+
+    func fetchedImages(completion: @escaping ([UIImage]?) -> Void) {
+        var fetchedImages: [UIImage] = []
+        let group = DispatchGroup()
+        if let imagesURL = images {
+            for url in imagesURL {
+                group.enter()
+                StorageManager.shared.downloadImage(urlString: url) { result in
+                    switch result {
+                    case .success(let image):
+                        fetchedImages.append(image)
+                    case .failure(let error):
+                        debugPrint(error)
+                    }
+                    group.leave()
+                }
+            }
+            group.notify(queue: DispatchQueue.main) {
+                completion(fetchedImages)
+            }
+        } else {
+            completion(nil)
+        }
+    }
 }

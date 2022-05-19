@@ -143,26 +143,8 @@ extension ClassDetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
-            let group = DispatchGroup()
-            if let imagesURL = classItem.images {
-                var images: [UIImage] = []
-                for url in imagesURL {
-                    group.enter()
-                    storageManager.downloadImage(urlString: url) { result in
-                        switch result {
-                        case .success(let image):
-                            images.append(image)
-                        case .failure(let error):
-                            debugPrint(error)
-                        }
-                        group.leave()
-                    }
-                }
-                group.notify(queue: DispatchQueue.main) {
-                    cell.configureWith(images: images)
-                }
-            } else {
-                cell.configureWith(images: nil)
+            classItem.fetchedImages { images in
+                cell.configureWith(images: images)
             }
             return cell
         case 1:
