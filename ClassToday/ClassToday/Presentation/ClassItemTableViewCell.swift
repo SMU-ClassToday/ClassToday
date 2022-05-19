@@ -121,17 +121,9 @@ class ClassItemTableViewCell: UITableViewCell {
     }
 
     func configureWith(classItem: ClassItem) {
-        if let imageURL = classItem.images?.first {
-            DispatchQueue.main.async {
-                self.storageManager.downloadImage(urlString: imageURL) { [weak self] result in
-                    guard let self = self else { return }
-                    switch result {
-                    case .success(let image):
-                        self.thumbnailView.image = image
-                    case .failure(let error):
-                        debugPrint(error)
-                    }
-                }
+        classItem.thumbnailImage { [weak self] image in
+            if let image = image {
+                self?.thumbnailView.image = image
             }
         }
         titleLabel.text = classItem.name
