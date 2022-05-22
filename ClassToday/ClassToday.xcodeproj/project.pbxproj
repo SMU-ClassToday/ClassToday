@@ -60,6 +60,7 @@
 		89675B422828336C00933C48 /* DetailContentPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B412828336B00933C48 /* DetailContentPlaceView.swift */; };
 		89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */; };
 		89675B492828C84400933C48 /* Extension+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B482828C84400933C48 /* Extension+NavigationBar.swift */; };
+		8971F21C283A1A4200D4AAD0 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */; };
 		89865E9D282A70D700113242 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F9280DC02800D5D3DC /* MainViewController.swift */; };
 		89865E9E282A70DC00113242 /* SearchRecentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC87FA9F281ECF6500F57CE0 /* SearchRecentTableViewCell.swift */; };
 		89865E9F282A70DE00113242 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */; };
@@ -149,6 +150,7 @@
 		89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCustomNavigationBar.swift; sourceTree = "<group>"; };
 		89675B482828C84400933C48 /* Extension+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+NavigationBar.swift"; sourceTree = "<group>"; };
 		89675B4C282976CA00933C48 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryCollectionFlowLayout.swift; sourceTree = "<group>"; };
 		89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageCell.swift; sourceTree = "<group>"; };
 		89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageEnrollCell.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 			children = (
 				892C1CC8283211B300DE27D3 /* FirestoreManager.swift */,
 				892C1CD22832DABF00DE27D3 /* StorageManager.swift */,
+				8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -651,6 +654,7 @@
 				89098E03282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift in Sources */,
 				89098E3A282271E2006EFD4E /* ClassModifyViewController.swift in Sources */,
 				89675B2F2827BFDE00933C48 /* DetailUserCell.swift in Sources */,
+				8971F21C283A1A4200D4AAD0 /* ImageCacheManager.swift in Sources */,
 				892C1CCF28322AD600DE27D3 /* ClassItemType.swift in Sources */,
 				89C26A8C2811EC3A00648206 /* Extension+UITextField.swift in Sources */,
 				89A67349282A639900951300 /* Icon.swift in Sources */,

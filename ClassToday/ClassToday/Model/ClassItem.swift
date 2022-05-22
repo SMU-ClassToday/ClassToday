@@ -33,9 +33,13 @@ struct ClassItem: Codable {
             completion(nil)
             return
         }
+        if let cachedImage = ImageCacheManager.shared.object(forKey: url as NSString) {
+            completion(cachedImage)
+        }
         StorageManager.shared.downloadImage(urlString: url) { result in
             switch result {
             case .success(let image):
+                ImageCacheManager.shared.setObject(image, forKey: url as NSString)
                 completion(image)
             case .failure(let error):
                 debugPrint(error)
@@ -48,15 +52,20 @@ struct ClassItem: Codable {
         let group = DispatchGroup()
         if let imagesURL = images {
             for url in imagesURL {
-                group.enter()
-                StorageManager.shared.downloadImage(urlString: url) { result in
-                    switch result {
-                    case .success(let image):
-                        fetchedImages.append(image)
-                    case .failure(let error):
-                        debugPrint(error)
+                if let cachedImage = ImageCacheManager.shared.object(forKey: url as NSString) {
+                    fetchedImages.append(cachedImage)
+                } else {
+                    group.enter()
+                    StorageManager.shared.downloadImage(urlString: url) { result in
+                        switch result {
+                        case .success(let image):
+                            ImageCacheManager.shared.setObject(image, forKey: url as NSString)
+                            fetchedImages.append(image)
+                        case .failure(let error):
+                            debugPrint(error)
+                        }
+                        group.leave()
                     }
-                    group.leave()
                 }
             }
             group.notify(queue: DispatchQueue.main) {
