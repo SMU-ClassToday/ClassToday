@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class SearchResultViewController: UIViewController {
     //MARK: - NavigationBar Components
@@ -24,6 +25,7 @@ class SearchResultViewController: UIViewController {
         searchBar.setImage(UIImage(), for: UISearchBar.Icon.search, state: .normal)
         searchBar.placeholder = "검색어를 입력해주세요"
         searchBar.inputAccessoryView = toolBarKeyboard
+        searchBar.text = keyword
         searchBar.delegate = self
         return searchBar
     }()
@@ -67,6 +69,9 @@ class SearchResultViewController: UIViewController {
 
     // MARK: Properties
     private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
+    private var data: [ClassItem] = []
+    private let firestoreManager = FirestoreManager.shared
+    var keyword: String = ""
 
     //MARK: - view lifecycle
     override func viewDidLoad() {
@@ -74,8 +79,17 @@ class SearchResultViewController: UIViewController {
         view.backgroundColor = .white
         setNavigationBar()
         layout()
+        keywordSearch(keyword: keyword)
     }
-
+    
+    // MARK: - Method
+    private func keywordSearch(keyword: String) {
+        firestoreManager.keywordSearch(keyword: keyword) { [weak self] data in
+            guard let self = self else { return }
+            self.data = data
+            self.classItemTableView.reloadData()
+        }
+    }
 }
 
 //MARK: - objc functions
@@ -136,7 +150,7 @@ private extension SearchResultViewController {
 //MARK: - tableview datasource
 extension SearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datas.count
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -144,7 +158,7 @@ extension SearchResultViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        let classItem = datas[indexPath.row]
+        let classItem = data[indexPath.row]
         cell.configureWith(classItem: classItem)
         return cell
     }
@@ -153,7 +167,7 @@ extension SearchResultViewController: UITableViewDataSource {
 //MARK: - TableView Delegate
 extension SearchResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let classItem = datas[indexPath.row]
+        let classItem = data[indexPath.row]
         navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
     }
 }
