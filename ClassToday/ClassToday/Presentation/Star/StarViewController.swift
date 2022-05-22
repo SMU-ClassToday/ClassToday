@@ -39,6 +39,7 @@ class StarViewController: UIViewController {
         classItemTableView.refreshControl = refreshControl
         classItemTableView.rowHeight = 150.0
         classItemTableView.dataSource = self
+        classItemTableView.delegate = self
         classItemTableView.register(ClassItemTableViewCell.self, forCellReuseIdentifier: ClassItemTableViewCell.identifier)
         return classItemTableView
     }()
@@ -73,6 +74,7 @@ class StarViewController: UIViewController {
     }
 }
 
+//MARK: - objc methods
 private extension StarViewController {
     @objc func didTapBackButton() {
         navigationController?.popViewController(animated: true)
@@ -84,6 +86,7 @@ private extension StarViewController {
     }
 }
 
+//MARK: - Autolayout
 private extension StarViewController {
     func layout() {
         [
@@ -97,6 +100,7 @@ private extension StarViewController {
     }
 }
 
+//MARK: - TableView DataSource
 extension StarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
@@ -110,5 +114,12 @@ extension StarViewController: UITableViewDataSource {
         let classItem = data[indexPath.row]
         cell.configureWith(classItem: classItem)
         return cell
+    }
+}
+
+extension StarViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let classItem = data[indexPath.row]
+        navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
     }
 }
