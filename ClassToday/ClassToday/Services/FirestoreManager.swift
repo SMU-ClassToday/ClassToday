@@ -110,6 +110,5 @@ class FirestoreManager {
             }
             completion(data)
         }
-        print(data)
     }
 }
