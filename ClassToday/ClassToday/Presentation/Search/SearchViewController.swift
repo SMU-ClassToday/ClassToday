@@ -137,7 +137,7 @@ extension SearchViewController: UISearchBarDelegate {
         searchHistoryList.insert(newSearchHistory, at: 0)
         saveSearchHistory()
         let searchResultViewController = SearchResultViewController()
-        searchResultViewController.searchBar.text = searchBar.text
+        searchResultViewController.keyword = searchBar.text ?? ""
         navigationController?.pushViewController(searchResultViewController, animated: true)
     }
 }
@@ -167,7 +167,7 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let searchResultViewController = SearchResultViewController()
-        searchResultViewController.searchBar.text = searchHistoryList[indexPath.row].text
+        searchResultViewController.keyword = searchHistoryList[indexPath.row].text
         navigationController?.pushViewController(searchResultViewController, animated: true)
     }
 }
