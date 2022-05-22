@@ -68,6 +68,8 @@ class MainViewController: UIViewController {
     
     // MARK: Properties
     private var data: [ClassItem] = []
+    private var dataBuy: [ClassItem] = []
+    private var dataSell: [ClassItem] = []
     private let firestoreManager = FirestoreManager.shared
 
     //MARK: - view lifecycle
@@ -89,6 +91,8 @@ class MainViewController: UIViewController {
         firestoreManager.fetch { [weak self] data in
             guard let self = self else { return }
             self.data = data
+            self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
+            self.dataSell = data.filter { $0.itemType == ClassItemType.sell }
             self.classItemTableView.reloadData()
         }
     }
@@ -107,10 +111,13 @@ private extension MainViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             print("모두")
+            fetchData()
         case 1:
             print("구매글")
+            classItemTableView.reloadData()
         case 2:
             print("판매글")
+            classItemTableView.reloadData()
         default:
             break
         }
@@ -162,7 +169,16 @@ private extension MainViewController {
 //MARK: - TableView datasource
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                return data.count
+            case 1:
+                return dataBuy.count
+            case 2:
+                return dataSell.count
+            default:
+                return data.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -170,7 +186,17 @@ extension MainViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        let classItem = data[indexPath.row]
+        let classItem: ClassItem
+        switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                classItem = data[indexPath.row]
+            case 1:
+                classItem = dataBuy[indexPath.row]
+            case 2:
+                classItem = dataSell[indexPath.row]
+            default:
+                classItem = data[indexPath.row]
+        }
         cell.configureWith(classItem: classItem)
         return cell
     }

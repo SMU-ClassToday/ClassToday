@@ -59,6 +59,8 @@ class CategoryDetailViewController: UIViewController {
 
     private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
     private var data: [ClassItem] = []
+    private var dataBuy: [ClassItem] = []
+    private var dataSell: [ClassItem] = []
     private let firestoreManager = FirestoreManager.shared
     private var categoryItem: Subject?
     
@@ -86,6 +88,8 @@ class CategoryDetailViewController: UIViewController {
         firestoreManager.categorySort(category: category) { [weak self] data in
             guard let self = self else { return }
             self.data = data
+            self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
+            self.dataSell = data.filter { $0.itemType == ClassItemType.sell }
             self.classItemTableView.reloadData()
         }
     }
@@ -97,10 +101,13 @@ private extension CategoryDetailViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             print("모두")
+            classItemTableView.reloadData()
         case 1:
             print("구매글")
+            classItemTableView.reloadData()
         case 2:
             print("판매글")
+            classItemTableView.reloadData()
         default:
             break
         }
@@ -140,7 +147,16 @@ private extension CategoryDetailViewController {
 //MARK: - tableview datasource
 extension CategoryDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                return data.count
+            case 1:
+                return dataBuy.count
+            case 2:
+                return dataSell.count
+            default:
+                return data.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -148,7 +164,17 @@ extension CategoryDetailViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        let classItem = data[indexPath.row]
+        let classItem: ClassItem
+        switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                classItem = data[indexPath.row]
+            case 1:
+                classItem = dataBuy[indexPath.row]
+            case 2:
+                classItem = dataSell[indexPath.row]
+            default:
+                classItem = data[indexPath.row]
+        }
         cell.configureWith(classItem: classItem)
         return cell
     }
