@@ -193,7 +193,17 @@ extension SearchResultViewController: UITableViewDataSource {
 //MARK: - TableView Delegate
 extension SearchResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let classItem = data[indexPath.row]
+        let classItem: ClassItem
+        switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                classItem = data[indexPath.row]
+            case 1:
+                classItem = dataBuy[indexPath.row]
+            case 2:
+                classItem = dataSell[indexPath.row]
+            default:
+                classItem = data[indexPath.row]
+        }
         navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
     }
 }
