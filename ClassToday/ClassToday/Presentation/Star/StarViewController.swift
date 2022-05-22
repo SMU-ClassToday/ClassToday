@@ -52,12 +52,24 @@ class StarViewController: UIViewController {
     // MARK: Properties
 
     private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
+    private var data: [ClassItem] = []
+    private let firestoreManager = FirestoreManager.shared
 
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBar()
         layout()
+        starSort(starList: MockData.mockUser.stars ?? [""])
+    }
+    
+    // MARK: - Method
+    private func starSort(starList: [String]) {
+        firestoreManager.starSort(starList: starList) { [weak self] data in
+            guard let self = self else { return }
+            self.data = data
+            self.classItemTableView.reloadData()
+        }
     }
 }
 
@@ -87,7 +99,7 @@ private extension StarViewController {
 
 extension StarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datas.count
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -95,7 +107,8 @@ extension StarViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        cell.configureWith(classItem: MockData.classItem)
+        let classItem = data[indexPath.row]
+        cell.configureWith(classItem: classItem)
         return cell
     }
 }
