@@ -69,4 +69,25 @@ class FirestoreManager {
             completion(data)
         }
     }
+    
+    //category
+    func categorySort(category: String, completion: @escaping ([ClassItem]) -> ()) {
+        var data: [ClassItem] = []
+        FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { (querySnapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            } else {
+                for document in querySnapshot!.documents {
+                    do {
+                        let classItem = try document.data(as: ClassItem.self)
+                        data.append(classItem)
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
 }

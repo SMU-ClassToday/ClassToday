@@ -24,6 +24,7 @@ class CategoryDetailViewController: UIViewController {
     private func setNavigationBar() {
         navigationItem.leftBarButtonItem = leftBarItem
         navigationItem.titleView = navigationTitle
+        navigationTitle.text = categoryItem?.description
     }
     
     //MARK: - UI Components
@@ -57,12 +58,15 @@ class CategoryDetailViewController: UIViewController {
     // MARK: Properties
 
     private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
+    private var data: [ClassItem] = []
+    private let firestoreManager = FirestoreManager.shared
+    private var categoryItem: Subject?
     
     // MARK: Initialize
 
-    init(categoryItem: CategoryItem) {
+    init(categoryItem: Subject) {
         super.init(nibName: nil, bundle: nil)
-        navigationTitle.text = categoryItem.description
+        self.categoryItem = categoryItem
     }
 
     required init?(coder: NSCoder) {
@@ -74,6 +78,16 @@ class CategoryDetailViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBar()
         layout()
+        categorySort(category: categoryItem?.caseName ?? "")
+    }
+    
+    //MARK: - Methods
+    private func categorySort(category: String) {
+        firestoreManager.categorySort(category: category) { [weak self] data in
+            guard let self = self else { return }
+            self.data = data
+            self.classItemTableView.reloadData()
+        }
     }
 }
 
@@ -126,7 +140,7 @@ private extension CategoryDetailViewController {
 //MARK: - tableview datasource
 extension CategoryDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datas.count
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -134,7 +148,7 @@ extension CategoryDetailViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        let classItem = datas[indexPath.row]
+        let classItem = data[indexPath.row]
         cell.configureWith(classItem: classItem)
         return cell
     }
@@ -144,7 +158,7 @@ extension CategoryDetailViewController: UITableViewDataSource {
 
 extension CategoryDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let classItem = datas[indexPath.row]
+        let classItem = data[indexPath.row]
         navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
     }
 }
