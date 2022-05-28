@@ -48,4 +48,14 @@ class FirestoreManager {
     func update(classItem: ClassItem) {
         upload(classItem: classItem)
     }
+
+    func delete(classItem: ClassItem) {
+        FirestoreRoute.classItem.ref.document(classItem.id).delete { err in
+            if let err = err {
+                debugPrint("Error removing document: \(err)")
+            } else {
+                debugPrint("Document successfully removed!")
+            }
+        }
+    }
 }

@@ -8,9 +8,9 @@
 import UIKit
 
 class ClassDetailViewController: UIViewController {
-
+    
     // MARK: - Views
-
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
@@ -22,21 +22,16 @@ class ClassDetailViewController: UIViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         return tableView
     }()
-    
     private lazy var navigationBar: DetailCustomNavigationBar = {
         let navigationBar = DetailCustomNavigationBar(isImages: true)
         navigationBar.setupButton(with: classItem.writer.name)
         navigationBar.delegate = self
         return navigationBar
     }()
-    
     private lazy var matchingButton: UIButton = {
         let button = UIButton()
-        button.setTitle(classItem.writer == MockData.mockUser ? "채팅 목록" : "신청하기", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        button.backgroundColor = .mainColor
         button.addTarget(self, action: #selector(didTapMatchingButton(_:)), for: .touchUpInside)
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 15
         return button
     }()
 
@@ -44,6 +39,7 @@ class ClassDetailViewController: UIViewController {
 
     private var classItem: ClassItem
     private let storageManager = StorageManager.shared
+    private let fireStoreManager = FirestoreManager.shared
 
     // MARK: - Initialize
 
@@ -51,7 +47,6 @@ class ClassDetailViewController: UIViewController {
         self.classItem = classItem
         super.init(nibName: nil, bundle: nil)
     }
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -78,6 +73,8 @@ class ClassDetailViewController: UIViewController {
         self.hidesBottomBarWhenPushed = false
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+    }
     // MARK: - Method
 
     private func configureUI() {
@@ -85,19 +82,25 @@ class ClassDetailViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(navigationBar)
         tableView.addSubview(matchingButton)
-        
+
         tableView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.top.equalToSuperview()
         }
-        
+
         matchingButton.snp.makeConstraints {
             $0.centerX.equalTo(view)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-24)
             $0.width.equalTo(view).multipliedBy(0.5)
         }
+
+        if classItem.validity {
+            setButtonOnSale()
+        } else {
+            setButtonOffSale()
+        }
     }
-    
+
     private func whiteBackNavigationBar() {
         navigationBar.gradientLayer.backgroundColor = UIColor.white.cgColor
         navigationBar.gradientLayer.colors = [UIColor.white.cgColor]
@@ -107,7 +110,7 @@ class ClassDetailViewController: UIViewController {
         navigationBar.lineView.isHidden = false
         navigationController?.navigationBar.barStyle = .default
     }
-    
+
     private func blackBackNavigationBar() {
         navigationBar.gradientLayer.backgroundColor = UIColor.clear.cgColor
         navigationBar.gradientLayer.colors = [UIColor.black.withAlphaComponent(0.7).cgColor, UIColor.clear.cgColor]
@@ -172,7 +175,7 @@ extension ClassDetailViewController: UITableViewDelegate {
             return 0
         }
     }
-    
+
     // 스크롤에 따른 네비게이션 바 전환
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffsetY = tableView.contentOffset.y
@@ -201,5 +204,38 @@ extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
     }
     func pushEditPage() {
         present(ClassModifyViewController(classItem: classItem), animated: true, completion: nil)
+    }
+    func pushAlert(alert: UIAlertController) {
+        present(alert, animated: true)
+    }
+    func deleteClassItem() {
+        fireStoreManager.delete(classItem: classItem)
+        navigationController?.popViewController(animated: true)
+    }
+    func toggleClassItem() {
+        classItem.validity.toggle()
+        if classItem.validity {
+            setButtonOnSale()
+        } else {
+            setButtonOffSale()
+        }
+        fireStoreManager.update(classItem: classItem)
+    }
+    func classItemValidity() -> Bool {
+        return classItem.validity
+    }
+}
+
+// MARK: - Extension for Button
+extension ClassDetailViewController {
+    func setButtonOnSale() {
+        matchingButton.setTitle(classItem.writer == MockData.mockUser ? "채팅 목록" : "신청하기", for: .normal)
+        matchingButton.backgroundColor = .mainColor
+        matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+    }
+    func setButtonOffSale() {
+        matchingButton.setTitle("종료된 수업입니다", for: .normal)
+        matchingButton.backgroundColor = .systemGray
+        matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
     }
 }

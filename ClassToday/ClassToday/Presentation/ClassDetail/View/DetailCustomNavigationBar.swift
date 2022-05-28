@@ -6,10 +6,15 @@
 //
 
 import UIKit
+import SwiftUI
 
 protocol DetailCustomNavigationBarDelegate: AnyObject {
     func goBackPage()
     func pushEditPage()
+    func pushAlert(alert: UIAlertController)
+    func deleteClassItem()
+    func toggleClassItem()
+    func classItemValidity() -> Bool
 }
 
 class DetailCustomNavigationBar: UIView {
@@ -53,6 +58,19 @@ class DetailCustomNavigationBar: UIView {
         view.backgroundColor = UIColor(red: 207, green: 212, blue: 216, alpha: 1)
         view.isHidden = true
         return view
+    }()
+
+    private lazy var deleteAlert: UIAlertController = {
+        let alertController = UIAlertController(title: nil, message: "수업을 삭제하시겠어요?", preferredStyle: .alert)
+        let actionCancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let actionDelete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+            self.delegate?.deleteClassItem()
+        }
+        [actionCancel, actionDelete].forEach {
+            alertController.addAction($0)
+        }
+        return alertController
     }()
 
     // MARK: - Properties
@@ -128,8 +146,8 @@ class DetailCustomNavigationBar: UIView {
     }
 
     func setupButton(with userName: String) {
-        if userName == MockData.mockUser2.name {
-            rightButton.setImage(UIImage(systemName: "pencil"), for: .normal)
+        if userName == MockData.mockUser.name {
+            rightButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
             rightButton.addTarget(self, action: #selector(didTapEditButton(_:)), for: .touchUpInside)
         } else {
             rightButton.setImage(UIImage(systemName: "exclamationmark.circle"), for: .normal)
@@ -171,6 +189,32 @@ class DetailCustomNavigationBar: UIView {
     }
 
     @objc func didTapEditButton(_ button: UIButton) {
-        delegate?.pushEditPage()
+        let rightButtonAlert: UIAlertController = {
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let alertEditAction = UIAlertAction(title: "수정", style: .default) { [weak self] _ in
+                guard let self = self else { return }
+                self.delegate?.pushEditPage()
+            }
+
+            guard let delegate = delegate else { return alertController }
+            let condition = delegate.classItemValidity()
+            let alertDisableAction = UIAlertAction(title: condition ? "비활성화":"활성화",
+                                                   style: condition ? .destructive : .default) { [weak self] _ in
+                guard let self = self else { return }
+                self.delegate?.toggleClassItem()
+            }
+            let alertDeleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+                guard let self = self else { return }
+                self.delegate?.pushAlert(alert: self.deleteAlert)
+            }
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+                alertController.dismiss(animated: true)
+            }
+            [alertEditAction, alertDisableAction, alertDeleteAction, cancelAction].forEach {
+                alertController.addAction($0)
+            }
+            return alertController
+        }()
+        delegate?.pushAlert(alert: rightButtonAlert)
     }
 }
