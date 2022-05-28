@@ -312,7 +312,15 @@ extension ClassModifyViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
-            cell.configureType(with: CategoryType.allCases[indexPath.row])
+            let categoryType = CategoryType.allCases[indexPath.row]
+            cell.configureType(with: categoryType)
+            switch categoryType {
+            case .subject:
+                cell.configure(with: classSubject)
+                
+            case .target:
+                cell.configure(with: classTarget)
+            }
             return cell
         default:
             return UITableViewCell()
