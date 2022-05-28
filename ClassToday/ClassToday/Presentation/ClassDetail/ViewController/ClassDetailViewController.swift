@@ -25,7 +25,7 @@ class ClassDetailViewController: UIViewController {
     
     private lazy var navigationBar: DetailCustomNavigationBar = {
         let navigationBar = DetailCustomNavigationBar(isImages: true)
-        navigationBar.setupButton(with: classItem.id)
+        navigationBar.setupButton(with: classItem.writer.name)
         navigationBar.delegate = self
         return navigationBar
     }()
