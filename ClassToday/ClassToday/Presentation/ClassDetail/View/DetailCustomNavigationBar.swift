@@ -127,13 +127,13 @@ class DetailCustomNavigationBar: UIView {
         }
     }
 
-    func setupButton(with userID: String) {
-        if userID == MockData.mockUser.id {
-            rightButton.setImage(UIImage(systemName: "exclamationmark.circle"), for: .normal)
-            rightButton.addTarget(self, action: #selector(didTapReportButton(_:)), for: .touchUpInside)
-        } else {
+    func setupButton(with userName: String) {
+        if userName == MockData.mockUser2.name {
             rightButton.setImage(UIImage(systemName: "pencil"), for: .normal)
             rightButton.addTarget(self, action: #selector(didTapEditButton(_:)), for: .touchUpInside)
+        } else {
+            rightButton.setImage(UIImage(systemName: "exclamationmark.circle"), for: .normal)
+            rightButton.addTarget(self, action: #selector(didTapReportButton(_:)), for: .touchUpInside)
         }
     }
 
