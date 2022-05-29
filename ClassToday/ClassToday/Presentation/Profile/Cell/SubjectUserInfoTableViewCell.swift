@@ -29,7 +29,7 @@ class SubjectUserInfoTableViewCell: UITableViewCell {
             SubjectCollectionViewCell.self,
             forCellWithReuseIdentifier: SubjectCollectionViewCell.identifier
         )
-        collectionView.isHidden = user.subjects.isEmpty
+        collectionView.isHidden = user.subjects?.isEmpty ?? true
         return collectionView
     }()
     private lazy var emptyLabel: UILabel = {
@@ -37,7 +37,7 @@ class SubjectUserInfoTableViewCell: UITableViewCell {
         label.text = "관심 분야를 등록해주세요"
         label.font = .systemFont(ofSize: 16.0, weight: .medium)
         label.textColor = .secondaryLabel
-        label.isHidden = !user.subjects.isEmpty
+        label.isHidden = !(user.subjects?.isEmpty ?? false)
         return label
     }()
     
@@ -66,7 +66,7 @@ extension SubjectUserInfoTableViewCell: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         // 셀에 적용될 텍스트의 사이즈를 측정한 후
-        guard let fontCGSize = user.subjects[indexPath.item]?.text.size(
+        guard let fontCGSize = user.subjects?[indexPath.item].description.size(
             withAttributes: [NSAttributedString.Key.font : subjectFont]
         ) else { return .zero }
         let width = fontCGSize.width
@@ -82,7 +82,7 @@ extension SubjectUserInfoTableViewCell: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return user.subjects.count
+        return user.subjects?.count ?? 0
     }
     func collectionView(
         _ collectionView: UICollectionView,
@@ -92,7 +92,7 @@ extension SubjectUserInfoTableViewCell: UICollectionViewDataSource {
             withReuseIdentifier: SubjectCollectionViewCell.identifier,
             for: indexPath
         ) as? SubjectCollectionViewCell else { return UICollectionViewCell() }
-        if let subject = user.subjects[indexPath.item] {
+        if let subject = user.subjects?[indexPath.item] {
             cell.setupView(subject: subject, font: subjectFont)
         }
         return cell

@@ -14,35 +14,35 @@ class GradeStarView: UIView {
     private let starColor: UIColor = .systemYellow
     private lazy var starImageView1: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star")
+        imageView.image = Icon.star.image
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = starColor
         return imageView
     }()
     private lazy var starImageView2: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star")
+        imageView.image = Icon.star.image
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = starColor
         return imageView
     }()
     private lazy var starImageView3: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star")
+        imageView.image = Icon.star.image
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = starColor
         return imageView
     }()
     private lazy var starImageView4: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star")
+        imageView.image = Icon.star.image
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = starColor
         return imageView
     }()
     private lazy var starImageView5: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star")
+        imageView.image = Icon.star.image
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = starColor
         return imageView
@@ -80,25 +80,25 @@ private extension GradeStarView {
         case (0.0..<1.0):
             break
         case (1.0..<2.0):
-            starImageView1.image = UIImage(systemName: "star.fill")
+            starImageView1.image = Icon.fillStar.image
         case (2.0..<3.0):
-            starImageView1.image = UIImage(systemName: "star.fill")
-            starImageView2.image = UIImage(systemName: "star.fill")
+            starImageView1.image = Icon.fillStar.image
+            starImageView2.image = Icon.fillStar.image
         case (3.0..<4.0):
-            starImageView1.image = UIImage(systemName: "star.fill")
-            starImageView2.image = UIImage(systemName: "star.fill")
-            starImageView3.image = UIImage(systemName: "star.fill")
+            starImageView1.image = Icon.fillStar.image
+            starImageView2.image = Icon.fillStar.image
+            starImageView3.image = Icon.fillStar.image
         case (4.0..<5.0):
-            starImageView1.image = UIImage(systemName: "star.fill")
-            starImageView2.image = UIImage(systemName: "star.fill")
-            starImageView3.image = UIImage(systemName: "star.fill")
-            starImageView4.image = UIImage(systemName: "star.fill")
+            starImageView1.image = Icon.fillStar.image
+            starImageView2.image = Icon.fillStar.image
+            starImageView3.image = Icon.fillStar.image
+            starImageView4.image = Icon.fillStar.image
         case (5.0...):
-            starImageView1.image = UIImage(systemName: "star.fill")
-            starImageView2.image = UIImage(systemName: "star.fill")
-            starImageView3.image = UIImage(systemName: "star.fill")
-            starImageView4.image = UIImage(systemName: "star.fill")
-            starImageView5.image = UIImage(systemName: "star.fill")
+            starImageView1.image = Icon.fillStar.image
+            starImageView2.image = Icon.fillStar.image
+            starImageView3.image = Icon.fillStar.image
+            starImageView4.image = Icon.fillStar.image
+            starImageView5.image = Icon.fillStar.image
         default:
             break
         }

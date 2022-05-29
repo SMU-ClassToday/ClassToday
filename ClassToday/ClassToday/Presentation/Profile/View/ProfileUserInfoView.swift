@@ -183,7 +183,7 @@ private extension ProfileUserInfoView {
     func setupView(user: User) {
         userNameLabel.text = user.nickName
         companyLabel.text = user.company
-        locationLabel.text = user.location
+        locationLabel.text = user.location?.name
         desciptionLabel.text = user.description
         buyCountLabel.text = "6"
         sellCountLabel.text = "7"

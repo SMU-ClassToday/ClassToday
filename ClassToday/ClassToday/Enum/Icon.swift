@@ -17,6 +17,7 @@ enum Icon {
     case search
     case category
     case star
+    case fillStar
     case xmark
     case disclosureIndicator
     
@@ -38,6 +39,8 @@ enum Icon {
             return UIImage(systemName: "square.grid.3x2")
         case .star:
             return UIImage(systemName: "star")
+        case .fillStar:
+            return UIImage(systemName: "star.fill")
         case .xmark:
             return UIImage(systemName: "xmark")
         case .disclosureIndicator:

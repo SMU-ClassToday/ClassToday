@@ -56,7 +56,7 @@ extension ProfileViewController: UITableViewDelegate {
         let optionIndex = indexPath.row - 1
         switch indexPath.row {
         case 0:
-            let viewController = ProfileDetailViewController(user: User.mockUser)
+            let viewController = ProfileDetailViewController(user: MockData.mockUser)
             navigationController?.pushViewController(viewController, animated: true)
         case 1...6:
             let viewController = options[optionIndex].viewController
@@ -82,7 +82,7 @@ extension ProfileViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let cell = ProfileUserInfoTableViewCell(
-                user: User.mockUser,
+                user: MockData.mockUser,
                 type: .brief
             )
             cell.setupView()
