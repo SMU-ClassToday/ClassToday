@@ -21,7 +21,7 @@ class SubjectCollectionViewCell: UICollectionViewCell {
     func setupView(subject: Subject, font: UIFont) {
         attribute()
         layout()
-        setupSubjectLabel(subject: subject.text, font: font)
+        setupSubjectLabel(subject: subject.description, font: font)
     }
 }
 

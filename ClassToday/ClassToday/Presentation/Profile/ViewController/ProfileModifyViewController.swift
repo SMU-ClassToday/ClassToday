@@ -11,7 +11,7 @@ import SnapKit
 class ProfileModifyViewController: UIViewController {
     // MARK: - UI Components
     private lazy var profileUserInfoView = ModifyProfileUserInfoView(user: user)
-    private lazy var subjectPickerView = SubjectPickerView(subjects: user.subjects)
+    private lazy var subjectPickerView = SubjectPickerView(subjects: user.subjects ?? [])
     private lazy var modifyButton: UIButton = {
         let button = UIButton()
         button.setTitle("수정 완료", for: .normal)
@@ -56,7 +56,7 @@ class ProfileModifyViewController: UIViewController {
 private extension ProfileModifyViewController {
     @objc func didTapModifyButton() {
         print("didTapModifyButton")
-        print(subjectPickerView.checkedSubjects.map { ($0.0.text, $0.1) })
+        print(subjectPickerView.checkedSubjects.map { ($0.0.description, $0.1) })
         dismiss(animated: true)
     }
     @objc func didTapLeftBarButton() {

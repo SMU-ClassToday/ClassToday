@@ -49,7 +49,7 @@ private extension SubjectPickerCollectionViewCell {
         }
     }
     func setupTitleLabel(subject: Subject, fontSize: CGFloat) {
-        titleLabel.text = subject.text
+        titleLabel.text = subject.description
         titleLabel.font = .systemFont(ofSize: fontSize, weight: .regular)
     }
     func layout() {
