@@ -82,6 +82,7 @@ class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         fetchData()
+        navigationController?.navigationBar.isHidden = false
     }
 
     // MARK: - Method

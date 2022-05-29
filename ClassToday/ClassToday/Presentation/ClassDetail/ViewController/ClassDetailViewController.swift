@@ -38,6 +38,7 @@ class ClassDetailViewController: UIViewController {
     // MARK: - Properties
 
     private var classItem: ClassItem
+    var delegate: ClassUpdateDelegate?
     private let storageManager = StorageManager.shared
     private let fireStoreManager = FirestoreManager.shared
 
@@ -69,12 +70,8 @@ class ClassDetailViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.barStyle = .default
-        navigationController?.navigationBar.isHidden = false
-        self.hidesBottomBarWhenPushed = false
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-    }
     // MARK: - Method
 
     private func configureUI() {
@@ -147,7 +144,9 @@ extension ClassDetailViewController: UITableViewDataSource {
             }
             cell.delegate = self
             classItem.fetchedImages { images in
-                cell.configureWith(images: images)
+                DispatchQueue.main.async {
+                    cell.configureWith(images: images)
+                }
             }
             return cell
         case 1:
@@ -203,7 +202,9 @@ extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
         navigationController?.popViewController(animated: true)
     }
     func pushEditPage() {
-        present(ClassModifyViewController(classItem: classItem), animated: true, completion: nil)
+        let modifyViewController = ClassModifyViewController(classItem: classItem)
+        modifyViewController.classUpdateDelegate = self
+        present(modifyViewController, animated: true, completion: nil)
     }
     func pushAlert(alert: UIAlertController) {
         present(alert, animated: true)
@@ -223,6 +224,17 @@ extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
     }
     func classItemValidity() -> Bool {
         return classItem.validity
+    }
+}
+
+// MARK: - ClassUpdateDelegate
+extension ClassDetailViewController: ClassUpdateDelegate {
+    func update(with classItem: ClassItem) {
+        self.classItem = classItem
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        }
     }
 }
 

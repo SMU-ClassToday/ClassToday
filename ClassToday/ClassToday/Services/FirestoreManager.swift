@@ -44,6 +44,17 @@ class FirestoreManager {
             completion(data)
         }
     }
+    
+    func fetch(classItem: ClassItem, completion: @escaping (ClassItem) -> ()) {
+        FirestoreRoute.classItem.ref.document(classItem.id).getDocument(as: ClassItem.self) { result in
+            switch result {
+            case .success(let classItem):
+                completion(classItem)
+            case .failure(let error):
+                debugPrint(error)
+            }
+        }
+    }
 
     func update(classItem: ClassItem) {
         upload(classItem: classItem)
