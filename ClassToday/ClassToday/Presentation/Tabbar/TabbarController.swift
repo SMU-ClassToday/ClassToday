@@ -90,10 +90,3 @@ class ChatViewController: UIViewController {
         view.backgroundColor = .white
     }
 }
-//ProfileVC
-class ProfileViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-    }
-}

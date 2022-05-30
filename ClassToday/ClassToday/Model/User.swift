@@ -20,7 +20,7 @@ struct User: Codable, Equatable {
     let stars: [String]?
     let subjects: [Subject]?
     let chatItems: [String]?
-
+    
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.id == rhs.id
     }

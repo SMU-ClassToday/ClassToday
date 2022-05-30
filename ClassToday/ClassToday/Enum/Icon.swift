@@ -1,8 +1,8 @@
 //
 //  Icon.swift
-//  ClassToday
+//  Practice
 //
-//  Created by poohyhy on 2022/04/19.
+//  Created by yc on 2022/04/15.
 //
 
 import UIKit
@@ -17,7 +17,9 @@ enum Icon {
     case search
     case category
     case star
+    case fillStar
     case xmark
+    case disclosureIndicator
     
     var image: UIImage? {
         switch self {
@@ -34,11 +36,15 @@ enum Icon {
         case .search:
             return UIImage(systemName: "magnifyingglass")
         case .category:
-            return UIImage(systemName: "list.bullet")
+            return UIImage(systemName: "square.grid.3x2")
         case .star:
             return UIImage(systemName: "star")
+        case .fillStar:
+            return UIImage(systemName: "star.fill")
         case .xmark:
             return UIImage(systemName: "xmark")
+        case .disclosureIndicator:
+            return UIImage(systemName: "chevron.right")
         }
     }
 }
