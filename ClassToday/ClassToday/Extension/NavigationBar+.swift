@@ -1,5 +1,5 @@
 //
-//  Extension + NavigationBar.swift
+//  NavigationBar+.swift
 //  ClassToday
 //
 //  Created by 박태현 on 2022/05/09.
