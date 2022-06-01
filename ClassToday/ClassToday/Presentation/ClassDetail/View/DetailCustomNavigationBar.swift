@@ -10,6 +10,9 @@ import UIKit
 protocol DetailCustomNavigationBarDelegate: AnyObject {
     func goBackPage()
     func pushEditPage()
+    func addStar()
+    func deleteStar()
+    func checkStar()
 }
 
 class DetailCustomNavigationBar: UIView {
@@ -163,7 +166,12 @@ class DetailCustomNavigationBar: UIView {
 
     @objc func didTapStarButton(_ button: UIButton) {
         button.isSelected.toggle()
-        debugPrint(#function)
+        if button.isSelected {
+            delegate?.addStar()
+        }
+        else {
+            delegate?.deleteStar()
+        }
     }
 
     @objc func didTapReportButton(_ button: UIButton) {

@@ -64,6 +64,10 @@ class StarViewController: UIViewController {
         starSort(starList: MockData.mockUser.stars ?? [""])
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        starSort(starList: MockData.mockUser.stars ?? [""])
+    }
     // MARK: - Method
     private func starSort(starList: [String]) {
         firestoreManager.starSort(starList: starList) { [weak self] data in
@@ -82,6 +86,7 @@ private extension StarViewController {
     
     @objc func beginRefresh() {
         print("beginRefresh!")
+        starSort(starList: MockData.mockUser.stars ?? [""])
         refreshControl.endRefreshing()
     }
 }

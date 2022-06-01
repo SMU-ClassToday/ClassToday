@@ -38,7 +38,7 @@ struct MockData {
     
     static let mockLocation = Location(lat: 11.1111, lon: 11.1111)
 
-    static let mockUser = User(
+    static var mockUser = User(
         name: "이영찬",
         nickName: "Cobugi",
         gender: "남",
