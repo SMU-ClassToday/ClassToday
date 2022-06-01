@@ -86,11 +86,15 @@ class SearchResultViewController: UIViewController {
     
     // MARK: - Method
     private func keywordSearch(keyword: String) {
-        firestoreManager.keywordSearch(keyword: keyword) { [weak self] data in
+        firestoreManager.fetch { [weak self] data in
             guard let self = self else { return }
-            self.data = data
-            self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
-            self.dataSell = data.filter { $0.itemType == ClassItemType.sell }
+            self.data = data.filter {
+                $0.name.contains(keyword) ||
+                $0.description.contains(keyword) ||
+                $0.writer.name.contains(keyword)
+            }
+            self.dataBuy = self.data.filter { $0.itemType == ClassItemType.buy }
+            self.dataSell = self.data.filter { $0.itemType == ClassItemType.sell }
             self.classItemTableView.reloadData()
         }
     }

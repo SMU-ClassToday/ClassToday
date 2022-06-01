@@ -49,26 +49,6 @@ class FirestoreManager {
         upload(classItem: classItem)
     }
     
-    //search
-    func keywordSearch(keyword: String, completion: @escaping ([ClassItem]) -> ()) {
-        var data: [ClassItem] = []
-        FirestoreRoute.classItem.ref.order(by: "name").start(at: [keyword]).end(at: [keyword+"\u{f8ff}"]).getDocuments() { (querySnapshot, error) in
-            if let error = error {
-                debugPrint("Error getting documents: \(error)")
-                return
-            } else {
-                for document in querySnapshot!.documents {
-                    do {
-                        let classItem = try document.data(as: ClassItem.self)
-                        data.append(classItem)
-                    } catch {
-                        debugPrint(error)
-                    }
-                }
-            }
-            completion(data)
-        }
-    }
     
     //category
     func categorySort(category: String, completion: @escaping ([ClassItem]) -> ()) {
