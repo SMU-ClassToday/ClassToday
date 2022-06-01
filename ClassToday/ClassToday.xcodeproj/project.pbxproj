@@ -87,6 +87,7 @@
 		89A67356282A697C00951300 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 89A67355282A697C00951300 /* FirebaseFirestore */; };
 		89A67358282A697C00951300 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 89A67357282A697C00951300 /* FirebaseFirestoreSwift */; };
 		89A6735A282A697C00951300 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 89A67359282A697C00951300 /* FirebaseStorage */; };
+		89B891D1284735A8008B27DD /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B891D0284735A8008B27DD /* LocationManager.swift */; };
 		89C26A8C2811EC3A00648206 /* Extension+UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A8B2811EC3A00648206 /* Extension+UITextField.swift */; };
 		89C26A912811EE1300648206 /* Extension+PHPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A902811EE1300648206 /* Extension+PHPickerViewController.swift */; };
 /* End PBXBuildFile section */
@@ -156,6 +157,7 @@
 		89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageEnrollCell.swift; sourceTree = "<group>"; };
 		89A67340282A634C00951300 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		89A67341282A634C00951300 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		89B891D0284735A8008B27DD /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		89C26A8B2811EC3A00648206 /* Extension+UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UITextField.swift"; sourceTree = "<group>"; };
 		89C26A902811EE1300648206 /* Extension+PHPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+PHPickerViewController.swift"; sourceTree = "<group>"; };
 		990420C98CBC7BA2031CEFC4 /* Pods_ClassToday_NonFirebase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday_NonFirebase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -236,6 +238,7 @@
 				892C1CC8283211B300DE27D3 /* FirestoreManager.swift */,
 				892C1CD22832DABF00DE27D3 /* StorageManager.swift */,
 				8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */,
+				89B891D0284735A8008B27DD /* LocationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				89098E1D2820C445006EFD4E /* ClassEnrollViewController.swift in Sources */,
 				89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */,
 				89A67348282A639600951300 /* Tabbar.swift in Sources */,
+				89B891D1284735A8008B27DD /* LocationManager.swift in Sources */,
 				89675B492828C84400933C48 /* Extension+NavigationBar.swift in Sources */,
 				8966CF5E2810787C001CBBDC /* ClassImageView.swift in Sources */,
 				8941FF212830CDA200A90AB0 /* Match.swift in Sources */,
@@ -843,9 +847,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UZ47X98976;
+				DEVELOPMENT_TEAM = 67D46DJNPH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClassToday/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -873,9 +879,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UZ47X98976;
+				DEVELOPMENT_TEAM = 67D46DJNPH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClassToday/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
