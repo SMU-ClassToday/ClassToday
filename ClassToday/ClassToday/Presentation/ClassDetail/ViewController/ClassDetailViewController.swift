@@ -61,11 +61,13 @@ class ClassDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        checkStar()
         self.setNeedsStatusBarAppearanceUpdate()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        checkStar()
         navigationController?.navigationBar.isHidden = true
         blackBackNavigationBar()
     }
@@ -219,5 +221,22 @@ extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
     }
     func pushEditPage() {
         present(ClassModifyViewController(classItem: classItem), animated: true, completion: nil)
+    }
+    func addStar() {
+        MockData.mockUser.stars?.append(classItem.id)
+    }
+    func deleteStar() {
+        if let index = MockData.mockUser.stars?.firstIndex(of: classItem.id) {
+            MockData.mockUser.stars?.remove(at: index)
+        }
+    }
+    func checkStar() {
+        guard let starList: [String] = MockData.mockUser.stars else { return }
+        if starList.contains(classItem.id) {
+            navigationBar.starButton.isSelected = true
+        }
+        else {
+            navigationBar.starButton.isSelected = false
+        }
     }
 }
