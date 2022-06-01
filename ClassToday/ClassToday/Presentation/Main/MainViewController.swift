@@ -13,8 +13,8 @@ class MainViewController: UIViewController {
     //MARK: - NavigationBar Components
     private lazy var leftTitle: UILabel = {
         let leftTitle = UILabel()
-        leftTitle.text = "서울시 노원구의 수업"
         leftTitle.textColor = .black
+        leftTitle.sizeToFit()
         leftTitle.font = .systemFont(ofSize: 20.0, weight: .bold)
         return leftTitle
     }()
@@ -69,12 +69,14 @@ class MainViewController: UIViewController {
     // MARK: Properties
     private var data: [ClassItem] = []
     private let firestoreManager = FirestoreManager.shared
+    private let locationManager = LocationManager.shared
 
     //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         layout()
+        locationManager.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         fetchData()
@@ -91,6 +93,21 @@ class MainViewController: UIViewController {
             guard let self = self else { return }
             self.data = data
             self.classItemTableView.reloadData()
+        }
+    }
+
+    private func configureLocation() {
+        locationManager.getAddress { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let address):
+                DispatchQueue.main.async {
+                    self.leftTitle.text = address + "의 수업"
+                    self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
+                }
+            case .failure(let error):
+                debugPrint(error)
+            }
         }
     }
 }
@@ -182,5 +199,12 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let classItem = data[indexPath.row]
         navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
+    }
+}
+
+//MARK: - LocationManagerDelegate
+extension MainViewController: LocationManagerDelegate {
+    func didUpdateLocation() {
+        configureLocation()
     }
 }
