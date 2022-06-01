@@ -10,8 +10,8 @@ import SnapKit
 
 class ProfileUserInfoTableViewCell: UITableViewCell {
     
-    let user: User
-    let type: UserProfileType
+    private let user: User
+    private let type: UserProfileType
     
     lazy var infoView = ProfileUserInfoView(user: user, type: type)
     
