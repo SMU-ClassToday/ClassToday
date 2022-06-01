@@ -212,7 +212,7 @@ extension SearchResultViewController: UITableViewDelegate {
 extension SearchResultViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let searchResultViewController = SearchResultViewController()
-        searchResultViewController.searchBar.text = searchBar.text
+        searchResultViewController.keyword = searchBar.text ?? ""
         navigationController?.pushViewController(searchResultViewController, animated: true)
     }
 }
