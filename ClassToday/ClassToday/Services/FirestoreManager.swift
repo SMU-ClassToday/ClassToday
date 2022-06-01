@@ -52,7 +52,7 @@ class FirestoreManager {
     //search
     func keywordSearch(keyword: String, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        FirestoreRoute.classItem.ref.whereField("name", isEqualTo: "\(keyword)").getDocuments() { (querySnapshot, error) in
+        FirestoreRoute.classItem.ref.order(by: "name").start(at: [keyword]).end(at: [keyword+"\u{f8ff}"]).getDocuments() { (querySnapshot, error) in
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
                 return

@@ -25,7 +25,7 @@ enum Tabbar: CaseIterable {
         case .chat:
             return ChatViewController()
         case .profile:
-            return ProfileViewController()
+            return UINavigationController(rootViewController: ProfileViewController())
         }
     }
     
