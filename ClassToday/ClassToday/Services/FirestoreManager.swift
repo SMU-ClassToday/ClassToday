@@ -48,4 +48,49 @@ class FirestoreManager {
     func update(classItem: ClassItem) {
         upload(classItem: classItem)
     }
+    
+    
+    //category
+    func categorySort(category: String, completion: @escaping ([ClassItem]) -> ()) {
+        var data: [ClassItem] = []
+        FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let classItem = try document.data(as: ClassItem.self)
+                        data.append(classItem)
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
+    
+    //star
+    func starSort(starList: [String], completion: @escaping ([ClassItem]) -> ()) {
+        var data: [ClassItem] = []
+        FirestoreRoute.classItem.ref.whereField("id", in: starList).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let classItem = try document.data(as: ClassItem.self)
+                        data.append(classItem)
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
 }
