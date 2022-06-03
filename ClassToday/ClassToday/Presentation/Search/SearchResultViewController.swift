@@ -21,7 +21,7 @@ class SearchResultViewController: UIViewController {
     }()
     
     lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 280, height: 0))
+        let searchBar = UISearchBar()
         searchBar.setImage(UIImage(), for: UISearchBar.Icon.search, state: .normal)
         searchBar.placeholder = "검색어를 입력해주세요"
         searchBar.inputAccessoryView = toolBarKeyboard
@@ -215,9 +215,9 @@ extension SearchResultViewController: UITableViewDelegate {
 //MARK: - searchbar delegate
 extension SearchResultViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let searchResultViewController = SearchResultViewController()
-        searchResultViewController.keyword = searchBar.text ?? ""
-        navigationController?.pushViewController(searchResultViewController, animated: true)
+        keyword = searchBar.text ?? ""
+        keywordSearch(keyword: keyword)
+        searchBar.resignFirstResponder()
     }
 }
 

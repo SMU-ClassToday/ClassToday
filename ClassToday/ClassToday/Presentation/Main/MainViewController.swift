@@ -112,7 +112,7 @@ private extension MainViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             print("모두")
-            fetchData()
+            classItemTableView.reloadData()
         case 1:
             print("구매글")
             classItemTableView.reloadData()

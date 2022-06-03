@@ -53,12 +53,13 @@ class FirestoreManager {
     //category
     func categorySort(category: String, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { (querySnapshot, error) in
+        FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { (snapshot, error) in
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
                 return
-            } else {
-                for document in querySnapshot!.documents {
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
                         data.append(classItem)
@@ -74,12 +75,13 @@ class FirestoreManager {
     //star
     func starSort(starList: [String], completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        FirestoreRoute.classItem.ref.whereField("id", in: starList).getDocuments() { (querySnapshot, error) in
+        FirestoreRoute.classItem.ref.whereField("id", in: starList).getDocuments() { (snapshot, error) in
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
                 return
-            } else {
-                for document in querySnapshot!.documents {
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
                         data.append(classItem)
