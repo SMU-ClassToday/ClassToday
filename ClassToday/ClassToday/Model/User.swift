@@ -17,7 +17,7 @@ struct User: Codable, Equatable {
     let profileImage: String?
     let company: String?
     let description: String?
-    let stars: [String]?
+    var stars: [String]?
     let subjects: [Subject]?
     let chatItems: [String]?
     

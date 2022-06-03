@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class SearchResultViewController: UIViewController {
     //MARK: - NavigationBar Components
@@ -20,10 +21,11 @@ class SearchResultViewController: UIViewController {
     }()
     
     lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 280, height: 0))
+        let searchBar = UISearchBar()
         searchBar.setImage(UIImage(), for: UISearchBar.Icon.search, state: .normal)
         searchBar.placeholder = "검색어를 입력해주세요"
         searchBar.inputAccessoryView = toolBarKeyboard
+        searchBar.text = keyword
         searchBar.delegate = self
         return searchBar
     }()
@@ -67,6 +69,11 @@ class SearchResultViewController: UIViewController {
 
     // MARK: Properties
     private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
+    private var data: [ClassItem] = []
+    private var dataBuy: [ClassItem] = []
+    private var dataSell: [ClassItem] = []
+    private let firestoreManager = FirestoreManager.shared
+    var keyword: String = ""
 
     //MARK: - view lifecycle
     override func viewDidLoad() {
@@ -74,8 +81,23 @@ class SearchResultViewController: UIViewController {
         view.backgroundColor = .white
         setNavigationBar()
         layout()
+        keywordSearch(keyword: keyword)
     }
-
+    
+    // MARK: - Method
+    private func keywordSearch(keyword: String) {
+        firestoreManager.fetch { [weak self] data in
+            guard let self = self else { return }
+            self.data = data.filter {
+                $0.name.contains(keyword) ||
+                $0.description.contains(keyword) ||
+                $0.writer.name.contains(keyword)
+            }
+            self.dataBuy = self.data.filter { $0.itemType == ClassItemType.buy }
+            self.dataSell = self.data.filter { $0.itemType == ClassItemType.sell }
+            self.classItemTableView.reloadData()
+        }
+    }
 }
 
 //MARK: - objc functions
@@ -84,10 +106,13 @@ private extension SearchResultViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             print("모두")
+            classItemTableView.reloadData()
         case 1:
             print("구매글")
+            classItemTableView.reloadData()
         case 2:
             print("판매글")
+            classItemTableView.reloadData()
         default:
             break
         }
@@ -136,7 +161,16 @@ private extension SearchResultViewController {
 //MARK: - tableview datasource
 extension SearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datas.count
+        switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                return data.count
+            case 1:
+                return dataBuy.count
+            case 2:
+                return dataSell.count
+            default:
+                return data.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -144,7 +178,17 @@ extension SearchResultViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        let classItem = datas[indexPath.row]
+        let classItem: ClassItem
+        switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                classItem = data[indexPath.row]
+            case 1:
+                classItem = dataBuy[indexPath.row]
+            case 2:
+                classItem = dataSell[indexPath.row]
+            default:
+                classItem = data[indexPath.row]
+        }
         cell.configureWith(classItem: classItem)
         return cell
     }
@@ -153,7 +197,17 @@ extension SearchResultViewController: UITableViewDataSource {
 //MARK: - TableView Delegate
 extension SearchResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let classItem = datas[indexPath.row]
+        let classItem: ClassItem
+        switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                classItem = data[indexPath.row]
+            case 1:
+                classItem = dataBuy[indexPath.row]
+            case 2:
+                classItem = dataSell[indexPath.row]
+            default:
+                classItem = data[indexPath.row]
+        }
         navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
     }
 }
@@ -161,9 +215,9 @@ extension SearchResultViewController: UITableViewDelegate {
 //MARK: - searchbar delegate
 extension SearchResultViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let searchResultViewController = SearchResultViewController()
-        searchResultViewController.searchBar.text = searchBar.text
-        navigationController?.pushViewController(searchResultViewController, animated: true)
+        keyword = searchBar.text ?? ""
+        keywordSearch(keyword: keyword)
+        searchBar.resignFirstResponder()
     }
 }
 
