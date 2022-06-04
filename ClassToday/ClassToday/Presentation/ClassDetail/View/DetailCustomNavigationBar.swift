@@ -15,6 +15,9 @@ protocol DetailCustomNavigationBarDelegate: AnyObject {
     func deleteClassItem()
     func toggleClassItem()
     func classItemValidity() -> Bool
+    func addStar()
+    func deleteStar()
+    func checkStar()
 }
 
 class DetailCustomNavigationBar: UIView {
@@ -181,7 +184,12 @@ class DetailCustomNavigationBar: UIView {
 
     @objc func didTapStarButton(_ button: UIButton) {
         button.isSelected.toggle()
-        debugPrint(#function)
+        if button.isSelected {
+            delegate?.addStar()
+        }
+        else {
+            delegate?.deleteStar()
+        }
     }
 
     @objc func didTapReportButton(_ button: UIButton) {
@@ -197,9 +205,9 @@ class DetailCustomNavigationBar: UIView {
             }
 
             guard let delegate = delegate else { return alertController }
-            let condition = delegate.classItemValidity()
-            let alertDisableAction = UIAlertAction(title: condition ? "비활성화":"활성화",
-                                                   style: condition ? .destructive : .default) { [weak self] _ in
+            let validity = delegate.classItemValidity()
+            let alertDisableAction = UIAlertAction(title: validity ? "비활성화":"활성화",
+                                                   style: validity ? .destructive : .default) { [weak self] _ in
                 guard let self = self else { return }
                 self.delegate?.toggleClassItem()
             }

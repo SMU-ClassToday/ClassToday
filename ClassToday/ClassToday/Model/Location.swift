@@ -10,4 +10,6 @@ import Foundation
 struct Location: Codable {
     let lat: Double
     let lon: Double
+    
+    var name: String { "인천 미추홀구 용현5동" }
 }

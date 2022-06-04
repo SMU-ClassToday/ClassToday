@@ -62,7 +62,8 @@ class ClassItemTableViewCell: UITableViewCell {
 
     static let identifier = "ClassItemTableViewCell"
     private let storageManager = StorageManager.shared
-    
+    private let locationManager = LocationManager.shared
+
     // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -122,11 +123,21 @@ class ClassItemTableViewCell: UITableViewCell {
 
     func configureWith(classItem: ClassItem) {
         classItem.thumbnailImage { [weak self] image in
+            guard let self = self else { return }
             if let image = image {
-                self?.thumbnailView.image = image
+                self.thumbnailView.image = image
             }
         }
         titleLabel.text = classItem.name
+        locationManager.getAddress(of: classItem.location) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                debugPrint(error)
+            case .success(let address):
+                self.locationLabel.text = address
+            }
+        }
         if let price = classItem.price {
             priceLabel.text = price.formattedWithWon()
             priceUnitLabel.text = classItem.priceUnit.description
