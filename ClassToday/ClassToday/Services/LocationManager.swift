@@ -44,11 +44,23 @@ class LocationManager: NSObject {
         return Location(lat: lat, lon: lon)
     }
 
-    func getAddress(completion: @escaping (Result<String, Error>) -> Void) {
+    func getAddress(of location: Location?, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let location = location else {
+            return completion(.failure(LocationManagerError.emptyLocationValue))
+        }
+        let clLocation = CLLocation(latitude: location.lat, longitude: location.lon)
+        getAddress(of: clLocation, completion: completion)
+    }
+
+    func getCurrentAddress(completion: @escaping (Result<String, Error>) -> Void) {
         guard let currentLocation = currentLocation else {
             return
         }
-        CLGeocoder().reverseGeocodeLocation(currentLocation, preferredLocale: Locale(identifier: "ko_KR")) { placemark, error in
+        getAddress(of: currentLocation, completion: completion)
+    }
+
+    private func getAddress(of location: CLLocation, completion: @escaping (Result<String, Error>) -> Void) {
+        CLGeocoder().reverseGeocodeLocation(location, preferredLocale: Locale(identifier: "ko_KR")) { placemark, error in
             guard error == nil else {
                 return completion(.failure(LocationManagerError.invalidLocation))
             }
@@ -64,7 +76,6 @@ class LocationManager: NSObject {
             } else if let thoroughfare = placemark.thoroughfare {
                 address.append(contentsOf: " \(thoroughfare)")
             }
-
             completion(.success(address))
         }
     }
