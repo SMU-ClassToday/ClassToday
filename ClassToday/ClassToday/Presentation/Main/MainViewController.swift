@@ -97,7 +97,7 @@ class MainViewController: UIViewController {
     }
 
     private func configureLocation() {
-        locationManager.getAddress { [weak self] result in
+        locationManager.getCurrentAddress { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let address):
