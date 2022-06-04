@@ -168,5 +168,8 @@ class ClassItemTableViewCell: UITableViewCell {
         titleLabel.text = nil
         priceLabel.text = nil
         priceUnitLabel.text = nil
+        locationLabel.text = nil
+        dateDiffLabel.text = nil
+        nthClass.text = nil
     }
 }

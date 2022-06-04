@@ -11,6 +11,7 @@ import CoreLocation
 enum LocationManagerError: Error {
     case invalidLocation
     case emptyPlacemark
+    case emptyPlacemarkLocality
     case emptyLocationValue
 }
 
@@ -68,7 +69,7 @@ class LocationManager: NSObject {
                 return completion(.failure(LocationManagerError.emptyPlacemark))
             }
             guard let locality = placemark.locality else {
-                return completion(.failure(LocationManagerError.emptyLocationValue))
+                return completion(.failure(LocationManagerError.emptyPlacemarkLocality))
             }
             var address = "\(locality)"
             if let subLocality = placemark.subLocality {
