@@ -145,6 +145,22 @@ class ClassItemTableViewCell: UITableViewCell {
             priceLabel.text = "가격협의"
             priceUnitLabel.text = nil
         }
+        let interval = Date().timeIntervalSince(classItem.createdTime)
+        let intervalMonth = Int(interval/(86400 * 30))
+        let intervalDate = Int(interval/86400)
+        let intervalHour = Int(interval/3600)
+        let intervalMinute = Int(interval/60)
+        if intervalMonth > 0 {
+            dateDiffLabel.text = " | 약 \(intervalMonth)개월 전"
+        } else if intervalDate > 0 {
+            dateDiffLabel.text = " | \(intervalDate)일 전"
+        } else if intervalHour > 0 {
+            dateDiffLabel.text = " | \(intervalHour)시간 전"
+        } else if intervalMinute > 0 {
+            dateDiffLabel.text = " | \(intervalMinute)분 전"
+        } else {
+            dateDiffLabel.text = " | 방금 전"
+        }
     }
     
     override func prepareForReuse() {
