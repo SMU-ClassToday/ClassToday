@@ -39,6 +39,7 @@ class StarViewController: UIViewController {
         classItemTableView.refreshControl = refreshControl
         classItemTableView.rowHeight = 150.0
         classItemTableView.dataSource = self
+        classItemTableView.delegate = self
         classItemTableView.register(ClassItemTableViewCell.self, forCellReuseIdentifier: ClassItemTableViewCell.identifier)
         return classItemTableView
     }()
@@ -52,15 +53,32 @@ class StarViewController: UIViewController {
     // MARK: Properties
 
     private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
+    private var data: [ClassItem] = []
+    private let firestoreManager = FirestoreManager.shared
 
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBar()
         layout()
+        starSort(starList: MockData.mockUser.stars ?? [""])
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        starSort(starList: MockData.mockUser.stars ?? [""])
+    }
+    // MARK: - Method
+    private func starSort(starList: [String]) {
+        firestoreManager.starSort(starList: starList) { [weak self] data in
+            guard let self = self else { return }
+            self.data = data
+            self.classItemTableView.reloadData()
+        }
     }
 }
 
+//MARK: - objc methods
 private extension StarViewController {
     @objc func didTapBackButton() {
         navigationController?.popViewController(animated: true)
@@ -68,10 +86,12 @@ private extension StarViewController {
     
     @objc func beginRefresh() {
         print("beginRefresh!")
+        starSort(starList: MockData.mockUser.stars ?? [""])
         refreshControl.endRefreshing()
     }
 }
 
+//MARK: - Autolayout
 private extension StarViewController {
     func layout() {
         [
@@ -85,9 +105,10 @@ private extension StarViewController {
     }
 }
 
+//MARK: - TableView DataSource
 extension StarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datas.count
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -95,7 +116,15 @@ extension StarViewController: UITableViewDataSource {
             withIdentifier: ClassItemTableViewCell.identifier,
             for: indexPath
         ) as? ClassItemTableViewCell else { return UITableViewCell() }
-        cell.configureWith(classItem: MockData.classItem)
+        let classItem = data[indexPath.row]
+        cell.configureWith(classItem: classItem)
         return cell
+    }
+}
+
+extension StarViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let classItem = data[indexPath.row]
+        navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
     }
 }
