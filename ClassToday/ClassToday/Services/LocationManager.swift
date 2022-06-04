@@ -87,7 +87,7 @@ extension LocationManager: CLLocationManagerDelegate {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways:
-            manager.requestLocation()
+            manager.startUpdatingLocation()
         case .denied, .restricted:
             print("권한없음")
         default:
@@ -100,6 +100,7 @@ extension LocationManager: CLLocationManagerDelegate {
             return
         }
         currentLocation = location
+        manager.stopUpdatingLocation()
         delegate?.didUpdateLocation()
     }
 
