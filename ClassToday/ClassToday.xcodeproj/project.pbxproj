@@ -90,8 +90,8 @@
 		89675B3F2828101400933C48 /* DetailContentCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B3E2828101400933C48 /* DetailContentCategoryCollectionViewCell.swift */; };
 		89675B422828336C00933C48 /* DetailContentPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B412828336B00933C48 /* DetailContentPlaceView.swift */; };
 		89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */; };
-		8971F21C283A1A4200D4AAD0 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */; };
 		89675B492828C84400933C48 /* NavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B482828C84400933C48 /* NavigationBar+.swift */; };
+		8971F21C283A1A4200D4AAD0 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */; };
 		89865E9D282A70D700113242 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F9280DC02800D5D3DC /* MainViewController.swift */; };
 		89865E9E282A70DC00113242 /* SearchRecentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC87FA9F281ECF6500F57CE0 /* SearchRecentTableViewCell.swift */; };
 		89865E9F282A70DE00113242 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */; };
