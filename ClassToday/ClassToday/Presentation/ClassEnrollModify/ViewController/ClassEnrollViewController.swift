@@ -65,6 +65,7 @@ class ClassEnrollViewController: UIViewController {
     weak var delegate: ClassItemCellUpdateDelegate?
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
+    private let locationManager = LocationManager.shared
     private let classItemType: ClassItemType
     private var classImages: [UIImage]?
     private var className: String?
@@ -196,7 +197,7 @@ class ClassEnrollViewController: UIViewController {
                                       date: self.classDate,
                                       time: self.classTime,
                                       place: self.classPlace,
-                                      location: nil,
+                                      location: self.locationManager.getCurrentLocation(),
                                       price: self.classPrice,
                                       priceUnit: self.classPriceUnit,
                                       description: classDescription,

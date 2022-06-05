@@ -75,6 +75,7 @@ class EnrollImageCell: UITableViewCell {
     }
     
     func configureWith(imagesURL: [String]?) {
+        
         guard let imagesURL = imagesURL else { return }
         self.imagesURL = imagesURL
         let group = DispatchGroup()

@@ -13,6 +13,10 @@ protocol ClassImageUpdateDelegate: AnyObject {
     func passDeletedImageIndex() -> Int
 }
 
+protocol ClassUpdateDelegate: AnyObject {
+    func update(with classItem: ClassItem)
+}
+
 class ClassModifyViewController: UIViewController {
     
     // MARK: - Views
@@ -59,7 +63,9 @@ class ClassModifyViewController: UIViewController {
     // MARK: - Properties
     
     weak var delegate: ClassItemCellUpdateDelegate?
-    weak var imageDelegate :ClassImageUpdateDelegate?
+    weak var imageDelegate: ClassImageUpdateDelegate?
+    weak var classUpdateDelegate: ClassUpdateDelegate?
+
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
     private var classItem: ClassItem
@@ -153,20 +159,20 @@ class ClassModifyViewController: UIViewController {
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
         view.endEditing(true)
         let group = DispatchGroup()
-
+        
         let alert: UIAlertController = {
             let alert = UIAlertController(title: "알림", message: "필수 항목을 입력해주세요", preferredStyle: .alert)
             let action = UIAlertAction(title: "확인", style: .default, handler: nil)
             alert.addAction(action)
             return alert
         }()
-
+        
         // 수업 등록시 필수 항목 체크
         guard let className = className, let classDescription = classDescription else {
             present(alert, animated: true)
             return
         }
-
+        
         // 수업 판매 등록시
         if classItem.itemType == .sell, classTime == nil {
             present(alert, animated: true)
@@ -182,7 +188,7 @@ class ClassModifyViewController: UIViewController {
         if let classTarget = classTarget, classTarget.isEmpty {
             self.classTarget = nil
         }
-
+        
         // 1. 삭제한 사진 Storage에서 삭제
         // 2. 삭제하지 않은 사진 파악 -> Storage에 올리지 않기
         var existingImagesCount = 0
@@ -207,7 +213,7 @@ class ClassModifyViewController: UIViewController {
                 }
             }
         }
-
+        
         group.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
             let modifiedClassItem = ClassItem(id: self.classItem.id,
@@ -228,9 +234,10 @@ class ClassModifyViewController: UIViewController {
                                               createdTime: Date(),
                                               modifiedTime: nil,
                                               match: nil)
-        self.firestoreManager.update(classItem: modifiedClassItem)
-        debugPrint("\(modifiedClassItem) 수정")
-        self.dismiss(animated: true, completion: nil)
+            self.firestoreManager.update(classItem: modifiedClassItem)
+            self.classUpdateDelegate?.update(with: modifiedClassItem)
+            debugPrint("\(modifiedClassItem) 수정")
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }
@@ -312,7 +319,15 @@ extension ClassModifyViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
-            cell.configureType(with: CategoryType.allCases[indexPath.row])
+            let categoryType = CategoryType.allCases[indexPath.row]
+            cell.configureType(with: categoryType)
+            switch categoryType {
+            case .subject:
+                cell.configure(with: classSubject)
+                
+            case .target:
+                cell.configure(with: classTarget)
+            }
             return cell
         default:
             return UITableViewCell()

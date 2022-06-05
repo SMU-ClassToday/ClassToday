@@ -71,6 +71,12 @@ class ClassCategoryCollectionViewCell: UICollectionViewCell {
         nameLabel.text = category.description
     }
 
+    func configure(isSelected: Bool) {
+        if isSelected {
+            button.isSelected = true
+        }
+    }
+
     // MARK: - Actions
 
     @objc func clicked(_ button: UIButton) {

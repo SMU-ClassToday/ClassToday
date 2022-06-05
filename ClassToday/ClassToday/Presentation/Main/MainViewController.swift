@@ -13,8 +13,8 @@ class MainViewController: UIViewController {
     //MARK: - NavigationBar Components
     private lazy var leftTitle: UILabel = {
         let leftTitle = UILabel()
-        leftTitle.text = "서울시 노원구의 수업"
         leftTitle.textColor = .black
+        leftTitle.sizeToFit()
         leftTitle.font = .systemFont(ofSize: 20.0, weight: .bold)
         return leftTitle
     }()
@@ -66,35 +66,71 @@ class MainViewController: UIViewController {
         return refreshControl
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        activityIndicator.color = UIColor.mainColor
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.medium
+        activityIndicator.stopAnimating()
+        return activityIndicator
+    }()
+    
     // MARK: Properties
     private var data: [ClassItem] = []
     private var dataBuy: [ClassItem] = []
     private var dataSell: [ClassItem] = []
     private let firestoreManager = FirestoreManager.shared
+    private let locationManager = LocationManager.shared
+    private let dispatchGroup: DispatchGroup = DispatchGroup()
 
     //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         layout()
+        locationManager.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        fetchData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        activityIndicator.startAnimating()
         fetchData()
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            self.activityIndicator.stopAnimating()
+        }
+        navigationController?.navigationBar.isHidden = false
     }
 
     // MARK: - Method
     private func fetchData() {
+        dispatchGroup.enter()
         firestoreManager.fetch { [weak self] data in
             guard let self = self else { return }
             self.data = data
             self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
             self.dataSell = data.filter { $0.itemType == ClassItemType.sell }
             self.classItemTableView.reloadData()
+            self.dispatchGroup.leave()
+        }
+    }
+
+    private func configureLocation() {
+        dispatchGroup.enter()
+        locationManager.getCurrentAddress { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let address):
+                DispatchQueue.main.async {
+                    self.leftTitle.text = address + "의 수업"
+                    self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
+                    self.dispatchGroup.leave()
+                }
+            case .failure(let error):
+                debugPrint(error)
+            }
         }
     }
 }
@@ -151,9 +187,12 @@ private extension MainViewController {
     func layout() {
         [
             segmentedControl,
-            classItemTableView
+            classItemTableView,
         ].forEach { view.addSubview($0) }
-        
+        [
+            activityIndicator
+        ].forEach { classItemTableView.addSubview($0) }
+
         segmentedControl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -163,6 +202,10 @@ private extension MainViewController {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(segmentedControl.snp.bottom)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        activityIndicator.snp.makeConstraints {
+            $0.center.equalTo(view)
         }
     }
 }
@@ -198,7 +241,13 @@ extension MainViewController: UITableViewDataSource {
             default:
                 classItem = data[indexPath.row]
         }
-        cell.configureWith(classItem: classItem)
+        cell.configureWith(classItem: classItem) { image in
+            DispatchQueue.main.async {
+                if indexPath == tableView.indexPath(for: cell) {
+                    cell.thumbnailView.image = image
+                }
+            }
+        }
         return cell
     }
 }
@@ -218,5 +267,12 @@ extension MainViewController: UITableViewDelegate {
                 classItem = data[indexPath.row]
         }
         navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
+    }
+}
+
+//MARK: - LocationManagerDelegate
+extension MainViewController: LocationManagerDelegate {
+    func didUpdateLocation() {
+        configureLocation()
     }
 }

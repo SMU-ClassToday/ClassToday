@@ -80,7 +80,7 @@ class CategoryDetailViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBar()
         layout()
-        categorySort(category: categoryItem?.caseName ?? "")
+        categorySort(category: categoryItem?.rawValue ?? "")
     }
     
     //MARK: - Methods
@@ -175,7 +175,13 @@ extension CategoryDetailViewController: UITableViewDataSource {
             default:
                 classItem = data[indexPath.row]
         }
-        cell.configureWith(classItem: classItem)
+        cell.configureWith(classItem: classItem) { image in
+            DispatchQueue.main.async {
+                if indexPath == tableView.indexPath(for: cell) {
+                    cell.thumbnailView.image = image
+                }
+            }
+        }
         return cell
     }
 }
