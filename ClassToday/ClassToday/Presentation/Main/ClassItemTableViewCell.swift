@@ -11,7 +11,7 @@ import SnapKit
 class ClassItemTableViewCell: UITableViewCell {
 
     //MARK: - Cell 내부 UI Components
-    private lazy var thumbnailView: UIImageView = {
+    lazy var thumbnailView: UIImageView = {
         let thumbnailView = UIImageView()
         thumbnailView.backgroundColor = .secondarySystemBackground
         thumbnailView.layer.cornerRadius = 4.0
@@ -109,7 +109,7 @@ class ClassItemTableViewCell: UITableViewCell {
         }
         priceLabel.snp.makeConstraints {
             $0.leading.equalTo(locationLabel.snp.leading)
-            $0.top.equalTo(locationLabel.snp.bottom).offset(8.0)
+            $0.top.equalTo(dateDiffLabel.snp.bottom).offset(8.0)
         }
         priceUnitLabel.snp.makeConstraints {
             $0.leading.equalTo(priceLabel.snp.trailing).offset(5.0)
@@ -121,13 +121,7 @@ class ClassItemTableViewCell: UITableViewCell {
         }
     }
 
-    func configureWith(classItem: ClassItem) {
-        classItem.thumbnailImage { [weak self] image in
-            guard let self = self else { return }
-            if let image = image {
-                self.thumbnailView.image = image
-            }
-        }
+    func configureWith(classItem: ClassItem, completion: @escaping (UIImage)->()) {
         titleLabel.text = classItem.name
         locationManager.getAddress(of: classItem.location) { [weak self] result in
             guard let self = self else { return }
@@ -160,6 +154,12 @@ class ClassItemTableViewCell: UITableViewCell {
             dateDiffLabel.text = " | \(intervalMinute)분 전"
         } else {
             dateDiffLabel.text = " | 방금 전"
+        }
+        classItem.thumbnailImage { image in
+            guard let image = image else {
+                return
+            }
+            completion(image)
         }
     }
     
