@@ -54,29 +54,6 @@ enum Subject: String, CategoryItem, CaseIterable {
                 return "취미"
         }
     }
-    
-    var caseName: String {
-        switch self {
-            case .korean:
-                return "korean"
-            case .math:
-                return "math"
-            case .english:
-                return "english"
-            case .science:
-                return "science"
-            case .society:
-                return "society"
-            case .language:
-                return "language"
-            case .major:
-                return "major"
-            case .computer:
-                return "computer"
-            case .hobby:
-                return "hobby"
-        }
-    }
 }
 
 enum Target: String, CategoryItem, CaseIterable {

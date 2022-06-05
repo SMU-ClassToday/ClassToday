@@ -189,7 +189,13 @@ extension SearchResultViewController: UITableViewDataSource {
             default:
                 classItem = data[indexPath.row]
         }
-        cell.configureWith(classItem: classItem)
+        cell.configureWith(classItem: classItem) { image in
+            DispatchQueue.main.async {
+                if indexPath == tableView.indexPath(for: cell) {
+                    cell.thumbnailView.image = image
+                }
+            }
+        }
         return cell
     }
 }

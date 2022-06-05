@@ -11,7 +11,7 @@ import SnapKit
 class ClassItemTableViewCell: UITableViewCell {
 
     //MARK: - Cell 내부 UI Components
-    private lazy var thumbnailView: UIImageView = {
+    lazy var thumbnailView: UIImageView = {
         let thumbnailView = UIImageView()
         thumbnailView.backgroundColor = .secondarySystemBackground
         thumbnailView.layer.cornerRadius = 4.0
@@ -62,7 +62,8 @@ class ClassItemTableViewCell: UITableViewCell {
 
     static let identifier = "ClassItemTableViewCell"
     private let storageManager = StorageManager.shared
-    
+    private let locationManager = LocationManager.shared
+
     // MARK: - Initialize
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -108,7 +109,7 @@ class ClassItemTableViewCell: UITableViewCell {
         }
         priceLabel.snp.makeConstraints {
             $0.leading.equalTo(locationLabel.snp.leading)
-            $0.top.equalTo(locationLabel.snp.bottom).offset(8.0)
+            $0.top.equalTo(dateDiffLabel.snp.bottom).offset(8.0)
         }
         priceUnitLabel.snp.makeConstraints {
             $0.leading.equalTo(priceLabel.snp.trailing).offset(5.0)
@@ -120,21 +121,17 @@ class ClassItemTableViewCell: UITableViewCell {
         }
     }
 
-    func configureWith(classItem: ClassItem) {
-        if let imageURL = classItem.images?.first {
-            DispatchQueue.main.async {
-                self.storageManager.downloadImage(urlString: imageURL) { [weak self] result in
-                    guard let self = self else { return }
-                    switch result {
-                    case .success(let image):
-                        self.thumbnailView.image = image
-                    case .failure(let error):
-                        debugPrint(error)
-                    }
-                }
+    func configureWith(classItem: ClassItem, completion: @escaping (UIImage)->()) {
+        titleLabel.text = classItem.name
+        locationManager.getAddress(of: classItem.location) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                debugPrint(error)
+            case .success(let address):
+                self.locationLabel.text = address
             }
         }
-        titleLabel.text = classItem.name
         if let price = classItem.price {
             priceLabel.text = price.formattedWithWon()
             priceUnitLabel.text = classItem.priceUnit.description
@@ -142,12 +139,34 @@ class ClassItemTableViewCell: UITableViewCell {
             priceLabel.text = "가격협의"
             priceUnitLabel.text = nil
         }
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.month, .day, .hour, .minute], from: classItem.createdTime, to: Date())
+        if let month = components.month, month != 0 {
+            dateDiffLabel.text = " | \(month)개월 전"
+        } else if let day = components.day, day != 0 {
+            dateDiffLabel.text = " | \(day)일 전"
+        } else if let hour = components.hour, hour != 0 {
+            dateDiffLabel.text = " | \(hour)시간 전"
+        } else if let minute = components.minute, minute != 0 {
+            dateDiffLabel.text = " | \(minute)분 전"
+        } else {
+            dateDiffLabel.text = " | 방금 전"
+        }
+        classItem.thumbnailImage { image in
+            guard let image = image else {
+                return
+            }
+            completion(image)
+        }
     }
-    
+
     override func prepareForReuse() {
         thumbnailView.image = nil
         titleLabel.text = nil
         priceLabel.text = nil
         priceUnitLabel.text = nil
+        locationLabel.text = nil
+        dateDiffLabel.text = nil
+        nthClass.text = nil
     }
 }

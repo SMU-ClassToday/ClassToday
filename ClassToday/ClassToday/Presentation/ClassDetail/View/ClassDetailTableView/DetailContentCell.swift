@@ -40,7 +40,7 @@ class DetailContentCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 32
-        stackView.distribution = .fill
+        stackView.distribution = .equalSpacing
         return stackView
     }()
 
@@ -100,6 +100,7 @@ class DetailContentCell: UITableViewCell {
             subjectView.configureWith(categoryItems: subject.sorted(by: {$0 < $1}))
             stackView.addArrangedSubview(subjectView)
         }
+
         if let target = classItem.targets {
             targetView.configureWith(categoryItems: target.sorted(by: {$0 < $1}))
             stackView.addArrangedSubview(targetView)
