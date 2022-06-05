@@ -80,7 +80,7 @@ class CategoryDetailViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBar()
         layout()
-        categorySort(category: categoryItem?.caseName ?? "")
+        categorySort(category: categoryItem?.rawValue ?? "")
     }
     
     //MARK: - Methods
