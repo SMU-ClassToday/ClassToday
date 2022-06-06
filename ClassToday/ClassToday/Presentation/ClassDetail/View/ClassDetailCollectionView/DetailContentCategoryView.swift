@@ -24,10 +24,10 @@ class DetailContentCategoryView: UIView {
     }()
 
     private lazy var flowLayout: UICollectionViewFlowLayout = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.scrollDirection = .vertical
+        let flowLayout = DetailContentCategoryCollectionFlowLayout()
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        flowLayout.minimumLineSpacing = cellSpacing
+        flowLayout.scrollDirection = .vertical
         return flowLayout
     }()
 
@@ -44,7 +44,14 @@ class DetailContentCategoryView: UIView {
 
     // MARK: - Properties
 
-    var data: [CategoryItem] = []
+    private var data: [CategoryItem] = []
+    private var cellSpacing: CGFloat = 8
+    private var collectionViewHeight: CGFloat {
+        get {
+            let lines = CGFloat(data.count/5) + 1
+            return lines * DetailContentCategoryCollectionViewCell.height + cellSpacing * (lines-1)
+        }
+    }
 
     // MARK: - Initialize
 
@@ -74,21 +81,19 @@ class DetailContentCategoryView: UIView {
         }
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(seperator.snp.bottom).offset(16)
-            make.height.equalTo(CGFloat((data.count/5 + 1)) *
-                                DetailContentCategoryCollectionViewCell.height )
+            make.height.equalTo(collectionViewHeight)
             make.leading.trailing.bottom.equalTo(self)
         }
     }
 
     func configureWith(categoryItems: [CategoryItem]) {
         self.data = categoryItems
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.collectionView.reloadData()
+        collectionView.snp.updateConstraints{ make in
+            make.height.equalTo(collectionViewHeight)
         }
         if categoryItems.first is Subject {
             headLabel.text = "수업카테고리"
-        } else  if categoryItems.first is Target {
+        } else if categoryItems.first is Target {
             headLabel.text = "수업대상"
         }
     }
