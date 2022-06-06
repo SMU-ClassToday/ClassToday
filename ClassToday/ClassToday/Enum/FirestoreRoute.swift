@@ -10,13 +10,16 @@ import FirebaseFirestore
 
 enum FirestoreRoute {
     case classItem
+    case user
 
     static var db = Firestore.firestore()
 
     var ref: CollectionReference {
         switch self {
-        case .classItem :
+        case .classItem:
             return Self.db.collection("ClassItem")
+        case .user:
+            return Self.db.collection("User")
         }
     }
 }
