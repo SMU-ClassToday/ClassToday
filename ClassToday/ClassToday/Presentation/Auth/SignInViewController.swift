@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SnapKit
+import Toast
 
 class SignInViewController: UIViewController {
     // MARK: - UI Components
@@ -89,14 +91,20 @@ class SignInViewController: UIViewController {
 
 private extension SignInViewController {
     @objc func didTapSignInButton() {
+        view.makeToastActivity(.center)
         let email = emailTextField.text!
         let password = pwTextField.text!
-        FirebaseAuthManager.shared.signIn(email: email, password: password) { result in
+        FirebaseAuthManager.shared.signIn(email: email, password: password) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(_):
                 print("로그인 성공🐹")
+                self.view.hideToastActivity()
+                self.dismiss(animated: true)
             case .failure(let error):
                 print("\(error.localizedDescription)🐸🐸")
+                self.view.hideToastActivity()
+                self.view.makeToast("로그인 실패")
             }
         }
     }

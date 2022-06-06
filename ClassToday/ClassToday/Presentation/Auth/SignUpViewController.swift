@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Toast
 
 class SignUpViewController: UIViewController {
     // MARK: - UI Components
@@ -90,6 +91,7 @@ class SignUpViewController: UIViewController {
 
 private extension SignUpViewController {
     @objc func didTapSignUpButton() {
+        view.makeToastActivity(.center)
         let email = emailTextField.text!
         let password = pwTextField.text!
         let user = User(
@@ -105,12 +107,17 @@ private extension SignUpViewController {
             subjects: [.computer, .math],
             chatItems: nil
         )
-        FirebaseAuthManager.shared.signUp(user: user, password: password) { result in
+        FirebaseAuthManager.shared.signUp(user: user, password: password) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(_):
                 print("회원가입 성공!🎉")
+                self.view.hideToastActivity()
+                self.dismiss(animated: true)
             case .failure(let error):
                 print("회원가입 실패 ㅠ \(error.localizedDescription)🐢")
+                self.view.hideToastActivity()
+                self.view.makeToast("회원가입 실패")
             }
         }
     }
