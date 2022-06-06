@@ -42,6 +42,7 @@
 		6B7695F028267052009B7847 /* GradeStarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7695EF28267052009B7847 /* GradeStarView.swift */; };
 		6B7997BD27F33C4C00F37393 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7997BC27F33C4C00F37393 /* User.swift */; };
 		6B7997C027F33C5A00F37393 /* ClassItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7997BF27F33C5A00F37393 /* ClassItem.swift */; };
+		6B8984C0284E2D5700192DFD /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 6B8984BF284E2D5700192DFD /* Toast */; };
 		6BA8E00A2820B7D500B0CC8C /* ReviewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA8E0092820B7D500B0CC8C /* ReviewListViewController.swift */; };
 		6BA8E00C2820BEB200B0CC8C /* ReviewListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA8E00B2820BEB200B0CC8C /* ReviewListTableViewCell.swift */; };
 		6BA8E00E2820CA5100B0CC8C /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA8E00D2820CA5100B0CC8C /* UILabel+.swift */; };
@@ -256,6 +257,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B8984C0284E2D5700192DFD /* Toast in Frameworks */,
 				89A67358282A697C00951300 /* FirebaseFirestoreSwift in Frameworks */,
 				89A6734E282A684F00951300 /* SnapKit in Frameworks */,
 				89A67356282A697C00951300 /* FirebaseFirestore in Frameworks */,
@@ -684,6 +686,7 @@
 				89A67355282A697C00951300 /* FirebaseFirestore */,
 				89A67357282A697C00951300 /* FirebaseFirestoreSwift */,
 				89A67359282A697C00951300 /* FirebaseStorage */,
+				6B8984BF284E2D5700192DFD /* Toast */,
 			);
 			productName = ClassToday;
 			productReference = 895D107227F32DCA009FB26F /* ClassToday.app */;
@@ -717,6 +720,7 @@
 				89A6734C282A684F00951300 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				89A6734F282A68BD00951300 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				89A67352282A697C00951300 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				6B8984BE284E2D5700192DFD /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			productRefGroup = 895D107327F32DCA009FB26F /* Products */;
 			projectDirPath = "";
@@ -1117,6 +1121,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6B8984BE284E2D5700192DFD /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		89A6734C282A684F00951300 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1144,6 +1156,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6B8984BF284E2D5700192DFD /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B8984BE284E2D5700192DFD /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
 		89A6734D282A684F00951300 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 89A6734C282A684F00951300 /* XCRemoteSwiftPackageReference "SnapKit" */;
