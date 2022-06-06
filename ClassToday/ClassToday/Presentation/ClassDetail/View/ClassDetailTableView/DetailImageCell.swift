@@ -22,13 +22,11 @@ class DetailImageCell: UITableViewCell {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isPagingEnabled = true
         scrollView.delegate = self
-        scrollView.contentSize = CGSize(width: CGFloat(images?.count ?? 0) * contentView.frame.maxX, height: 0)
         return scrollView
     }()
 
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
-        pageControl.numberOfPages = images?.count ?? 0
         pageControl.isOpaque = true
         pageControl.isUserInteractionEnabled = false
         return pageControl
@@ -72,11 +70,13 @@ class DetailImageCell: UITableViewCell {
 
         contentView.addSubview(scrollView)
         contentView.addSubview(pageControl)
+        scrollView.contentSize = CGSize(width: CGFloat(images.count) * contentView.frame.maxX, height: 0)
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.height.equalToSuperview()
         }
 
+        pageControl.numberOfPages = images.count
         pageControl.snp.makeConstraints {
             $0.width.bottom.centerX.equalToSuperview()
             $0.height.equalTo(30)
@@ -87,6 +87,12 @@ class DetailImageCell: UITableViewCell {
         guard let images = images else { return }
         self.images = images
         configureUI()
+    }
+
+    override func prepareForReuse() {
+        scrollView.subviews.forEach {
+            $0.removeFromSuperview()
+        }
     }
 
     // MARK: - Actions

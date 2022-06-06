@@ -18,6 +18,7 @@ class CategoryListViewController: UIViewController {
     private lazy var navigationTitle: UILabel = {
         let navigationTitle = UILabel()
         navigationTitle.text = "카테고리"
+        navigationTitle.textColor = .black
         navigationTitle.font = .systemFont(ofSize: 18.0, weight: .semibold)
         return navigationTitle
     }()

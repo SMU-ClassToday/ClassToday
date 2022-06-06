@@ -41,8 +41,8 @@ class EnrollCategoryCell: UITableViewCell {
 
     weak var delegate: EnrollCategoryCellDelegate?
     static let identifier = "EnrollCategoryCell"
-    private var selectedSubjectCategory: Set<Subject> = []
-    private var selectedTargetCategory: Set<Target> = []
+    private var selectedSubject: Set<Subject> = []
+    private var selectedTarget: Set<Target> = []
     private var categoryType: CategoryType = .subject
 
     // MARK: - Initialize
@@ -70,6 +70,22 @@ class EnrollCategoryCell: UITableViewCell {
     func configureType(with categoryType: CategoryType) {
         self.categoryType = categoryType
     }
+
+    // MARK: - categoryTypeMethod
+
+    func configure(with selectedSubject: Set<Subject>?) {
+        guard let selectedSubject = selectedSubject else {
+            return
+        }
+        self.selectedSubject = selectedSubject
+    }
+
+    func configure(with selectedTarget: Set<Target>?) {
+        guard let selectedTarget = selectedTarget else {
+            return
+        }
+        self.selectedTarget = selectedTarget
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -85,15 +101,20 @@ extension EnrollCategoryCell: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClassCategoryCollectionViewCell.identifier,
-                                                            for: indexPath) as? ClassCategoryCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier:ClassCategoryCollectionViewCell.identifier,
+            for: indexPath) as? ClassCategoryCollectionViewCell else {
             return UICollectionViewCell()
         }
         switch categoryType {
         case .subject:
-            cell.configure(with: Subject.allCases[indexPath.row])
+            let categoryItem = Subject.allCases[indexPath.row]
+            cell.configure(with: categoryItem)
+            cell.configure(isSelected: selectedSubject.contains(categoryItem))
         case .target:
-            cell.configure(with: Target.allCases[indexPath.row])
+            let categoryItem = Target.allCases[indexPath.row]
+            cell.configure(with: categoryItem)
+            cell.configure(isSelected: selectedTarget.contains(categoryItem))
         }
         cell.delegate = self
         return cell
@@ -130,18 +151,18 @@ extension EnrollCategoryCell: ClassCategoryCollectionViewCellDelegate {
         guard let item = item else { return }
         if let item = item as? Subject {
             if isChecked {
-                selectedSubjectCategory.insert(item)
+                selectedSubject.insert(item)
             } else {
-                selectedSubjectCategory.remove(item)
+                selectedSubject.remove(item)
             }
-            delegate?.passData(subjects: selectedSubjectCategory)
+            delegate?.passData(subjects: selectedSubject)
         } else if let item = item as? Target {
             if isChecked {
-                selectedTargetCategory.insert(item)
+                selectedTarget.insert(item)
             } else {
-                selectedTargetCategory.remove(item)
+                selectedTarget.remove(item)
             }
-            delegate?.passData(targets: selectedTargetCategory)
+            delegate?.passData(targets: selectedTarget)
         }
     }
 }
