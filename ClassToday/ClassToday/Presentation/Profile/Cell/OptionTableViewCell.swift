@@ -25,6 +25,9 @@ class OptionTableViewCell: UITableViewCell {
     func setupView(option: String) {
         layout()
         optionTitleLabel.text = option
+        if option == "로그아웃" {
+            optionTitleLabel.textColor = .systemRed
+        }
     }
 }
 
