@@ -46,6 +46,7 @@ class SignUpViewController: UIViewController {
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.borderStyle = .roundedRect
+        textField.isSecureTextEntry = true
         textField.snp.makeConstraints { $0.height.equalTo(48.0) }
         return textField
     }()
@@ -74,6 +75,7 @@ class SignUpViewController: UIViewController {
         button.backgroundColor = .mainColor
         button.layer.cornerRadius = 4.0
         button.snp.makeConstraints { $0.height.equalTo(48.0) }
+        button.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         return button
     }()
     
@@ -83,6 +85,34 @@ class SignUpViewController: UIViewController {
         setupNavigationBar()
         attribute()
         layout()
+    }
+}
+
+private extension SignUpViewController {
+    @objc func didTapSignUpButton() {
+        let email = emailTextField.text!
+        let password = pwTextField.text!
+        let user = User(
+            name: "이영찬",
+            nickName: "Cobugi",
+            gender: "남",
+            location: nil,
+            email: email,
+            profileImage: nil,
+            company: "상명대학교 수학교육과",
+            description: "귀는 인간의 같이, 대한 이것이다. 못할 끝에 몸이 얼마나 이상은 것이다. 황금시대를 예가 불러 같은 든 끓는 부패를 미인을 어디 보라. 위하여 불러 간에 위하여서.",
+            stars: nil,
+            subjects: [.computer, .math],
+            chatItems: nil
+        )
+        FirebaseAuthManager.shared.signUp(user: user, password: password) { result in
+            switch result {
+            case .success(_):
+                print("회원가입 성공!🎉")
+            case .failure(let error):
+                print("회원가입 실패 ㅠ \(error.localizedDescription)🐢")
+            }
+        }
     }
 }
 
