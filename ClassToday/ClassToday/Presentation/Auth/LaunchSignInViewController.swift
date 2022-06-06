@@ -100,6 +100,9 @@ class LaunchSignInViewController: UIViewController {
         return stackView
     }()
     
+    // MARK: - Delegate
+    weak var delegate: LaunchSignInViewControllerDelegate?
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,6 +124,7 @@ private extension LaunchSignInViewController {
     }
     @objc func didTapDismissButton() {
         dismiss(animated: true)
+        delegate?.didTapDismissButton()
     }
 }
 

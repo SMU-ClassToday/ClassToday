@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		3ECF08B24DFC023AA790A5E9 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40411B468A6BE7377D0B7F6F /* Pods_ClassToday.framework */; };
+		6B42D941284BBE6000384480 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */; };
+		6B560C20284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B560C1F284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift */; };
+		6B568EE0284DC47D00B6CA13 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B568EDF284DC47D00B6CA13 /* SignInViewController.swift */; };
+		6B59562628474672004821F1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B59562528474672004821F1 /* SignUpViewController.swift */; };
+		6B59562928475490004821F1 /* LaunchSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B59562828475490004821F1 /* LaunchSignInViewController.swift */; };
+		6B59562B28475BA2004821F1 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B59562A28475BA2004821F1 /* UIButton+.swift */; };
+		6B59562D2847715D004821F1 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B59562C2847715D004821F1 /* UIImageView+.swift */; };
 		6B5E148528131168001AF21C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E148428131168001AF21C /* ProfileViewController.swift */; };
 		6B5E1489281311B9001AF21C /* OptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E1488281311B9001AF21C /* OptionTableViewCell.swift */; };
 		6B5E148B281311D5001AF21C /* ProfileUserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E148A281311D5001AF21C /* ProfileUserInfoTableViewCell.swift */; };
@@ -121,6 +128,13 @@
 /* Begin PBXFileReference section */
 		40411B468A6BE7377D0B7F6F /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		487FF9A4C439BF31DE53CB09 /* Pods-ClassToday_NonFirebase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday_NonFirebase.release.xcconfig"; path = "Target Support Files/Pods-ClassToday_NonFirebase/Pods-ClassToday_NonFirebase.release.xcconfig"; sourceTree = "<group>"; };
+		6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
+		6B560C1F284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchSignInViewControllerDelegate.swift; sourceTree = "<group>"; };
+		6B568EDF284DC47D00B6CA13 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		6B59562528474672004821F1 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		6B59562828475490004821F1 /* LaunchSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchSignInViewController.swift; sourceTree = "<group>"; };
+		6B59562A28475BA2004821F1 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
+		6B59562C2847715D004821F1 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		6B5E148428131168001AF21C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		6B5E1488281311B9001AF21C /* OptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionTableViewCell.swift; sourceTree = "<group>"; };
 		6B5E148A281311D5001AF21C /* ProfileUserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUserInfoTableViewCell.swift; sourceTree = "<group>"; };
@@ -260,6 +274,16 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		6B59562728474677004821F1 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				6B59562528474672004821F1 /* SignUpViewController.swift */,
+				6B568EDF284DC47D00B6CA13 /* SignInViewController.swift */,
+				6B59562828475490004821F1 /* LaunchSignInViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		6B5E14872813119D001AF21C /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,6 +327,8 @@
 				89098E4328228BE5006EFD4E /* String+.swift */,
 				89675B482828C84400933C48 /* NavigationBar+.swift */,
 				895209D9282A0D520009E97B /* UIApplication+.swift */,
+				6B59562A28475BA2004821F1 /* UIButton+.swift */,
+				6B59562C2847715D004821F1 /* UIImageView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -322,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				6B5E148E28131248001AF21C /* ProfileUserInfoViewDelegate.swift */,
+				6B560C1F284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -363,6 +390,7 @@
 			isa = PBXGroup;
 			children = (
 				892C1CC8283211B300DE27D3 /* FirestoreManager.swift */,
+				6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */,
 				892C1CD22832DABF00DE27D3 /* StorageManager.swift */,
 			);
 			path = Services;
@@ -609,6 +637,7 @@
 		FCF850FD280E6A8700D5D3DC /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				6B59562728474677004821F1 /* Auth */,
 				6BA8E0112821023900B0CC8C /* Profile */,
 				FC3458682816F55A00EB7B43 /* Tabbar */,
 				FC3458692816F56300EB7B43 /* Main */,
@@ -767,7 +796,9 @@
 				6B5E14AD28131437001AF21C /* BuyUserInfoTableViewCell.swift in Sources */,
 				6B5E14AB28131423001AF21C /* SubjectCollectionViewCell.swift in Sources */,
 				6B5E149128131262001AF21C /* ProfileDetailViewController.swift in Sources */,
+				6B59562D2847715D004821F1 /* UIImageView+.swift in Sources */,
 				6B5E14A328131386001AF21C /* ClassHistory.swift in Sources */,
+				6B568EE0284DC47D00B6CA13 /* SignInViewController.swift in Sources */,
 				6B5E14A7281313F6001AF21C /* GradeUserInfoTableViewCell.swift in Sources */,
 				6B5E1499281312D0001AF21C /* Option.swift in Sources */,
 				895D107A27F32DCA009FB26F /* (null) in Sources */,
@@ -787,14 +818,17 @@
 				8941FF232830CF7D00A90AB0 /* ReviewItem.swift in Sources */,
 				89098E4B282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift in Sources */,
 				89098E492824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift in Sources */,
+				6B59562628474672004821F1 /* SignUpViewController.swift in Sources */,
 				89865EA5282A70EE00113242 /* StarViewController.swift in Sources */,
 				89675B172826782600933C48 /* PriceUnit.swift in Sources */,
 				89098E0D28203A04006EFD4E /* Category.swift in Sources */,
 				89098E4D28245503006EFD4E /* DayWeek.swift in Sources */,
 				6B7997BD27F33C4C00F37393 /* User.swift in Sources */,
 				89098E372820FE5C006EFD4E /* EnrollCategoryCell.swift in Sources */,
+				6B59562928475490004821F1 /* LaunchSignInViewController.swift in Sources */,
 				89098E3D28227293006EFD4E /* MockData.swift in Sources */,
 				89098E2B2820F124006EFD4E /* EnrollDateCell.swift in Sources */,
+				6B560C20284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift in Sources */,
 				89675B15282677B900933C48 /* PriceUnitTableViewCell.swift in Sources */,
 				89865EA3282A70E900113242 /* CategoryDetailViewController.swift in Sources */,
 				89A67344282A634C00951300 /* AppDelegate.swift in Sources */,
@@ -802,12 +836,14 @@
 				89098E03282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift in Sources */,
 				89098E3A282271E2006EFD4E /* ClassModifyViewController.swift in Sources */,
 				89675B2F2827BFDE00933C48 /* DetailUserCell.swift in Sources */,
+				6B42D941284BBE6000384480 /* FirebaseAuthManager.swift in Sources */,
 				892C1CCF28322AD600DE27D3 /* ClassItemType.swift in Sources */,
 				89C26A8C2811EC3A00648206 /* UITextField+.swift in Sources */,
 				892C1CD128322B9D00DE27D3 /* FirestoreRoute.swift in Sources */,
 				89098E1A2820564F006EFD4E /* EnrollImageCell.swift in Sources */,
 				89098E2E2820F996006EFD4E /* EnrollPlaceCell.swift in Sources */,
 				89675B262826F11900933C48 /* DetailImageCell.swift in Sources */,
+				6B59562B28475BA2004821F1 /* UIButton+.swift in Sources */,
 				892C1CC9283211B300DE27D3 /* FirestoreManager.swift in Sources */,
 				89A0CD3F280D4E17006FDF89 /* ClassImageEnrollCell.swift in Sources */,
 				89675B382827F10C00933C48 /* DetailContentPriceView.swift in Sources */,

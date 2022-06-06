@@ -78,15 +78,23 @@ extension TabbarController: UITabBarControllerDelegate {
     }
 }
 
+// MARK: - LaunchSignInViewControllerDelegate
+extension TabbarController: LaunchSignInViewControllerDelegate {
+    func didTapDismissButton() {
+        print("didTapDismissButton")
+        selectedIndex = 0
+    }
+}
+
 // MARK: - 로그인 여부 메서드
 private extension TabbarController {
     func checkUser() {
         if FirebaseAuthManager.shared.getUserID() == nil {
-            let launchSignInViewController = UINavigationController(
-                rootViewController: LaunchSignInViewController()
-            )
-            launchSignInViewController.modalPresentationStyle = .fullScreen
-            present(launchSignInViewController, animated: true)
+            let rootVC = LaunchSignInViewController()
+            rootVC.delegate = self
+            let launchSignInVC = UINavigationController(rootViewController: rootVC)
+            launchSignInVC.modalPresentationStyle = .fullScreen
+            present(launchSignInVC, animated: true)
         }
     }
 }
