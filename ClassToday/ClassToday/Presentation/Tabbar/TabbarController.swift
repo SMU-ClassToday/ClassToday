@@ -67,11 +67,27 @@ extension TabbarController: UITabBarControllerDelegate {
         } else {
             isUploadTabBarEnabled = true
         }
+        
+        // 로그인 여부 확인
+        if item.image == Icon.person.image { checkUser() }
     }
     
     //+탭 선택시 뷰컨 보여주지 않음
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         return isUploadTabBarEnabled
+    }
+}
+
+// MARK: - 로그인 여부 메서드
+private extension TabbarController {
+    func checkUser() {
+        if FirebaseAuthManager.shared.getUserID() == nil {
+            let launchSignInViewController = UINavigationController(
+                rootViewController: LaunchSignInViewController()
+            )
+            launchSignInViewController.modalPresentationStyle = .fullScreen
+            present(launchSignInViewController, animated: true)
+        }
     }
 }
 
