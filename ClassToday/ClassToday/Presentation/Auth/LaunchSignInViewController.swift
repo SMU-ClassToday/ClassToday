@@ -87,6 +87,7 @@ class LaunchSignInViewController: UIViewController {
         button.setTitle("로그인", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16.0, weight: .medium)
         button.setTitleColor(.label, for: .normal)
+        button.addTarget(self, action: #selector(didTapMoveToSignIn), for: .touchUpInside)
         return button
     }()
     private lazy var signInStackView: UIStackView = {
@@ -113,6 +114,10 @@ private extension LaunchSignInViewController {
     @objc func didTapEmailSignUpButton() {
         let signUpViewController = SignUpViewController()
         navigationController?.pushViewController(signUpViewController, animated: true)
+    }
+    @objc func didTapMoveToSignIn() {
+        let signInViewController = SignInViewController()
+        navigationController?.pushViewController(signInViewController, animated: true)
     }
     @objc func didTapDismissButton() {
         dismiss(animated: true)
