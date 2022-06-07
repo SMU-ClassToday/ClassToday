@@ -12,41 +12,11 @@ class GradeStarView: UIView {
     
     // MARK: - UI Components
     private let starColor: UIColor = .systemYellow
-    private lazy var starImageView1: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = Icon.star.image
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = starColor
-        return imageView
-    }()
-    private lazy var starImageView2: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = Icon.star.image
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = starColor
-        return imageView
-    }()
-    private lazy var starImageView3: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = Icon.star.image
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = starColor
-        return imageView
-    }()
-    private lazy var starImageView4: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = Icon.star.image
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = starColor
-        return imageView
-    }()
-    private lazy var starImageView5: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = Icon.star.image
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = starColor
-        return imageView
-    }()
+    private lazy var starImageView1 = UIImageView().starImageView
+    private lazy var starImageView2 = UIImageView().starImageView
+    private lazy var starImageView3 = UIImageView().starImageView
+    private lazy var starImageView4 = UIImageView().starImageView
+    private lazy var starImageView5 = UIImageView().starImageView
     private lazy var starImageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 8.0
@@ -60,7 +30,7 @@ class GradeStarView: UIView {
     }()
     
     // MARK: - Properties
-    let grade: Double
+    private let grade: Double
     
     // MARK: - init
     init(grade: Double) {
