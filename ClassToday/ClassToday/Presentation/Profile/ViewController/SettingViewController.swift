@@ -39,7 +39,7 @@ class SettingViewController: UIViewController {
 // MARK: - UITableViewDelegate
 extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if settingOptions[indexPath.row].text == "로그아웃" { signOut() }
+        if settingOptions[indexPath.row] == Setting.logout { signOut() }
     }
 }
 
@@ -60,7 +60,7 @@ extension SettingViewController: UITableViewDataSource {
             for: indexPath
         ) as? OptionTableViewCell else { return UITableViewCell() }
         let option = settingOptions[indexPath.row]
-        cell.setupView(option: option.text)
+        cell.setupView(element: option)
         cell.selectionStyle = .none
         return cell
     }
