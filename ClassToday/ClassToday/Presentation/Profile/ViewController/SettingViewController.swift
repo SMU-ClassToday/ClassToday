@@ -16,6 +16,7 @@ class SettingViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(
             OptionTableViewCell.self,
             forCellReuseIdentifier: OptionTableViewCell.identifier
@@ -32,6 +33,13 @@ class SettingViewController: UIViewController {
         setupNavigationBar()
         attribute()
         layout()
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension SettingViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if settingOptions[indexPath.row] == Setting.logout { signOut() }
     }
 }
 
@@ -52,9 +60,19 @@ extension SettingViewController: UITableViewDataSource {
             for: indexPath
         ) as? OptionTableViewCell else { return UITableViewCell() }
         let option = settingOptions[indexPath.row]
-        cell.setupView(option: option.text)
+        cell.setupView(element: option)
         cell.selectionStyle = .none
         return cell
+    }
+}
+
+// MARK: - 로그아웃 메서드
+private extension SettingViewController {
+    func signOut() {
+        switch FirebaseAuthManager.shared.signOut() {
+        default:
+            print("로그아웃!!🎒🎒")
+        }
     }
 }
 

@@ -96,7 +96,7 @@ extension ProfileViewController: UITableViewDataSource {
             ) as? OptionTableViewCell else { return UITableViewCell() }
             
             let option = options[indexPath.row - 1]
-            cell.setupView(option: option.text)
+            cell.setupView(element: option)
             cell.selectionStyle = .none
             return cell
         }

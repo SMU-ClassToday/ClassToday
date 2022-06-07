@@ -114,3 +114,41 @@ class FirestoreManager {
         }
     }
 }
+
+// MARK: - User 관련 Firestore 메서드
+extension FirestoreManager {
+    /// 유저 정보를 저장하는 메서드
+    ///
+    /// - `user`: 저장할 유저
+    func uploadUser(user: User, completion: @escaping (Result<Void, Error>) -> Void) {
+        do {
+            try FirestoreRoute.user.ref.document(user.id).setData(from: user)
+            completion(.success(()))
+            return
+        } catch {
+            completion(.failure(error))
+            return
+        }
+    }
+    
+    /// 유저 정보를 가져오는 메서드
+    ///
+    /// - `uid`: 찾을 유저 고유의 아이디 (UID)
+    func readUser(uid: String, completion: @escaping (Result<User, Error>) -> Void) {
+        FirestoreRoute.user.ref.document(uid).getDocument { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let snapshot = snapshot {
+                do {
+                    let user = try snapshot.data(as: User.self)
+                    completion(.success(user))
+                } catch {
+                    completion(.failure(error))
+                }
+                return
+            }
+        }
+    }
+}
