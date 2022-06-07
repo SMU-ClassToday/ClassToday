@@ -22,11 +22,15 @@ class OptionTableViewCell: UITableViewCell {
         return view
     }()
     
-    func setupView(option: String) {
+    func setupView<T>(element: T) {
         layout()
-        optionTitleLabel.text = option
-        if option == "로그아웃" {
-            optionTitleLabel.textColor = .systemRed
+        if let option = element as? Option {
+            optionTitleLabel.text = option.text
+        } else if let option = element as? Setting {
+            optionTitleLabel.text = option.text
+            if option == Setting.logout {
+                optionTitleLabel.textColor = .systemRed
+            }
         }
     }
 }
