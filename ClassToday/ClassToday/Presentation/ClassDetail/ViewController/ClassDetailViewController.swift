@@ -202,6 +202,7 @@ extension ClassDetailViewController: DetailImageCellDelegate {
 extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
     func goBackPage() {
         navigationController?.popViewController(animated: true)
+        navigationController?.navigationBar.isHidden = false
     }
     func pushEditPage() {
         let modifyViewController = ClassModifyViewController(classItem: classItem)
