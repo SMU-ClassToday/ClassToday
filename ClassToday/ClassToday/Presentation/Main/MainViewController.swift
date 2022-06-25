@@ -101,7 +101,6 @@ class MainViewController: UIViewController {
         dispatchGroup.notify(queue: DispatchQueue.main) {
             self.activityIndicator.stopAnimating()
         }
-        navigationController?.navigationBar.isHidden = false
     }
 
     // MARK: - Method
