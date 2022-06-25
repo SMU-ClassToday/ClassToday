@@ -100,6 +100,7 @@
 		89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */; };
 		89675B492828C84400933C48 /* NavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B482828C84400933C48 /* NavigationBar+.swift */; };
 		8971F21C283A1A4200D4AAD0 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */; };
+		8980575128677F290089CF47 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8980575028677F290089CF47 /* MapViewController.swift */; };
 		89865E9D282A70D700113242 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F9280DC02800D5D3DC /* MainViewController.swift */; };
 		89865E9E282A70DC00113242 /* SearchRecentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC87FA9F281ECF6500F57CE0 /* SearchRecentTableViewCell.swift */; };
 		89865E9F282A70DE00113242 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */; };
@@ -226,6 +227,7 @@
 		89675B482828C84400933C48 /* NavigationBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationBar+.swift"; sourceTree = "<group>"; };
 		89675B4C282976CA00933C48 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		8980575028677F290089CF47 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryCollectionFlowLayout.swift; sourceTree = "<group>"; };
 		89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageCell.swift; sourceTree = "<group>"; };
 		89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageEnrollCell.swift; sourceTree = "<group>"; };
@@ -571,6 +573,14 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		8980574F28677F110089CF47 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				8980575028677F290089CF47 /* MapViewController.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		89A6734B282A67F500951300 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -648,6 +658,7 @@
 		FCF850FD280E6A8700D5D3DC /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				8980574F28677F110089CF47 /* Map */,
 				6B59562728474677004821F1 /* Auth */,
 				6BA8E0112821023900B0CC8C /* Profile */,
 				FC3458682816F55A00EB7B43 /* Tabbar */,
@@ -896,6 +907,7 @@
 				89675B122826776100933C48 /* PriceUnitTableView.swift in Sources */,
 				89675B222826EC1A00933C48 /* ClassDetailViewController.swift in Sources */,
 				89675B3C28280D8800933C48 /* DetailContentCategoryView.swift in Sources */,
+				8980575128677F290089CF47 /* MapViewController.swift in Sources */,
 				89675B352827DC3B00933C48 /* DetailContentTimeView.swift in Sources */,
 				89865EA0282A70E000113242 /* SearchResultViewController.swift in Sources */,
 				893D70E4281B1935006CD232 /* ClassCategoryCollectionViewCell.swift in Sources */,

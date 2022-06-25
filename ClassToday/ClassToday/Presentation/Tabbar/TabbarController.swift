@@ -99,14 +99,6 @@ private extension TabbarController {
     }
 }
 
-//MARK: - 미구현 VC들
-//MapVc
-class MapViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-    }
-}
 //ChatVC
 class ChatViewController: UIViewController {
     override func viewDidLoad() {
