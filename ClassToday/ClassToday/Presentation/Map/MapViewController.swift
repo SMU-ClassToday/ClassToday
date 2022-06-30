@@ -41,11 +41,13 @@ class MapViewController: UIViewController {
     }()
     
     private lazy var mapView: NMFNaverMapView = {
-        let mapView = NMFNaverMapView()
-        mapView.mapView.mapType = NMFMapType.basic
-        mapView.mapView.setLayerGroup(NMF_LAYER_GROUP_BUILDING, isEnabled: true)
-        mapView.mapView.setLayerGroup(NMF_LAYER_GROUP_TRANSIT, isEnabled: true)
-        return mapView
+        let naverMapView = NMFNaverMapView()
+        let mapView = naverMapView.mapView
+        mapView.mapType = NMFMapType.basic
+        mapView.setLayerGroup(NMF_LAYER_GROUP_BUILDING, isEnabled: true)
+        mapView.setLayerGroup(NMF_LAYER_GROUP_TRANSIT, isEnabled: true)
+        mapView.positionMode = NMFMyPositionMode.direction
+        return naverMapView
     }()
 
     private var curLocation: Location? {
@@ -64,7 +66,6 @@ class MapViewController: UIViewController {
             return
         }
         setupMapView(location: location)
-        print(#function)
     }
     
     private func setupLayout() {
