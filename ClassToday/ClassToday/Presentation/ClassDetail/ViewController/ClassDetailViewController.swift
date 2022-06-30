@@ -72,6 +72,7 @@ class ClassDetailViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isHidden = false
     }
 
     // MARK: - Method
@@ -202,7 +203,6 @@ extension ClassDetailViewController: DetailImageCellDelegate {
 extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
     func goBackPage() {
         navigationController?.popViewController(animated: true)
-        navigationController?.navigationBar.isHidden = false
     }
     func pushEditPage() {
         let modifyViewController = ClassModifyViewController(classItem: classItem)

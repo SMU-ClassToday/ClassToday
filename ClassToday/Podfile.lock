@@ -1,20 +1,24 @@
 PODS:
+  - NMapsMap (3.15.0)
   - Popover (1.3.0)
   - SwiftLint (0.45.0)
 
 DEPENDENCIES:
+  - NMapsMap
   - Popover
   - SwiftLint
 
 SPEC REPOS:
   trunk:
+    - NMapsMap
     - Popover
     - SwiftLint
 
 SPEC CHECKSUMS:
+  NMapsMap: f151761c088d6516064c59da03ab6503769486e6
   Popover: 10e1d9528f81d9504df984b7b3f491292bc1822d
   SwiftLint: e5c7f1fba68eccfc51509d5b2ce1699f5502e0c7
 
-PODFILE CHECKSUM: 37bd979d0555e350b9363772027f3d42af4c6cbb
+PODFILE CHECKSUM: 354f036f76560c2c446442151f618efe585ea7ab
 
 COCOAPODS: 1.11.3
