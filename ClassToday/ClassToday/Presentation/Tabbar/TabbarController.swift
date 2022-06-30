@@ -67,7 +67,6 @@ extension TabbarController: UITabBarControllerDelegate {
         } else {
             isUploadTabBarEnabled = true
         }
-        
         // 로그인 여부 확인
         if item.image == Icon.person.image { checkUser() }
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import NMapsMap
 
 class MapViewController: UIViewController {
     //MARK: - NavigationBar Components
@@ -33,9 +34,51 @@ class MapViewController: UIViewController {
         navigationItem.rightBarButtonItems = [starItem, searchItem]
     }
     
+    //MARK: - Views
+    private lazy var categoryCollectionView: DetailContentCategoryView = {
+        let collectionView = DetailContentCategoryView()
+        return collectionView
+    }()
+    
+    private lazy var mapView: NMFNaverMapView = {
+        let mapView = NMFNaverMapView()
+        mapView.mapView.mapType = NMFMapType.basic
+        mapView.mapView.setLayerGroup(NMF_LAYER_GROUP_BUILDING, isEnabled: true)
+        mapView.mapView.setLayerGroup(NMF_LAYER_GROUP_TRANSIT, isEnabled: true)
+        return mapView
+    }()
+
+    private var curLocation: Location? {
+        return LocationManager.shared.getCurrentLocation()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        setupLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let location = curLocation else {
+            return
+        }
+        setupMapView(location: location)
+        print(#function)
+    }
+    
+    private func setupLayout() {
+        view.addSubview(mapView)
+        mapView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+
+    private func setupMapView(location: Location) {
+        let coord = NMGLatLng(lat: location.lat, lng: location.lon)
+        mapView.mapView.latitude = coord.lat
+        mapView.mapView.longitude = coord.lng
     }
 }
 
@@ -48,3 +91,10 @@ extension MapViewController {
         
     }
 }
+
+//extension MapViewController: NMFMapViewOptionDelegate {
+//    func mapViewOptionChanged(_ mapView: NMFMapView) {
+//        mapView.latitude = curLocation?.lat ?? 0
+//        mapView.longitude = curLocation?.lon ?? 0
+//    }
+//}
