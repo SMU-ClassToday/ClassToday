@@ -31,14 +31,10 @@ class DetailContentCategoryView: UIView {
         return flowLayout
     }()
 
-    private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.register(DetailContentCategoryCollectionViewCell.self,
-                                forCellWithReuseIdentifier: DetailContentCategoryCollectionViewCell.identifier)
+    private lazy var collectionView: DetailContentCategoryCollectionView = {
+        let collectionView = DetailContentCategoryCollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = .white
-        collectionView.isScrollEnabled = false
         return collectionView
     }()
 

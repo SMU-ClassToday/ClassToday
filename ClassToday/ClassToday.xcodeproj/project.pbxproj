@@ -115,6 +115,9 @@
 		899D3F002834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */; };
 		89A0CD3C280D441A006FDF89 /* ClassImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */; };
 		89A0CD3F280D4E17006FDF89 /* ClassImageEnrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */; };
+		89A3143C286D9DA300A7F6ED /* MapCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A3143B286D9DA300A7F6ED /* MapCategoryView.swift */; };
+		89A3143E286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A3143D286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift */; };
+		89A314402870AE2100A7F6ED /* MapCategorySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A3143F2870AE2000A7F6ED /* MapCategorySelectViewController.swift */; };
 		89A67342282A634C00951300 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A67340282A634C00951300 /* SceneDelegate.swift */; };
 		89A67344282A634C00951300 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A67341282A634C00951300 /* AppDelegate.swift */; };
 		89A67346282A638800951300 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F1280DB65D00D5D3DC /* TabbarController.swift */; };
@@ -232,6 +235,9 @@
 		899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryCollectionFlowLayout.swift; sourceTree = "<group>"; };
 		89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageCell.swift; sourceTree = "<group>"; };
 		89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageEnrollCell.swift; sourceTree = "<group>"; };
+		89A3143B286D9DA300A7F6ED /* MapCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategoryView.swift; sourceTree = "<group>"; };
+		89A3143D286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryCollectionView.swift; sourceTree = "<group>"; };
+		89A3143F2870AE2000A7F6ED /* MapCategorySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategorySelectViewController.swift; sourceTree = "<group>"; };
 		89A67340282A634C00951300 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		89A67341282A634C00951300 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		89B891D0284735A8008B27DD /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -582,6 +588,8 @@
 			isa = PBXGroup;
 			children = (
 				8980575028677F290089CF47 /* MapViewController.swift */,
+				89A3143B286D9DA300A7F6ED /* MapCategoryView.swift */,
+				89A3143F2870AE2000A7F6ED /* MapCategorySelectViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -590,6 +598,7 @@
 			isa = PBXGroup;
 			children = (
 				89675B3B28280D8800933C48 /* DetailContentCategoryView.swift */,
+				89A3143D286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift */,
 				89675B3E2828101400933C48 /* DetailContentCategoryCollectionViewCell.swift */,
 				899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */,
 				8980575228678A0C0089CF47 /* CategoryCollectionView.swift */,
@@ -831,6 +840,7 @@
 				6B5E14BB281314D4001AF21C /* SubjectPickerCollectionViewCell.swift in Sources */,
 				6B5E1489281311B9001AF21C /* OptionTableViewCell.swift in Sources */,
 				6B5E14B128131460001AF21C /* ClassItemCollectionViewCell.swift in Sources */,
+				89A3143E286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift in Sources */,
 				6B5E14A12813135E001AF21C /* Setting.swift in Sources */,
 				6B5E1497281312B5001AF21C /* UIColor+.swift in Sources */,
 				6B5E14A928131408001AF21C /* SubjectUserInfoTableViewCell.swift in Sources */,
@@ -846,6 +856,7 @@
 				89098E0D28203A04006EFD4E /* Category.swift in Sources */,
 				89098E4D28245503006EFD4E /* DayWeek.swift in Sources */,
 				6B7997BD27F33C4C00F37393 /* User.swift in Sources */,
+				89A3143C286D9DA300A7F6ED /* MapCategoryView.swift in Sources */,
 				89098E372820FE5C006EFD4E /* EnrollCategoryCell.swift in Sources */,
 				6B59562928475490004821F1 /* LaunchSignInViewController.swift in Sources */,
 				89098E3D28227293006EFD4E /* MockData.swift in Sources */,
@@ -876,6 +887,7 @@
 				89865E9D282A70D700113242 /* MainViewController.swift in Sources */,
 				895209DA282A0D520009E97B /* UIApplication+.swift in Sources */,
 				89098E312820FA5B006EFD4E /* EnrollPriceCell.swift in Sources */,
+				89A314402870AE2100A7F6ED /* MapCategorySelectViewController.swift in Sources */,
 				89865E9F282A70DE00113242 /* SearchViewController.swift in Sources */,
 				89A0CD3C280D441A006FDF89 /* ClassImageCell.swift in Sources */,
 				89098E342820FB4F006EFD4E /* EnrollDescriptionCell.swift in Sources */,
