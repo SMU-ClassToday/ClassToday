@@ -31,7 +31,7 @@ class ClassDetailViewController: UIViewController {
     private lazy var matchingButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(didTapMatchingButton(_:)), for: .touchUpInside)
-        button.layer.cornerRadius = 15
+        button.layer.cornerRadius = 20
         return button
     }()
 
@@ -70,6 +70,7 @@ class ClassDetailViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.barStyle = .default
     }
@@ -123,7 +124,9 @@ class ClassDetailViewController: UIViewController {
     // MARK: - Actions
 
     @objc func didTapMatchingButton(_ button: UIButton) {
-        debugPrint(#function)
+        let channel = Channel(id: "test", classItem: classItem)
+        let viewcontroller = ChatViewController(channel: channel, classItem: classItem)
+        navigationController?.pushViewController(viewcontroller, animated: true)
     }
 }
 
