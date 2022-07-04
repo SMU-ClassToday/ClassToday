@@ -107,10 +107,11 @@ class MapViewController: UIViewController {
         view.backgroundColor = .white
     }
 }
-//ChatVC
+/*
 class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
     }
 }
+*/

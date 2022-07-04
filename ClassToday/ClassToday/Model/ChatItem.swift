@@ -7,6 +7,7 @@
 
 import Foundation
 
+/*
 struct ChatItem: Codable {
     var id: String = UUID().uuidString
     let classItemID: String
@@ -20,3 +21,5 @@ struct Message: Codable {
     let body: String
     let date: Date
 }
+*/
+
