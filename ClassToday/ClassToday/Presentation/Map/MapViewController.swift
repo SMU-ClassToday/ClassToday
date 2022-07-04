@@ -53,6 +53,16 @@ class MapViewController: UIViewController {
         return naverMapView
     }()
     
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
+
+    private lazy var classTableView: UITableView = {
+        let tableView = UITableView()
+        return tableView
+    }()
+    
     //MARK: - Properties
     private var curLocation: Location? {
         return LocationManager.shared.getCurrentLocation()
@@ -92,7 +102,8 @@ class MapViewController: UIViewController {
         }
         mapView.snp.makeConstraints {
             $0.top.equalTo(categoryView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.5)
         }
     }
     
