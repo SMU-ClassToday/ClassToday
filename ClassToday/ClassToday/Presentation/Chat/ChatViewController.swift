@@ -32,6 +32,7 @@ class ChatViewController: MessagesViewController {
     
     private lazy var classItemCellView: ChatClassItemCell = {
         let cell = ChatClassItemCell(classItem: classItem ?? mockClassItem)
+        cell.delegate = self
         return cell
     }()
     
@@ -291,5 +292,12 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
 extension ChatViewController: MessageCellDelegate {
     func didTapBackground(in cell: MessageCollectionViewCell) {
         self.messageInputBar.inputTextView.resignFirstResponder()
+    }
+}
+
+extension ChatViewController: ChatClassItemCellDelegate {
+    func pushToDetailViewController(classItem: ClassItem) {
+        let viewController = ClassDetailViewController(classItem: classItem)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }

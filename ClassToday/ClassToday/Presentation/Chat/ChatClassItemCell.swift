@@ -7,11 +7,17 @@
 
 import UIKit
 
+protocol ChatClassItemCellDelegate: AnyObject {
+    func pushToDetailViewController(classItem: ClassItem)
+}
+
 class ChatClassItemCell: UIView {
     lazy var thumbnailView: UIImageView = {
         let thumbnailView = UIImageView()
         thumbnailView.backgroundColor = .secondarySystemBackground
         thumbnailView.layer.cornerRadius = 4.0
+        thumbnailView.isUserInteractionEnabled = true
+        thumbnailView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapClassItemImage)))
         return thumbnailView
     }()
     
@@ -71,6 +77,7 @@ class ChatClassItemCell: UIView {
         return button
     }()
     
+    weak var delegate: ChatClassItemCellDelegate?
     private var classItem: ClassItem = mockClassItem
     private let locationManager = LocationManager.shared
     //TODO: delegate
@@ -79,7 +86,9 @@ class ChatClassItemCell: UIView {
         super.init(frame: .zero)
         self.classItem = classItem
         self.backgroundColor = .white
-        configure()
+        configure(classItem: classItem) { image in
+            self.thumbnailView.image = image
+        }
         layout()
         setupStyle()
     }
@@ -88,7 +97,7 @@ class ChatClassItemCell: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configure() {
+    private func configure(classItem: ClassItem, completion: @escaping (UIImage)->()) {
         titleLabel.text = classItem.name
         locationManager.getAddress(of: classItem.location) { [weak self] result in
             guard let self = self else { return }
@@ -119,7 +128,12 @@ class ChatClassItemCell: UIView {
         } else {
             dateDiffLabel.text = " | 방금 전"
         }
-        
+        classItem.thumbnailImage { image in
+            guard let image = image else {
+                return
+            }
+            completion(image)
+        }
         
     }
     
@@ -179,5 +193,9 @@ private extension ChatClassItemCell {
     @objc func didTapMatchingButton() {
         //TODO
         print("didTapMatchingButton")
+    }
+    
+    @objc func didTapClassItemImage() {
+        delegate?.pushToDetailViewController(classItem: self.classItem)
     }
 }

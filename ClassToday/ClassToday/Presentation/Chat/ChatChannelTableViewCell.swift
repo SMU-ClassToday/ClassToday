@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class ChannelTableViewCell: UITableViewCell {
-    private lazy var chatRoomThumbnailView: UIImageView = {
+    lazy var chatRoomThumbnailView: UIImageView = {
         let thumbnailView = UIImageView()
         thumbnailView.clipsToBounds = true
         thumbnailView.image = UIImage(named: "person")
@@ -103,7 +103,7 @@ class ChannelTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        chatRoomThumbnailView.image = nil
+        chatRoomThumbnailView.image = UIImage(named: "person")
         chatRoomLabel.text = nil
     }
 }
