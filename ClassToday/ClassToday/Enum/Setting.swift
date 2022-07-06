@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Setting: String, CaseIterable {
+enum Setting: String, CaseIterable, MenuListable {
     case account = "계정 관리"
     case blockUser = "차단 사용자 관리"
     case alarm = "알림 설정"

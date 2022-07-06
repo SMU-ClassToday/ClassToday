@@ -7,7 +7,11 @@
 
 import UIKit
 
-enum Option: String, CaseIterable {
+protocol MenuListable {
+    var text: String { get }
+}
+
+enum Option: String, CaseIterable, MenuListable {
     case location = "내 위치 설정"
     case category = "관심 카테고리 설정"
     case notice = "공지사항"
