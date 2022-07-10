@@ -58,9 +58,10 @@ class MapViewController: UIViewController {
         return label
     }()
 
-    private lazy var classTableView: UITableView = {
-        let tableView = UITableView()
-        return tableView
+    private lazy var mapClassListView: MapClassListView = {
+        let mapClassListView = MapClassListView()
+        mapClassListView.delegate = self
+        return mapClassListView
     }()
     
     //MARK: - Properties
@@ -96,6 +97,7 @@ class MapViewController: UIViewController {
     private func setupLayout() {
         view.addSubview(categoryView)
         view.addSubview(mapView)
+        view.addSubview(mapClassListView)
         categoryView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(44)
@@ -105,6 +107,11 @@ class MapViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalToSuperview().multipliedBy(0.5)
         }
+        mapClassListView.snp.makeConstraints {
+            $0.top.equalTo(mapView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
     }
     
     private func setupMapView(location: Location) {
@@ -169,9 +176,8 @@ extension MapViewController: MapCategorySelectViewControllerDelegate {
     }
 }
 
-//extension MapViewController: NMFMapViewOptionDelegate {
-//    func mapViewOptionChanged(_ mapView: NMFMapView) {
-//        mapView.latitude = curLocation?.lat ?? 0
-//        mapView.longitude = curLocation?.lon ?? 0
-//    }
-//}
+extension MapViewController: MapClassListViewDelegate {
+    func presentViewController(with classItem: ClassItem) {
+        navigationController?.pushViewController(ClassDetailViewController(classItem: classItem), animated: true)
+    }
+}
