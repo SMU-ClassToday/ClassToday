@@ -118,6 +118,8 @@
 		89A3143C286D9DA300A7F6ED /* MapCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A3143B286D9DA300A7F6ED /* MapCategoryView.swift */; };
 		89A3143E286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A3143D286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift */; };
 		89A314402870AE2100A7F6ED /* MapCategorySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A3143F2870AE2000A7F6ED /* MapCategorySelectViewController.swift */; };
+		89A314442878FEAD00A7F6ED /* MapClassListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A314432878FEAC00A7F6ED /* MapClassListView.swift */; };
+		89A31446287900CD00A7F6ED /* MapClassListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A31445287900CD00A7F6ED /* MapClassListCell.swift */; };
 		89A67342282A634C00951300 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A67340282A634C00951300 /* SceneDelegate.swift */; };
 		89A67344282A634C00951300 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A67341282A634C00951300 /* AppDelegate.swift */; };
 		89A67346282A638800951300 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F1280DB65D00D5D3DC /* TabbarController.swift */; };
@@ -238,6 +240,8 @@
 		89A3143B286D9DA300A7F6ED /* MapCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategoryView.swift; sourceTree = "<group>"; };
 		89A3143D286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryCollectionView.swift; sourceTree = "<group>"; };
 		89A3143F2870AE2000A7F6ED /* MapCategorySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategorySelectViewController.swift; sourceTree = "<group>"; };
+		89A314432878FEAC00A7F6ED /* MapClassListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapClassListView.swift; sourceTree = "<group>"; };
+		89A31445287900CD00A7F6ED /* MapClassListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapClassListCell.swift; sourceTree = "<group>"; };
 		89A67340282A634C00951300 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		89A67341282A634C00951300 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		89B891D0284735A8008B27DD /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -590,6 +594,8 @@
 				8980575028677F290089CF47 /* MapViewController.swift */,
 				89A3143B286D9DA300A7F6ED /* MapCategoryView.swift */,
 				89A3143F2870AE2000A7F6ED /* MapCategorySelectViewController.swift */,
+				89A314432878FEAC00A7F6ED /* MapClassListView.swift */,
+				89A31445287900CD00A7F6ED /* MapClassListCell.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -846,6 +852,7 @@
 				6B5E14A928131408001AF21C /* SubjectUserInfoTableViewCell.swift in Sources */,
 				89098E252820E636006EFD4E /* EnrollNameCell.swift in Sources */,
 				89A67346282A638800951300 /* TabbarController.swift in Sources */,
+				89A314442878FEAD00A7F6ED /* MapClassListView.swift in Sources */,
 				8941FF232830CF7D00A90AB0 /* ReviewItem.swift in Sources */,
 				89098E4B282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift in Sources */,
 				89098E492824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift in Sources */,
@@ -906,6 +913,7 @@
 				89675B322827C0A300933C48 /* DetailContentCell.swift in Sources */,
 				89098E1D2820C445006EFD4E /* ClassEnrollViewController.swift in Sources */,
 				89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */,
+				89A31446287900CD00A7F6ED /* MapClassListCell.swift in Sources */,
 				89A67348282A639600951300 /* Tabbar.swift in Sources */,
 				89B891D1284735A8008B27DD /* LocationManager.swift in Sources */,
 				89675B492828C84400933C48 /* NavigationBar+.swift in Sources */,
@@ -1063,6 +1071,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 67D46DJNPH;
@@ -1081,8 +1090,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1095,6 +1105,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 67D46DJNPH;
@@ -1113,8 +1124,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
