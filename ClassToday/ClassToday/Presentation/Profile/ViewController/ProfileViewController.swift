@@ -46,7 +46,16 @@ class ProfileViewController: UIViewController {
         setupNavigationBar()
         attribute()
         layout()
-        getCurrentUser()
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let user):
+                self.currentUser = user
+                self.profileTableView.reloadData()
+            case .failure(let error):
+                print("ERROR \(error)🌔")
+            }
+        }
     }
 }
 
@@ -123,21 +132,7 @@ private extension ProfileViewController {
 }
 
 // MARK: - Methods
-private extension ProfileViewController {
-    func getCurrentUser() {
-        guard let uid = firebaseAuthManager.getUserID() else { return }
-        FirestoreManager.shared.readUser(uid: uid) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let user):
-                self.currentUser = user
-                self.profileTableView.reloadData()
-            case .failure(let error):
-                print("ERROR \(error)🌔")
-            }
-        }
-    }
-}
+private extension ProfileViewController {}
 
 // MARK: - UI Methods
 private extension ProfileViewController {
