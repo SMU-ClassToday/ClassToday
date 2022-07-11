@@ -37,6 +37,8 @@ class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     private let options: [Option] = Option.allCases
+    private let firebaseAuthManager = FirebaseAuthManager.shared
+    private var currentUser: User?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -44,6 +46,7 @@ class ProfileViewController: UIViewController {
         setupNavigationBar()
         attribute()
         layout()
+        getCurrentUser()
     }
 }
 
@@ -53,10 +56,11 @@ extension ProfileViewController: UITableViewDelegate {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
+        guard let currentUser = currentUser else { return }
         let optionIndex = indexPath.row - 1
         switch indexPath.row {
         case 0:
-            let viewController = ProfileDetailViewController(user: MockData.mockUser)
+            let viewController = ProfileDetailViewController(user: currentUser)
             navigationController?.pushViewController(viewController, animated: true)
         case 1...6:
             let viewController = options[optionIndex].viewController
@@ -79,10 +83,11 @@ extension ProfileViewController: UITableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
+        guard let currentUser = currentUser else { return UITableViewCell() }
         switch indexPath.row {
         case 0:
             let cell = ProfileUserInfoTableViewCell(
-                user: MockData.mockUser,
+                user: currentUser,
                 type: .brief
             )
             cell.setupView()
@@ -114,6 +119,23 @@ extension ProfileViewController: ProfileUserInfoViewDelegate {
 private extension ProfileViewController {
     @objc func beginRefresh() {
         refreshControl.endRefreshing()
+    }
+}
+
+// MARK: - Methods
+private extension ProfileViewController {
+    func getCurrentUser() {
+        guard let uid = firebaseAuthManager.getUserID() else { return }
+        FirestoreManager.shared.readUser(uid: uid) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let user):
+                self.currentUser = user
+                self.profileTableView.reloadData()
+            case .failure(let error):
+                print("ERROR \(error)🌔")
+            }
+        }
     }
 }
 
