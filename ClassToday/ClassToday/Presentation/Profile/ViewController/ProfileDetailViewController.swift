@@ -32,6 +32,7 @@ class ProfileDetailViewController: UIViewController {
     
     // MARK: - Properties
     let user: User
+    private let currentUserID = FirebaseAuthManager.shared.getUserID()
     
     // MARK: - init
     init(user: User) {
@@ -122,7 +123,7 @@ private extension ProfileDetailViewController {
     func setupNavigationBar() {
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
         // 본인 프로필 상세 뷰로 들어갈 때, 다른 사람의 프로필 상세 뷰로 들어갈 때
-        if user == MockData.mockUser {
+        if user.id == currentUserID {
             navigationItem.title = "나의 프로필"
             let rightBarButtonItem = UIBarButtonItem(
                 image: UIImage(named: "pencil"),
