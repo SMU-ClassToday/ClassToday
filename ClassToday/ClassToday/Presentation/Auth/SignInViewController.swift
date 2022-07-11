@@ -99,6 +99,7 @@ private extension SignInViewController {
             switch result {
             case .success(_):
                 print("로그인 성공🐹")
+                // TODO: - 로그인 성공하면 UserDefaults에 유저 id 저장
                 self.view.hideToastActivity()
                 self.dismiss(animated: true)
             case .failure(let error):
