@@ -112,6 +112,7 @@ private extension SignUpViewController {
             switch result {
             case .success(_):
                 print("회원가입 성공!🎉")
+                // TODO: - 회원가입 성공하면 UserDefaults에 유저 id 저장
                 self.view.hideToastActivity()
                 self.dismiss(animated: true)
             case .failure(let error):
