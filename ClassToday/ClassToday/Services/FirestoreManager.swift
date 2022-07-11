@@ -11,7 +11,8 @@ import FirebaseFirestoreSwift
 
 class FirestoreManager {
     static let shared = FirestoreManager()
-
+    var collectionListener: CollectionReference?
+    var listener: ListenerRegistration?
     private init() {}
 
     // - MARK: CRUD Method
@@ -150,5 +151,94 @@ extension FirestoreManager {
                 return
             }
         }
+    }
+}
+
+//MARK: - chat 관련 Firestore Method
+extension FirestoreManager {
+    func uploadChannel(channel: Channel) {
+        do {
+            try FirestoreRoute.channel.ref.document(channel.id).setData(from: channel)
+        } catch {
+            debugPrint(error)
+        }
+    }
+    
+    func fetchChannel1(currentUserID: String, completion: @escaping ([Channel]) -> ()) {
+        var data: [Channel] = []
+        FirestoreRoute.channel.ref.whereField("sellerID", isEqualTo: currentUserID).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let channel = try document.data(as: Channel.self)
+                        data.append(channel)
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
+    
+    func fetchChannel2(currentUserID: String, completion: @escaping ([Channel]) -> ()) {
+        var data: [Channel] = []
+        FirestoreRoute.channel.ref.whereField("buyerID", isEqualTo: currentUserID).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let channel = try document.data(as: Channel.self)
+                        data.append(channel)
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
+    
+    
+    func subscribe(id: String, completion: @escaping (Result<[Message], StreamError>) -> Void) {
+        let streamPath = "channels/\(id)/thread"
+        
+        removeListener()
+        collectionListener = FirestoreRoute.db.collection(streamPath)
+        
+        listener = collectionListener?
+            .addSnapshotListener { snapshot, error in
+                guard let snapshot = snapshot else {
+                    completion(.failure(StreamError.firestoreError(error)))
+                    return
+                }
+                
+                var messages = [Message]()
+                snapshot.documentChanges.forEach { change in
+                    if let message = Message(document: change.document) {
+                        if case .added = change.type {
+                            messages.append(message)
+                        }
+                    }
+                }
+                completion(.success(messages))
+            }
+    }
+    
+    func save(_ message: Message, completion: ((Error?) -> Void)? = nil) {
+        collectionListener?.addDocument(data: message.representation) { error in
+            completion?(error)
+        }
+    }
+    
+    func removeListener() {
+        listener?.remove()
     }
 }

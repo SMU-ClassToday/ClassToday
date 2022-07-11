@@ -26,7 +26,7 @@ class ChannelTableViewCell: UITableViewCell {
     
     private lazy var latestMessage: UILabel = {
         let label = UILabel()
-        label.text = "수요일 오후 2시에 스타벅스에서 진행하겠습니다."
+        label.text = "다람쥐 헌 쳇바퀴에 타고파"
         label.font = .systemFont(ofSize: 14.0, weight: .thin)
         return label
     }()

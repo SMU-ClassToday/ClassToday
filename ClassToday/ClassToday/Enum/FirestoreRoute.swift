@@ -11,6 +11,7 @@ import FirebaseFirestore
 enum FirestoreRoute {
     case classItem
     case user
+    case channel
 
     static var db = Firestore.firestore()
 
@@ -20,6 +21,8 @@ enum FirestoreRoute {
             return Self.db.collection("ClassItem")
         case .user:
             return Self.db.collection("User")
+        case .channel:
+            return Self.db.collection("channel")
         }
     }
 }

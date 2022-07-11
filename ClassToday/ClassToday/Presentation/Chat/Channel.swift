@@ -8,24 +8,15 @@
 import Foundation
 
 // Channel.swift
-struct Channel {
-    var id: String?
+struct Channel: Codable {
+    var id: String = UUID().uuidString
     let classItem: ClassItem?
+    let sellerID: String
+    let buyerID: String
     
-    init(id: String? = nil, classItem: ClassItem? = nil) {
-        self.id = id
+    init(sellerID: String, buyerID: String, classItem: ClassItem? = nil) {
+        self.sellerID = sellerID
+        self.buyerID = buyerID
         self.classItem = classItem
-    }
-}
-
-extension Channel: Comparable {
-    static func < (lhs: Channel, rhs: Channel) -> Bool {
-        guard let lName = lhs.classItem?.writer.name else { return true }
-        guard let rName = rhs.classItem?.writer.name else { return true }
-        return lName < rName
-    }
-    
-    static func == (lhs: Channel, rhs: Channel) -> Bool {
-        return lhs.id == rhs.id
     }
 }

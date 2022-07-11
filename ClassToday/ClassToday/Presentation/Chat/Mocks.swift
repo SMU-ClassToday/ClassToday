@@ -2,14 +2,11 @@
 //  Mocks.swift
 //  ClassToday
 //
-//  Created by poohyhy on 2022/06/24.
+//  Created by poohyhy on 2022/07/11.
 //
 
 import Foundation
 
-func getChannelMocks(classItem: ClassItem) -> [Channel] {
-    return (0...3).map { Channel(id: String($0), classItem: classItem) }
-}
 
 func getMessagesMock(classItem: ClassItem) -> [Message] {
     return (0...5).map { _ in Message(content: classItem.description, senderId: classItem.writer.id, displayName: classItem.writer.name) }

@@ -7,6 +7,8 @@
 
 import UIKit
 
+// TODO: - Channel의 중복 생성 문제
+// 같은 {유저1, 유저2, 수업}의 집합에서 신청하기를 눌렀을때 다시 Channel을 생성하지 않도록
 class ClassDetailViewController: UIViewController {
     
     // MARK: - Views
@@ -40,7 +42,8 @@ class ClassDetailViewController: UIViewController {
     private var classItem: ClassItem
     var delegate: ClassUpdateDelegate?
     private let storageManager = StorageManager.shared
-    private let fireStoreManager = FirestoreManager.shared
+    private let firestoreManager = FirestoreManager.shared
+    private let firebaseAuthManager = FirebaseAuthManager.shared
 
     // MARK: - Initialize
 
@@ -76,7 +79,6 @@ class ClassDetailViewController: UIViewController {
     }
 
     // MARK: - Method
-
     private func configureUI() {
         view.backgroundColor = .white
         view.addSubview(tableView)
@@ -124,9 +126,15 @@ class ClassDetailViewController: UIViewController {
     // MARK: - Actions
 
     @objc func didTapMatchingButton(_ button: UIButton) {
-        let channel = Channel(id: "test", classItem: classItem)
-        let viewcontroller = ChatViewController(channel: channel, classItem: classItem)
-        navigationController?.pushViewController(viewcontroller, animated: true)
+        if classItem.writer.id == firebaseAuthManager.getUserID()! {
+            let channelVC = ChatChannelViewController()
+            navigationController?.pushViewController(channelVC, animated: true)
+        } else {
+            let channel = Channel(sellerID: classItem.writer.id, buyerID: firebaseAuthManager.getUserID()!, classItem: classItem)
+            firestoreManager.uploadChannel(channel: channel)
+            let viewcontroller = ChatViewController(channel: channel)
+            navigationController?.pushViewController(viewcontroller, animated: true)
+        }
     }
 }
 
@@ -215,7 +223,7 @@ extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
         present(alert, animated: true)
     }
     func deleteClassItem() {
-        fireStoreManager.delete(classItem: classItem)
+        firestoreManager.delete(classItem: classItem)
         navigationController?.popViewController(animated: true)
     }
     func toggleClassItem() {
@@ -225,7 +233,7 @@ extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
         } else {
             setButtonOffSale()
         }
-        fireStoreManager.update(classItem: classItem)
+        firestoreManager.update(classItem: classItem)
     }
     func classItemValidity() -> Bool {
         return classItem.validity
@@ -263,6 +271,7 @@ extension ClassDetailViewController: ClassUpdateDelegate {
 // MARK: - Extension for Button
 extension ClassDetailViewController {
     func setButtonOnSale() {
+        //TODO: mock 관련 로직 수정
         matchingButton.setTitle(classItem.writer == MockData.mockUser ? "채팅 목록" : "신청하기", for: .normal)
         matchingButton.backgroundColor = .mainColor
         matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)

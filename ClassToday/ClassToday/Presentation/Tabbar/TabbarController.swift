@@ -70,6 +70,7 @@ extension TabbarController: UITabBarControllerDelegate {
         
         // 로그인 여부 확인
         if item.image == Icon.person.image { checkUser() }
+        if item.image == Icon.chat.image { checkUser() }
     }
     
     //+탭 선택시 뷰컨 보여주지 않음

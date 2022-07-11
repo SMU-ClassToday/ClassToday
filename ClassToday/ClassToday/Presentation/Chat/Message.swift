@@ -8,6 +8,8 @@
 import Foundation
 import MessageKit
 import UIKit
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 struct Message: MessageType {
     
@@ -44,14 +46,52 @@ struct Message: MessageType {
         id = nil
     }
     
-    init(image: UIImage) {
-        sender = Sender(senderId: "any_unique_id", displayName: "김민상")
+    init(image: UIImage, senderId: String, displayName: String) {
+        sender = Sender(senderId: senderId, displayName: displayName)
         self.image = image
         sentDate = Date()
         content = ""
         id = nil
     }
     
+    init?(document: QueryDocumentSnapshot) {
+        let data = document.data()
+        guard let sentDate = data["created"] as? Timestamp,
+              let senderId = data["senderId"] as? String,
+              let senderName = data["senderName"] as? String else { return nil }
+        id = document.documentID
+        self.sentDate = sentDate.dateValue()
+        sender = Sender(senderId: senderId, displayName: senderName)
+        
+        if let content = data["content"] as? String {
+            self.content = content
+            downloadURL = nil
+        } else if let urlString = data["url"] as? String, let url = URL(string: urlString) {
+            downloadURL = url
+            content = ""
+        } else {
+            return nil
+        }
+    }
+
+}
+
+extension Message: DatabaseRepresentation {
+    var representation: [String : Any] {
+        var representation: [String: Any] = [
+            "created": sentDate,
+            "senderId": sender.senderId,
+            "senderName": sender.displayName
+        ]
+        
+        if let url = downloadURL {
+            representation["url"] = url.absoluteString
+        } else {
+            representation["content"] = content
+        }
+        
+        return representation
+    }
 }
 
 extension Message: Comparable {

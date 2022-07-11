@@ -184,7 +184,7 @@ class ChatClassItemCell: UIView {
         }
         matchButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(commonInset)
-            $0.centerY.equalToSuperview()
+            $0.bottom.equalTo(priceLabel.snp.bottom)
         }
     }
 }

@@ -57,8 +57,11 @@ class ChatViewController: MessagesViewController {
     }()
     
     private let classItem: ClassItem?
+    private let firebaseAuthManager = FirebaseAuthManager.shared
+    private let firestoreManager = FirestoreManager.shared
+    private let storageManager = StorageManager.shared
     let channel: Channel
-    var sender = Sender(senderId: "any_unique_id", displayName: "jake")
+    var sender = Sender(senderId: "", displayName: "")
     var messages = [Message]()
     
     private var isSendingPhoto = false {
@@ -72,9 +75,9 @@ class ChatViewController: MessagesViewController {
       }
     }
     
-    init(channel: Channel, classItem: ClassItem?) {
+    init(channel: Channel) {
         self.channel = channel
-        self.classItem = classItem ?? nil
+        self.classItem = channel.classItem ?? nil
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -84,8 +87,8 @@ class ChatViewController: MessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBarController?.tabBar.isHidden = true
         scrollsToLastItemOnKeyboardBeginsEditing = true
+        initializeSender()
         messagesCollectionView.reloadData()
         setMessagesCollectionViewInset()
         confirmDelegates()
@@ -98,6 +101,11 @@ class ChatViewController: MessagesViewController {
         print(currentSender.senderId)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         tabBarController?.tabBar.isHidden = false
@@ -107,6 +115,11 @@ class ChatViewController: MessagesViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
+    func initializeSender() {
+        sender.senderId = firebaseAuthManager.getUserID()!
+        sender.displayName = "me"
+    }
+    
     func setNavigationBar() {
         navigationItem.leftBarButtonItem = leftBarButton
         navigationItem.rightBarButtonItem = rightBarButton
@@ -128,7 +141,6 @@ class ChatViewController: MessagesViewController {
         guard let name = classItem?.writer.name else { return }
         title = name
         navigationController?.navigationBar.prefersLargeTitles = false
-        messages = getMessagesMock(classItem: classItem ?? mockClassItem)
     }
     
     private func setupMessageInputBar() {
@@ -157,6 +169,38 @@ class ChatViewController: MessagesViewController {
         messages.sort()
         
         messagesCollectionView.reloadData()
+    }
+    
+    private func listenToMessages() {
+        let id = channel.id
+        
+        firestoreManager.subscribe(id: id) { [weak self] result in
+            switch result {
+                case .success(let messages):
+                    self?.loadImageAndUpdateCells(messages)
+                case .failure(let error):
+                    print(error)
+            }
+        }
+    }
+       
+    private func loadImageAndUpdateCells(_ messages: [Message]) {
+        messages.forEach { message in
+            var message = message
+            if let url = message.downloadURL {
+                storageManager.downloadImage(urlString: url.absoluteString) { result in
+                    switch result {
+                        case .success(let image):
+                            message.image = image
+                            self.insertNewMessage(message)
+                        case .failure(let error):
+                            debugPrint(error)
+                    }
+                }
+            } else {
+                insertNewMessage(message)
+            }
+        }
     }
     
     private func layout() {
@@ -246,7 +290,7 @@ extension ChatViewController: MessagesDisplayDelegate {
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        let message = Message(content: text)
+        let message = Message(content: text, senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
         
         // TODO
 //        saveMessageAndScrollToLastItem(message)
@@ -280,7 +324,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         isSendingPhoto = true
         // TODO: upload to firebase
         isSendingPhoto = false
-        let message = Message(image: image)
+        let message = Message(image: image, senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
         insertNewMessage(message)
     }
     
