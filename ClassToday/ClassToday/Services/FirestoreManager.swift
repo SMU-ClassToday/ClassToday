@@ -164,6 +164,27 @@ extension FirestoreManager {
         }
     }
     
+    func checkChannel(sellerID: String, buyerID: String, classItemID: String, completion: @escaping ([Channel]) -> ()) {
+        var data: [Channel] = []
+        FirestoreRoute.channel.ref.whereField("sellerID", isEqualTo: sellerID).whereField("buyerID", isEqualTo: buyerID).whereField("classItemID", isEqualTo: classItemID).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let channel = try document.data(as: Channel.self)
+                        data.append(channel)
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
+    
     func fetchChannel1(currentUserID: String, completion: @escaping ([Channel]) -> ()) {
         var data: [Channel] = []
         FirestoreRoute.channel.ref.whereField("sellerID", isEqualTo: currentUserID).getDocuments() { (snapshot, error) in
