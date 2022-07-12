@@ -12,13 +12,10 @@ import FirebaseFirestoreSwift
 class FirestoreManager {
     static let shared = FirestoreManager()
     private init() {}
-    private var currentLocation: Location? {
-        get {
-            return LocationManager.shared.getCurrentLocation()
-        }
-    }
-
+    private var currentLocation: Location? = LocationManager.shared.getCurrentLocation()
+    private var currentLocality: String? = ""
     // - MARK: CRUD Method
+
     
     func upload(classItem: ClassItem) {
         do {
@@ -30,14 +27,15 @@ class FirestoreManager {
     
     func fetch(currentLocation: Location, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        var currentLocality: String = ""
         DispatchQueue.global().sync {
-            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { result in
+            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let locality):
-                    currentLocality = locality
+                    self.currentLocality = locality
                 case .failure(let error):
                     debugPrint(error)
+                    self.currentLocality = ""
                 }
             }
         }
@@ -50,7 +48,8 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        if currentLocality == classItem.locality {
+                        print(self.currentLocality)
+                        if self.currentLocality == classItem.locality {
                             data.append(classItem)
                         }
                     } catch {
@@ -90,18 +89,20 @@ class FirestoreManager {
     //category
     func categorySort(category: String, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        var currentLocality: String = ""
         DispatchQueue.global().sync {
-            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { result in
+            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let locality):
-                    currentLocality = locality
+                    self.currentLocality = locality
                 case .failure(let error):
                     debugPrint(error)
+                    self.currentLocality = ""
                 }
             }
         }
-        FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { (snapshot, error) in
+        FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { [weak self] (snapshot, error) in
+            guard let self = self else { return }
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
                 return
@@ -110,7 +111,7 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        if currentLocality == classItem.locality {
+                        if self.currentLocality == classItem.locality {
                             data.append(classItem)
                         }
                     } catch {
@@ -125,19 +126,20 @@ class FirestoreManager {
     //star
     func starSort(starList: [String], completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        var currentLocality: String = ""
-
         DispatchQueue.global().sync {
-            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { result in
+            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let locality):
-                    currentLocality = locality
+                    self.currentLocality = locality
                 case .failure(let error):
                     debugPrint(error)
+                    self.currentLocality = ""
                 }
             }
         }
-        FirestoreRoute.classItem.ref.whereField("id", in: starList).getDocuments() { (snapshot, error) in
+        FirestoreRoute.classItem.ref.whereField("id", in: starList).getDocuments() { [weak self] (snapshot, error) in
+            guard let self = self else { return }
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
                 return
@@ -146,7 +148,7 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        if currentLocality == classItem.locality {
+                        if self.currentLocality == classItem.locality {
                             data.append(classItem)
                         }
                     } catch {
