@@ -85,6 +85,11 @@ class ChatViewController: MessagesViewController {
         fatalError()
     }
     
+    deinit {
+        firestoreManager.removeListener()
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollsToLastItemOnKeyboardBeginsEditing = true
@@ -98,6 +103,7 @@ class ChatViewController: MessagesViewController {
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
         layout()
+        listenToMessages()
         print(currentSender.senderId)
     }
     
@@ -109,10 +115,6 @@ class ChatViewController: MessagesViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         tabBarController?.tabBar.isHidden = false
-    }
-    
-    deinit {
-        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     func initializeSender() {
@@ -292,12 +294,13 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         let message = Message(content: text, senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
         
-        // TODO
-//        saveMessageAndScrollToLastItem(message)
-        
-        messagesCollectionView.scrollToLastItem(animated: true)
-        
-        insertNewMessage(message)
+        firestoreManager.save(message) { [weak self] error in
+            if let error = error {
+                print(error)
+                return
+            }
+            self?.messagesCollectionView.scrollToLastItem()
+        }
         inputBar.inputTextView.text.removeAll()
     }
 }
