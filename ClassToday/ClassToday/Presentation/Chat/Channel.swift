@@ -13,10 +13,12 @@ struct Channel: Codable {
     let classItem: ClassItem?
     let sellerID: String
     let buyerID: String
+    let classItemID: String
     
     init(sellerID: String, buyerID: String, classItem: ClassItem? = nil) {
         self.sellerID = sellerID
         self.buyerID = buyerID
         self.classItem = classItem
+        self.classItemID = classItem?.id ?? ""
     }
 }

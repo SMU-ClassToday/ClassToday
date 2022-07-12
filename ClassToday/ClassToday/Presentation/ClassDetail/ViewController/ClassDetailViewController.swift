@@ -39,6 +39,7 @@ class ClassDetailViewController: UIViewController {
 
     // MARK: - Properties
 
+    var checkChannel: [Channel] = []
     private var classItem: ClassItem
     var delegate: ClassUpdateDelegate?
     private let storageManager = StorageManager.shared
@@ -66,6 +67,7 @@ class ClassDetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        checkIsChannelAlreadyMade()
         checkStar()
         navigationController?.navigationBar.isHidden = true
         blackBackNavigationBar()
@@ -79,6 +81,14 @@ class ClassDetailViewController: UIViewController {
     }
 
     // MARK: - Method
+    private func checkIsChannelAlreadyMade() {
+        firestoreManager.checkChannel(sellerID: classItem.writer.id, buyerID: firebaseAuthManager.getUserID()!, classItemID: classItem.id) { [weak self] data in
+            guard let self = self else { return }
+            self.checkChannel = data
+        }
+        print(checkChannel.count)
+    }
+    
     private func configureUI() {
         view.backgroundColor = .white
         view.addSubview(tableView)
@@ -130,10 +140,16 @@ class ClassDetailViewController: UIViewController {
             let channelVC = ChatChannelViewController()
             navigationController?.pushViewController(channelVC, animated: true)
         } else {
-            let channel = Channel(sellerID: classItem.writer.id, buyerID: firebaseAuthManager.getUserID()!, classItem: classItem)
-            firestoreManager.uploadChannel(channel: channel)
-            let viewcontroller = ChatViewController(channel: channel)
-            navigationController?.pushViewController(viewcontroller, animated: true)
+            if checkChannel.isEmpty {
+                let channel = Channel(sellerID: classItem.writer.id, buyerID: firebaseAuthManager.getUserID()!, classItem: classItem)
+                firestoreManager.uploadChannel(channel: channel)
+                let viewcontroller = ChatViewController(channel: channel)
+                navigationController?.pushViewController(viewcontroller, animated: true)
+            } else {
+                let channel = checkChannel[0]
+                let viewController = ChatViewController(channel: channel)
+                navigationController?.pushViewController(viewController, animated: true)
+            }
         }
     }
 }
