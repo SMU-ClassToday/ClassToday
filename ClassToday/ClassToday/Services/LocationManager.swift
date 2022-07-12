@@ -60,6 +60,25 @@ class LocationManager: NSObject {
         getAddress(of: currentLocation, completion: completion)
     }
 
+    func getLocalityOfAddress(of location: Location?, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let location = location else {
+            return completion(.failure(LocationManagerError.emptyLocationValue))
+        }
+        let clLocation = CLLocation(latitude: location.lat, longitude: location.lon)
+        CLGeocoder().reverseGeocodeLocation(clLocation, preferredLocale: Locale(identifier: "ko_KR")) { placemark, error in
+            guard error == nil else {
+                return completion(.failure(LocationManagerError.invalidLocation))
+            }
+            guard let placemark = placemark?.last else {
+                return completion(.failure(LocationManagerError.emptyPlacemark))
+            }
+            guard let locality = placemark.locality else {
+                return completion(.failure(LocationManagerError.emptyPlacemarkLocality))
+            }
+            completion(.success(locality))
+        }
+    }
+
     private func getAddress(of location: CLLocation, completion: @escaping (Result<String, Error>) -> Void) {
         CLGeocoder().reverseGeocodeLocation(location, preferredLocale: Locale(identifier: "ko_KR")) { placemark, error in
             guard error == nil else {

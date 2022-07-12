@@ -54,7 +54,7 @@ class MapClassListCell: UITableViewCell {
     // MARK: - Methods
     func configure(with classItem: ClassItem) {
         titleLabel.text = classItem.name
-        let location = LocationManager.shared.getAddress(of: classItem.location) { [weak self] result in
+        LocationManager.shared.getAddress(of: classItem.location) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let location):

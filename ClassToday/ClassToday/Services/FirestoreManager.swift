@@ -11,11 +11,15 @@ import FirebaseFirestoreSwift
 
 class FirestoreManager {
     static let shared = FirestoreManager()
-
     private init() {}
+    private var currentLocation: Location? {
+        get {
+            return LocationManager.shared.getCurrentLocation()
+        }
+    }
 
     // - MARK: CRUD Method
-
+    
     func upload(classItem: ClassItem) {
         do {
             try FirestoreRoute.classItem.ref.document(classItem.id).setData(from: classItem)
@@ -23,9 +27,20 @@ class FirestoreManager {
             debugPrint(error)
         }
     }
-
-    func fetch(completion: @escaping ([ClassItem]) -> ()) {
+    
+    func fetch(currentLocation: Location, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
+        var currentLocality: String = ""
+        DispatchQueue.global().sync {
+            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { result in
+                switch result {
+                case .success(let locality):
+                    currentLocality = locality
+                case .failure(let error):
+                    debugPrint(error)
+                }
+            }
+        }
         FirestoreRoute.classItem.ref.getDocuments() { (snapshot, error) in
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
@@ -35,9 +50,11 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        data.append(classItem)
+                        if currentLocality == classItem.locality {
+                            data.append(classItem)
+                        }
                     } catch {
-                        debugPrint(error)
+                        
                     }
                 }
             }
@@ -55,11 +72,11 @@ class FirestoreManager {
             }
         }
     }
-
+    
     func update(classItem: ClassItem) {
         upload(classItem: classItem)
     }
-
+    
     func delete(classItem: ClassItem) {
         FirestoreRoute.classItem.ref.document(classItem.id).delete { error in
             if let error = error {
@@ -69,10 +86,21 @@ class FirestoreManager {
             }
         }
     }
-
+    
     //category
     func categorySort(category: String, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
+        var currentLocality: String = ""
+        DispatchQueue.global().sync {
+            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { result in
+                switch result {
+                case .success(let locality):
+                    currentLocality = locality
+                case .failure(let error):
+                    debugPrint(error)
+                }
+            }
+        }
         FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { (snapshot, error) in
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
@@ -82,7 +110,9 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        data.append(classItem)
+                        if currentLocality == classItem.locality {
+                            data.append(classItem)
+                        }
                     } catch {
                         debugPrint(error)
                     }
@@ -91,10 +121,22 @@ class FirestoreManager {
             completion(data)
         }
     }
-
+    
     //star
     func starSort(starList: [String], completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
+        var currentLocality: String = ""
+
+        DispatchQueue.global().sync {
+            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { result in
+                switch result {
+                case .success(let locality):
+                    currentLocality = locality
+                case .failure(let error):
+                    debugPrint(error)
+                }
+            }
+        }
         FirestoreRoute.classItem.ref.whereField("id", in: starList).getDocuments() { (snapshot, error) in
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
@@ -104,7 +146,9 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        data.append(classItem)
+                        if currentLocality == classItem.locality {
+                            data.append(classItem)
+                        }
                     } catch {
                         debugPrint(error)
                     }

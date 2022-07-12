@@ -77,6 +77,8 @@ class ClassEnrollViewController: UIViewController {
     private var classDescription: String?
     private var classSubject: Set<Subject>?
     private var classTarget: Set<Target>?
+    private var location: Location?
+    private var locality: String?
 
     // MARK: - Initialize
 
@@ -191,29 +193,41 @@ class ClassEnrollViewController: UIViewController {
             }
         }
 
+        location = locationManager.getCurrentLocation()
+        group.enter()
+        locationManager.getLocalityOfAddress(of: location) { result in
+            switch result {
+            case .success(let localityAddress):
+                self.locality = localityAddress
+            case .failure(let error):
+                debugPrint(error)
+            }
+            group.leave()
+        }
+
         group.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
-            let classItem = ClassItem(name: className,
-                                      date: self.classDate,
-                                      time: self.classTime,
-                                      place: self.classPlace,
-                                      location: self.locationManager.getCurrentLocation(),
-                                      price: self.classPrice,
-                                      priceUnit: self.classPriceUnit,
-                                      description: classDescription,
-                                      images: classImagesURL,
-                                      subjects: self.classSubject,
-                                      targets: self.classTarget,
-                                      itemType: self.classItemType,
-                                      validity: true,
-                                      writer: MockData.mockUser,
-                                      createdTime: Date(),
-                                      modifiedTime: nil,
-                                      match: nil
-            )
-
+                let classItem = ClassItem(name: className,
+                                          date: self.classDate,
+                                          time: self.classTime,
+                                          place: self.classPlace,
+                                          location: self.location,
+                                          locality: self.locality,
+                                          price: self.classPrice,
+                                          priceUnit: self.classPriceUnit,
+                                          description: classDescription,
+                                          images: classImagesURL,
+                                          subjects: self.classSubject,
+                                          targets: self.classTarget,
+                                          itemType: self.classItemType,
+                                          validity: true,
+                                          writer: MockData.mockUser,
+                                          createdTime: Date(),
+                                          modifiedTime: nil,
+                                          match: nil)
             self.firestoreManager.upload(classItem: classItem)
             debugPrint("\(classItem) 등록")
+                                          
             self.dismiss(animated: true, completion: nil)
         }
     }
