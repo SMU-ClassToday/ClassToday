@@ -208,7 +208,7 @@ extension FirestoreManager {
     
     
     func subscribe(id: String, completion: @escaping (Result<[Message], StreamError>) -> Void) {
-        let streamPath = "channels/\(id)/thread"
+        let streamPath = "channel/\(id)/thread"
         
         removeListener()
         collectionListener = FirestoreRoute.db.collection(streamPath)
