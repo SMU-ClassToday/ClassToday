@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol MapClassListViewDelegate: NSObject {
+protocol MapClassListViewDelegate: AnyObject {
     func presentViewController(with classItem: ClassItem)
 }
 

@@ -216,12 +216,14 @@ class ClassModifyViewController: UIViewController {
         
         group.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
+            
             let modifiedClassItem = ClassItem(id: self.classItem.id,
                                               name: className,
                                               date: self.classDate,
                                               time: self.classTime,
                                               place: self.classPlace,
-                                              location: nil,
+                                              location: self.classItem.location,
+                                              locality: self.classItem.locality,
                                               price: self.classPrice,
                                               priceUnit: self.classPriceUnit,
                                               description: classDescription,

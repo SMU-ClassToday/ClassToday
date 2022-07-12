@@ -15,6 +15,7 @@ struct ClassItem: Codable {
     let time: String?
     let place: String?
     let location: Location?
+    let locality: String?
     let price: String?
     let priceUnit: PriceUnit
     let description: String

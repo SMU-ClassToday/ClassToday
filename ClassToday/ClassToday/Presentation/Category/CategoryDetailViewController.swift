@@ -57,7 +57,6 @@ class CategoryDetailViewController: UIViewController {
 
     // MARK: Properties
 
-    private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
     private var data: [ClassItem] = []
     private var dataBuy: [ClassItem] = []
     private var dataSell: [ClassItem] = []

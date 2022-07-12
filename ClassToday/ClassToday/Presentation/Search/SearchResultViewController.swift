@@ -68,7 +68,6 @@ class SearchResultViewController: UIViewController {
     }()
 
     // MARK: Properties
-    private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
     private var data: [ClassItem] = []
     private var dataBuy: [ClassItem] = []
     private var dataSell: [ClassItem] = []
@@ -86,7 +85,8 @@ class SearchResultViewController: UIViewController {
     
     // MARK: - Method
     private func keywordSearch(keyword: String) {
-        firestoreManager.fetch { [weak self] data in
+        guard let currentLocation = LocationManager.shared.getCurrentLocation() else { return }
+        firestoreManager.fetch(currentLocation: currentLocation) { [weak self] data in
             guard let self = self else { return }
             self.data = data.filter {
                 $0.name.contains(keyword) ||
