@@ -77,14 +77,21 @@ class ModifyProfileUserInfoView: UIView {
         return view
     }()
     
+    private let user: User
+    
     // MARK: - init
     init(user: User) {
+        self.user = user
         super.init(frame: .zero)
         layout()
         setupView(user: user)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func sendChangedValue() -> (String, String) {
+        return (userNameTextField.text ?? user.nickName, desciptionTextView.text ?? user.description ?? "")
     }
 }
 
