@@ -164,6 +164,20 @@ extension FirestoreManager {
         }
     }
     
+    func delete(channel: Channel) {
+        FirestoreRoute.channel.ref.document(channel.id).delete { error in
+            if let error = error {
+                debugPrint("Error removing document: \(error)")
+            } else {
+                debugPrint("Document successfully removed!")
+            }
+        }
+    }
+    
+    func update(channel: Channel) {
+        uploadChannel(channel: channel)
+    }
+    
     func checkChannel(sellerID: String, buyerID: String, classItemID: String, completion: @escaping ([Channel]) -> ()) {
         var data: [Channel] = []
         FirestoreRoute.channel.ref.whereField("sellerID", isEqualTo: sellerID).whereField("buyerID", isEqualTo: buyerID).whereField("classItemID", isEqualTo: classItemID).getDocuments() { (snapshot, error) in

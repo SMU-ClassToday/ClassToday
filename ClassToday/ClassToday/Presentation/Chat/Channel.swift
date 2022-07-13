@@ -11,8 +11,8 @@ import Foundation
 struct Channel: Codable {
     var id: String = UUID().uuidString
     let classItem: ClassItem?
-    let sellerID: String
-    let buyerID: String
+    var sellerID: String
+    var buyerID: String
     let classItemID: String
     
     init(sellerID: String, buyerID: String, classItem: ClassItem? = nil) {

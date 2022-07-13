@@ -34,7 +34,7 @@ class ChatChannelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        fetchChannel(currentUserID: firebaseAuthManager.getUserID()!)
+        fetchChannel(currentUserID: firebaseAuthManager.getUserID() ?? "")
         view.backgroundColor = .white
         configure()
     }
