@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import CoreMedia
 
 class ProfileDetailViewController: UIViewController {
     // MARK: - UI Components
@@ -31,8 +30,9 @@ class ProfileDetailViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    let user: User
+    private var user: User
     private let currentUserID = FirebaseAuthManager.shared.getUserID()
+    weak var delegate: ProfileDetailViewControllerDelegate?
     
     // MARK: - init
     init(user: User) {
@@ -104,14 +104,32 @@ extension ProfileDetailViewController: ProfileUserInfoViewDelegate {
     }
 }
 
+// MARK: - ProfileModifyViewControllerDelegate
+extension ProfileDetailViewController: ProfileModifyViewControllerDelegate {
+    func didFinishUpdateUserInfo() {
+        beginRefresh()
+        delegate?.didFinishUpdateUserInfo()
+    }
+}
+
 // MARK: - @objc Methods
 private extension ProfileDetailViewController {
     @objc func beginRefresh() {
+        User.getCurrentUser { result in
+            switch result {
+            case .success(let user):
+                self.user = user
+                self.userInfoTableView.reloadData()
+            case .failure(let error):
+                print("ERROR: \(error.localizedDescription)😷")
+            }
+        }
         refreshControl.endRefreshing()
     }
     @objc func didTapRightBarButton() {
         print("didTapRightBarButton")
         let rootViewController = ProfileModifyViewController(user: user)
+        rootViewController.delegate = self
         let profileModifyViewController = UINavigationController(rootViewController: rootViewController)
         profileModifyViewController.modalPresentationStyle = .fullScreen
         present(profileModifyViewController, animated: true)

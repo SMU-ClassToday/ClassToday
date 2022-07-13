@@ -29,6 +29,7 @@ class ProfileModifyViewController: UIViewController {
     
     // MARK: - Properties
     private let user: User
+    weak var delegate: ProfileModifyViewControllerDelegate?
     
     // MARK: - init
     init(user: User) {
@@ -56,8 +57,38 @@ class ProfileModifyViewController: UIViewController {
 private extension ProfileModifyViewController {
     @objc func didTapModifyButton() {
         print("didTapModifyButton")
-        print(subjectPickerView.checkedSubjects.map { ($0.0.description, $0.1) })
-        dismiss(animated: true)
+//        print(subjectPickerView.checkedSubjects.map { ($0.0.description, $0.1) })
+
+        let (newNickName, newDescription) = profileUserInfoView.sendChangedValue()
+        let newSubjectList = subjectPickerView.checkedSubjects
+            .filter { $0.1 }
+            .map { $0.0 }
+        
+        let newInfo = User(
+            id: user.id,
+            name: user.name,
+            nickName: newNickName,
+            gender: user.gender,
+            location: user.location,
+            email: user.email,
+            profileImage: user.profileImage,
+            company: user.company,
+            description: newDescription,
+            stars: user.stars,
+            subjects: newSubjectList,
+            chatItems: user.chatItems
+        )
+        
+        FirestoreManager.shared.uploadUser(user: newInfo) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success():
+                self.delegate?.didFinishUpdateUserInfo()
+                self.dismiss(animated: true)
+            case .failure(let error):
+                print("ERROR: \(error.localizedDescription)👜")
+            }
+        }
     }
     @objc func didTapLeftBarButton() {
         dismiss(animated: true)

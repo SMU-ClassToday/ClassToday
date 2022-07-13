@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3ECF08B24DFC023AA790A5E9 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40411B468A6BE7377D0B7F6F /* Pods_ClassToday.framework */; };
+		6B1483FB287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1483FA287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift */; };
+		6B1483FD287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1483FC287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift */; };
 		6B42D941284BBE6000384480 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */; };
 		6B560C20284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B560C1F284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift */; };
 		6B568EE0284DC47D00B6CA13 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B568EDF284DC47D00B6CA13 /* SignInViewController.swift */; };
@@ -132,6 +134,8 @@
 /* Begin PBXFileReference section */
 		40411B468A6BE7377D0B7F6F /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		487FF9A4C439BF31DE53CB09 /* Pods-ClassToday_NonFirebase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday_NonFirebase.release.xcconfig"; path = "Target Support Files/Pods-ClassToday_NonFirebase/Pods-ClassToday_NonFirebase.release.xcconfig"; sourceTree = "<group>"; };
+		6B1483FA287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
+		6B1483FC287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModifyViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
 		6B560C1F284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchSignInViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6B568EDF284DC47D00B6CA13 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -357,6 +361,8 @@
 			children = (
 				6B5E148E28131248001AF21C /* ProfileUserInfoViewDelegate.swift */,
 				6B560C1F284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift */,
+				6B1483FA287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift */,
+				6B1483FC287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -819,6 +825,7 @@
 				6B5E14B7281314AF001AF21C /* ModifyProfileUserInfoView.swift in Sources */,
 				6B7695F028267052009B7847 /* GradeStarView.swift in Sources */,
 				6B5E14B9281314C0001AF21C /* SubjectPickerView.swift in Sources */,
+				6B1483FD287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift in Sources */,
 				6BA8E00C2820BEB200B0CC8C /* ReviewListTableViewCell.swift in Sources */,
 				6B5E14BB281314D4001AF21C /* SubjectPickerCollectionViewCell.swift in Sources */,
 				6B5E1489281311B9001AF21C /* OptionTableViewCell.swift in Sources */,
@@ -859,6 +866,7 @@
 				89098E2E2820F996006EFD4E /* EnrollPlaceCell.swift in Sources */,
 				89675B262826F11900933C48 /* DetailImageCell.swift in Sources */,
 				6B59562B28475BA2004821F1 /* UIButton+.swift in Sources */,
+				6B1483FB287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift in Sources */,
 				892C1CC9283211B300DE27D3 /* FirestoreManager.swift in Sources */,
 				89A0CD3F280D4E17006FDF89 /* ClassImageEnrollCell.swift in Sources */,
 				89675B382827F10C00933C48 /* DetailContentPriceView.swift in Sources */,
