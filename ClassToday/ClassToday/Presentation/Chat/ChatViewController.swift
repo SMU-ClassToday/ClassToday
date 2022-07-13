@@ -43,6 +43,21 @@ class ChatViewController: MessagesViewController {
         let reportAction = UIAlertAction(title: "신고하기", style: .default)
         let quitChannelAction = UIAlertAction(title: "채팅 나가기", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
+            let currentID = self.firebaseAuthManager.getUserID()!
+            
+            if self.channel.sellerID == currentID {
+                self.channel.sellerID = "quit"
+                self.updateChannel(channel: self.channel)
+            }
+            else if self.channel.buyerID == currentID {
+                self.channel.buyerID = "quit"
+                self.updateChannel(channel: self.channel)
+            }
+            
+            if (self.channel.sellerID == "quit") && (self.channel.buyerID == "quit") {
+                self.firestoreManager.delete(channel: self.channel)
+            }
+            
             self.navigationController?.popViewController(animated: true)
         })
         quitChannelAction.titleTextColor = .red
@@ -60,7 +75,7 @@ class ChatViewController: MessagesViewController {
     private let firebaseAuthManager = FirebaseAuthManager.shared
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
-    let channel: Channel
+    var channel: Channel
     var sender = Sender(senderId: "", displayName: "")
     var messages = [Message]()
     
@@ -171,6 +186,10 @@ class ChatViewController: MessagesViewController {
         messages.sort()
         
         messagesCollectionView.reloadData()
+    }
+    
+    private func updateChannel(channel: Channel) {
+        firestoreManager.update(channel: channel)
     }
     
     private func listenToMessages() {
