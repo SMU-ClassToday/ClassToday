@@ -17,11 +17,13 @@ class MapClassListCell: UITableViewCell {
     
     private lazy var addressLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
@@ -32,11 +34,13 @@ class MapClassListCell: UITableViewCell {
     
     private lazy var countLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
     private lazy var recommendLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
@@ -83,13 +87,13 @@ class MapClassListCell: UITableViewCell {
     private func setUpLayout() {
         [titleLabel, addressLabel, timeLabel, costLabel, countLabel, recommendLabel].forEach { self.addSubview($0)}
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(self.snp.top)
-            $0.leading.equalTo(self.snp.leading)
+            $0.top.equalTo(self.snp.top).offset(8)
+            $0.leading.equalTo(self.snp.leading).offset(12)
         }
         addressLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.leading.equalTo(titleLabel.snp.leading)
-            $0.bottom.equalTo(self.snp.bottom)
+            $0.bottom.equalTo(self.snp.bottom).offset(-8)
         }
         timeLabel.snp.makeConstraints {
             $0.top.equalTo(addressLabel.snp.top)

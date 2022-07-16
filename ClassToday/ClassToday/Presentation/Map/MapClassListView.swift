@@ -17,7 +17,7 @@ class MapClassListView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "주변의 인기있는 수업"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
 
@@ -46,12 +46,16 @@ class MapClassListView: UIView {
         addSubview(titleLabel)
         addSubview(tableView)
         titleLabel.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.top.leading.trailing.equalToSuperview().offset(12)
         }
         tableView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(12)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+    }
+    func configure(with datas: [ClassItem]) {
+        self.datas = datas
+        tableView.reloadData()
     }
 }
 

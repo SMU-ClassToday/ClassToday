@@ -79,12 +79,12 @@ class CategoryDetailViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBar()
         layout()
-        categorySort(category: categoryItem?.rawValue ?? "")
+        categorySort(location: Location(lat: 111, lon: 111) ,category: categoryItem?.rawValue ?? "")
     }
     
     //MARK: - Methods
-    private func categorySort(category: String) {
-        firestoreManager.categorySort(category: category) { [weak self] data in
+    private func categorySort(location: Location, category: String) {
+        firestoreManager.categorySort(location: location, category: category) { [weak self] data in
             guard let self = self else { return }
             self.data = data
             self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }

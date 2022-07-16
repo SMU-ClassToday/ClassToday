@@ -7,6 +7,7 @@
 
 import UIKit
 import NMapsMap
+import SwiftUI
 
 class MapViewController: UIViewController {
     //MARK: - NavigationBar Components
@@ -77,12 +78,18 @@ class MapViewController: UIViewController {
             }
         }
     }
+    private var classItemData: [ClassItem] = []
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupLayout()
+        FirestoreManager.shared.fetch(curLocation) { [weak self] data in
+            guard let self = self else { return }
+            self.classItemData = data
+            self.mapClassListView.configure(with: data)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

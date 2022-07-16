@@ -86,7 +86,7 @@ class SearchResultViewController: UIViewController {
     // MARK: - Method
     private func keywordSearch(keyword: String) {
         guard let currentLocation = LocationManager.shared.getCurrentLocation() else { return }
-        firestoreManager.fetch(currentLocation: currentLocation) { [weak self] data in
+        firestoreManager.fetch(currentLocation) { [weak self] data in
             guard let self = self else { return }
             self.data = data.filter {
                 $0.name.contains(keyword) ||

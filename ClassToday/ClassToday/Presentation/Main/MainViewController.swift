@@ -107,7 +107,7 @@ class MainViewController: UIViewController {
     private func fetchData() {
         guard let currentLocation = locationManager.getCurrentLocation() else { return }
         dispatchGroup.enter()
-        firestoreManager.fetch(currentLocation: currentLocation) { [weak self] data in
+        firestoreManager.fetch(currentLocation) { [weak self] data in
             guard let self = self else { return }
             self.data = data
             self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }

@@ -12,11 +12,13 @@ import FirebaseFirestoreSwift
 class FirestoreManager {
     static let shared = FirestoreManager()
     private init() {}
-    private var currentLocation: Location? = LocationManager.shared.getCurrentLocation()
-    private var currentLocality: String? = ""
-    // - MARK: CRUD Method
+
+    private var targetLocality: String? = ""
 
     
+    // - MARK: CRUD Method
+
+    /// ClassItem을 업로드합니다.
     func upload(classItem: ClassItem) {
         do {
             try FirestoreRoute.classItem.ref.document(classItem.id).setData(from: classItem)
@@ -25,17 +27,18 @@ class FirestoreManager {
         }
     }
     
-    func fetch(currentLocation: Location, completion: @escaping ([ClassItem]) -> ()) {
+    /// ClassItem을 지역 기준으로 패칭합니다.
+    func fetch(_ location: Location?, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        DispatchQueue.global().sync {
-            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { [weak self] result in
-                guard let self = self else { return }
+        DispatchQueue.global().sync { [weak self] in
+            guard let self = self else { return }
+            LocationManager.shared.getLocalityOfAddress(of: location) { result in
                 switch result {
                 case .success(let locality):
-                    self.currentLocality = locality
+                    self.targetLocality = locality
                 case .failure(let error):
                     debugPrint(error)
-                    self.currentLocality = ""
+                    self.targetLocality = ""
                 }
             }
         }
@@ -48,8 +51,7 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        print(self.currentLocality)
-                        if self.currentLocality == classItem.locality {
+                        if self.targetLocality == classItem.locality {
                             data.append(classItem)
                         }
                     } catch {
@@ -60,7 +62,8 @@ class FirestoreManager {
             completion(data)
         }
     }
-    
+
+    /// ClassItem을 직접 패칭합니다.
     func fetch(classItem: ClassItem, completion: @escaping (ClassItem) -> ()) {
         FirestoreRoute.classItem.ref.document(classItem.id).getDocument(as: ClassItem.self) { result in
             switch result {
@@ -72,10 +75,12 @@ class FirestoreManager {
         }
     }
     
+    /// ClassItem을 업데이트 합니다.
     func update(classItem: ClassItem) {
         upload(classItem: classItem)
     }
     
+    /// ClassItem을 삭제합니다.
     func delete(classItem: ClassItem) {
         FirestoreRoute.classItem.ref.document(classItem.id).delete { error in
             if let error = error {
@@ -87,22 +92,23 @@ class FirestoreManager {
     }
     
     //category
-    func categorySort(category: String, completion: @escaping ([ClassItem]) -> ()) {
+    /// Category에 해당하는 ClassItem을 패칭합니다.
+    func categorySort(location: Location, category: String, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
+        var targetLocality: String
         DispatchQueue.global().sync {
-            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { [weak self] result in
+            LocationManager.shared.getLocalityOfAddress(of: location) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let locality):
-                    self.currentLocality = locality
+                    self.targetLocality = locality
                 case .failure(let error):
                     debugPrint(error)
-                    self.currentLocality = ""
+                    self.targetLocality = ""
                 }
             }
         }
-        FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { [weak self] (snapshot, error) in
-            guard let self = self else { return }
+        FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { (snapshot, error) in
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
                 return
@@ -111,7 +117,7 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        if self.currentLocality == classItem.locality {
+                        if self.targetLocality == classItem.locality {
                             data.append(classItem)
                         }
                     } catch {
@@ -126,20 +132,7 @@ class FirestoreManager {
     //star
     func starSort(starList: [String], completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        DispatchQueue.global().sync {
-            LocationManager.shared.getLocalityOfAddress(of: currentLocation) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success(let locality):
-                    self.currentLocality = locality
-                case .failure(let error):
-                    debugPrint(error)
-                    self.currentLocality = ""
-                }
-            }
-        }
-        FirestoreRoute.classItem.ref.whereField("id", in: starList).getDocuments() { [weak self] (snapshot, error) in
-            guard let self = self else { return }
+        FirestoreRoute.classItem.ref.whereField("id", in: starList).getDocuments() { (snapshot, error) in
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
                 return
@@ -148,7 +141,7 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        if self.currentLocality == classItem.locality {
+                        if self.targetLocality == classItem.locality {
                             data.append(classItem)
                         }
                     } catch {
