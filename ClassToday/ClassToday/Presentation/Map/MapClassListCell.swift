@@ -49,6 +49,7 @@ class MapClassListCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle = .default, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpLayout()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -80,8 +81,10 @@ class MapClassListCell: UITableViewCell {
         } else {
             timeLabel.text = " | 방금 전"
         }
-        costLabel.text = classItem.price
-        countLabel.text = String(classItem.match?.count ?? 0)
+        costLabel.text = "\(String(classItem.price ?? "0"))원"
+        if let count = classItem.match?.count {
+            countLabel.text = "\(count)"
+        }
     }
 
     private func setUpLayout() {
@@ -101,7 +104,7 @@ class MapClassListCell: UITableViewCell {
             $0.bottom.equalTo(addressLabel.snp.bottom)
         }
         recommendLabel.snp.makeConstraints {
-            $0.trailing.equalTo(self.snp.trailing)
+            $0.trailing.equalTo(self.snp.trailing).offset(-8)
             $0.bottom.equalTo(self.snp.bottom)
         }
         countLabel.snp.makeConstraints {
@@ -112,5 +115,14 @@ class MapClassListCell: UITableViewCell {
             $0.trailing.equalTo(countLabel.snp.leading)
             $0.bottom.equalTo(recommendLabel.snp.bottom)
         }
+    }
+    
+    override func prepareForReuse() {
+        titleLabel.text = nil
+        addressLabel.text = nil
+        timeLabel.text = nil
+        costLabel.text = nil
+        countLabel.text = nil
+        recommendLabel.text = nil
     }
 }

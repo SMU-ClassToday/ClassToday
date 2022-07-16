@@ -75,6 +75,6 @@ extension MapClassListView: UITableViewDataSource {
 
 extension MapClassListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        delegate?.presentViewController(with: datas[indexPath.row])
     }
 }
