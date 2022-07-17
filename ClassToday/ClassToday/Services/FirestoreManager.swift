@@ -12,10 +12,8 @@ import FirebaseFirestoreSwift
 class FirestoreManager {
     static let shared = FirestoreManager()
     private init() {}
-
     private var targetLocality: String? = ""
 
-    
     // - MARK: CRUD Method
 
     /// ClassItem을 업로드합니다.
