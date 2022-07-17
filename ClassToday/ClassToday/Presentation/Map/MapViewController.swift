@@ -44,14 +44,9 @@ class MapViewController: UIViewController {
         return categoryView
     }()
     
-    private lazy var mapView: NMFNaverMapView = {
-        let naverMapView = NMFNaverMapView()
-        let mapView = naverMapView.mapView
-        mapView.mapType = NMFMapType.basic
-        mapView.setLayerGroup(NMF_LAYER_GROUP_BUILDING, isEnabled: true)
-        mapView.setLayerGroup(NMF_LAYER_GROUP_TRANSIT, isEnabled: true)
-        mapView.positionMode = NMFMyPositionMode.direction
-        return naverMapView
+    private lazy var mapView: MapView = {
+        let mapView = MapView()
+        return mapView
     }()
     
     private lazy var titleLabel: UILabel = {
@@ -70,7 +65,7 @@ class MapViewController: UIViewController {
         return LocationManager.shared.getCurrentLocation()
     }
     private var delegate: MapCategorySelectViewControllerDelegate?
-    private var data: [CategoryItem] = [] {
+    private var categoryData: [CategoryItem] = [] {
         willSet {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
@@ -78,7 +73,11 @@ class MapViewController: UIViewController {
             }
         }
     }
-    private var classItemData: [ClassItem] = []
+    private var classItemData: [ClassItem] = [] {
+        willSet {
+            configureMapView(data: newValue)
+        }
+    }
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -122,9 +121,15 @@ class MapViewController: UIViewController {
     }
     
     private func setupMapView(location: Location) {
-        let coord = NMGLatLng(lat: location.lat, lng: location.lon)
-        mapView.mapView.latitude = coord.lat
-        mapView.mapView.longitude = coord.lng
+        mapView.setUpLocation(location: location)
+    }
+    
+    private func configureMapView(data: [ClassItem]) {
+        data.forEach {
+            mapView.configureClassItemMarker(classItem: $0) {
+                self.navigationController?.present(ClassDetailViewController(classItem: $0), animated: true)
+            }
+        }
     }
 }
 
@@ -142,7 +147,7 @@ extension MapViewController {
 
 extension MapViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data.count
+        return categoryData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -151,7 +156,7 @@ extension MapViewController: UICollectionViewDataSource {
             for: indexPath) as? DetailContentCategoryCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.configureWith(category: data[indexPath.item])
+        cell.configureWith(category: categoryData[indexPath.item])
         return cell
     }
 }
@@ -160,7 +165,7 @@ extension MapViewController: UICollectionViewDataSource {
 
 extension MapViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let fontsize = data[indexPath.item].description.size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium)])
+        let fontsize = categoryData[indexPath.item].description.size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium)])
         let width = fontsize.width
         let height = fontsize.height
         return CGSize(width: width + 24, height: height)
@@ -171,7 +176,7 @@ extension MapViewController: MapCategoryViewDelegate {
     func pushCategorySelectViewController() {
         let vc = MapCategorySelectViewController()
         vc.delegate = self
-        let selectedCategory = data.map { $0 as? Subject }.compactMap { $0 }
+        let selectedCategory = categoryData.map { $0 as? Subject }.compactMap { $0 }
         vc.configure(with: Set(selectedCategory))
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -179,7 +184,7 @@ extension MapViewController: MapCategoryViewDelegate {
 
 extension MapViewController: MapCategorySelectViewControllerDelegate {
     func passData(subjects: Set<Subject>) {
-        data = Array(subjects)
+        categoryData = Array(subjects)
     }
 }
 
