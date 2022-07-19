@@ -75,7 +75,12 @@ class MapViewController: UIViewController {
     }
     private var classItemData: [ClassItem] = [] {
         willSet {
-            configureMapView(data: newValue)
+            mapView.removeMarkers()
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.configureMapView(data: newValue)
+                self.mapClassListView.configure(with: newValue)
+            }
         }
     }
     
@@ -84,11 +89,6 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupLayout()
-        FirestoreManager.shared.fetch(curLocation) { [weak self] data in
-            guard let self = self else { return }
-            self.classItemData = data
-            self.mapClassListView.configure(with: data)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,6 +97,9 @@ class MapViewController: UIViewController {
             return
         }
         setupMapView(location: location)
+        if categoryData.isEmpty {
+            fetchClassItem(location: location)
+        }
     }
     
     //MARK: - Methods
@@ -117,7 +120,6 @@ class MapViewController: UIViewController {
             $0.top.equalTo(mapView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        
     }
     
     private func setupMapView(location: Location) {
@@ -125,10 +127,18 @@ class MapViewController: UIViewController {
     }
     
     private func configureMapView(data: [ClassItem]) {
+        mapView.removeMarkers()
         data.forEach {
             mapView.configureClassItemMarker(classItem: $0) {
                 self.navigationController?.present(ClassDetailViewController(classItem: $0), animated: true)
             }
+        }
+    }
+    
+    private func fetchClassItem(location: Location) {
+        FirestoreManager.shared.fetch(location) { [weak self] data in
+            guard let self = self else { return }
+            self.classItemData = data
         }
     }
 }
@@ -182,9 +192,22 @@ extension MapViewController: MapCategoryViewDelegate {
     }
 }
 
+// MARK: - 카테고리 선택 시 호출
 extension MapViewController: MapCategorySelectViewControllerDelegate {
     func passData(subjects: Set<Subject>) {
         categoryData = Array(subjects)
+        guard let curLocation = curLocation, !categoryData.isEmpty else {
+            FirestoreManager.shared.fetch(curLocation) { [weak self] data in
+                guard let self = self else { return }
+                self.classItemData = data
+            }
+            return
+        }
+
+        FirestoreManager.shared.categorySort(location: curLocation, categories: categoryData.map{$0 as? Subject}.compactMap{$0}.map{$0.rawValue}) { [weak self] data in
+            guard let self = self else { return }
+            self.classItemData = data
+        }
     }
 }
 

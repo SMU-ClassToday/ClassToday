@@ -153,7 +153,6 @@ extension MapCategorySelectViewController: ClassCategoryCollectionViewCellDelega
             } else {
                 selectedSubject.remove(item)
             }
-            delegate?.passData(subjects: selectedSubject)
         }
 //        else if let item = item as? Target {
 //            if isChecked {
