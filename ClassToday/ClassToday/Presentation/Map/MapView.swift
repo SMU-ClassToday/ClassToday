@@ -19,6 +19,8 @@ class MapView: UIView {
         return naverMapView
     }()
     
+    private var markers: [NMFMarker] = []
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpLayout()
@@ -61,6 +63,12 @@ class MapView: UIView {
             completion(classItem)
             return false
         }
+        markers.append(marker)
         marker.infoWindow?.open(with: marker)
+    }
+    
+    func removeMarkers() {
+        markers.forEach { $0.mapView = nil }
+        markers = []
     }
 }

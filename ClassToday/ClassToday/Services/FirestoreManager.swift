@@ -93,7 +93,6 @@ class FirestoreManager {
     /// Category에 해당하는 ClassItem을 패칭합니다.
     func categorySort(location: Location, category: String, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        var targetLocality: String
         DispatchQueue.global().sync {
             LocationManager.shared.getLocalityOfAddress(of: location) { [weak self] result in
                 guard let self = self else { return }
@@ -107,6 +106,41 @@ class FirestoreManager {
             }
         }
         FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let classItem = try document.data(as: ClassItem.self)
+                        if self.targetLocality == classItem.locality {
+                            data.append(classItem)
+                        }
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
+    
+    func categorySort(location: Location, categories: [String], completion: @escaping ([ClassItem]) -> ()) {
+        var data: [ClassItem] = []
+        DispatchQueue.global().sync {
+            LocationManager.shared.getLocalityOfAddress(of: location) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let locality):
+                    self.targetLocality = locality
+                case .failure(let error):
+                    debugPrint(error)
+                    self.targetLocality = ""
+                }
+            }
+        }
+        FirestoreRoute.classItem.ref.whereField("subjects", arrayContainsAny: categories).getDocuments() { (snapshot, error) in
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
                 return
