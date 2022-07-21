@@ -94,26 +94,24 @@ class MainViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         activityIndicator.startAnimating()
         fetchData()
-        dispatchGroup.notify(queue: DispatchQueue.main) {
-            self.activityIndicator.stopAnimating()
-        }
     }
 
     // MARK: - Method
     private func fetchData() {
         guard let currentLocation = locationManager.getCurrentLocation() else { return }
-        dispatchGroup.enter()
         firestoreManager.fetch(currentLocation) { [weak self] data in
             guard let self = self else { return }
             self.data = data
             self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
             self.dataSell = data.filter { $0.itemType == ClassItemType.sell }
-            self.classItemTableView.reloadData()
-            self.dispatchGroup.leave()
+            DispatchQueue.main.async {
+                self.classItemTableView.reloadData()
+                self.activityIndicator.stopAnimating()
+            }
         }
     }
 
