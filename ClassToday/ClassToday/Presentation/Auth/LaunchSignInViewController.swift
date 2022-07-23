@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import Alamofire
+import NaverThirdPartyLogin
 
 class LaunchSignInViewController: UIViewController {
     // MARK: - UI Components
@@ -42,6 +44,11 @@ class LaunchSignInViewController: UIViewController {
             titleColor: .white,
             tintColor: .white,
             backgroundColor: UIColor(red: 0.098, green: 0.78, blue: 0.349, alpha: 1)
+        )
+        button.addTarget(
+            self,
+            action: #selector(didTapNaverSignUpButton),
+            for: .touchUpInside
         )
         return button
     }()
@@ -100,8 +107,9 @@ class LaunchSignInViewController: UIViewController {
         return stackView
     }()
     
-    // MARK: - Delegate
+    // MARK: - Properties
     weak var delegate: LaunchSignInViewControllerDelegate?
+    private let naverLoginInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -109,11 +117,58 @@ class LaunchSignInViewController: UIViewController {
         setupNavigationBar()
         attribute()
         layout()
+        naverLoginInstance?.delegate = self
+    }
+}
+
+// MARK: - NaverThirdPartyLoginConnectionDelegate
+extension LaunchSignInViewController: NaverThirdPartyLoginConnectionDelegate {
+    // 로그인 성공시 호출
+    func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
+        print("로그인 성공")
+        NaverLoginManager.shared.getInfo { result in
+            switch result {
+            case .success(let naverUser):
+                let user = naverUser.toUserForm()
+                FirestoreManager.shared.uploadUser(user: user) { result in
+                    switch result {
+                    case .success(_):
+                        print("Naver User Login Success!!💍")
+                    case .failure(let error):
+                        print("ERROR \(error.localizedDescription)💚")
+                    }
+                }
+            case .failure(let error):
+                print("ERROR \(error.localizedDescription)🌏")
+            }
+        }
+    }
+    
+    // Refresh Token
+    func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
+        print("리프레시 토큰")
+    }
+    
+    // 로그아웃
+    func oauth20ConnectionDidFinishDeleteToken() {
+        print("로그아웃")
+    }
+    
+    // 에러
+    func oauth20Connection(
+        _ oauthConnection: NaverThirdPartyLoginConnection!,
+        didFailWithError error: Error!
+    ) {
+        print("에러")
     }
 }
 
 // MARK: - @objc Methods
 private extension LaunchSignInViewController {
+    @objc func didTapNaverSignUpButton() {
+        print("didTapNaverSignUpButton")
+        naverLoginInstance?.requestThirdPartyLogin()
+    }
     @objc func didTapEmailSignUpButton() {
         let signUpViewController = SignUpViewController()
         navigationController?.pushViewController(signUpViewController, animated: true)
