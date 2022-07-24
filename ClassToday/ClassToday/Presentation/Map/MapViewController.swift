@@ -7,7 +7,6 @@
 
 import UIKit
 import NMapsMap
-import SwiftUI
 
 class MapViewController: UIViewController {
     //MARK: - NavigationBar Components
@@ -48,18 +47,18 @@ class MapViewController: UIViewController {
         let mapView = MapView()
         return mapView
     }()
-    
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
 
     private lazy var mapClassListView: MapClassListView = {
         let mapClassListView = MapClassListView()
         mapClassListView.delegate = self
         return mapClassListView
     }()
-    
+
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        return scrollView
+    }()
+
     //MARK: - Properties
     private var curLocation: Location? {
         return LocationManager.shared.getCurrentLocation()
@@ -104,28 +103,36 @@ class MapViewController: UIViewController {
     
     //MARK: - Methods
     private func setupLayout() {
-        view.addSubview(categoryView)
-        view.addSubview(mapView)
-        view.addSubview(mapClassListView)
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        scrollView.addSubview(categoryView)
+        scrollView.addSubview(mapView)
+        scrollView.addSubview(mapClassListView)
         categoryView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.width.equalTo(scrollView.snp.width)
+            $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(44)
         }
         mapView.snp.makeConstraints {
-            $0.top.equalTo(categoryView.snp.bottom)
+            $0.width.equalTo(scrollView.snp.width)
+            $0.top.equalTo(categoryView)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.5)
+            $0.height.equalTo(view.frame.height).multipliedBy(0.5)
         }
         mapClassListView.snp.makeConstraints {
-            $0.top.equalTo(mapView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.width.equalTo(scrollView.snp.width)
+            $0.top.equalTo(mapView)
+            $0.leading.trailing.equalToSuperview()
         }
     }
-    
+
     private func setupMapView(location: Location) {
         mapView.setUpLocation(location: location)
     }
-    
+
     private func configureMapView(data: [ClassItem]) {
         mapView.removeMarkers()
         data.forEach {
@@ -134,7 +141,7 @@ class MapViewController: UIViewController {
             }
         }
     }
-    
+
     private func fetchClassItem(location: Location) {
         FirestoreManager.shared.fetch(location) { [weak self] data in
             guard let self = self else { return }
@@ -146,10 +153,13 @@ class MapViewController: UIViewController {
 //MARK: - objc function
 extension MapViewController {
     @objc private func didTapStarButton(sender: UIButton) {
-        
+        FirestoreManager.shared.starSort(starList: MockData.mockUser.stars ?? [""]) {
+            self.classItemData = $0
+        }
     }
     @objc private func didTapSearchButton(sender: UIButton) {
-        
+        // 검색 뷰 컨트롤러를 활용할 방법?
+        navigationController?.pushViewController(SearchViewController(), animated: true)
     }
 }
 
@@ -159,7 +169,7 @@ extension MapViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categoryData.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: DetailContentCategoryCollectionViewCell.identifier,
