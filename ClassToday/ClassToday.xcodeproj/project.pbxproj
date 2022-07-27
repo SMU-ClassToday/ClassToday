@@ -10,6 +10,7 @@
 		6B1483FB287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1483FA287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift */; };
 		6B1483FD287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1483FC287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift */; };
 		6B42D941284BBE6000384480 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */; };
+		6B4FA9DD28917E3B0048B60F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FA9DC28917E3B0048B60F /* UserDefaultsManager.swift */; };
 		6B560C20284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B560C1F284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift */; };
 		6B568EE0284DC47D00B6CA13 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B568EDF284DC47D00B6CA13 /* SignInViewController.swift */; };
 		6B59562628474672004821F1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B59562528474672004821F1 /* SignUpViewController.swift */; };
@@ -138,6 +139,7 @@
 		6B1483FA287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6B1483FC287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModifyViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
+		6B4FA9DC28917E3B0048B60F /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		6B560C1F284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchSignInViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6B568EDF284DC47D00B6CA13 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		6B59562528474672004821F1 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 				8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */,
 				89B891D0284735A8008B27DD /* LocationManager.swift */,
 				6BC2B236288C4D8F0025817D /* NaverLoginManager.swift */,
+				6B4FA9DC28917E3B0048B60F /* UserDefaultsManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -841,6 +844,7 @@
 				89A67346282A638800951300 /* TabbarController.swift in Sources */,
 				8941FF232830CF7D00A90AB0 /* ReviewItem.swift in Sources */,
 				89098E4B282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift in Sources */,
+				6B4FA9DD28917E3B0048B60F /* UserDefaultsManager.swift in Sources */,
 				89098E492824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift in Sources */,
 				6B59562628474672004821F1 /* SignUpViewController.swift in Sources */,
 				89865EA5282A70EE00113242 /* StarViewController.swift in Sources */,

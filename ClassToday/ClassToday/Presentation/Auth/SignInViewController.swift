@@ -97,11 +97,14 @@ private extension SignInViewController {
         FirebaseAuthManager.shared.signIn(email: email, password: password) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(_):
+            case .success(let uid):
                 print("로그인 성공🐹")
-                // TODO: - 로그인 성공하면 UserDefaults에 유저 id 저장
+                print(uid, "🥵")
+                UserDefaultsManager.shared.saveLoginStatus(uid: uid, type: .email)
                 self.view.hideToastActivity()
-                self.dismiss(animated: true)
+                let rootVC = TabbarController()
+                rootVC.modalPresentationStyle = .fullScreen
+                self.present(rootVC, animated: true)
             case .failure(let error):
                 print("\(error.localizedDescription)🐸🐸")
                 self.view.hideToastActivity()

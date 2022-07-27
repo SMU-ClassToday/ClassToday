@@ -108,13 +108,12 @@ class LaunchSignInViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    weak var delegate: LaunchSignInViewControllerDelegate?
+//    weak var delegate: LaunchSignInViewControllerDelegate?
     private let naverLoginInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         attribute()
         layout()
         naverLoginInstance?.delegate = self
@@ -126,14 +125,18 @@ extension LaunchSignInViewController: NaverThirdPartyLoginConnectionDelegate {
     // 로그인 성공시 호출
     func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
         print("로그인 성공")
-        NaverLoginManager.shared.getInfo { result in
+        NaverLoginManager.shared.getInfo { [weak self] result in
             switch result {
             case .success(let naverUser):
                 let user = naverUser.toUserForm()
-                FirestoreManager.shared.uploadUser(user: user) { result in
+                FirestoreManager.shared.uploadUser(user: user) { [weak self] result in
                     switch result {
                     case .success(_):
                         print("Naver User Login Success!!💍")
+                        UserDefaultsManager.shared.saveLoginStatus(uid: user.id, type: .naver)
+                        let rootVC = TabbarController()
+                        rootVC.modalPresentationStyle = .fullScreen
+                        self?.present(rootVC, animated: true)
                     case .failure(let error):
                         print("ERROR \(error.localizedDescription)💚")
                     }
@@ -147,6 +150,20 @@ extension LaunchSignInViewController: NaverThirdPartyLoginConnectionDelegate {
     // Refresh Token
     func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
         print("리프레시 토큰")
+        NaverLoginManager.shared.getInfo { [weak self] result in
+            switch result {
+            case .success(let naverUser):
+                UserDefaultsManager.shared.saveLoginStatus(
+                    uid: naverUser.response.id,
+                    type: .naver
+                )
+                let rootVC = TabbarController()
+                rootVC.modalPresentationStyle = .fullScreen
+                self?.present(rootVC, animated: true)
+            case .failure(let error):
+                print("ERROR \(error.localizedDescription)🤑")
+            }
+        }
     }
     
     // 로그아웃
@@ -177,24 +194,10 @@ private extension LaunchSignInViewController {
         let signInViewController = SignInViewController()
         navigationController?.pushViewController(signInViewController, animated: true)
     }
-    @objc func didTapDismissButton() {
-        dismiss(animated: true)
-        delegate?.didTapDismissButton()
-    }
 }
 
 // MARK: - UI Methods
 private extension LaunchSignInViewController {
-    func setupNavigationBar() {
-        let leftBarButton = UIBarButtonItem(
-            image: Icon.xmark.image,
-            style: .plain,
-            target: self,
-            action: #selector(didTapDismissButton)
-        )
-        navigationItem.leftBarButtonItem = leftBarButton
-        navigationController?.navigationBar.tintColor = .mainColor
-    }
     func attribute() {
         view.backgroundColor = .systemBackground
     }
