@@ -38,4 +38,8 @@ class NaverLoginManager {
                 }
             }
     }
+    
+    func signOut() {
+        instance?.resetToken()
+    }
 }

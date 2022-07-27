@@ -69,9 +69,16 @@ extension SettingViewController: UITableViewDataSource {
 // MARK: - 로그아웃 메서드
 private extension SettingViewController {
     func signOut() {
-        switch FirebaseAuthManager.shared.signOut() {
-        default:
-            print("로그아웃!!🎒🎒")
+        guard let loginType = UserDefaultsManager.shared.getLoginType() else { return }
+        switch loginType {
+        case .naver:
+            NaverLoginManager.shared.signOut()
+            UserDefaultsManager.shared.removeLoginStatus()
+            self.dismiss(animated: true)
+        case .email:
+            FirebaseAuthManager.shared.signOut()
+            UserDefaultsManager.shared.removeLoginStatus()
+            self.dismiss(animated: true)
         }
     }
 }
