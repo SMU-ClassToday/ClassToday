@@ -9,6 +9,7 @@ import UIKit
 
 protocol ChatClassItemCellDelegate: AnyObject {
     func pushToDetailViewController(classItem: ClassItem)
+    func presentMatchInputViewController(classItem: ClassItem)
 }
 
 class ChatClassItemCell: UIView {
@@ -191,8 +192,7 @@ class ChatClassItemCell: UIView {
 
 private extension ChatClassItemCell {
     @objc func didTapMatchingButton() {
-        //TODO
-        print("didTapMatchingButton")
+        delegate?.presentMatchInputViewController(classItem: self.classItem)
     }
     
     @objc func didTapClassItemImage() {
