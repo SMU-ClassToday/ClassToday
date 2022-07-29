@@ -9,13 +9,24 @@ import Foundation
 
 struct Match: Codable {
     var id: String = UUID().uuidString
-    let seller: String
-    let buyer: String
-    let dayWeek: [DayWeek]?
-    let time: String?
-    let place: Location?
-    let location: Location
-    let price: String?
-    let priceUnit: PriceUnit
-    let review: ReviewItem?
+    var seller: String
+    var buyer: String
+    var dayWeek: [DayWeek]?
+    var time: String?
+    var place: Location?
+    var location: Location
+    var price: String?
+    var priceUnit: PriceUnit
+    var review: ReviewItem?
+    
+    init(seller: String, buyer: String, dayWeek: [DayWeek], time: String, place: Location, location: Location, price: String, priceUnit: PriceUnit) {
+        self.seller = seller
+        self.buyer = buyer
+        self.dayWeek = dayWeek
+        self.time = time
+        self.place = place
+        self.location = location
+        self.price = price
+        self.priceUnit = priceUnit
+    }
 }

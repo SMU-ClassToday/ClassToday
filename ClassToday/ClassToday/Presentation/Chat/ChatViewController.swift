@@ -366,4 +366,9 @@ extension ChatViewController: ChatClassItemCellDelegate {
         let viewController = ClassDetailViewController(classItem: classItem)
         navigationController?.pushViewController(viewController, animated: true)
     }
+    
+    func presentMatchInputViewController(classItem: ClassItem) {
+        let viewcontroller = MatchInputViewController(classItem: classItem)
+        present(viewcontroller, animated: true, completion: nil)
+    }
 }
