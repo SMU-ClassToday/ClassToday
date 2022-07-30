@@ -139,6 +139,7 @@
 		FCBCABF2287C6D98001C4687 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBCABF1287C6D98001C4687 /* Mocks.swift */; };
 		FCBCABF6287C95B8001C4687 /* DatabaseRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBCABF5287C95B8001C4687 /* DatabaseRepresentation.swift */; };
 		FCBCABF8287C96AF001C4687 /* StreamError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBCABF7287C96AF001C4687 /* StreamError.swift */; };
+		FCD624D828951FDC002F443A /* MatchConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD624D728951FDC002F443A /* MatchConfirmViewController.swift */; };
 		FCD78A032872CC4500714EC7 /* ChatClassItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD78A022872CC4500714EC7 /* ChatClassItemCell.swift */; };
 		FCD78A0528731B3A00714EC7 /* UIAlertAction+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD78A0428731B3A00714EC7 /* UIAlertAction+.swift */; };
 /* End PBXBuildFile section */
@@ -268,6 +269,7 @@
 		FCBCABF1287C6D98001C4687 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		FCBCABF5287C95B8001C4687 /* DatabaseRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseRepresentation.swift; sourceTree = "<group>"; };
 		FCBCABF7287C96AF001C4687 /* StreamError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamError.swift; sourceTree = "<group>"; };
+		FCD624D728951FDC002F443A /* MatchConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchConfirmViewController.swift; sourceTree = "<group>"; };
 		FCD78A022872CC4500714EC7 /* ChatClassItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClassItemCell.swift; sourceTree = "<group>"; };
 		FCD78A0428731B3A00714EC7 /* UIAlertAction+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertAction+.swift"; sourceTree = "<group>"; };
 		FCDB85532824D78400273A9A /* CustomBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBarButton.swift; sourceTree = "<group>"; };
@@ -627,6 +629,7 @@
 				FCD78A022872CC4500714EC7 /* ChatClassItemCell.swift */,
 				FC25F8BC2865E1F400B2BBEB /* ChatViewController.swift */,
 				FCB99C8F288F0C41006CE372 /* MatchInputViewController.swift */,
+				FCD624D728951FDC002F443A /* MatchConfirmViewController.swift */,
 				FC25F8B82865E04900B2BBEB /* Sender.swift */,
 				FC25F8B02865DF9F00B2BBEB /* Channel.swift */,
 				FCA26EBE2867A159004F4C20 /* Message.swift */,
@@ -849,6 +852,7 @@
 				6B5E148D281311F3001AF21C /* ProfileUserInfoView.swift in Sources */,
 				6B5E149328131286001AF21C /* UserProfileType.swift in Sources */,
 				6B5E149B2813130F001AF21C /* ClassHistoryViewController.swift in Sources */,
+				FCD624D828951FDC002F443A /* MatchConfirmViewController.swift in Sources */,
 				FCBCABF2287C6D98001C4687 /* Mocks.swift in Sources */,
 				6B5E14AF28131446001AF21C /* SellUserInfoTableViewCell.swift in Sources */,
 				6BA8E00E2820CA5100B0CC8C /* UILabel+.swift in Sources */,
