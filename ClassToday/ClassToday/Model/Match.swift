@@ -11,18 +11,25 @@ struct Match: Codable {
     var id: String = UUID().uuidString
     var seller: String
     var buyer: String
-    var dayWeek: [DayWeek]?
+    var date: Set<DayWeek>?
     var time: String?
-    var place: Location?
-    var location: Location
+    var place: String?
+    var location: Location?
     var price: String?
-    var priceUnit: PriceUnit
+    var priceUnit: PriceUnit?
     var review: ReviewItem?
     
-    init(seller: String, buyer: String, dayWeek: [DayWeek], time: String, place: Location, location: Location, price: String, priceUnit: PriceUnit) {
+    init(seller: String,
+         buyer: String,
+         date: Set<DayWeek>?,
+         time: String?,
+         place: String?,
+         location: Location?,
+         price: String?,
+         priceUnit: PriceUnit?) {
         self.seller = seller
         self.buyer = buyer
-        self.dayWeek = dayWeek
+        self.date = date
         self.time = time
         self.place = place
         self.location = location

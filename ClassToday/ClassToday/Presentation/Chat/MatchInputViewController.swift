@@ -8,6 +8,10 @@
 import UIKit
 import SnapKit
 
+protocol MatchInputViewControllerDelegate: AnyObject {
+    func saveMatchingInformation(match: Match)
+}
+
 class MatchInputViewController: UIViewController {
     private lazy var customNavigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar()
@@ -147,8 +151,8 @@ class MatchInputViewController: UIViewController {
         }
     }
     
-    init(classItem: ClassItem) {
-        self.classItem = classItem
+    init(channel: Channel) {
+        self.channel = channel
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .fullScreen
     }
@@ -157,16 +161,19 @@ class MatchInputViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let classItem: ClassItem
+    weak var delegate: MatchInputViewControllerDelegate?
+    private let channel: Channel
+    private var match: Match? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configure()
     }
 }
 
 extension MatchInputViewController {
-    func configureUI() {
+    private func configureUI() {
         configureNavBar()
         view.backgroundColor = .white
         [
@@ -179,6 +186,14 @@ extension MatchInputViewController {
             $0.top.equalTo(customNavigationBar.snp.bottom).offset(commonInset)
             $0.leading.trailing.equalToSuperview().inset(commonInset)
         }
+    }
+    
+    private func configure() {
+        sellerLabel.text = "강사: \(channel.sellerID)"
+        buyerLabel.text = "학생: \(channel.buyerID)"
+        timeTextField.placeholder = channel.classItem?.time
+        placeTextField.placeholder = channel.classItem?.place
+        priceTextField.placeholder = channel.classItem?.price
     }
 }
 
@@ -200,6 +215,15 @@ extension MatchInputViewController {
     }
     
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
+        match = Match(seller: channel.sellerID,
+                           buyer: channel.buyerID,
+                           date: channel.classItem?.date,
+                           time: channel.classItem?.time,
+                           place: channel.classItem?.place,
+                           location: channel.classItem?.location,
+                           price: channel.classItem?.price,
+                           priceUnit: channel.classItem?.priceUnit)
+        delegate?.saveMatchingInformation(match: match!)
         dismiss(animated: true, completion: nil)
     }
 }
