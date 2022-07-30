@@ -273,6 +273,17 @@ extension FirestoreManager {
         }
     }
     
+    func fetch(channel: Channel, completion: @escaping (Channel) -> ()) {
+        FirestoreRoute.channel.ref.document(channel.id).getDocument(as: Channel.self) { result in
+            switch result {
+            case .success(let channel):
+                completion(channel)
+            case .failure(let error):
+                debugPrint(error)
+            }
+        }
+    }
+    
     func removeListener() {
         listener?.remove()
     }

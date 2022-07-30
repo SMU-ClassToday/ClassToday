@@ -60,12 +60,13 @@ class ChatClassItemCell: UIView {
         return priceUnitLabel
     }()
     
-    private lazy var matchButton: UIButton = {
+    lazy var matchButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .mainColor
         button.layer.cornerRadius = 15
-        button.setTitle("매칭하기", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.white, for: .disabled)
+        button.setTitle("매칭 작성", for: .normal)
         button.addTarget(self, action: #selector(didTapMatchingButton), for: .touchUpInside)
         button.titleLabel?.numberOfLines = 1
         if #available(iOS 15.0, *) {
@@ -81,6 +82,8 @@ class ChatClassItemCell: UIView {
     weak var delegate: ChatClassItemCellDelegate?
     private var classItem: ClassItem = mockClassItem
     private let locationManager = LocationManager.shared
+    private let firebaseAuthManager = FirebaseAuthManager.shared
+    
     //TODO: delegate
     
     init(classItem: ClassItem) {
@@ -92,6 +95,7 @@ class ChatClassItemCell: UIView {
         }
         layout()
         setupStyle()
+        setupButton()
     }
     
     required init?(coder: NSCoder) {
@@ -136,6 +140,16 @@ class ChatClassItemCell: UIView {
             completion(image)
         }
         
+    }
+    
+    private func setupButton() {
+        if firebaseAuthManager.getUserID() == classItem.writer.id {
+            matchButton.setTitle("매칭 작성", for: .normal)
+        } else {
+            matchButton.setTitle("매칭 확인", for: .normal)
+            matchButton.isEnabled = false
+            matchButton.backgroundColor = .lightGray
+        }
     }
     
     private func setupStyle() {

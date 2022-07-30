@@ -8,10 +8,11 @@
 import UIKit
 import MessageKit
 import InputBarAccessoryView
+import FirebaseFirestoreSwift
 import Photos
 
 class ChatViewController: MessagesViewController {
-    
+    //MARK: - UI Components
     lazy var cameraBarButtonItem: InputBarButtonItem = {
         let button = InputBarButtonItem(type: .system)
         button.tintColor = .mainColor
@@ -36,11 +37,14 @@ class ChatViewController: MessagesViewController {
         return cell
     }()
     
+    //MARK: - Alert Controller
     private lazy var alertController: UIAlertController = {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.view.tintColor = .mainColor
         
         let reportAction = UIAlertAction(title: "신고하기", style: .default)
+        
+        //quit logic
         let quitChannelAction = UIAlertAction(title: "채팅 나가기", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
             let currentID = self.firebaseAuthManager.getUserID()!
@@ -71,14 +75,17 @@ class ChatViewController: MessagesViewController {
         return alert
     }()
     
+    //MARK: - Properties
     private let classItem: ClassItem?
     private let firebaseAuthManager = FirebaseAuthManager.shared
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
+    private var match: Match?
     var channel: Channel
     var sender = Sender(senderId: "", displayName: "")
     var messages = [Message]()
     
+    //MARK: - sending photo
     private var isSendingPhoto = false {
       didSet {
         messageInputBar.leftStackViewItems.forEach { item in
@@ -90,6 +97,7 @@ class ChatViewController: MessagesViewController {
       }
     }
     
+    //MARK: - initializers
     init(channel: Channel) {
         self.channel = channel
         self.classItem = channel.classItem ?? nil
@@ -105,6 +113,7 @@ class ChatViewController: MessagesViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
+    //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollsToLastItemOnKeyboardBeginsEditing = true
@@ -118,6 +127,7 @@ class ChatViewController: MessagesViewController {
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
         layout()
+        enableMatchButton()
         listenToMessages()
         print(currentSender.senderId)
     }
@@ -132,6 +142,7 @@ class ChatViewController: MessagesViewController {
         tabBarController?.tabBar.isHidden = false
     }
 
+    //MARK: - UI Methods
     func initializeSender() {
         sender.senderId = firebaseAuthManager.getUserID()!
         sender.displayName = "me"
@@ -188,8 +199,23 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.reloadData()
     }
     
+    private func enableMatchButton() {
+        if channel.match != nil {
+            classItemCellView.matchButton.isEnabled = true
+            classItemCellView.matchButton.backgroundColor = .mainColor
+        }
+    }
+
+    //MARK: - DB Methods
     private func updateChannel(channel: Channel) {
         firestoreManager.update(channel: channel)
+    }
+    
+    private func fetchChannel(channel: Channel) {
+        firestoreManager.fetch(channel: channel) { [weak self] channel in
+            guard let self = self else { return }
+            self.channel = channel
+        }
     }
     
     private func listenToMessages() {
@@ -218,12 +244,16 @@ class ChatViewController: MessagesViewController {
                             debugPrint(error)
                     }
                 }
+            } else if let matchFlag = message.matchFlag {
+                fetchChannel(channel: channel)
+                enableMatchButton()
             } else {
                 insertNewMessage(message)
             }
         }
     }
     
+    //MARK: - autolayout
     private func layout() {
         [
             classItemCellView
@@ -237,6 +267,7 @@ class ChatViewController: MessagesViewController {
     }
 }
 
+//MARK: - objc Methods
 extension ChatViewController {
     @objc private func didTapCameraButton() {
         let picker = UIImagePickerController()
@@ -259,6 +290,7 @@ extension ChatViewController {
     }
 }
 
+//MARK: - Messages datasource
 extension ChatViewController: MessagesDataSource {
     var currentSender: SenderType {
         return sender
@@ -279,6 +311,7 @@ extension ChatViewController: MessagesDataSource {
     }
 }
 
+//MARK: - Messages delegate
 extension ChatViewController: MessagesLayoutDelegate {
     // 아래 여백
     func footerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize {
@@ -309,6 +342,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
 }
 
+//MARK: - Input bar delegate
 extension ChatViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         let message = Message(content: text, senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
@@ -324,6 +358,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     }
 }
 
+//MARK: - ImagePicker delegate
 extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
@@ -355,12 +390,14 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
     }
 }
 
+//MARK: - message cell delegate
 extension ChatViewController: MessageCellDelegate {
     func didTapBackground(in cell: MessageCollectionViewCell) {
         self.messageInputBar.inputTextView.resignFirstResponder()
     }
 }
 
+//MARK: classItem cell delegate
 extension ChatViewController: ChatClassItemCellDelegate {
     func pushToDetailViewController(classItem: ClassItem) {
         let viewController = ClassDetailViewController(classItem: classItem)
@@ -368,7 +405,16 @@ extension ChatViewController: ChatClassItemCellDelegate {
     }
     
     func presentMatchInputViewController(classItem: ClassItem) {
-        let viewcontroller = MatchInputViewController(classItem: classItem)
+        let viewcontroller = MatchInputViewController(channel: self.channel)
+        viewcontroller.delegate = self
         present(viewcontroller, animated: true, completion: nil)
+    }
+}
+
+extension ChatViewController: MatchInputViewControllerDelegate {
+    func saveMatchingInformation(match: Match) {
+        channel.match = match
+        print(channel)
+        updateChannel(channel: channel)
     }
 }

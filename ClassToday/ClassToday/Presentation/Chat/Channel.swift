@@ -14,6 +14,7 @@ struct Channel: Codable {
     var sellerID: String
     var buyerID: String
     let classItemID: String
+    var match: Match?
     
     init(sellerID: String, buyerID: String, classItem: ClassItem? = nil) {
         self.sellerID = sellerID
