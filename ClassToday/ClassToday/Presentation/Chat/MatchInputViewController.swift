@@ -68,7 +68,7 @@ class MatchInputViewController: UIViewController {
     
     private lazy var timeTextField: UITextField = {
         let textField = UITextField()
-        textField.configureWith(placeholder: "수업 시간")
+        textField.placeholder = "수업 시간"
         textField.inputAccessoryView = toolBarKeyboard
         textField.keyboardType = .decimalPad
         textField.clearsOnBeginEditing = true
@@ -77,7 +77,7 @@ class MatchInputViewController: UIViewController {
     
     private lazy var placeTextField: UITextField = {
         let textField = UITextField()
-        textField.configureWith(placeholder: "수업 장소")
+        textField.placeholder = "수업 장소"
         textField.rightView = mapButton
         textField.rightViewMode = .always
         textField.clearButtonMode = .whileEditing
@@ -94,7 +94,7 @@ class MatchInputViewController: UIViewController {
     
     private lazy var priceTextField: UITextField = {
         let textField = UITextField()
-        textField.configureWith(placeholder: "수업 가격")
+        textField.placeholder = "수업 가격"
         textField.rightView = priceStackView
         textField.rightViewMode = .always
         textField.keyboardType = .numberPad
@@ -136,11 +136,11 @@ class MatchInputViewController: UIViewController {
             timeLabel,
             timeTextField,
             placeTextField,
-            priceTextField
+            priceStackView
         ].forEach { stackView.addArrangedSubview($0) }
         stackView.axis = .vertical
         stackView.spacing = 20
-        stackView.alignment = .leading
+        stackView.alignment = .fill
         return stackView
     }()
     

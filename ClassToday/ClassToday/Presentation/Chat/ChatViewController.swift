@@ -80,7 +80,6 @@ class ChatViewController: MessagesViewController {
     private let firebaseAuthManager = FirebaseAuthManager.shared
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
-    private var match: Match?
     var channel: Channel
     var sender = Sender(senderId: "", displayName: "")
     var messages = [Message]()
@@ -201,6 +200,7 @@ class ChatViewController: MessagesViewController {
     
     private func enableMatchButton() {
         if channel.match != nil {
+            print(channel.match)
             classItemCellView.matchButton.isEnabled = true
             classItemCellView.matchButton.backgroundColor = .mainColor
         }
@@ -216,6 +216,10 @@ class ChatViewController: MessagesViewController {
             guard let self = self else { return }
             self.channel = channel
         }
+    }
+    
+    private func uploadMatch(match: Match, classItem: ClassItem) {
+        firestoreManager.uploadMatch(match: match, classItem: classItem)
     }
     
     private func listenToMessages() {
@@ -397,7 +401,7 @@ extension ChatViewController: MessageCellDelegate {
     }
 }
 
-//MARK: classItem cell delegate
+//MARK: - classItem cell delegate
 extension ChatViewController: ChatClassItemCellDelegate {
     func pushToDetailViewController(classItem: ClassItem) {
         let viewController = ClassDetailViewController(classItem: classItem)
@@ -405,16 +409,34 @@ extension ChatViewController: ChatClassItemCellDelegate {
     }
     
     func presentMatchInputViewController(classItem: ClassItem) {
-        let viewcontroller = MatchInputViewController(channel: self.channel)
-        viewcontroller.delegate = self
-        present(viewcontroller, animated: true, completion: nil)
+        switch classItemCellView.matchButton.titleLabel?.text {
+            case "매칭 작성":
+                let viewcontroller = MatchInputViewController(channel: self.channel)
+                viewcontroller.delegate = self
+                present(viewcontroller, animated: true, completion: nil)
+            case "매칭 확인":
+                let viewcontroller = MatchConfirmViewController(match: self.channel.match!)
+                viewcontroller.delegate = self
+                present(viewcontroller, animated: true, completion: nil)
+            default:
+                debugPrint("해당 아이템 없음")
+        }
     }
 }
 
+//MARK: - MatchInputViewController Delegate
 extension ChatViewController: MatchInputViewControllerDelegate {
     func saveMatchingInformation(match: Match) {
         channel.match = match
         print(channel)
+        updateChannel(channel: channel)
+    }
+}
+
+extension ChatViewController: MatchConfirmViewControllerDelegate {
+    func confirmMatch() {
+        print(channel.match)
+        uploadMatch(match: channel.match!, classItem: classItem!)
         updateChannel(channel: channel)
     }
 }
