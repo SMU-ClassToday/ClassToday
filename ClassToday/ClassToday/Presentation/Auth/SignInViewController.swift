@@ -102,9 +102,7 @@ private extension SignInViewController {
                 print(uid, "🥵")
                 UserDefaultsManager.shared.saveLoginStatus(uid: uid, type: .email)
                 self.view.hideToastActivity()
-                let rootVC = TabbarController()
-                rootVC.modalPresentationStyle = .fullScreen
-                self.present(rootVC, animated: true)
+                self.dismiss(animated: true)
             case .failure(let error):
                 print("\(error.localizedDescription)🐸🐸")
                 self.view.hideToastActivity()

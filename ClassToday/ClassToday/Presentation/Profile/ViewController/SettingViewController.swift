@@ -70,15 +70,22 @@ extension SettingViewController: UITableViewDataSource {
 private extension SettingViewController {
     func signOut() {
         guard let loginType = UserDefaultsManager.shared.getLoginType() else { return }
+        print(loginType)
         switch loginType {
         case .naver:
             NaverLoginManager.shared.signOut()
             UserDefaultsManager.shared.removeLoginStatus()
-            self.dismiss(animated: true)
+            let root = LaunchSignInViewController()
+            let launchSignInVC = UINavigationController(rootViewController: root)
+            launchSignInVC.modalPresentationStyle = .fullScreen
+            present(launchSignInVC, animated: true)
         case .email:
             FirebaseAuthManager.shared.signOut()
             UserDefaultsManager.shared.removeLoginStatus()
-            self.dismiss(animated: true)
+            let root = LaunchSignInViewController()
+            let launchSignInVC = UINavigationController(rootViewController: root)
+            launchSignInVC.modalPresentationStyle = .fullScreen
+            present(launchSignInVC, animated: true)
         }
     }
 }

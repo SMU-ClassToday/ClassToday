@@ -18,12 +18,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        var rootViewController: UIViewController = TabbarController()
-        if UserDefaultsManager.shared.isLogin() == nil {
-            rootViewController = UINavigationController(rootViewController: LaunchSignInViewController())
-        }
+        let rootViewController: UIViewController = TabbarController()
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
+        
+        if UserDefaultsManager.shared.isLogin() == nil {
+            let root = LaunchSignInViewController()
+            let launchSignInViewController = UINavigationController(rootViewController: root)
+            launchSignInViewController.modalPresentationStyle = .fullScreen
+            window?.rootViewController?.present(launchSignInViewController, animated: true)
+        }
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

@@ -26,7 +26,7 @@ struct User: Codable, Equatable {
     }
     
     static func getCurrentUser(completion: @escaping (Result<User, Error>) -> Void) {
-        guard let uid = FirebaseAuthManager.shared.getUserID() else { return }
+        guard let uid = UserDefaultsManager.shared.isLogin() else { return }
         FirestoreManager.shared.readUser(uid: uid) { result in
             switch result {
             case .success(let user):
