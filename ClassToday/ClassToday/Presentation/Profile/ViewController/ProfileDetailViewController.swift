@@ -31,7 +31,7 @@ class ProfileDetailViewController: UIViewController {
     
     // MARK: - Properties
     private var user: User
-    private let currentUserID = FirebaseAuthManager.shared.getUserID()
+    private let currentUserID = UserDefaultsManager.shared.isLogin()
     weak var delegate: ProfileDetailViewControllerDelegate?
     
     // MARK: - init

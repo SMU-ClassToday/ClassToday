@@ -114,9 +114,7 @@ private extension SignUpViewController {
                 print("회원가입 성공!🎉")
                 UserDefaultsManager.shared.saveLoginStatus(uid: uid, type: .email)
                 self.view.hideToastActivity()
-                let rootVC = TabbarController()
-                rootVC.modalPresentationStyle = .fullScreen
-                self.present(rootVC, animated: true)
+                self.dismiss(animated: true)
             case .failure(let error):
                 print("회원가입 실패 ㅠ \(error.localizedDescription)🐢")
                 self.view.hideToastActivity()
