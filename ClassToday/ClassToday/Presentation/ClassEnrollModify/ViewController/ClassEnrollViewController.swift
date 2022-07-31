@@ -77,8 +77,8 @@ class ClassEnrollViewController: UIViewController {
     private var classDescription: String?
     private var classSubject: Set<Subject>?
     private var classTarget: Set<Target>?
-    private var location: Location?
-    private var locality: String?
+    private var classLocation: Location?
+    private var classLocality: String?
 
     // MARK: - Initialize
 
@@ -145,6 +145,7 @@ class ClassEnrollViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
+    /// 수업 등록 메서드
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
         view.endEditing(true)
         var classImagesURL: [String] = []
@@ -157,13 +158,13 @@ class ClassEnrollViewController: UIViewController {
             return alert
         }()
 
-        // 수업 등록시 필수 항목 체크
+        /// 수업 등록시 필수 항목 체크
         guard let className = className, let classDescription = classDescription else {
             present(alert, animated: true)
             return
         }
 
-        // 수업 판매 등록시
+        /// 수업 판매 등록시
         if classItemType == .sell, classTime == nil {
             present(alert, animated: true)
             return
@@ -192,13 +193,14 @@ class ClassEnrollViewController: UIViewController {
                 }
             }
         }
-
-        location = locationManager.getCurrentLocation()
+        if classLocation == nil {
+            self.classLocation = locationManager.getCurrentLocation()
+        }
         group.enter()
-        locationManager.getLocalityOfAddress(of: location) { result in
+        locationManager.getLocalityOfAddress(of: classLocation) { result in
             switch result {
             case .success(let localityAddress):
-                self.locality = localityAddress
+                self.classLocality = localityAddress
             case .failure(let error):
                 debugPrint(error)
             }
@@ -211,8 +213,8 @@ class ClassEnrollViewController: UIViewController {
                                           date: self.classDate,
                                           time: self.classTime,
                                           place: self.classPlace,
-                                          location: self.location,
-                                          locality: self.locality,
+                                          location: self.classLocation,
+                                          locality: self.classLocality,
                                           price: self.classPrice,
                                           priceUnit: self.classPriceUnit,
                                           description: classDescription,
@@ -392,8 +394,13 @@ extension ClassEnrollViewController: EnrollDateCellDelegate {
 }
 
 extension ClassEnrollViewController: EnrollPlaceCellDelegate {
-    func passData(place: String?) {
+    func passData(place: String?, location: Location?) {
         classPlace = place
+        classLocation = location
+    }
+    
+    func presentFromPlaceCell(viewController: UIViewController) {
+        present(viewController, animated: true)
     }
 }
 
