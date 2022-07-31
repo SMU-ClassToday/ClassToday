@@ -8,7 +8,8 @@
 import UIKit
 
 protocol EnrollPlaceCellDelegate: AnyObject {
-    func passData(place: String?)
+    func passData(place: String?, location: Location?)
+    func presentFromPlaceCell(viewController: UIViewController)
 }
 
 class EnrollPlaceCell: UITableViewCell {
@@ -35,8 +36,9 @@ class EnrollPlaceCell: UITableViewCell {
 
     // MARK: - Properties
 
-    weak var delegate: EnrollPlaceCellDelegate?
     static let identifier = "EnrollPlaceCell"
+    weak var delegate: EnrollPlaceCellDelegate?
+    private var location: Location?
 
     // MARK: - Initialize
 
@@ -75,7 +77,13 @@ class EnrollPlaceCell: UITableViewCell {
     // MARK: - Actions
 
     @objc func selectPlace(_ button: UIButton) {
-        debugPrint(#function)
+        let mapSelectionViewController = MapSelectionViewController()
+        mapSelectionViewController.configure { nmgLatLng in
+            let location = Location(lat: nmgLatLng.lat, lon: nmgLatLng.lng)
+            self.placeTextField.text = "\(location.lat), \(location.lon)"
+            self.location = location
+        }
+        delegate?.presentFromPlaceCell(viewController: MapSelectionViewController())
     }
 }
 
@@ -89,10 +97,10 @@ extension EnrollPlaceCell: UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let text = textField.text, text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false else {
-            delegate?.passData(place: nil)
+            delegate?.passData(place: nil, location: location)
             textField.text = nil
             return
         }
-        delegate?.passData(place: textField.text)
+        delegate?.passData(place: textField.text, location: location)
     }
 }

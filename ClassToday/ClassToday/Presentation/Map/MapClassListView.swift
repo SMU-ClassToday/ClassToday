@@ -21,16 +21,29 @@ class MapClassListView: UIView {
         return label
     }()
 
-    private lazy var tableView: UITableView = {
+    private lazy var listView: UITableView = {
         let tableView = UITableView()
         tableView.register(MapClassListCell.self, forCellReuseIdentifier: MapClassListCell.identifier)
+        tableView.isScrollEnabled = false
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.estimatedRowHeight = 50
         return tableView
     }()
 
+    override var intrinsicContentSize: CGSize {
+        return listView.contentSize
+    }
+    
     // MARK: - Properties
-    private var datas: [ClassItem] = []
+    private var datas: [ClassItem] = [] {
+        willSet {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.listView.reloadData()
+            }
+        }
+    }
     weak var delegate: MapClassListViewDelegate?
     
     override init(frame: CGRect) {
@@ -44,26 +57,27 @@ class MapClassListView: UIView {
     
     private func setUpLayout() {
         addSubview(titleLabel)
-        addSubview(tableView)
+        addSubview(listView)
         titleLabel.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview().offset(12)
         }
-        tableView.snp.makeConstraints {
+        listView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(12)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
+
     func configure(with datas: [ClassItem]) {
         self.datas = datas
-        tableView.reloadData()
     }
 }
 
 extension MapClassListView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(datas.count)
         return datas.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MapClassListCell.identifier, for: indexPath) as? MapClassListCell else {
             fatalError()
@@ -76,5 +90,8 @@ extension MapClassListView: UITableViewDataSource {
 extension MapClassListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.presentViewController(with: datas[indexPath.row])
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }

@@ -56,6 +56,7 @@ class MapViewController: UIViewController {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
         return scrollView
     }()
 
@@ -103,29 +104,29 @@ class MapViewController: UIViewController {
     
     //MARK: - Methods
     private func setupLayout() {
+        view.addSubview(categoryView)
         view.addSubview(scrollView)
-        scrollView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.equalToSuperview()
-            $0.width.equalToSuperview()
-        }
-        scrollView.addSubview(categoryView)
-        scrollView.addSubview(mapView)
-        scrollView.addSubview(mapClassListView)
         categoryView.snp.makeConstraints {
-            $0.width.equalTo(scrollView.snp.width)
-            $0.top.leading.trailing.equalToSuperview()
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(44)
         }
+        scrollView.addSubview(mapView)
+        scrollView.addSubview(mapClassListView)
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(categoryView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
         mapView.snp.makeConstraints {
-            $0.width.equalTo(scrollView.snp.width)
-            $0.top.equalTo(categoryView)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(view.frame.height).multipliedBy(0.5)
+            $0.top.leading.trailing.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalToSuperview()
+            $0.height.equalTo(view.snp.height).multipliedBy(0.5)
         }
         mapClassListView.snp.makeConstraints {
-            $0.width.equalTo(scrollView.snp.width)
-            $0.top.equalTo(mapView)
-            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(mapView.snp.bottom)
+            $0.leading.trailing.bottom.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalToSuperview()
+            $0.height.equalToSuperview().priority(200)
         }
     }
 
@@ -169,7 +170,7 @@ extension MapViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categoryData.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: DetailContentCategoryCollectionViewCell.identifier,

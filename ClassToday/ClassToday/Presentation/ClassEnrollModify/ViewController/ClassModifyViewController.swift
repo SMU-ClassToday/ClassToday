@@ -75,6 +75,7 @@ class ClassModifyViewController: UIViewController {
     private var classTime: String?
     private var classDate: Set<DayWeek>?
     private var classPlace: String?
+    private var classLocation: Location?
     private var classPrice: String?
     private var classPriceUnit: PriceUnit = .perHour
     private var classDescription: String?
@@ -89,6 +90,7 @@ class ClassModifyViewController: UIViewController {
         classTime = classItem.time
         classDate = classItem.date
         classPlace = classItem.place
+        classLocation = classItem.location
         classPrice = classItem.price
         classPriceUnit = classItem.priceUnit
         classDescription = classItem.description
@@ -155,7 +157,8 @@ class ClassModifyViewController: UIViewController {
     @objc func didTapBackButton(_ button: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
-    
+
+    /// 수업 등록 메서드
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
         view.endEditing(true)
         let group = DispatchGroup()
@@ -167,13 +170,13 @@ class ClassModifyViewController: UIViewController {
             return alert
         }()
         
-        // 수업 등록시 필수 항목 체크
+        /// 수업 등록시 필수 항목 체크
         guard let className = className, let classDescription = classDescription else {
             present(alert, animated: true)
             return
         }
         
-        // 수업 판매 등록시
+        /// 수업 판매 등록시
         if classItem.itemType == .sell, classTime == nil {
             present(alert, animated: true)
             return
@@ -189,8 +192,8 @@ class ClassModifyViewController: UIViewController {
             self.classTarget = nil
         }
         
-        // 1. 삭제한 사진 Storage에서 삭제
-        // 2. 삭제하지 않은 사진 파악 -> Storage에 올리지 않기
+        /// 1. 삭제한 사진 Storage에서 삭제
+        /// 2. 삭제하지 않은 사진 파악 -> Storage에 올리지 않기
         var existingImagesCount = 0
         classItem.images?.forEach({ url in
             if classImagesURL?.contains(url) == false {
@@ -222,7 +225,7 @@ class ClassModifyViewController: UIViewController {
                                               date: self.classDate,
                                               time: self.classTime,
                                               place: self.classPlace,
-                                              location: self.classItem.location,
+                                              location: self.classLocation,
                                               locality: self.classItem.locality,
                                               price: self.classPrice,
                                               priceUnit: self.classPriceUnit,
@@ -430,8 +433,13 @@ extension ClassModifyViewController: EnrollDateCellDelegate {
 }
 
 extension ClassModifyViewController: EnrollPlaceCellDelegate {
-    func passData(place: String?) {
+    func presentFromPlaceCell(viewController: UIViewController) {
+        present(viewController, animated: true, completion: nil)
+    }
+    
+    func passData(place: String?, location: Location?) {
         classPlace = place
+        
     }
 }
 

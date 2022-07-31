@@ -134,6 +134,7 @@
 		89C26A8C2811EC3A00648206 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A8B2811EC3A00648206 /* UITextField+.swift */; };
 		89C26A912811EE1300648206 /* PHPickerViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A902811EE1300648206 /* PHPickerViewController+.swift */; };
 		89DCD06E28839AAA00C1CCA3 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD06D28839AA900C1CCA3 /* MapView.swift */; };
+		89DCD073288EF10C00C1CCA3 /* MapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD072288EF10C00C1CCA3 /* MapSelectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -247,6 +248,7 @@
 		89C26A8B2811EC3A00648206 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		89C26A902811EE1300648206 /* PHPickerViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHPickerViewController+.swift"; sourceTree = "<group>"; };
 		89DCD06D28839AA900C1CCA3 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		89DCD072288EF10C00C1CCA3 /* MapSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSelectionViewController.swift; sourceTree = "<group>"; };
 		B08E62A2AC5DFC456A1247A5 /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC3458662816E5A800EB7B43 /* CategoryListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListCollectionViewCell.swift; sourceTree = "<group>"; };
 		FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarViewController.swift; sourceTree = "<group>"; };
@@ -543,9 +545,9 @@
 				89675B242826F07300933C48 /* ClassDetailTableView */,
 				89C26A892811EC1400648206 /* ClassDetailCollectionView */,
 				89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */,
+				89675B412828336B00933C48 /* DetailContentPlaceView.swift */,
 				89675B342827DC3A00933C48 /* DetailContentTimeView.swift */,
 				89675B372827F10C00933C48 /* DetailContentPriceView.swift */,
-				89675B412828336B00933C48 /* DetailContentPlaceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -556,6 +558,7 @@
 				89098E1C2820C445006EFD4E /* ClassEnrollViewController.swift */,
 				89098E39282271E2006EFD4E /* ClassModifyViewController.swift */,
 				89098E4628245371006EFD4E /* ClassDateSelectionViewController.swift */,
+				89DCD072288EF10C00C1CCA3 /* MapSelectionViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -670,7 +673,6 @@
 		FCF850FD280E6A8700D5D3DC /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				8980574F28677F110089CF47 /* Map */,
 				6B59562728474677004821F1 /* Auth */,
 				6BA8E0112821023900B0CC8C /* Profile */,
 				FC3458682816F55A00EB7B43 /* Tabbar */,
@@ -678,6 +680,7 @@
 				FC34586A2816F56D00EB7B43 /* Search */,
 				FC34586C2816F57D00EB7B43 /* Category */,
 				FC34586B2816F57600EB7B43 /* Star */,
+				8980574F28677F110089CF47 /* Map */,
 				89675B4D282990B900933C48 /* ClassEnrollModify */,
 				89675B4F2829916500933C48 /* ClassDetail */,
 			);
@@ -862,6 +865,7 @@
 				89675B172826782600933C48 /* PriceUnit.swift in Sources */,
 				89098E0D28203A04006EFD4E /* Category.swift in Sources */,
 				89098E4D28245503006EFD4E /* DayWeek.swift in Sources */,
+				89DCD073288EF10C00C1CCA3 /* MapSelectionViewController.swift in Sources */,
 				6B7997BD27F33C4C00F37393 /* User.swift in Sources */,
 				89A3143C286D9DA300A7F6ED /* MapCategoryView.swift in Sources */,
 				89098E372820FE5C006EFD4E /* EnrollCategoryCell.swift in Sources */,
