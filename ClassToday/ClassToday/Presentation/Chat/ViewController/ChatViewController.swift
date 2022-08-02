@@ -80,7 +80,6 @@ class ChatViewController: MessagesViewController {
     private let chatStreamManager = ChatStreamManager.shared
     private let firebaseAuthManager = FirebaseAuthManager.shared
     private let firestoreManager = FirestoreManager.shared
-    private let storageManager = StorageManager.shared
     var channel: Channel
     var sender = Sender(senderId: "", displayName: "")
     var messages = [Message]()
@@ -127,7 +126,6 @@ class ChatViewController: MessagesViewController {
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
         layout()
-        //enableMatchButton()
         listenToMessages()
         print(currentSender.senderId)
     }
@@ -195,12 +193,11 @@ class ChatViewController: MessagesViewController {
     private func insertNewMessage(_ message: Message) {
         messages.append(message)
         messages.sort()
-        
         messagesCollectionView.reloadData()
+        messagesCollectionView.scrollToLastItem()
     }
     
     private func enableMatchButton() {
-        print(channel.match)
         classItemCellView.matchButton.isEnabled = true
         classItemCellView.matchButton.backgroundColor = .mainColor
     }
@@ -238,14 +235,10 @@ class ChatViewController: MessagesViewController {
         messages.forEach { message in
             var message = message
             if let url = message.downloadURL {
-                storageManager.downloadImage(urlString: url.absoluteString) { result in
-                    switch result {
-                        case .success(let image):
-                            message.image = image
-                            self.insertNewMessage(message)
-                        case .failure(let error):
-                            debugPrint(error)
-                    }
+                ChatStorageManager.downloadImage(url: url) { [weak self] image in
+                    guard let image = image else { return }
+                    message.image = image
+                    self?.insertNewMessage(message)
                 }
             } else if let matchFlag = message.matchFlag {
                 if matchFlag == true {
@@ -384,10 +377,15 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
     
     private func sendPhoto(_ image: UIImage) {
         isSendingPhoto = true
-        // TODO: upload to firebase
-        isSendingPhoto = false
-        let message = Message(image: image, senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
-        insertNewMessage(message)
+        ChatStorageManager.uploadImage(image: image, channel: channel) { [weak self] url in
+            self?.isSendingPhoto = false
+            guard let url = url else { return }
+            
+            var message = Message(image: image, senderId: self?.firebaseAuthManager.getUserID() ?? "", displayName: "홍길동")
+            message.downloadURL = url
+            self?.chatStreamManager.save(message)
+            self?.messagesCollectionView.scrollToLastItem()
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
