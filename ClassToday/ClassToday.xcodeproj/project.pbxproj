@@ -142,6 +142,7 @@
 		FCD624D828951FDC002F443A /* MatchConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD624D728951FDC002F443A /* MatchConfirmViewController.swift */; };
 		FCD78A032872CC4500714EC7 /* ChatClassItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD78A022872CC4500714EC7 /* ChatClassItemCell.swift */; };
 		FCD78A0528731B3A00714EC7 /* UIAlertAction+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD78A0428731B3A00714EC7 /* UIAlertAction+.swift */; };
+		FCFDFCD02897C6550031F77D /* ChatStreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFDFCCF2897C6550031F77D /* ChatStreamManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -279,6 +280,7 @@
 		FCF850FB280DC05900D5D3DC /* ClassItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassItemTableViewCell.swift; sourceTree = "<group>"; };
 		FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		FCF85100280E7F9F00D5D3DC /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
+		FCFDFCCF2897C6550031F77D /* ChatStreamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStreamManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -624,19 +626,11 @@
 		FC25F8AB2865DE5E00B2BBEB /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				FC25F8AC2865DE9900B2BBEB /* ChatChannelViewController.swift */,
-				FC25F8AE2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift */,
-				FCD78A022872CC4500714EC7 /* ChatClassItemCell.swift */,
-				FC25F8BC2865E1F400B2BBEB /* ChatViewController.swift */,
-				FCB99C8F288F0C41006CE372 /* MatchInputViewController.swift */,
-				FCD624D728951FDC002F443A /* MatchConfirmViewController.swift */,
-				FC25F8B82865E04900B2BBEB /* Sender.swift */,
-				FC25F8B02865DF9F00B2BBEB /* Channel.swift */,
-				FCA26EBE2867A159004F4C20 /* Message.swift */,
-				FCA26EC02867A193004F4C20 /* ImageMediaItem.swift */,
-				FCBCABF1287C6D98001C4687 /* Mocks.swift */,
-				FCBCABF5287C95B8001C4687 /* DatabaseRepresentation.swift */,
-				FCBCABF7287C96AF001C4687 /* StreamError.swift */,
+				FCFDFCCE2897C6360031F77D /* Service */,
+				FCFDFCCD2897C6040031F77D /* Cell */,
+				FCFDFCCC2897C5F10031F77D /* General */,
+				FCFDFCCB2897C5C50031F77D /* Model */,
+				FCFDFCCA2897C5970031F77D /* ViewController */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -711,6 +705,55 @@
 				89675B4F2829916500933C48 /* ClassDetail */,
 			);
 			path = Presentation;
+			sourceTree = "<group>";
+		};
+		FCFDFCCA2897C5970031F77D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FC25F8AC2865DE9900B2BBEB /* ChatChannelViewController.swift */,
+				FC25F8BC2865E1F400B2BBEB /* ChatViewController.swift */,
+				FCB99C8F288F0C41006CE372 /* MatchInputViewController.swift */,
+				FCD624D728951FDC002F443A /* MatchConfirmViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		FCFDFCCB2897C5C50031F77D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FCA26EBE2867A159004F4C20 /* Message.swift */,
+				FC25F8B02865DF9F00B2BBEB /* Channel.swift */,
+				FC25F8B82865E04900B2BBEB /* Sender.swift */,
+				FCBCABF1287C6D98001C4687 /* Mocks.swift */,
+				FCA26EC02867A193004F4C20 /* ImageMediaItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FCFDFCCC2897C5F10031F77D /* General */ = {
+			isa = PBXGroup;
+			children = (
+				FCBCABF5287C95B8001C4687 /* DatabaseRepresentation.swift */,
+				FCBCABF7287C96AF001C4687 /* StreamError.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		FCFDFCCD2897C6040031F77D /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				FCD78A022872CC4500714EC7 /* ChatClassItemCell.swift */,
+				FC25F8AE2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		FCFDFCCE2897C6360031F77D /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				FCFDFCCF2897C6550031F77D /* ChatStreamManager.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -958,6 +1001,7 @@
 				89865E9E282A70DC00113242 /* SearchRecentTableViewCell.swift in Sources */,
 				892C1CD32832DABF00DE27D3 /* StorageManager.swift in Sources */,
 				FC25F8B12865DF9F00B2BBEB /* Channel.swift in Sources */,
+				FCFDFCD02897C6550031F77D /* ChatStreamManager.swift in Sources */,
 				8941FF252830D03C00A90AB0 /* ChatItem.swift in Sources */,
 				89675B122826776100933C48 /* PriceUnitTableView.swift in Sources */,
 				FCBCABF8287C96AF001C4687 /* StreamError.swift in Sources */,

@@ -77,6 +77,7 @@ class ChatViewController: MessagesViewController {
     
     //MARK: - Properties
     private let classItem: ClassItem?
+    private let chatStreamManager = ChatStreamManager.shared
     private let firebaseAuthManager = FirebaseAuthManager.shared
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
@@ -108,7 +109,7 @@ class ChatViewController: MessagesViewController {
     }
     
     deinit {
-        firestoreManager.removeListener()
+        chatStreamManager.removeListener()
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
@@ -225,7 +226,7 @@ class ChatViewController: MessagesViewController {
     private func listenToMessages() {
         let id = channel.id
         
-        firestoreManager.subscribe(id: id) { [weak self] result in
+        chatStreamManager.subscribe(id: id) { [weak self] result in
             switch result {
                 case .success(let messages):
                     self?.loadImageAndUpdateCells(messages)
@@ -351,7 +352,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         let message = Message(content: text, senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
         
-        firestoreManager.save(message) { [weak self] error in
+        chatStreamManager.save(message) { [weak self] error in
             if let error = error {
                 print(error)
                 return
