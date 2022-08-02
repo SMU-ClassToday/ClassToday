@@ -7,6 +7,7 @@ def common_pods
   pod 'SwiftLint'
   pod 'Popover'
   pod 'NMapsMap'
+  pod 'Moya'
 end
 
 target 'ClassToday' do
