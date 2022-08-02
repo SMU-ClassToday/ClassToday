@@ -4,6 +4,8 @@
 <dict>
 	<key>NMFClientId</key>
 	<string>de72sn7jx4</string>
+	<key>NMFClientSecret</key>
+	<string>QgJoMx1RNy5cuvFpzHOYIRlzXPvNkssaLTZ3LoHo</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

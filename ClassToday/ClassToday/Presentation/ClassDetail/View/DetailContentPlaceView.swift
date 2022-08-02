@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import NMapsMap
 
 class DetailContentPlaceView: UIView {
 
@@ -29,6 +30,38 @@ class DetailContentPlaceView: UIView {
         return label
     }()
 
+    private lazy var mapView: NMFNaverMapView = {
+        let naverMapView = NMFNaverMapView()
+        let mapView = naverMapView.mapView
+        mapView.mapType = NMFMapType.basic
+        mapView.setLayerGroup(NMF_LAYER_GROUP_BUILDING, isEnabled: true)
+        mapView.setLayerGroup(NMF_LAYER_GROUP_TRANSIT, isEnabled: true)
+        mapView.isTiltGestureEnabled = false
+        mapView.isRotateGestureEnabled = false
+        mapView.isScrollGestureEnabled = false
+        return naverMapView
+    }()
+
+    private lazy var marker: NMFMarker = {
+        let marker = NMFMarker()
+        marker.iconImage = NMF_MARKER_IMAGE_BLACK
+        marker.iconTintColor = UIColor.mainColor
+        marker.iconPerspectiveEnabled = true
+        marker.width = 30
+        marker.height = 40
+        return marker
+    }()
+
+    private var location: Location? {
+        willSet {
+            guard let newValue = newValue else { return }
+            let position = NMGLatLng(lat: newValue.lat, lng: newValue.lon)
+            mapView.mapView.moveCamera(NMFCameraUpdate(scrollTo: position))
+            marker.position = position
+            marker.mapView = mapView.mapView
+        }
+    }
+
     // MARK: - Initialize
 
     override init(frame: CGRect) {
@@ -43,9 +76,7 @@ class DetailContentPlaceView: UIView {
     // MARK: - Method
 
     private func configureUI() {
-        self.addSubview(headLabel)
-        self.addSubview(seperator)
-        self.addSubview(placeLabel)
+        [headLabel, seperator, placeLabel, mapView].forEach { addSubview($0) }
 
         headLabel.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -57,11 +88,17 @@ class DetailContentPlaceView: UIView {
         }
         placeLabel.snp.makeConstraints {
             $0.top.equalTo(seperator.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview()
+        }
+        mapView.snp.makeConstraints {
+            $0.top.equalTo(placeLabel.snp.bottom).offset(16)
+            $0.height.equalTo(self.snp.width)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
 
-    func configureWith(place: String) {
+    func configureWith(place: String, location: Location) {
         placeLabel.text = place
+        self.location = location
     }
 }

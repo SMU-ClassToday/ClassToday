@@ -195,6 +195,7 @@ class ClassEnrollViewController: UIViewController {
         }
         if classLocation == nil {
             self.classLocation = locationManager.getCurrentLocation()
+            self.classPlace = ""
         }
         group.enter()
         locationManager.getLocalityOfAddress(of: classLocation) { result in

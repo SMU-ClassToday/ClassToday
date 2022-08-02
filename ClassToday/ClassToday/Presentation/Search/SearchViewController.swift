@@ -33,7 +33,7 @@ class SearchViewController: UIViewController {
         let leftBarButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(didTapBackButton))
         return leftBarButton
     }()
-    
+
     func setNavigationBar() {
         navigationItem.leftBarButtonItem = leftBarButton
         navigationItem.titleView = searchBar

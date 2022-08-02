@@ -138,7 +138,7 @@ class MapViewController: UIViewController {
         mapView.removeMarkers()
         data.forEach {
             mapView.configureClassItemMarker(classItem: $0) {
-                self.navigationController?.present(ClassDetailViewController(classItem: $0), animated: true)
+                self.navigationController?.pushViewController(ClassDetailViewController(classItem: $0), animated: true)
             }
         }
     }
@@ -154,8 +154,17 @@ class MapViewController: UIViewController {
 //MARK: - objc function
 extension MapViewController {
     @objc private func didTapStarButton(sender: UIButton) {
-        FirestoreManager.shared.starSort(starList: MockData.mockUser.stars ?? [""]) {
-            self.classItemData = $0
+        if sender.state == .selected {
+            sender.isSelected = false
+            starItem.image = Icon.star.image?.withTintColor(.mainColor)
+            guard let location = curLocation else { return }
+            fetchClassItem(location: location)
+        } else {
+            sender.isSelected = true
+            starItem.image = Icon.fillStar.image?.withTintColor(.mainColor)
+            FirestoreManager.shared.starSort(starList: MockData.mockUser.stars ?? [""]) {
+                self.classItemData = $0
+            }
         }
     }
     @objc private func didTapSearchButton(sender: UIButton) {

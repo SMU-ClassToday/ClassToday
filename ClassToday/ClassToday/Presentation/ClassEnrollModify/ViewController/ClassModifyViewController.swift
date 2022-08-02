@@ -301,7 +301,7 @@ extension ClassModifyViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.setUnderline()
-            cell.configureWith(place: classItem.place)
+            cell.configureWith(place: classItem.place, location: classItem.location)
             return cell
         case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EnrollPriceCell.identifier, for: indexPath) as? EnrollPriceCell else {
@@ -439,7 +439,7 @@ extension ClassModifyViewController: EnrollPlaceCellDelegate {
     
     func passData(place: String?, location: Location?) {
         classPlace = place
-        
+        classLocation = location
     }
 }
 

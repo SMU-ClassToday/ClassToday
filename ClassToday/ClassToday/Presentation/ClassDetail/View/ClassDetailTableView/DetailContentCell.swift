@@ -52,7 +52,7 @@ class DetailContentCell: UITableViewCell {
 
     private lazy var priceLabel = DetailContentPriceView()
 
-    private lazy var placeLabel = DetailContentPlaceView()
+    private lazy var placeView = DetailContentPlaceView()
 
     private lazy var spacer: UIView = {
         let view = UIView()
@@ -116,9 +116,9 @@ class DetailContentCell: UITableViewCell {
             priceLabel.configureWith(priceUnit: classItem.priceUnit, price: price)
         }
 
-        if let place = classItem.place {
-            stackView.addArrangedSubview(placeLabel)
-            placeLabel.configureWith(place: place)
+        if let place = classItem.place, let location = classItem.location {
+            stackView.addArrangedSubview(placeView)
+            placeView.configureWith(place: place, location: location)
         }
         stackView.addArrangedSubview(spacer)
     }

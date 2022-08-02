@@ -7,6 +7,11 @@
 
 import UIKit
 import NMapsMap
+import Moya
+
+protocol MapSelectionViewControllerDelegate: AnyObject {
+    func isLocationSelected(location: Location, place: String)
+}
 
 class MapSelectionViewController: UIViewController {
 
@@ -73,7 +78,9 @@ class MapSelectionViewController: UIViewController {
         return marker
     }()
 
-    var completion: ((NMGLatLng) -> Void)?
+    weak var delegate: MapSelectionViewControllerDelegate?
+    private let moyaProvider = NaverMapAPIProvider()
+    private var placeName: String = ""
 
     private var position: NMGLatLng? {
         willSet {
@@ -83,7 +90,13 @@ class MapSelectionViewController: UIViewController {
             marker.position = newValue
             marker.mapView = mapView.mapView
             locationLabel.isHidden = false
-            locationLabel.text = "선택한 수업의 위치: \(newValue.lat.rounded()), \(newValue.lng.rounded())"
+            let location = Location(lat: newValue.lat, lon: newValue.lng)
+            DispatchQueue.global().async {
+                self.moyaProvider.locationToAddress(location: location) { address in
+                    self.locationLabel.text = "선택한 수업의 위치: \(address)"
+                    self.placeName = address
+                }
+            }
             button.isEnabled = true
         }
     }
@@ -94,8 +107,14 @@ class MapSelectionViewController: UIViewController {
         modalPresentationStyle = .pageSheet
     }
 
-    func configure(completion: @escaping ((NMGLatLng) -> Void)) {
-        self.completion = completion
+    func configure(location: Location? = nil) {
+        guard let location = location else {
+            guard let currentLocation = LocationManager.shared.getCurrentLocation() else { return }
+            let position = NMGLatLng(lat: currentLocation.lat, lng: currentLocation.lon)
+            mapView.mapView.moveCamera(NMFCameraUpdate(scrollTo: position))
+            return
+        }
+        position = NMGLatLng(lat: location.lat, lng: location.lon)
     }
 
     private func setUpLayout() {
@@ -129,7 +148,8 @@ class MapSelectionViewController: UIViewController {
         guard let position = position else {
             return
         }
-        completion?(position)
+        let location = Location(lat: position.lat, lon: position.lng)
+        delegate?.isLocationSelected(location: location, place: placeName)
         dismiss(animated: true)
     }
 }

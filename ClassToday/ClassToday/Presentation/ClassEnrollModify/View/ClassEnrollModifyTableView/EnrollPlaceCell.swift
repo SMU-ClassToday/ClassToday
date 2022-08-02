@@ -18,7 +18,7 @@ class EnrollPlaceCell: UITableViewCell {
 
     private lazy var placeTextField: UITextField = {
         let textField = UITextField()
-        textField.configureWith(placeholder: "수업 장소(선택)")
+        textField.configureWith(placeholder: "수업장소 미지정시 현재 위치로 저장됩니다")
         textField.rightView = button
         textField.rightViewMode = .always
         textField.delegate = self
@@ -67,23 +67,21 @@ class EnrollPlaceCell: UITableViewCell {
         placeTextField.setUnderLine()
     }
 
-    func configureWith(place: String?) {
-        guard let place = place else {
+    func configureWith(place: String?, location: Location?) {
+        guard let place = place, let location = location else {
             return
         }
         placeTextField.text = place
+        self.location = location
     }
 
     // MARK: - Actions
 
     @objc func selectPlace(_ button: UIButton) {
         let mapSelectionViewController = MapSelectionViewController()
-        mapSelectionViewController.configure { nmgLatLng in
-            let location = Location(lat: nmgLatLng.lat, lon: nmgLatLng.lng)
-            self.placeTextField.text = "\(location.lat), \(location.lon)"
-            self.location = location
-        }
-        delegate?.presentFromPlaceCell(viewController: MapSelectionViewController())
+        mapSelectionViewController.configure(location: location)
+        mapSelectionViewController.delegate = self
+        delegate?.presentFromPlaceCell(viewController: mapSelectionViewController)
     }
 }
 
@@ -102,5 +100,13 @@ extension EnrollPlaceCell: UITextFieldDelegate {
             return
         }
         delegate?.passData(place: textField.text, location: location)
+    }
+}
+
+extension EnrollPlaceCell: MapSelectionViewControllerDelegate {
+    func isLocationSelected(location: Location, place: String) {
+        self.placeTextField.text = place
+        delegate?.passData(place: place, location: location)
+        self.location = location
     }
 }
