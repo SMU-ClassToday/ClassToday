@@ -11,8 +11,6 @@ import FirebaseFirestoreSwift
 
 class FirestoreManager {
     static let shared = FirestoreManager()
-    var collectionListener: CollectionReference?
-    var listener: ListenerRegistration?
     private init() {}
 
     // - MARK: CRUD Method
@@ -241,38 +239,6 @@ extension FirestoreManager {
         }
     }
     
-    
-    func subscribe(id: String, completion: @escaping (Result<[Message], StreamError>) -> Void) {
-        let streamPath = "channel/\(id)/thread"
-        
-        removeListener()
-        collectionListener = FirestoreRoute.db.collection(streamPath)
-        
-        listener = collectionListener?
-            .addSnapshotListener { snapshot, error in
-                guard let snapshot = snapshot else {
-                    completion(.failure(StreamError.firestoreError(error)))
-                    return
-                }
-                
-                var messages = [Message]()
-                snapshot.documentChanges.forEach { change in
-                    if let message = Message(document: change.document) {
-                        if case .added = change.type {
-                            messages.append(message)
-                        }
-                    }
-                }
-                completion(.success(messages))
-            }
-    }
-    
-    func save(_ message: Message, completion: ((Error?) -> Void)? = nil) {
-        collectionListener?.addDocument(data: message.representation) { error in
-            completion?(error)
-        }
-    }
-    
     func fetch(channel: Channel, completion: @escaping (Channel) -> ()) {
         FirestoreRoute.channel.ref.document(channel.id).getDocument(as: Channel.self) { result in
             switch result {
@@ -290,9 +256,5 @@ extension FirestoreManager {
         } catch {
             debugPrint(error)
         }
-    }
-    
-    func removeListener() {
-        listener?.remove()
     }
 }
