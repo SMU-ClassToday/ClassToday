@@ -133,6 +133,7 @@
 		FC25F8B12865DF9F00B2BBEB /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8B02865DF9F00B2BBEB /* Channel.swift */; };
 		FC25F8B92865E04900B2BBEB /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8B82865E04900B2BBEB /* Sender.swift */; };
 		FC25F8BD2865E1F400B2BBEB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8BC2865E1F400B2BBEB /* ChatViewController.swift */; };
+		FC870F192899478900DACDA6 /* ChatStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC870F182899478900DACDA6 /* ChatStorageManager.swift */; };
 		FCA26EBF2867A159004F4C20 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA26EBE2867A159004F4C20 /* Message.swift */; };
 		FCA26EC12867A193004F4C20 /* ImageMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA26EC02867A193004F4C20 /* ImageMediaItem.swift */; };
 		FCB99C90288F0C41006CE372 /* MatchInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB99C8F288F0C41006CE372 /* MatchInputViewController.swift */; };
@@ -263,6 +264,7 @@
 		FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
 		FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailViewController.swift; sourceTree = "<group>"; };
 		FC8507D128202036008A8618 /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
+		FC870F182899478900DACDA6 /* ChatStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStorageManager.swift; sourceTree = "<group>"; };
 		FC87FA9F281ECF6500F57CE0 /* SearchRecentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecentTableViewCell.swift; sourceTree = "<group>"; };
 		FCA26EBE2867A159004F4C20 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		FCA26EC02867A193004F4C20 /* ImageMediaItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMediaItem.swift; sourceTree = "<group>"; };
@@ -752,6 +754,7 @@
 			isa = PBXGroup;
 			children = (
 				FCFDFCCF2897C6550031F77D /* ChatStreamManager.swift */,
+				FC870F182899478900DACDA6 /* ChatStorageManager.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -997,6 +1000,7 @@
 				89675B492828C84400933C48 /* NavigationBar+.swift in Sources */,
 				FC25F8AF2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift in Sources */,
 				8966CF5E2810787C001CBBDC /* ClassImageView.swift in Sources */,
+				FC870F192899478900DACDA6 /* ChatStorageManager.swift in Sources */,
 				8941FF212830CDA200A90AB0 /* Match.swift in Sources */,
 				89865E9E282A70DC00113242 /* SearchRecentTableViewCell.swift in Sources */,
 				892C1CD32832DABF00DE27D3 /* StorageManager.swift in Sources */,
