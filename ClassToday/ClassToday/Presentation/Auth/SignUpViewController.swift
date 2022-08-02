@@ -105,7 +105,7 @@ private extension SignUpViewController {
             description: "귀는 인간의 같이, 대한 이것이다. 못할 끝에 몸이 얼마나 이상은 것이다. 황금시대를 예가 불러 같은 든 끓는 부패를 미인을 어디 보라. 위하여 불러 간에 위하여서.",
             stars: nil,
             subjects: [.computer, .math],
-            chatItems: nil
+            channels: nil
         )
         FirebaseAuthManager.shared.signUp(user: user, password: password) { [weak self] result in
             guard let self = self else { return }

@@ -127,7 +127,7 @@ class ChatViewController: MessagesViewController {
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
         layout()
-        enableMatchButton()
+        //enableMatchButton()
         listenToMessages()
         print(currentSender.senderId)
     }
@@ -200,11 +200,9 @@ class ChatViewController: MessagesViewController {
     }
     
     private func enableMatchButton() {
-        if channel.match != nil {
-            print(channel.match)
-            classItemCellView.matchButton.isEnabled = true
-            classItemCellView.matchButton.backgroundColor = .mainColor
-        }
+        print(channel.match)
+        classItemCellView.matchButton.isEnabled = true
+        classItemCellView.matchButton.backgroundColor = .mainColor
     }
 
     //MARK: - DB Methods
@@ -250,8 +248,10 @@ class ChatViewController: MessagesViewController {
                     }
                 }
             } else if let matchFlag = message.matchFlag {
-                fetchChannel(channel: channel)
-                enableMatchButton()
+                if matchFlag == true {
+                    fetchChannel(channel: channel)
+                    enableMatchButton()
+                }
             } else {
                 insertNewMessage(message)
             }
@@ -429,6 +429,8 @@ extension ChatViewController: ChatClassItemCellDelegate {
 extension ChatViewController: MatchInputViewControllerDelegate {
     func saveMatchingInformation(match: Match) {
         channel.match = match
+        let message = Message(matchFlag: true, senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
+        chatStreamManager.save(message)
         print(channel)
         updateChannel(channel: channel)
     }
@@ -436,7 +438,8 @@ extension ChatViewController: MatchInputViewControllerDelegate {
 
 extension ChatViewController: MatchConfirmViewControllerDelegate {
     func confirmMatch() {
-        print(channel.match)
+        let message = Message(content: "강사: \(channel.match!.seller)\n학생: \(channel.match!.buyer)", senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
+        chatStreamManager.save(message)
         uploadMatch(match: channel.match!, classItem: classItem!)
         updateChannel(channel: channel)
     }

@@ -232,8 +232,7 @@ class ClassModifyViewController: UIViewController {
                                               validity: true,
                                               writer: MockData.mockUser,
                                               createdTime: Date(),
-                                              modifiedTime: nil,
-                                              match: nil)
+                                              modifiedTime: nil)
             self.firestoreManager.update(classItem: modifiedClassItem)
             self.classUpdateDelegate?.update(with: modifiedClassItem)
             debugPrint("\(modifiedClassItem) 수정")
