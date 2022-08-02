@@ -208,8 +208,7 @@ class ClassEnrollViewController: UIViewController {
                                       validity: true,
                                       writer: MockData.mockUser,
                                       createdTime: Date(),
-                                      modifiedTime: nil,
-                                      match: nil
+                                      modifiedTime: nil
             )
 
             self.firestoreManager.upload(classItem: classItem)

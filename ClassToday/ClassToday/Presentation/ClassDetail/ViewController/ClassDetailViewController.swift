@@ -288,7 +288,7 @@ extension ClassDetailViewController: ClassUpdateDelegate {
 extension ClassDetailViewController {
     func setButtonOnSale() {
         //TODO: mock 관련 로직 수정
-        matchingButton.setTitle(classItem.writer == MockData.mockUser ? "채팅 목록" : "신청하기", for: .normal)
+        matchingButton.setTitle(classItem.writer.id == firebaseAuthManager.getUserID()! ? "채팅 목록" : "신청하기", for: .normal)
         matchingButton.backgroundColor = .mainColor
         matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
     }
