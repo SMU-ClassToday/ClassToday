@@ -110,8 +110,9 @@ private extension SignUpViewController {
         FirebaseAuthManager.shared.signUp(user: user, password: password) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(_):
+            case .success(let uid):
                 print("회원가입 성공!🎉")
+                UserDefaultsManager.shared.saveLoginStatus(uid: uid, type: .email)
                 self.view.hideToastActivity()
                 self.dismiss(animated: true)
             case .failure(let error):

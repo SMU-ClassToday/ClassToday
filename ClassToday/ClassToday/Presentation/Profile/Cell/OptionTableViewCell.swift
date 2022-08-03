@@ -22,7 +22,7 @@ class OptionTableViewCell: UITableViewCell {
         return view
     }()
     
-    func setupView<T>(element: T) {
+    func setupView<T: MenuListable>(element: T) {
         layout()
         if let option = element as? Option {
             optionTitleLabel.text = option.text
