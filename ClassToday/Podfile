@@ -6,6 +6,7 @@
 def common_pods
   pod 'SwiftLint'
   pod 'Popover'
+  pod 'naveridlogin-sdk-ios'
 end
 
 target 'ClassToday' do

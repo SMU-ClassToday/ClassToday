@@ -24,4 +24,16 @@ struct User: Codable, Equatable {
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.id == rhs.id
     }
+    
+    static func getCurrentUser(completion: @escaping (Result<User, Error>) -> Void) {
+        guard let uid = UserDefaultsManager.shared.isLogin() else { return }
+        FirestoreManager.shared.readUser(uid: uid) { result in
+            switch result {
+            case .success(let user):
+                completion(.success(user))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 }
