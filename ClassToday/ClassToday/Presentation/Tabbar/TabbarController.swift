@@ -67,36 +67,11 @@ extension TabbarController: UITabBarControllerDelegate {
         } else {
             isUploadTabBarEnabled = true
         }
-        
-        // 로그인 여부 확인
-        if item.image == Icon.person.image { checkUser() }
-        if item.image == Icon.chat.image { checkUser() }
     }
     
     //+탭 선택시 뷰컨 보여주지 않음
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         return isUploadTabBarEnabled
-    }
-}
-
-// MARK: - LaunchSignInViewControllerDelegate
-extension TabbarController: LaunchSignInViewControllerDelegate {
-    func didTapDismissButton() {
-        print("didTapDismissButton")
-        selectedIndex = 0
-    }
-}
-
-// MARK: - 로그인 여부 메서드
-private extension TabbarController {
-    func checkUser() {
-        if FirebaseAuthManager.shared.getUserID() == nil {
-            let rootVC = LaunchSignInViewController()
-            rootVC.delegate = self
-            let launchSignInVC = UINavigationController(rootViewController: rootVC)
-            launchSignInVC.modalPresentationStyle = .fullScreen
-            present(launchSignInVC, animated: true)
-        }
     }
 }
 
@@ -108,11 +83,3 @@ class MapViewController: UIViewController {
         view.backgroundColor = .white
     }
 }
-/*
-class ChatViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-    }
-}
-*/
