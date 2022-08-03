@@ -22,7 +22,7 @@ struct FirebaseAuthManager {
     func signUp(
         user: User,
         password: String,
-        completion: @escaping (Result<Void, Error>) -> Void
+        completion: @escaping (Result<String, Error>) -> Void
     ) {
         auth.createUser(withEmail: user.email, password: password) { result, error in
             if let error = error {
@@ -38,7 +38,7 @@ struct FirebaseAuthManager {
                     switch result {
                     case .success(_):
                         print("Firestore 저장 성공!👍")
-                        completion(.success(()))
+                        completion(.success(newUser.id))
                         return
                     case .failure(let error):
                         print("Firestore 저장 실패ㅠ🐢")
@@ -67,21 +67,24 @@ struct FirebaseAuthManager {
     func signIn(
         email: String,
         password: String,
-        completion: @escaping (Result<Void, Error>) -> Void
+        completion: @escaping (Result<String, Error>) -> Void
     ) {
-        auth.signIn(withEmail: email, password: password) { _, error in
+        auth.signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
-            completion(.success(()))
-            return
+            if let result = result {
+                completion(.success(result.user.uid))
+                return
+            }
         }
     }
     
     /// 로그아웃 메서드
     ///
     /// 로그아웃에 성공, 실패에 따라 ` Result<Void, Error>`를 반환한다
+    @discardableResult
     func signOut() -> Result<Void, Error> {
         do {
             try auth.signOut()
