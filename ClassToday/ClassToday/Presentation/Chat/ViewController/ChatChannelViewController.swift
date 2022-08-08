@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import XCTest
 
 class ChatChannelViewController: UIViewController {
     lazy var channelTableView: UITableView = {
@@ -26,33 +27,53 @@ class ChatChannelViewController: UIViewController {
     }()
     
     var channels: [Channel] = []
-    var sellChannels: [Channel] = []
-    var buyChannels: [Channel] = []
+    var currentUser: User?
     private let firestoreManager = FirestoreManager.shared
     private let firebaseAuthManager = FirebaseAuthManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getcurrentUser()
         setupNavigationBar()
-        fetchChannel(currentUserID: firebaseAuthManager.getUserID() ?? "")
         view.backgroundColor = .white
         configure()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getcurrentUser()
     }
     
     private func setupNavigationBar() {
         navigationItem.setLeftTitle(text: "채팅")
     }
     
-    private func fetchChannel(currentUserID: String) {
-        firestoreManager.fetchChannel1(currentUserID: currentUserID) { [weak self] data in
+    private func getcurrentUser() {
+        User.getCurrentUser { [weak self] result in
             guard let self = self else { return }
-            self.sellChannels = data
+            switch result {
+                case .success(let user):
+                    self.currentUser = user
+                    self.fetchChannel()
+                case .failure(let error):
+                    print(error)
+            }
         }
-        firestoreManager.fetchChannel2(currentUserID: currentUserID) { [weak self] data in
-            guard let self = self else { return }
-            self.buyChannels = data
-            self.channels = self.sellChannels + self.buyChannels
-            self.channelTableView.reloadData()
+    }
+    
+    private func fetchChannel() {
+        guard let user = currentUser else { return }
+        switch user.channels {
+            case nil:
+                print("활성화된 채팅방 없음")
+            case []:
+                print("활성화된 채팅방 없음")
+            default:
+                FirestoreManager.shared.fetchChannel(channels: user.channels!) { [weak self] data in
+                    guard let self = self else { return }
+                    self.channels = data
+                    self.channelTableView.reloadData()
+                }
         }
     }
     
@@ -70,7 +91,7 @@ class ChatChannelViewController: UIViewController {
 extension ChatChannelViewController {
     @objc func beginRefresh() {
         print("beginRefresh!")
-        fetchChannel(currentUserID: firebaseAuthManager.getUserID()!)
+        getcurrentUser()
         refreshControl.endRefreshing()
     }
 }

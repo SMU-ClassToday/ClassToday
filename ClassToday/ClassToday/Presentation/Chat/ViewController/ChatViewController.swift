@@ -47,19 +47,16 @@ class ChatViewController: MessagesViewController {
         //quit logic
         let quitChannelAction = UIAlertAction(title: "채팅 나가기", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
-            let currentID = self.firebaseAuthManager.getUserID()!
-            
-            if self.channel.sellerID == currentID {
-                self.channel.sellerID = "quit"
-                self.updateChannel(channel: self.channel)
+            if let index = self.currentUser?.channels?.firstIndex(of: self.channel.id) {
+                self.currentUser?.channels!.remove(at: index)
             }
-            else if self.channel.buyerID == currentID {
-                self.channel.buyerID = "quit"
-                self.updateChannel(channel: self.channel)
-            }
-            
-            if (self.channel.sellerID == "quit") && (self.channel.buyerID == "quit") {
-                self.firestoreManager.delete(channel: self.channel)
+            self.firestoreManager.uploadUser(user: self.currentUser!) { result in
+                switch result {
+                    case .success(_):
+                        print("성공")
+                    case .failure(_):
+                        print("실패")
+                }
             }
             
             self.navigationController?.popViewController(animated: true)
@@ -77,6 +74,7 @@ class ChatViewController: MessagesViewController {
     
     //MARK: - Properties
     private let classItem: ClassItem?
+    private var currentUser: User?
     private let chatStreamManager = ChatStreamManager.shared
     private let firebaseAuthManager = FirebaseAuthManager.shared
     private let firestoreManager = FirestoreManager.shared
@@ -115,9 +113,8 @@ class ChatViewController: MessagesViewController {
     //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        getCurrentUser()
         scrollsToLastItemOnKeyboardBeginsEditing = true
-        initializeSender()
-        messagesCollectionView.reloadData()
         setMessagesCollectionViewInset()
         confirmDelegates()
         configure()
@@ -142,8 +139,9 @@ class ChatViewController: MessagesViewController {
 
     //MARK: - UI Methods
     func initializeSender() {
-        sender.senderId = firebaseAuthManager.getUserID()!
-        sender.displayName = "me"
+        guard let user = currentUser else { return }
+        sender.senderId = user.id
+        sender.displayName = user.name
     }
     
     func setNavigationBar() {
@@ -203,6 +201,20 @@ class ChatViewController: MessagesViewController {
     }
 
     //MARK: - DB Methods
+    private func getCurrentUser() {
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.currentUser = user
+                    self.initializeSender()
+                    self.messagesCollectionView.reloadData()
+                case .failure(let error):
+                    print(error)
+            }
+        }
+    }
+    
     private func updateChannel(channel: Channel) {
         firestoreManager.update(channel: channel)
     }
@@ -343,7 +355,7 @@ extension ChatViewController: MessagesDisplayDelegate {
 //MARK: - Input bar delegate
 extension ChatViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        let message = Message(content: text, senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
+        let message = Message(content: text, senderId: currentUser?.id ?? "", displayName: currentUser?.name ?? "")
         
         chatStreamManager.save(message) { [weak self] error in
             if let error = error {
@@ -381,7 +393,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
             self?.isSendingPhoto = false
             guard let url = url else { return }
             
-            var message = Message(image: image, senderId: self?.firebaseAuthManager.getUserID() ?? "", displayName: "홍길동")
+            var message = Message(image: image, senderId: self?.currentUser?.id ?? "", displayName: self?.currentUser?.name ?? "")
             message.downloadURL = url
             self?.chatStreamManager.save(message)
             self?.messagesCollectionView.scrollToLastItem()
@@ -427,7 +439,7 @@ extension ChatViewController: ChatClassItemCellDelegate {
 extension ChatViewController: MatchInputViewControllerDelegate {
     func saveMatchingInformation(match: Match) {
         channel.match = match
-        let message = Message(matchFlag: true, senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
+        let message = Message(matchFlag: true, senderId: currentUser?.id ?? "", displayName: currentUser?.name ?? "")
         chatStreamManager.save(message)
         print(channel)
         updateChannel(channel: channel)
@@ -436,7 +448,7 @@ extension ChatViewController: MatchInputViewControllerDelegate {
 
 extension ChatViewController: MatchConfirmViewControllerDelegate {
     func confirmMatch() {
-        let message = Message(content: "강사: \(channel.match!.seller)\n학생: \(channel.match!.buyer)", senderId: firebaseAuthManager.getUserID()!, displayName: "홍길동")
+        let message = Message(content: "강사: \(channel.match!.seller)\n학생: \(channel.match!.buyer)", senderId: currentUser?.id ?? "", displayName: currentUser?.name ?? "")
         chatStreamManager.save(message)
         uploadMatch(match: channel.match!, classItem: classItem!)
         updateChannel(channel: channel)
