@@ -176,6 +176,7 @@ extension FirestoreManager {
         uploadChannel(channel: channel)
     }
     
+    //TODO: - 기 생성된 채널 쿼리하는 로직 User.channels 내에서 쿼리하도록 변경
     func checkChannel(sellerID: String, buyerID: String, classItemID: String, completion: @escaping ([Channel]) -> ()) {
         var data: [Channel] = []
         FirestoreRoute.channel.ref.whereField("sellerID", isEqualTo: sellerID).whereField("buyerID", isEqualTo: buyerID).whereField("classItemID", isEqualTo: classItemID).getDocuments() { (snapshot, error) in
