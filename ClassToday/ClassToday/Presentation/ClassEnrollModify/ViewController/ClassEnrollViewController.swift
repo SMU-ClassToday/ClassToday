@@ -77,7 +77,8 @@ class ClassEnrollViewController: UIViewController {
     private var classDescription: String?
     private var classSubject: Set<Subject>?
     private var classTarget: Set<Target>?
-
+    private var currentUser: User?
+    
     // MARK: - Initialize
 
     init(classItemType: ClassItemType) {
@@ -94,12 +95,25 @@ class ClassEnrollViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        getCurrentUser()
         configureUI()
         configureGesture()
     }
 
     // MARK: - Method
 
+    private func getCurrentUser() {
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.currentUser = user
+                case .failure(let error):
+                    print(error)
+            }
+        }
+    }
+    
     private func configureUI() {
         configureNavigationBar()
         view.backgroundColor = .white
@@ -206,7 +220,7 @@ class ClassEnrollViewController: UIViewController {
                                       targets: self.classTarget,
                                       itemType: self.classItemType,
                                       validity: true,
-                                      writer: MockData.mockUser,
+                                      writer: self.currentUser!,
                                       createdTime: Date(),
                                       modifiedTime: nil
             )

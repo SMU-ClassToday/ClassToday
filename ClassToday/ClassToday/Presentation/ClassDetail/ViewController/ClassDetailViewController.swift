@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 // TODO: - Channel의 중복 생성 문제
 // 같은 {유저1, 유저2, 수업}의 집합에서 신청하기를 눌렀을때 다시 Channel을 생성하지 않도록
@@ -35,6 +36,25 @@ class ClassDetailViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapMatchingButton(_:)), for: .touchUpInside)
         button.layer.cornerRadius = 20
         return button
+    }()
+    
+    private lazy var alertController: UIAlertController = {
+        let alert = UIAlertController(title: "모집을 종료하시겠습니까?", message: nil, preferredStyle: .alert)
+        alert.view?.tintColor = .mainColor
+        
+        let closeAction = UIAlertAction(title: "예", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.toggleClassItem()
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        cancelAction.titleTextColor = .red
+        
+        [
+            closeAction,
+            cancelAction
+        ].forEach { alert.addAction($0) }
+        return alert
     }()
 
     // MARK: - Properties
@@ -92,10 +112,19 @@ class ClassDetailViewController: UIViewController {
 
     // MARK: - Method
     private func checkIsChannelAlreadyMade() {
-        firestoreManager.checkChannel(sellerID: classItem.writer.id, buyerID: UserDefaultsManager.shared.isLogin()!, classItemID: classItem.id) { [weak self] data in
-            guard let self = self else { return }
-            self.checkChannel = data
+        switch classItem.itemType {
+            case .buy:
+                firestoreManager.checkChannel(sellerID: UserDefaultsManager.shared.isLogin()!, buyerID: classItem.writer.id, classItemID: classItem.id) { [weak self] data in
+                    guard let self = self else { return }
+                    self.checkChannel = data
+                }
+            case .sell:
+                firestoreManager.checkChannel(sellerID: classItem.writer.id, buyerID: UserDefaultsManager.shared.isLogin()!, classItemID: classItem.id) { [weak self] data in
+                    guard let self = self else { return }
+                    self.checkChannel = data
+                }
         }
+        
         print(checkChannel.count)
     }
     
@@ -146,9 +175,12 @@ class ClassDetailViewController: UIViewController {
     // MARK: - Actions
 
     @objc func didTapMatchingButton(_ button: UIButton) {
+        if matchingButton.titleLabel?.text == "종료된 수업입니다" {
+            print("종료된 수업입니다")
+            return
+        }
         if classItem.writer.id == currentUser?.id {
-            let channelVC = ChatChannelViewController()
-            navigationController?.pushViewController(channelVC, animated: true)
+            present(alertController, animated: true)
         } else {
             if checkChannel.isEmpty {
                 let channel: Channel
@@ -334,13 +366,13 @@ extension ClassDetailViewController: ClassUpdateDelegate {
 extension ClassDetailViewController {
     func setButtonOnSale() {
         //TODO: mock 관련 로직 수정
-        matchingButton.setTitle(classItem.writer.id == currentUser?.id ? "채팅 목록" : "신청하기", for: .normal)
+        matchingButton.setTitle(classItem.writer.id == UserDefaultsManager.shared.isLogin()! ? "비활성화" : "신청하기", for: .normal)
         matchingButton.backgroundColor = .mainColor
         matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
     }
     func setButtonOffSale() {
         matchingButton.setTitle("종료된 수업입니다", for: .normal)
         matchingButton.backgroundColor = .systemGray
-        matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
     }
 }

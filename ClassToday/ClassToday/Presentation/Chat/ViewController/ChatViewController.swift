@@ -197,7 +197,7 @@ class ChatViewController: MessagesViewController {
     }
     
     private func setupButton() {
-        switch classItem?.validity {
+        switch channel.validity {
             case true:
                 if UserDefaultsManager.shared.isLogin()! == classItem?.writer.id {
                     classItemCellView.matchButton.setTitle("매칭 작성", for: .normal)
@@ -208,8 +208,6 @@ class ChatViewController: MessagesViewController {
                 }
             case false:
                 enableReviewButton()
-            default:
-                print("ERROR")
         }
     }
     
@@ -494,8 +492,7 @@ extension ChatViewController: MatchConfirmViewControllerDelegate {
         chatStreamManager.save(confirmMessage)
         chatStreamManager.save(message)
         enableReviewButton()
-        classItem?.validity = false
-        FirestoreManager.shared.update(classItem: classItem!)
+        channel.validity = false
         uploadMatch(match: channel.match!, classItem: classItem!)
         updateChannel(channel: channel)
     }
