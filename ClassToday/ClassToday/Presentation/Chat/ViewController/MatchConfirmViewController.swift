@@ -34,49 +34,129 @@ class MatchConfirmViewController: UIViewController {
     
     private lazy var sellerLabel: UILabel = {
         let label = UILabel()
-        label.text = "강사: "
+        label.text = "강사"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
         return label
+    }()
+    
+    private lazy var sellerLabel2: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 25.0, weight: .bold)
+        label.textColor = .mainColor
+        return label
+    }()
+    
+    private lazy var sellerStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.addArrangedSubview(sellerLabel)
+        stackView.addArrangedSubview(sellerLabel2)
+        return stackView
     }()
     
     private lazy var buyerLabel: UILabel = {
         let label = UILabel()
-        label.text = "학생: "
+        label.text = "학생"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
         return label
+    }()
+    
+    private lazy var buyerLabel2: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 25.0, weight: .bold)
+        label.textColor = .mainColor
+        return label
+    }()
+    
+    private lazy var buyerStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.addArrangedSubview(buyerLabel)
+        stackView.addArrangedSubview(buyerLabel2)
+        return stackView
+    }()
+    
+    private lazy var userStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        stackView.addArrangedSubview(sellerStackView)
+        stackView.addArrangedSubview(buyerStackView)
+        return stackView
     }()
     
     private lazy var dayWeekLabel: UILabel = {
         let label = UILabel()
-        label.text = "수업요일: "
+        label.text = "수업요일"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
+        return label
+    }()
+    
+    private lazy var dayWeekLabel2: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 25.0, weight: .bold)
         return label
     }()
     
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
-        label.text = "수업시간: "
+        label.text = "수업시간"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
+        return label
+    }()
+    
+    private lazy var timeLabel2: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 25.0, weight: .bold)
         return label
     }()
     
     private lazy var placeLabel: UILabel = {
         let label = UILabel()
-        label.text = "수업장소: "
+        label.text = "수업장소"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
+        return label
+    }()
+    
+    private lazy var placeLabel2: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 25.0, weight: .bold)
         return label
     }()
     
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
-        label.text = "수업가격: "
+        label.text = "수업가격"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
+        return label
+    }()
+    
+    private lazy var priceLabel2: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 25.0, weight: .bold)
         return label
     }()
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         [
-            sellerLabel,
-            buyerLabel,
+            userStackView,
             dayWeekLabel,
+            dayWeekLabel2,
             timeLabel,
+            timeLabel2,
             placeLabel,
-            priceLabel
+            placeLabel2,
+            priceLabel,
+            priceLabel2
         ].forEach { stackView.addArrangedSubview($0) }
         stackView.axis = .vertical
         stackView.spacing = 20
@@ -128,11 +208,11 @@ extension MatchConfirmViewController {
     }
     
     private func configure() {
-        sellerLabel.text = "강사: \(match.seller.name)"
-        buyerLabel.text = "학생: \(match.buyer.name)"
-        timeLabel.text = "수업시간: \(match.time ?? "")"
-        placeLabel.text = "수업장소: \(match.place ?? "")"
-        priceLabel.text = "가격: \(match.price ?? "")"
+        sellerLabel2.text = match.seller.name
+        buyerLabel2.text = match.buyer.name
+        timeLabel2.text = match.time ?? ""
+        placeLabel2.text = match.place ?? ""
+        priceLabel2.text = match.price ?? ""
     }
 }
 

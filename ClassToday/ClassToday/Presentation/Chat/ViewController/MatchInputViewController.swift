@@ -44,25 +44,72 @@ class MatchInputViewController: UIViewController {
     
     private lazy var sellerLabel: UILabel = {
         let label = UILabel()
-        label.text = "강사: "
+        label.text = "강사"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
         return label
+    }()
+    
+    private lazy var sellerLabel2: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 25.0, weight: .bold)
+        label.textColor = .mainColor
+        return label
+    }()
+    
+    private lazy var sellerStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.addArrangedSubview(sellerLabel)
+        stackView.addArrangedSubview(sellerLabel2)
+        return stackView
     }()
     
     private lazy var buyerLabel: UILabel = {
         let label = UILabel()
-        label.text = "학생: "
+        label.text = "학생"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
         return label
+    }()
+    
+    private lazy var buyerLabel2: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 25.0, weight: .bold)
+        label.textColor = .mainColor
+        return label
+    }()
+    
+    private lazy var buyerStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.addArrangedSubview(buyerLabel)
+        stackView.addArrangedSubview(buyerLabel2)
+        return stackView
+    }()
+    
+    private lazy var userStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        stackView.addArrangedSubview(sellerStackView)
+        stackView.addArrangedSubview(buyerStackView)
+        return stackView
     }()
     
     private lazy var dayWeekLabel: UILabel = {
         let label = UILabel()
         label.text = "수업요일"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
         return label
     }()
     
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.text = "수업시간"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
         return label
     }()
     
@@ -79,6 +126,7 @@ class MatchInputViewController: UIViewController {
     private lazy var placeLabel: UILabel = {
         let label = UILabel()
         label.text = "수업장소"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
         return label
     }()
     
@@ -98,6 +146,13 @@ class MatchInputViewController: UIViewController {
         button.tintColor = .mainColor
         button.addTarget(self, action: #selector(selectPlace(_:)), for: .touchDown)
         return button
+    }()
+    
+    private lazy var priceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "수업가격"
+        label.font = .systemFont(ofSize: 16.0, weight: .regular)
+        return label
     }()
     
     private lazy var priceTextField: UITextField = {
@@ -139,13 +194,13 @@ class MatchInputViewController: UIViewController {
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         [
-            sellerLabel,
-            buyerLabel,
+            userStackView,
             dayWeekLabel,
             timeLabel,
             timeTextField,
             placeLabel,
             placeTextField,
+            priceLabel,
             priceTextField
         ].forEach { stackView.addArrangedSubview($0) }
         stackView.axis = .vertical
@@ -225,8 +280,8 @@ extension MatchInputViewController {
     }
     
     private func configure() {
-        sellerLabel.text = "강사: \(seller?.name ?? "")"
-        buyerLabel.text = "학생: \(buyer?.name ?? "")"
+        sellerLabel2.text = seller?.name ?? ""
+        buyerLabel2.text = buyer?.name ?? ""
         timeTextField.placeholder = channel.classItem?.time
         placeTextField.placeholder = channel.classItem?.place
         priceTextField.placeholder = channel.classItem?.price
@@ -250,6 +305,7 @@ extension MatchInputViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    //TODO: - 입력된 정보로 변경할것
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
         match = Match(seller: self.seller!,
                       buyer: self.buyer!,
