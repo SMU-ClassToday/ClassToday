@@ -95,7 +95,6 @@ class ChatClassItemCell: UIView {
         }
         layout()
         setupStyle()
-        setupButton()
     }
     
     required init?(coder: NSCoder) {
@@ -140,16 +139,6 @@ class ChatClassItemCell: UIView {
             completion(image)
         }
         
-    }
-    
-    private func setupButton() {
-        if UserDefaultsManager.shared.isLogin()! == classItem.writer.id {
-            matchButton.setTitle("매칭 작성", for: .normal)
-        } else {
-            matchButton.setTitle("매칭 확인", for: .normal)
-            matchButton.isEnabled = false
-            matchButton.backgroundColor = .lightGray
-        }
     }
     
     private func setupStyle() {

@@ -32,6 +32,7 @@ struct Message: MessageType {
     var image: UIImage?
     var downloadURL: URL?
     var matchFlag: Bool?
+    var validityFlag: Bool?
     
     init(content: String) {
         sender = Sender(senderId: "any_unique_id", displayName: "김민상")
@@ -63,6 +64,14 @@ struct Message: MessageType {
         id = nil
     }
     
+    init(validityFlag: Bool = true, senderId: String, displayName: String) {
+        sender = Sender(senderId: senderId, displayName: displayName)
+        self.validityFlag = validityFlag
+        sentDate = Date()
+        content = "매칭 완료"
+        id = nil
+    }
+    
     init?(document: QueryDocumentSnapshot) {
         let data = document.data()
         guard let sentDate = data["created"] as? Timestamp,
@@ -82,6 +91,10 @@ struct Message: MessageType {
             self.matchFlag = matchFlag
             downloadURL = nil
             content = "매칭 발송"
+        } else if let validityFlag = data["validityFlag"] as? Bool {
+            self.validityFlag = validityFlag
+            downloadURL = nil
+            content = "매칭 완료"
         } else {
             return nil
         }
@@ -101,6 +114,8 @@ extension Message: DatabaseRepresentation {
             representation["url"] = url.absoluteString
         } else if let matchFlag = matchFlag {
             representation["matchFlag"] = matchFlag
+        } else if let validityFlag = validityFlag {
+            representation["validityFlag"] = validityFlag
         } else {
             representation["content"] = content
         }

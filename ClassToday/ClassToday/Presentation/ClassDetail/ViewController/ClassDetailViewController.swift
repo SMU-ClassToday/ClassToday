@@ -151,7 +151,13 @@ class ClassDetailViewController: UIViewController {
             navigationController?.pushViewController(channelVC, animated: true)
         } else {
             if checkChannel.isEmpty {
-                let channel = Channel(sellerID: classItem.writer.id, buyerID: currentUser?.id ?? "", classItem: classItem)
+                let channel: Channel
+                switch classItem.itemType {
+                    case .buy:
+                        channel = Channel(sellerID: currentUser?.id ?? "", buyerID: classItem.writer.id, classItem: classItem)
+                    case .sell:
+                        channel = Channel(sellerID: classItem.writer.id, buyerID: currentUser?.id ?? "", classItem: classItem)
+                }
                 
                 if let channels = currentUser?.channels {
                     currentUser?.channels!.append(channel.id)
