@@ -41,6 +41,7 @@ class ClassDetailViewController: UIViewController {
 
     var checkChannel: [Channel] = []
     private var classItem: ClassItem
+    private var currentUser: User?
     var delegate: ClassUpdateDelegate?
     private let storageManager = StorageManager.shared
     private let firestoreManager = FirestoreManager.shared
@@ -60,6 +61,15 @@ class ClassDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let user):
+                self.currentUser = user
+            case .failure(let error):
+                print("ERROR \(error)🌔")
+            }
+        }
         configureUI()
         checkStar()
         self.setNeedsStatusBarAppearanceUpdate()
@@ -82,7 +92,7 @@ class ClassDetailViewController: UIViewController {
 
     // MARK: - Method
     private func checkIsChannelAlreadyMade() {
-        firestoreManager.checkChannel(sellerID: classItem.writer.id, buyerID: firebaseAuthManager.getUserID()!, classItemID: classItem.id) { [weak self] data in
+        firestoreManager.checkChannel(sellerID: classItem.writer.id, buyerID: UserDefaultsManager.shared.isLogin()!, classItemID: classItem.id) { [weak self] data in
             guard let self = self else { return }
             self.checkChannel = data
         }
@@ -136,12 +146,42 @@ class ClassDetailViewController: UIViewController {
     // MARK: - Actions
 
     @objc func didTapMatchingButton(_ button: UIButton) {
-        if classItem.writer.id == firebaseAuthManager.getUserID()! {
+        if classItem.writer.id == currentUser?.id {
             let channelVC = ChatChannelViewController()
             navigationController?.pushViewController(channelVC, animated: true)
         } else {
             if checkChannel.isEmpty {
-                let channel = Channel(sellerID: classItem.writer.id, buyerID: firebaseAuthManager.getUserID()!, classItem: classItem)
+                let channel = Channel(sellerID: classItem.writer.id, buyerID: currentUser?.id ?? "", classItem: classItem)
+                
+                if let channels = currentUser?.channels {
+                    currentUser?.channels!.append(channel.id)
+                } else {
+                    currentUser?.channels = [channel.id]
+                }
+                
+                if let channels2 = classItem.writer.channels {
+                    classItem.writer.channels!.append(channel.id)
+                } else {
+                    classItem.writer.channels = [channel.id]
+                }
+                
+                firestoreManager.uploadUser(user: currentUser!) { result in
+                    switch result {
+                        case .success(_):
+                            print("업로드 성공")
+                        case .failure(_):
+                            print("업로드 실패")
+                    }
+                }
+                
+                firestoreManager.uploadUser(user: classItem.writer) { result in
+                    switch result {
+                        case .success(_):
+                            print("업로드 성공2")
+                        case .failure(_):
+                            print("업로드 실패2")
+                    }
+                }
                 firestoreManager.uploadChannel(channel: channel)
                 let viewcontroller = ChatViewController(channel: channel)
                 navigationController?.pushViewController(viewcontroller, animated: true)
@@ -288,7 +328,7 @@ extension ClassDetailViewController: ClassUpdateDelegate {
 extension ClassDetailViewController {
     func setButtonOnSale() {
         //TODO: mock 관련 로직 수정
-        matchingButton.setTitle(classItem.writer.id == firebaseAuthManager.getUserID()! ? "채팅 목록" : "신청하기", for: .normal)
+        matchingButton.setTitle(classItem.writer.id == currentUser?.id ? "채팅 목록" : "신청하기", for: .normal)
         matchingButton.backgroundColor = .mainColor
         matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
     }

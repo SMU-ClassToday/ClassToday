@@ -26,7 +26,7 @@ class ChannelTableViewCell: UITableViewCell {
     
     private lazy var latestMessage: UILabel = {
         let label = UILabel()
-        label.text = "시간은 언제가 괜찮으세요?"
+        label.text = ""
         label.font = .systemFont(ofSize: 14.0, weight: .thin)
         label.textColor = .darkGray
         return label

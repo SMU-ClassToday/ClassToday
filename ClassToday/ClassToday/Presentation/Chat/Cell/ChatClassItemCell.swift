@@ -143,7 +143,7 @@ class ChatClassItemCell: UIView {
     }
     
     private func setupButton() {
-        if firebaseAuthManager.getUserID() == classItem.writer.id {
+        if UserDefaultsManager.shared.isLogin()! == classItem.writer.id {
             matchButton.setTitle("매칭 작성", for: .normal)
         } else {
             matchButton.setTitle("매칭 확인", for: .normal)
