@@ -128,11 +128,11 @@ extension MatchConfirmViewController {
     }
     
     private func configure() {
-        sellerLabel.text = "강사: \(match.seller)"
-        buyerLabel.text = "학생: \(match.buyer)"
-        timeLabel.text = match.time
-        placeLabel.text = match.place
-        priceLabel.text = match.price
+        sellerLabel.text = "강사: \(match.seller.name)"
+        buyerLabel.text = "학생: \(match.buyer.name)"
+        timeLabel.text = "수업시간: \(match.time ?? "")"
+        placeLabel.text = "수업장소: \(match.place ?? "")"
+        priceLabel.text = "가격: \(match.price ?? "")"
     }
 }
 

@@ -73,7 +73,7 @@ class ChatViewController: MessagesViewController {
     }()
     
     //MARK: - Properties
-    private let classItem: ClassItem?
+    private var classItem: ClassItem?
     private var currentUser: User?
     private let chatStreamManager = ChatStreamManager.shared
     private let firebaseAuthManager = FirebaseAuthManager.shared
@@ -122,6 +122,7 @@ class ChatViewController: MessagesViewController {
         setupMessageInputBar()
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
+        setupButton()
         layout()
         listenToMessages()
         print(currentSender.senderId)
@@ -195,9 +196,37 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.scrollToLastItem()
     }
     
+    private func setupButton() {
+        switch classItem?.validity {
+            case true:
+                if UserDefaultsManager.shared.isLogin()! == classItem?.writer.id {
+                    classItemCellView.matchButton.setTitle("매칭 작성", for: .normal)
+                } else {
+                    classItemCellView.matchButton.setTitle("매칭 확인", for: .normal)
+                    classItemCellView.matchButton.isEnabled = false
+                    classItemCellView.matchButton.backgroundColor = .lightGray
+                }
+            case false:
+                enableReviewButton()
+            default:
+                print("ERROR")
+        }
+    }
+    
     private func enableMatchButton() {
         classItemCellView.matchButton.isEnabled = true
         classItemCellView.matchButton.backgroundColor = .mainColor
+    }
+    
+    private func enableReviewButton() {
+        switch UserDefaultsManager.shared.isLogin() {
+            case channel.match?.seller.id:
+                classItemCellView.matchButton.setTitle("리뷰 확인", for: .normal)
+            case channel.match?.buyer.id:
+                classItemCellView.matchButton.setTitle("리뷰 하기", for: .normal)
+            default:
+                print("error")
+        }
     }
 
     //MARK: - DB Methods
@@ -256,6 +285,11 @@ class ChatViewController: MessagesViewController {
                 if matchFlag == true {
                     fetchChannel(channel: channel)
                     enableMatchButton()
+                }
+            } else if let validityFlag = message.validityFlag {
+                if validityFlag == true {
+                    fetchChannel(channel: channel)
+                    enableReviewButton()
                 }
             } else {
                 insertNewMessage(message)
@@ -429,6 +463,13 @@ extension ChatViewController: ChatClassItemCellDelegate {
                 let viewcontroller = MatchConfirmViewController(match: self.channel.match!)
                 viewcontroller.delegate = self
                 present(viewcontroller, animated: true, completion: nil)
+            //TODO: - 리뷰 뷰컨 구현할것
+            case "리뷰 하기":
+                let viewcontroller = UIViewController()
+                present(viewcontroller, animated: true, completion: nil)
+            case "리뷰 확인":
+                let viewcontroller = UIViewController()
+                present(viewcontroller, animated: true, completion: nil)
             default:
                 debugPrint("해당 아이템 없음")
         }
@@ -448,8 +489,13 @@ extension ChatViewController: MatchInputViewControllerDelegate {
 
 extension ChatViewController: MatchConfirmViewControllerDelegate {
     func confirmMatch() {
-        let message = Message(content: "강사: \(channel.match!.seller)\n학생: \(channel.match!.buyer)", senderId: currentUser?.id ?? "", displayName: currentUser?.name ?? "")
+        let confirmMessage = Message(validityFlag: true, senderId: currentUser?.id ?? "", displayName: currentUser?.name ?? "")
+        let message = Message(content: "강사: \(channel.match!.seller.name)\n학생: \(channel.match!.buyer.name)\n수업시간: \(channel.match!.time ?? "")\n수업장소: \(channel.match!.place ?? "")\n가격: \(channel.match!.price ?? "")", senderId: currentUser?.id ?? "", displayName: currentUser?.name ?? "")
+        chatStreamManager.save(confirmMessage)
         chatStreamManager.save(message)
+        enableReviewButton()
+        classItem?.validity = false
+        FirestoreManager.shared.update(classItem: classItem!)
         uploadMatch(match: channel.match!, classItem: classItem!)
         updateChannel(channel: channel)
     }

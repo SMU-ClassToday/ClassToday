@@ -71,13 +71,21 @@ class MatchInputViewController: UIViewController {
         textField.placeholder = "수업 시간"
         textField.inputAccessoryView = toolBarKeyboard
         textField.keyboardType = .decimalPad
+        textField.borderStyle = .roundedRect
         textField.clearsOnBeginEditing = true
         return textField
+    }()
+    
+    private lazy var placeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "수업장소"
+        return label
     }()
     
     private lazy var placeTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "수업 장소"
+        textField.borderStyle = .roundedRect
         textField.rightView = mapButton
         textField.rightViewMode = .always
         textField.clearButtonMode = .whileEditing
@@ -96,6 +104,7 @@ class MatchInputViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "수업 가격"
         textField.rightView = priceStackView
+        textField.borderStyle = .roundedRect
         textField.rightViewMode = .always
         textField.keyboardType = .numberPad
         textField.inputAccessoryView = toolBarKeyboard
@@ -135,8 +144,9 @@ class MatchInputViewController: UIViewController {
             dayWeekLabel,
             timeLabel,
             timeTextField,
+            placeLabel,
             placeTextField,
-            priceStackView
+            priceTextField
         ].forEach { stackView.addArrangedSubview($0) }
         stackView.axis = .vertical
         stackView.spacing = 20
@@ -162,13 +172,39 @@ class MatchInputViewController: UIViewController {
     }
     
     weak var delegate: MatchInputViewControllerDelegate?
+    private var seller: User? = nil
+    private var buyer: User? = nil
     private let channel: Channel
     private var match: Match? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getUser()
         configureUI()
-        configure()
+    }
+    
+    private func getUser() {
+        FirestoreManager.shared.readUser(uid: channel.sellerID) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.seller = user
+                    print("강사 성공")
+                    FirestoreManager.shared.readUser(uid: self.channel.buyerID) { [weak self] result in
+                        guard let self = self else { return }
+                        switch result {
+                            case .success(let user):
+                                self.buyer = user
+                                print("학생 성공")
+                                self.configure()
+                            case .failure(let error):
+                                print(error)
+                        }
+                    }
+                case .failure(let error):
+                    print(error)
+            }
+        }
     }
 }
 
@@ -189,8 +225,8 @@ extension MatchInputViewController {
     }
     
     private func configure() {
-        sellerLabel.text = "강사: \(channel.sellerID)"
-        buyerLabel.text = "학생: \(channel.buyerID)"
+        sellerLabel.text = "강사: \(seller?.name ?? "")"
+        buyerLabel.text = "학생: \(buyer?.name ?? "")"
         timeTextField.placeholder = channel.classItem?.time
         placeTextField.placeholder = channel.classItem?.place
         priceTextField.placeholder = channel.classItem?.price
@@ -215,14 +251,14 @@ extension MatchInputViewController {
     }
     
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
-        match = Match(seller: channel.sellerID,
-                           buyer: channel.buyerID,
-                           date: channel.classItem?.date,
-                           time: channel.classItem?.time,
-                           place: channel.classItem?.place,
-                           location: channel.classItem?.location,
-                           price: channel.classItem?.price,
-                           priceUnit: channel.classItem?.priceUnit)
+        match = Match(seller: self.seller!,
+                      buyer: self.buyer!,
+                      date: channel.classItem?.date,
+                      time: channel.classItem?.time,
+                      place: channel.classItem?.place,
+                      location: channel.classItem?.location,
+                      price: channel.classItem?.price,
+                      priceUnit: channel.classItem?.priceUnit)
         delegate?.saveMatchingInformation(match: match!)
         dismiss(animated: true, completion: nil)
     }
