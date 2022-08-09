@@ -37,6 +37,8 @@ class MainViewController: UIViewController {
     private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftTitle)
         navigationItem.rightBarButtonItems = [starItem, searchItem, categoryItem]
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
 
     //MARK: - Main View의 UI Components
@@ -96,12 +98,11 @@ class MainViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        activityIndicator.startAnimating()
-        fetchData()
     }
 
     // MARK: - Method
     private func fetchData() {
+        activityIndicator.startAnimating()
         guard let currentLocation = locationManager.getCurrentLocation() else { return }
         firestoreManager.fetch(currentLocation) { [weak self] data in
             guard let self = self else { return }
@@ -116,7 +117,8 @@ class MainViewController: UIViewController {
     }
 
     private func configureLocation() {
-        dispatchGroup.enter()
+        print("Location was fetched and Now Address Fetching")
+
         locationManager.getCurrentAddress { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -124,7 +126,6 @@ class MainViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.leftTitle.text = address + "의 수업"
                     self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
-                    self.dispatchGroup.leave()
                 }
             case .failure(let error):
                 debugPrint(error)
@@ -271,6 +272,7 @@ extension MainViewController: UITableViewDelegate {
 //MARK: - LocationManagerDelegate
 extension MainViewController: LocationManagerDelegate {
     func didUpdateLocation() {
+        fetchData()
         configureLocation()
     }
 }

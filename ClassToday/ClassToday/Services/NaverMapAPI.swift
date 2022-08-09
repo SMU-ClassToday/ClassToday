@@ -75,8 +75,7 @@ extension NaverMapAPI: TargetType {
             let params: [String: String] = [
                 "coords": (coords as AnyObject).componentsJoined(by: ","),
                 "orders": "addr,admcode,roadaddr",
-                "output": "json",
-                "callback": "abc"
+                "output": "json"
             ]
             return .requestParameters(parameters: params, encoding: CustomUrlEncoding())
         }
@@ -92,8 +91,7 @@ extension NaverMapAPI: TargetType {
         }
         return [
             "X-NCP-APIGW-API-KEY-ID": id,
-            "X-NCP-APIGW-API-KEY": key,
-            "Content-type": "application/json"
+            "X-NCP-APIGW-API-KEY": key
         ]
     }
 }
