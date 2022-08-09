@@ -32,8 +32,10 @@ class MapViewController: UIViewController {
     private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftTitle)
         navigationItem.rightBarButtonItems = [starItem, searchItem]
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
-    
+
     //MARK: - Views
     private lazy var categoryView: MapCategoryView = {
         let categoryView = MapCategoryView(frame: .zero)

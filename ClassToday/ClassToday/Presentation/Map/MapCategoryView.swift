@@ -66,7 +66,6 @@ class MapCategoryView: UIView {
         
         categoryCollectionView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalTo(categoryButton.snp.leading).offset(-16)
         }
@@ -74,9 +73,9 @@ class MapCategoryView: UIView {
             $0.top.leading.trailing.bottom.equalTo(categoryCollectionView)
         }
         categoryButton.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.width.equalTo(24)
-            $0.height.equalTo(24)
+            $0.centerY.equalToSuperview()
+            $0.height.equalToSuperview()
+            $0.width.equalTo(self.snp.height)
             $0.trailing.equalToSuperview().offset(-16)
         }
     }

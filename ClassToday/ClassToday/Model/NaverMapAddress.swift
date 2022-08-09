@@ -12,7 +12,7 @@ struct NaverMapAddress: Codable {
     let code: Code
     let region: Region
     let land: Land
-    let addition0: Addition
+    let addition0: Addition?
 }
 
 struct Code: Codable {
@@ -22,23 +22,23 @@ struct Code: Codable {
 }
 
 struct Region: Codable {
-    let area1: Area
-    let area2: Area
-    let area3: Area
-    let area4: Area
+    let area1: Area?
+    let area2: Area?
+    let area3: Area?
+    let area4: Area?
 }
 
 struct Area: Codable {
-    let name: String
+    let name: String?
 }
 
 struct Land: Codable {
-    let name: String
-    let number1: String
-    let number2: String
+    let name: String?
+    let number1: String?
+    let number2: String?
 }
 
 struct Addition: Codable {
-    let type: String
-    let value: String
+    let type: String?
+    let value: String?
 }
