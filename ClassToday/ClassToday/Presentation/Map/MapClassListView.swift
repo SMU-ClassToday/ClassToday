@@ -11,6 +11,17 @@ protocol MapClassListViewDelegate: AnyObject {
     func presentViewController(with classItem: ClassItem)
 }
 
+final class MapClassListTableView: UITableView {
+    override var intrinsicContentSize: CGSize {
+        let height = self.contentSize.height + self.contentInset.top + self.contentInset.bottom
+        return CGSize(width: self.contentSize.width, height: height)
+    }
+    override func layoutSubviews() {
+      self.invalidateIntrinsicContentSize()
+      super.layoutSubviews()
+    }
+}
+
 class MapClassListView: UIView {
 
     // MARK: - Views
@@ -21,8 +32,8 @@ class MapClassListView: UIView {
         return label
     }()
 
-    private lazy var listView: UITableView = {
-        let tableView = UITableView()
+    private lazy var listView: MapClassListTableView = {
+        let tableView = MapClassListTableView()
         tableView.register(MapClassListCell.self, forCellReuseIdentifier: MapClassListCell.identifier)
         tableView.isScrollEnabled = false
         tableView.dataSource = self
@@ -30,10 +41,6 @@ class MapClassListView: UIView {
         tableView.estimatedRowHeight = 50
         return tableView
     }()
-
-    override var intrinsicContentSize: CGSize {
-        return listView.contentSize
-    }
     
     // MARK: - Properties
     private var datas: [ClassItem] = [] {
@@ -65,6 +72,11 @@ class MapClassListView: UIView {
             $0.top.equalTo(titleLabel.snp.bottom).offset(12)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+    }
+    
+    override func layoutSubviews() {
+        listView.invalidateIntrinsicContentSize()
+        super.layoutSubviews()
     }
 
     func configure(with datas: [ClassItem]) {
