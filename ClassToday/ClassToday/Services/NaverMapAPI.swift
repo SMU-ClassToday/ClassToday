@@ -71,10 +71,11 @@ extension NaverMapAPI: TargetType {
     var task: Task {
         switch self {
         case .reverseGeocoding(let lat, let lon):
-            let coords: [String] = [String(lat), String(lon)]
+            let coords: [String] = [String(lon), String(lat)]
             let params: [String: String] = [
+                "request": "coordsToaddr",
                 "coords": (coords as AnyObject).componentsJoined(by: ","),
-                "orders": "addr,admcode,roadaddr",
+                "orders": "roadaddr",
                 "output": "json"
             ]
             return .requestParameters(parameters: params, encoding: CustomUrlEncoding())
@@ -91,7 +92,8 @@ extension NaverMapAPI: TargetType {
         }
         return [
             "X-NCP-APIGW-API-KEY-ID": id,
-            "X-NCP-APIGW-API-KEY": key
+            "X-NCP-APIGW-API-KEY": key,
+            "Content-type": "application/json"
         ]
     }
 }

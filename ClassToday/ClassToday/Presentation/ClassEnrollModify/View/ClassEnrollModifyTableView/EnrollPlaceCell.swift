@@ -88,25 +88,19 @@ class EnrollPlaceCell: UITableViewCell {
 // MARK: - UITextFieldDelegate
 
 extension EnrollPlaceCell: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return false
     }
 
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let text = textField.text, text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false else {
-            delegate?.passData(place: nil, location: location)
-            textField.text = nil
-            return
-        }
-        delegate?.passData(place: textField.text, location: location)
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return false
     }
 }
 
 extension EnrollPlaceCell: MapSelectionViewControllerDelegate {
     func isLocationSelected(location: Location, place: String) {
         self.placeTextField.text = place
-        delegate?.passData(place: place, location: location)
         self.location = location
+        delegate?.passData(place: place, location: location)
     }
 }

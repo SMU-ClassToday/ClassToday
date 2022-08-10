@@ -8,24 +8,34 @@
 import Foundation
 
 struct NaverMapAddress: Codable {
+//    let status: Status
+    let results: [AddrAPIResult]
+}
+
+struct Status: Codable {
+    let code: Int
     let name: String
-    let code: Code
-    let region: Region
+    let message: String
+}
+
+struct AddrAPIResult: Codable {
+    let name: String
+    let code: AddrAPIResult.Code
+    let region: AddrAPIResult.Region
     let land: Land
-    let addition0: Addition?
-}
 
-struct Code: Codable {
-    let id: String
-    let type: String
-    let mappingID: String
-}
-
-struct Region: Codable {
-    let area1: Area?
-    let area2: Area?
-    let area3: Area?
-    let area4: Area?
+    struct Code: Codable {
+        let id: String
+        let type: String
+        let mappingId: String
+    }
+    
+    struct Region: Codable {
+        let area1: Area
+        let area2: Area
+        let area3: Area
+        let area4: Area
+    }
 }
 
 struct Area: Codable {
@@ -35,10 +45,10 @@ struct Area: Codable {
 struct Land: Codable {
     let name: String?
     let number1: String?
-    let number2: String?
-}
+    let addition0: Land.Addition
 
-struct Addition: Codable {
-    let type: String?
-    let value: String?
+    struct Addition: Codable {
+        let type: String?
+        let value: String?
+    }
 }
