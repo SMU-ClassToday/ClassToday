@@ -20,7 +20,7 @@ class MapViewController: UIViewController {
     }()
     
     private lazy var starItem: UIBarButtonItem = {
-        let button = UIButton()
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
         button.setImage(Icon.star.image, for: .normal)
         button.setImage(Icon.fillStar.image, for: .selected)
         button.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)

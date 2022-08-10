@@ -16,6 +16,7 @@ class ClassDetailViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(DetailImageCell.self, forCellReuseIdentifier: DetailImageCell.identifier)
+        tableView.register(DetailUserCell.self, forCellReuseIdentifier: DetailUserCell.identifier)
         tableView.register(DetailContentCell.self, forCellReuseIdentifier: DetailContentCell.identifier)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
@@ -132,7 +133,7 @@ class ClassDetailViewController: UIViewController {
 
 extension ClassDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -153,6 +154,14 @@ extension ClassDetailViewController: UITableViewDataSource {
             }
             return cell
         case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailUserCell.identifier, for: indexPath) as? DetailUserCell else {
+                return UITableViewCell()
+            }
+            cell.configure(with: classItem.writer) {
+                self.navigationController?.pushViewController(ProfileDetailViewController(user: $0), animated: true)
+            }
+            return cell
+        case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailContentCell.identifier, for: indexPath) as? DetailContentCell else {
                 return UITableViewCell()
             }
@@ -172,6 +181,8 @@ extension ClassDetailViewController: UITableViewDelegate {
         case 0:
             return view.frame.height * 0.4
         case 1:
+            return 96
+        case 2:
             return UITableView.automaticDimension
         default:
             return 0
