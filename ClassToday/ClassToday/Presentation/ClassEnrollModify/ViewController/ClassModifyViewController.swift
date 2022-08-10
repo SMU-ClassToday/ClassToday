@@ -68,6 +68,8 @@ class ClassModifyViewController: UIViewController {
 
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
+    private let locationManager = LocationManager.shared
+
     private var classItem: ClassItem
     private var classImages: [UIImage]?
     private var classImagesURL: [String]?
@@ -76,6 +78,8 @@ class ClassModifyViewController: UIViewController {
     private var classDate: Set<DayWeek>?
     private var classPlace: String?
     private var classLocation: Location?
+    private var classKeywordLocation: String?
+    private var classLocality: String?
     private var classPrice: String?
     private var classPriceUnit: PriceUnit = .perHour
     private var classDescription: String?
@@ -91,6 +95,8 @@ class ClassModifyViewController: UIViewController {
         classDate = classItem.date
         classPlace = classItem.place
         classLocation = classItem.location
+        classKeywordLocation = classItem.keywordLocation
+        classLocality = classItem.locality
         classPrice = classItem.price
         classPriceUnit = classItem.priceUnit
         classDescription = classItem.description
@@ -217,6 +223,29 @@ class ClassModifyViewController: UIViewController {
             }
         }
         
+        if classLocation != classItem.location {
+            group.enter()
+            locationManager.getLocality(of: classLocation) { result in
+                switch result {
+                case .success(let localityAddress):
+                    self.classLocality = localityAddress
+                case .failure(let error):
+                    debugPrint(error)
+                }
+                group.leave()
+            }
+            group.enter()
+            locationManager.getKeywordOfLocation(of: classLocation) { result in
+                switch result {
+                case .success(let keywordLocation):
+                    self.classKeywordLocation = keywordLocation
+                case .failure(let error):
+                    debugPrint(error)
+                }
+                group.leave()
+            }
+        }
+        
         group.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
             
@@ -226,7 +255,8 @@ class ClassModifyViewController: UIViewController {
                                               time: self.classTime,
                                               place: self.classPlace,
                                               location: self.classLocation,
-                                              keywordLocation: self.classItem.keywordLocation,
+                                              locality: self.classLocality,
+                                              keywordLocation: self.classKeywordLocation,
                                               price: self.classPrice,
                                               priceUnit: self.classPriceUnit,
                                               description: classDescription,

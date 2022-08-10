@@ -123,15 +123,8 @@ class ClassItemTableViewCell: UITableViewCell {
 
     func configureWith(classItem: ClassItem, completion: @escaping (UIImage)->()) {
         titleLabel.text = classItem.name
-        locationManager.getAddress(of: classItem.location) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                debugPrint(error)
-            case .success(let address):
-                self.locationLabel.text = address
-            }
-        }
+
+        locationLabel.text = "\(classItem.locality ?? "") \(classItem.keywordLocation ?? "")"
         if let price = classItem.price {
             priceLabel.text = price.formattedWithWon()
             priceUnitLabel.text = classItem.priceUnit.description
