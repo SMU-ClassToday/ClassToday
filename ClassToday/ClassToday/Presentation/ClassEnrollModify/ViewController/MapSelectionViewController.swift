@@ -14,14 +14,14 @@ protocol MapSelectionViewControllerDelegate: AnyObject {
 }
 
 class MapSelectionViewController: UIViewController {
-
-    private lazy var label: UILabel = {
+    
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "수업 장소를 선택하세요"
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         return label
     }()
-
+    
     private lazy var mapView: NMFNaverMapView = {
         let naverMapView = NMFNaverMapView()
         let mapView = naverMapView.mapView
@@ -50,8 +50,26 @@ class MapSelectionViewController: UIViewController {
     private lazy var locationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.numberOfLines = 2
+        label.text = "선택한 수업의 위치"
         label.isHidden = true
         return label
+    }()
+    
+    private lazy var locationDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.isHidden = true
+        return label
+    }()
+    
+    private lazy var resetButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("현재 위치로 설정하기", for: .normal)
+        button.setTitleColor(UIColor.mainColor, for: .normal)
+        button.addTarget(self, action: #selector(isResetButtonTouched(_:)), for: .touchUpInside)
+        button.isHidden = true
+        return button
     }()
     
     private lazy var button: UIButton = {
@@ -77,36 +95,48 @@ class MapSelectionViewController: UIViewController {
         marker.height = 40
         return marker
     }()
-
+    
     weak var delegate: MapSelectionViewControllerDelegate?
     private let moyaProvider = NaverMapAPIProvider()
-    private var placeName: String = ""
-
+    private var placeName: String? {
+        willSet {
+            guard let newValue = newValue else {
+                locationDescriptionLabel.text = "주소 정보 없음"
+                return
+            }
+            locationDescriptionLabel.text = "\(newValue)"
+        }
+    }
+    
     private var position: NMGLatLng? {
         willSet {
             guard let newValue = newValue else {
+                marker.mapView = nil
+                placeName = nil
+                locationLabel.isHidden = true
+                locationDescriptionLabel.isHidden = true
+                resetButton.isHidden = true
                 return
             }
             marker.position = newValue
             marker.mapView = mapView.mapView
             locationLabel.isHidden = false
+            locationDescriptionLabel.isHidden = false
+            resetButton.isHidden = false
             let location = Location(lat: newValue.lat, lon: newValue.lng)
-            DispatchQueue.global().async {
-                self.moyaProvider.locationToAddress(location: location) { address in
-                    self.locationLabel.text = "선택한 수업의 위치: \(address)"
-                    self.placeName = address
-                }
+            self.moyaProvider.locationToAddress(location: location) { address in
+                self.placeName = address
+                self.button.isEnabled = true
             }
-            button.isEnabled = true
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLayout()
         modalPresentationStyle = .pageSheet
     }
-
+    
     func configure(location: Location? = nil) {
         guard let location = location else {
             guard let currentLocation = LocationManager.shared.getCurrentLocation() else { return }
@@ -115,17 +145,25 @@ class MapSelectionViewController: UIViewController {
             return
         }
         position = NMGLatLng(lat: location.lat, lng: location.lon)
+        resetButton.isHidden = false
     }
-
+    
     private func setUpLayout() {
         view.backgroundColor = .white
-        [label, mapView, descriptionLabel, locationLabel, button].forEach { view.addSubview($0)}
-        label.snp.makeConstraints {
+        [
+            titleLabel, mapView, descriptionLabel, locationLabel,
+            resetButton ,locationDescriptionLabel, button
+        ].forEach { view.addSubview($0)}
+        titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(25)
             $0.leading.equalToSuperview().offset(20)
         }
+        resetButton.snp.makeConstraints {
+            $0.trailing.equalTo(mapView)
+            $0.bottom.equalTo(mapView.snp.top)
+        }
         mapView.snp.makeConstraints {
-            $0.top.equalTo(label.snp.bottom).offset(30)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(30)
             $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
         descriptionLabel.snp.makeConstraints {
@@ -134,23 +172,41 @@ class MapSelectionViewController: UIViewController {
         }
         locationLabel.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(16)
-            $0.leading.trailing.equalTo(descriptionLabel)
+            $0.leading.equalTo(descriptionLabel)
+            $0.trailing.equalTo(resetButton).offset(8)
+        }
+        locationDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(locationLabel.snp.bottom).offset(4)
+            $0.leading.trailing.equalTo(locationLabel)
         }
         button.snp.makeConstraints {
-            $0.top.equalTo(locationLabel.snp.bottom).offset(16)
+            $0.top.equalTo(locationDescriptionLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalTo(mapView)
             $0.height.equalTo(60)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
-
+    
     @objc func isButtonTouched(_ sender: UIButton) {
         guard let position = position else {
+            /// 선택된 좌표가 없는 경우
+            /// 현재 위치와 주소명 리턴
+            guard let location = LocationManager.shared.getCurrentLocation() else { return }
+            moyaProvider.locationToAddress(location: location) { [weak self] address in
+                guard let self = self else { return }
+                self.delegate?.isLocationSelected(location: location, place: address)
+            }
+            dismiss(animated: true)
             return
         }
         let location = Location(lat: position.lat, lon: position.lng)
-        delegate?.isLocationSelected(location: location, place: placeName)
+        delegate?.isLocationSelected(location: location, place: placeName ?? "주소 정보 없음")
         dismiss(animated: true)
+    }
+
+    @objc func isResetButtonTouched(_ sender: UIButton) {
+        guard let location = LocationManager.shared.getCurrentLocation() else { return }
+        position = NMGLatLng(lat: location.lat, lng: location.lon)
     }
 }
 

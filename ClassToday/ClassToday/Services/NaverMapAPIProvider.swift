@@ -19,17 +19,16 @@ class NaverMapAPIProvider {
         provider.request(.reverseGeocoding(location.lat, location.lon)) { result in
             switch result {
             case .success(let response):
-                print(response)
-                print(result)
-                let result = try? response.map(NaverMapAddress.self)
-                let address: String = ""
-                address.append(contentsOf: result?.region.area1?.name ?? "")
-                address.append(contentsOf: result?.region.area2?.name ?? "")
-                address.append(contentsOf: result?.region.area3?.name ?? "")
-                address.append(contentsOf: result?.region.area4?.name ?? "")
-                address.append(contentsOf: result?.land.name ?? "")
-                address.append(contentsOf: result?.addition0?.value ?? "")
-                completion(address)
+                guard let data = try? response.map(NaverMapAddress.self) else { return }
+                guard let results = data.results.first else { return }
+                /// roadAddr
+                let address: [String] = [
+                    results.region.area1.name, results.region.area2.name,
+                    results.region.area3.name, results.region.area4.name,
+                    results.land.name, results.land.number1, results.land.addition0.value
+                ].compactMap {$0}
+                let addrString = (address as AnyObject).componentsJoined(by: " ")
+                completion(addrString)
             case .failure(let error):
                 debugPrint(error)
             }

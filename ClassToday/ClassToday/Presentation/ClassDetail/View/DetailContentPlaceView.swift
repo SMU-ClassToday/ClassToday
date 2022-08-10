@@ -27,6 +27,8 @@ class DetailContentPlaceView: UIView {
 
     private lazy var placeLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         return label
     }()
 
