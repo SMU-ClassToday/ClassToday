@@ -32,6 +32,12 @@ class MapClassListCell: UITableViewCell {
         return label
     }()
     
+    private lazy var priceUnitLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        return label
+    }()
+    
     private lazy var countLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -82,13 +88,14 @@ class MapClassListCell: UITableViewCell {
             timeLabel.text = " | 방금 전"
         }
         costLabel.text = "\(String(classItem.price ?? "0"))원"
+        priceUnitLabel.text = classItem.priceUnit.description
         if let count = classItem.match?.count {
             countLabel.text = "\(count)"
         }
     }
 
     private func setUpLayout() {
-        [titleLabel, addressLabel, timeLabel, costLabel, countLabel, recommendLabel].forEach { self.addSubview($0)}
+        [titleLabel, addressLabel, timeLabel, costLabel, priceUnitLabel, countLabel, recommendLabel].forEach { self.addSubview($0)}
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(self.snp.top).offset(8)
             $0.leading.equalTo(self.snp.leading).offset(12)
@@ -113,6 +120,10 @@ class MapClassListCell: UITableViewCell {
         }
         costLabel.snp.makeConstraints {
             $0.trailing.equalTo(countLabel.snp.leading)
+            $0.bottom.equalTo(recommendLabel.snp.bottom)
+        }
+        priceUnitLabel.snp.makeConstraints {
+            $0.trailing.equalTo(costLabel.snp.leading).offset(-4)
             $0.bottom.equalTo(recommendLabel.snp.bottom)
         }
     }

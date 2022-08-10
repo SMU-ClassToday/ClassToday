@@ -76,7 +76,7 @@ class MapCategoryView: UIView {
             $0.centerY.equalToSuperview()
             $0.height.equalToSuperview()
             $0.width.equalTo(self.snp.height)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.trailing.equalToSuperview().offset(-6)
         }
     }
     

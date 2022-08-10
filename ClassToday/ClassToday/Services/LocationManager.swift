@@ -12,6 +12,7 @@ enum LocationManagerError: Error {
     case invalidLocation
     case emptyPlacemark
     case emptyPlacemarkLocality
+    case emptyPlacemarkSubLocality
     case emptyLocationValue
 }
 
@@ -60,7 +61,7 @@ class LocationManager: NSObject {
         getAddress(of: currentLocation, completion: completion)
     }
 
-    func getLocalityOfAddress(of location: Location?, completion: @escaping (Result<String, Error>) -> Void) {
+    func getKeywordOfLocation(of location: Location?, completion: @escaping (Result<String, Error>) -> Void) {
         guard let location = location else {
             return completion(.failure(LocationManagerError.emptyLocationValue))
         }
@@ -72,10 +73,13 @@ class LocationManager: NSObject {
             guard let placemark = placemark?.last else {
                 return completion(.failure(LocationManagerError.emptyPlacemark))
             }
-            guard let locality = placemark.locality else {
-                return completion(.failure(LocationManagerError.emptyPlacemarkLocality))
+            guard let subLocality = placemark.subLocality else {
+                guard let thoroughfare = placemark.thoroughfare else {
+                    return completion(.failure(LocationManagerError.emptyPlacemarkSubLocality))
+                }
+                return completion(.success(thoroughfare))
             }
-            completion(.success(locality))
+            return completion(.success(subLocality))
         }
     }
 

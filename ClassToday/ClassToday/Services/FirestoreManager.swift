@@ -26,11 +26,12 @@ class FirestoreManager {
     }
     
     /// ClassItem을 지역 기준으로 패칭합니다.
+    /// 기준 값: locality
     func fetch(_ location: Location?, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
         DispatchQueue.global().sync { [weak self] in
             guard let self = self else { return }
-            LocationManager.shared.getLocalityOfAddress(of: location) { result in
+            LocationManager.shared.getKeywordOfLocation(of: location) { result in
                 switch result {
                 case .success(let locality):
                     self.targetLocality = locality
@@ -49,7 +50,7 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        if self.targetLocality == classItem.locality {
+                        if self.targetLocality == classItem.keywordLocation {
                             data.append(classItem)
                         }
                     } catch {
@@ -94,7 +95,7 @@ class FirestoreManager {
     func categorySort(location: Location, category: String, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
         DispatchQueue.global().sync {
-            LocationManager.shared.getLocalityOfAddress(of: location) { [weak self] result in
+            LocationManager.shared.getKeywordOfLocation(of: location) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let locality):
@@ -114,7 +115,7 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        if self.targetLocality == classItem.locality {
+                        if self.targetLocality == classItem.keywordLocation {
                             data.append(classItem)
                         }
                     } catch {
@@ -129,7 +130,7 @@ class FirestoreManager {
     func categorySort(location: Location, categories: [String], completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
         DispatchQueue.global().sync {
-            LocationManager.shared.getLocalityOfAddress(of: location) { [weak self] result in
+            LocationManager.shared.getKeywordOfLocation(of: location) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let locality):
@@ -149,7 +150,7 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        if self.targetLocality == classItem.locality {
+                        if self.targetLocality == classItem.keywordLocation {
                             data.append(classItem)
                         }
                     } catch {
@@ -173,7 +174,7 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        if self.targetLocality == classItem.locality {
+                        if self.targetLocality == classItem.keywordLocation {
                             data.append(classItem)
                         }
                     } catch {
