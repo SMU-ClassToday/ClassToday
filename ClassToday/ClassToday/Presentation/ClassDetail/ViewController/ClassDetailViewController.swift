@@ -35,6 +35,15 @@ class ClassDetailViewController: UIViewController {
         button.layer.cornerRadius = 15
         return button
     }()
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        activityIndicator.color = UIColor.mainColor
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.medium
+        activityIndicator.stopAnimating()
+        return activityIndicator
+    }()
 
     // MARK: - Properties
 
@@ -57,7 +66,7 @@ class ClassDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        setUpUI()
         checkStar()
         self.setNeedsStatusBarAppearanceUpdate()
     }
@@ -78,17 +87,19 @@ class ClassDetailViewController: UIViewController {
 
     // MARK: - Method
 
-    private func configureUI() {
+    private func setUpUI() {
         view.backgroundColor = .white
-        view.addSubview(tableView)
-        view.addSubview(navigationBar)
+        [tableView, navigationBar].forEach {view.addSubview($0)}
         tableView.addSubview(matchingButton)
+        tableView.addSubview(activityIndicator)
 
         tableView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.top.equalToSuperview()
         }
-
+        activityIndicator.snp.makeConstraints {
+            $0.center.equalTo(view)
+        }
         matchingButton.snp.makeConstraints {
             $0.centerX.equalTo(view)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-24)
@@ -147,8 +158,11 @@ extension ClassDetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
+            activityIndicator.startAnimating()
             classItem.fetchedImages { images in
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.activityIndicator.stopAnimating()
                     cell.configureWith(images: images)
                 }
             }
