@@ -79,6 +79,7 @@ class ClassEnrollViewController: UIViewController {
     private var classTarget: Set<Target>?
     private var classLocation: Location?
     private var classLocality: String?
+    private var classKeywordLocation: String?
 
     // MARK: - Initialize
 
@@ -198,10 +199,20 @@ class ClassEnrollViewController: UIViewController {
             self.classPlace = ""
         }
         group.enter()
-        locationManager.getKeywordOfLocation(of: classLocation) { result in
+        locationManager.getLocality(of: classLocation) { result in
             switch result {
             case .success(let localityAddress):
                 self.classLocality = localityAddress
+            case .failure(let error):
+                debugPrint(error)
+            }
+            group.leave()
+        }
+        group.enter()
+        locationManager.getKeywordOfLocation(of: classLocation) { result in
+            switch result {
+            case .success(let keywordLocation):
+                self.classKeywordLocation = keywordLocation
             case .failure(let error):
                 debugPrint(error)
             }
@@ -215,7 +226,8 @@ class ClassEnrollViewController: UIViewController {
                                           time: self.classTime,
                                           place: self.classPlace,
                                           location: self.classLocation,
-                                          keywordLocation: self.classLocality,
+                                          locality: self.classLocality,
+                                          keywordLocation: self.classKeywordLocation,
                                           price: self.classPrice,
                                           priceUnit: self.classPriceUnit,
                                           description: classDescription,

@@ -65,7 +65,8 @@ class LocationManager: NSObject {
     }
 
     /// 수업 아이템의 기준이 되는 위치정보를 반환합니다
-    /// 기준이 되는 위치정보: subLocality(1순위, @@동), thoroughfare(2순위, @@동)
+    ///
+    /// - 기준이 되는 위치정보: subLocality(1순위, @@동), thoroughfare(2순위, @@동)
     func getKeywordOfLocation(of location: Location?, completion: @escaping (Result<String, Error>) -> Void) {
         guard let location = location else {
             return completion(.failure(LocationManagerError.emptyLocationValue))
@@ -85,6 +86,28 @@ class LocationManager: NSObject {
                 return completion(.success(thoroughfare))
             }
             return completion(.success(subLocality))
+        }
+    }
+    
+    /// locality 받는 메소드
+    ///
+    /// - locality: @@시
+    func getLocality(of location: Location?, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let location = location else {
+            return completion(.failure(LocationManagerError.emptyLocationValue))
+        }
+        let clLocation = CLLocation(latitude: location.lat, longitude: location.lon)
+        CLGeocoder().reverseGeocodeLocation(clLocation, preferredLocale: Locale(identifier: "ko_KR")) { placemark, error in
+            guard error == nil else {
+                return completion(.failure(LocationManagerError.invalidLocation))
+            }
+            guard let placemark = placemark?.last else {
+                return completion(.failure(LocationManagerError.emptyPlacemark))
+            }
+            guard let locality = placemark.locality else {
+                return completion(.failure(LocationManagerError.emptyPlacemarkLocality))
+            }
+            completion(.success(locality))
         }
     }
 }
