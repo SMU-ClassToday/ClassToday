@@ -198,7 +198,7 @@ class ClassEnrollViewController: UIViewController {
             self.classPlace = ""
         }
         group.enter()
-        locationManager.getLocalityOfAddress(of: classLocation) { result in
+        locationManager.getKeywordOfLocation(of: classLocation) { result in
             switch result {
             case .success(let localityAddress):
                 self.classLocality = localityAddress
@@ -215,7 +215,7 @@ class ClassEnrollViewController: UIViewController {
                                           time: self.classTime,
                                           place: self.classPlace,
                                           location: self.classLocation,
-                                          locality: self.classLocality,
+                                          keywordLocation: self.classLocality,
                                           price: self.classPrice,
                                           priceUnit: self.classPriceUnit,
                                           description: classDescription,

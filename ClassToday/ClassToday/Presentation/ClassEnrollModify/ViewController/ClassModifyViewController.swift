@@ -226,7 +226,7 @@ class ClassModifyViewController: UIViewController {
                                               time: self.classTime,
                                               place: self.classPlace,
                                               location: self.classLocation,
-                                              locality: self.classItem.locality,
+                                              keywordLocation: self.classItem.keywordLocation,
                                               price: self.classPrice,
                                               priceUnit: self.classPriceUnit,
                                               description: classDescription,

@@ -152,6 +152,9 @@ class ClassItemTableViewCell: UITableViewCell {
         } else {
             dateDiffLabel.text = " | 방금 전"
         }
+        if let match = classItem.match {
+            nthClass.text = "\(match.count) 회차"
+        }
         classItem.thumbnailImage { image in
             guard let image = image else {
                 return

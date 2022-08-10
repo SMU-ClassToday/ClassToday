@@ -15,7 +15,8 @@ struct ClassItem: Codable {
     let time: String?
     let place: String?
     let location: Location?
-    let locality: String?
+    /// locality: 지역 구분의 기준값
+    let keywordLocation: String?
     let price: String?
     let priceUnit: PriceUnit
     let description: String
