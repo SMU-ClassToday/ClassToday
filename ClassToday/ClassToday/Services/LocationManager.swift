@@ -5,7 +5,7 @@
 //  Created by 박태현 on 2022/06/01.
 //
 
-import Foundation
+import UIKit
 import CoreLocation
 
 enum LocationManagerError: Error {
@@ -18,6 +18,7 @@ enum LocationManagerError: Error {
 
 protocol LocationManagerDelegate: AnyObject {
     func didUpdateLocation()
+    func didUpdateAuthorization()
 }
 
 class LocationManager: NSObject {
@@ -110,11 +111,17 @@ class LocationManager: NSObject {
             completion(.success(locality))
         }
     }
+    
+    /// 위치정보권한이 활성화 되었는지 판단하는 메서드
+    func isLocationAuthorizationAllowed() -> Bool {
+        return [CLAuthorizationStatus.authorizedAlways, .authorizedWhenInUse, .notDetermined].contains(locationManager.authorizationStatus)
+    }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
     // TODO: 권한이 없는 경우 권한을 받도록 대응해야함
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        delegate?.didUpdateAuthorization()
         switch status {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
