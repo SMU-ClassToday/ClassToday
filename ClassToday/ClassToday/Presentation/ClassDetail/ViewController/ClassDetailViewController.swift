@@ -68,6 +68,7 @@ class ClassDetailViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         checkStar()
+        activityIndicator.startAnimating()
         self.setNeedsStatusBarAppearanceUpdate()
     }
 
@@ -158,7 +159,6 @@ extension ClassDetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
-            activityIndicator.startAnimating()
             classItem.fetchedImages { images in
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }

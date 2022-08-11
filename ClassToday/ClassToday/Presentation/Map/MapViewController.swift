@@ -131,7 +131,7 @@ class MapViewController: UIViewController {
         mapClassListView.snp.makeConstraints {
             $0.top.equalTo(mapView.snp.bottom)
             $0.leading.trailing.equalTo(scrollView.contentLayoutGuide)
-            $0.bottom.equalTo(scrollView.contentLayoutGuide).inset(16)
+            $0.bottom.equalTo(scrollView.contentLayoutGuide).inset(50)
             $0.width.equalToSuperview()
         }
     }

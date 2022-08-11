@@ -65,28 +65,8 @@ class MapClassListCell: UITableViewCell {
     // MARK: - Methods
     func configure(with classItem: ClassItem) {
         titleLabel.text = classItem.name
-        LocationManager.shared.getAddress(of: classItem.location) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let location):
-                self.addressLabel.text = location
-            case .failure:
-                self.addressLabel.text = "failed"
-            }
-        }
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.month, .day, .hour, .minute], from: classItem.createdTime, to: Date())
-        if let month = components.month, month != 0 {
-            timeLabel.text = " | \(month)개월 전"
-        } else if let day = components.day, day != 0 {
-            timeLabel.text = " | \(day)일 전"
-        } else if let hour = components.hour, hour != 0 {
-            timeLabel.text = " | \(hour)시간 전"
-        } else if let minute = components.minute, minute != 0 {
-            timeLabel.text = " | \(minute)분 전"
-        } else {
-            timeLabel.text = " | 방금 전"
-        }
+        addressLabel.text = "\(classItem.locality ?? "") \(classItem.keywordLocation ?? "")"
+        timeLabel.text = classItem.pastDateCalculate()
         costLabel.text = "\(String(classItem.price ?? "0"))원"
         priceUnitLabel.text = classItem.priceUnit.description
         if let count = classItem.match?.count {
