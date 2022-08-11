@@ -18,7 +18,6 @@ protocol ClassItemCellUpdateDelegate: AnyObject {
 class ClassEnrollViewController: UIViewController {
 
     // MARK: - Views
-
     private lazy var customNavigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar()
         navigationBar.isTranslucent = false
@@ -61,25 +60,25 @@ class ClassEnrollViewController: UIViewController {
     }()
 
     // MARK: - Properties
-
     weak var delegate: ClassItemCellUpdateDelegate?
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
     private let locationManager = LocationManager.shared
+
     private let classItemType: ClassItemType
     private var classImages: [UIImage]?
     private var className: String?
     private var classTime: String?
     private var classDate: Set<DayWeek>?
-    private var classPlace: String?
+    private var classPlace: String?             // 도로명주소 값
     private var classPrice: String?
     private var classPriceUnit: PriceUnit = .perHour
     private var classDescription: String?
     private var classSubject: Set<Subject>?
     private var classTarget: Set<Target>?
-    private var classLocation: Location?
-    private var classLocality: String?
-    private var classKeywordLocation: String?
+    private var classLocation: Location?        // 위도, 경도 값
+    private var classLocality: String?          // "@@시"
+    private var classKeywordLocation: String?   // 패칭 기준값, "@@구"
 
     // MARK: - Initialize
 
@@ -128,6 +127,7 @@ class ClassEnrollViewController: UIViewController {
         }
     }
 
+    /// 단일 탭 제스처 등록
     private func configureGesture() {
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(myTapMethod(_:)))
         singleTapGestureRecognizer.numberOfTapsRequired = 1
@@ -137,7 +137,7 @@ class ClassEnrollViewController: UIViewController {
     }
 
     // MARK: - Actions
-
+    /// 탭 제스쳐가 들어가면, 수정모드를 종료한다
     @objc func myTapMethod(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
