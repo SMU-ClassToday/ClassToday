@@ -19,6 +19,7 @@ class MapCategorySelectViewController: UIViewController {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: view.frame.width * 0.40, height: ClassCategoryCollectionViewCell.height)
         flowLayout.minimumLineSpacing = 0
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         flowLayout.scrollDirection = .vertical
         return flowLayout
     }()
@@ -59,7 +60,7 @@ class MapCategorySelectViewController: UIViewController {
     private func configureUI() {
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview()
             $0.top.bottom.equalToSuperview()
         }
     }
