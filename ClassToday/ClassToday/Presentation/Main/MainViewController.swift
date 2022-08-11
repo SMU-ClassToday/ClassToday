@@ -120,13 +120,12 @@ class MainViewController: UIViewController {
         activityIndicator.startAnimating()
         guard let currentLocation = locationManager.getCurrentLocation() else { return }
         firestoreManager.fetch(currentLocation) { [weak self] data in
-            guard let self = self else { return }
-            self.data = data
-            self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
-            self.dataSell = data.filter { $0.itemType == ClassItemType.sell }
+            self?.data = data
+            self?.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
+            self?.dataSell = data.filter { $0.itemType == ClassItemType.sell }
             DispatchQueue.main.async {
-                self.classItemTableView.reloadData()
-                self.activityIndicator.stopAnimating()
+                self?.classItemTableView.reloadData()
+                self?.activityIndicator.stopAnimating()
             }
         }
     }

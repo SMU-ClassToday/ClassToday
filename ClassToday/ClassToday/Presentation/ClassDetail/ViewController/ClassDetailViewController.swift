@@ -61,6 +61,9 @@ class ClassDetailViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    deinit {
+        print("------------------------------")
+    }
 
     // MARK: - Life Cycle
 
@@ -159,10 +162,9 @@ extension ClassDetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
-            classItem.fetchedImages { images in
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    self.activityIndicator.stopAnimating()
+            classItem.fetchedImages { [weak self] images in
+                DispatchQueue.main.async {
+                    self?.activityIndicator.stopAnimating()
                     cell.configureWith(images: images)
                 }
             }
@@ -171,8 +173,8 @@ extension ClassDetailViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailUserCell.identifier, for: indexPath) as? DetailUserCell else {
                 return UITableViewCell()
             }
-            cell.configure(with: classItem.writer) {
-                self.navigationController?.pushViewController(ProfileDetailViewController(user: $0), animated: true)
+            cell.configure(with: classItem.writer) { [weak self] in
+                self?.navigationController?.pushViewController(ProfileDetailViewController(user: $0), animated: true)
             }
             return cell
         case 2:
