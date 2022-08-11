@@ -131,6 +131,7 @@ extension EnrollCategoryCell: UICollectionViewDataSource {
             return headerView
         default:
             assert(false)
+            return UICollectionReusableView()
         }
     }
 }

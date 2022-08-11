@@ -128,6 +128,7 @@ extension MapCategorySelectViewController: UICollectionViewDataSource {
             return headerView
         default:
             assert(false)
+            return UICollectionReusableView()
         }
     }
 }
