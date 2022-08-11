@@ -61,6 +61,7 @@ class CategoryDetailViewController: UIViewController {
     private var dataBuy: [ClassItem] = []
     private var dataSell: [ClassItem] = []
     private let firestoreManager = FirestoreManager.shared
+    private let locationManager = LocationManager.shared
     private var categoryItem: Subject?
     
     // MARK: Initialize
@@ -79,12 +80,13 @@ class CategoryDetailViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBar()
         layout()
-        categorySort(location: Location(lat: 111, lon: 111) ,category: categoryItem?.rawValue ?? "")
+        categorySort()
     }
     
     //MARK: - Methods
-    private func categorySort(location: Location, category: String) {
-        firestoreManager.categorySort(location: location, category: category) { [weak self] data in
+    private func categorySort() {
+        guard let currentLocation = locationManager.getCurrentLocation() else { return }
+        firestoreManager.categorySort(location: currentLocation, category: categoryItem?.rawValue ?? "") { [weak self] data in
             guard let self = self else { return }
             self.data = data
             self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
