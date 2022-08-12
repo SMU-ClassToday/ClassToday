@@ -80,7 +80,7 @@ class ChatClassItemCell: UIView {
     }()
     
     weak var delegate: ChatClassItemCellDelegate?
-    private var classItem: ClassItem = mockClassItem
+    private var classItem: ClassItem = MockData.classItem
     private let locationManager = LocationManager.shared
     private let firebaseAuthManager = FirebaseAuthManager.shared
     

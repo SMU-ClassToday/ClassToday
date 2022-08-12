@@ -32,7 +32,7 @@ class ChatViewController: MessagesViewController {
     }()
     
     private lazy var classItemCellView: ChatClassItemCell = {
-        let cell = ChatClassItemCell(classItem: classItem ?? mockClassItem)
+        let cell = ChatClassItemCell(classItem: classItem!)
         cell.delegate = self
         return cell
     }()
@@ -75,6 +75,9 @@ class ChatViewController: MessagesViewController {
     //MARK: - Properties
     private var classItem: ClassItem?
     private var currentUser: User?
+    private var writer: User?
+    private var seller: User?
+    private var buyer: User?
     private let chatStreamManager = ChatStreamManager.shared
     private let firebaseAuthManager = FirebaseAuthManager.shared
     private let firestoreManager = FirestoreManager.shared
@@ -114,10 +117,10 @@ class ChatViewController: MessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getCurrentUser()
+        getSellerAndBuyer()
         scrollsToLastItemOnKeyboardBeginsEditing = true
         setMessagesCollectionViewInset()
         confirmDelegates()
-        configure()
         setNavigationBar()
         setupMessageInputBar()
         removeOutgoingMessageAvatars()
@@ -142,7 +145,7 @@ class ChatViewController: MessagesViewController {
     func initializeSender() {
         guard let user = currentUser else { return }
         sender.senderId = user.id
-        sender.displayName = user.name
+        sender.displayName = user.nickName
     }
     
     func setNavigationBar() {
@@ -163,8 +166,14 @@ class ChatViewController: MessagesViewController {
     }
     
     private func configure() {
-        guard let name = classItem?.writer.name else { return }
-        title = name
+        switch currentUser?.id {
+            case channel.sellerID:
+                title = buyer?.nickName
+            case channel.buyerID:
+                title = seller?.nickName
+            default:
+                print("ERROR")
+        }
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
@@ -199,7 +208,7 @@ class ChatViewController: MessagesViewController {
     private func setupButton() {
         switch channel.validity {
             case true:
-                if UserDefaultsManager.shared.isLogin()! == classItem?.writer.id {
+                if UserDefaultsManager.shared.isLogin()! == classItem?.writer {
                     classItemCellView.matchButton.setTitle("매칭 작성", for: .normal)
                 } else {
                     classItemCellView.matchButton.setTitle("매칭 확인", for: .normal)
@@ -218,9 +227,9 @@ class ChatViewController: MessagesViewController {
     
     private func enableReviewButton() {
         switch UserDefaultsManager.shared.isLogin() {
-            case channel.match?.seller.id:
+            case channel.match?.seller:
                 classItemCellView.matchButton.setTitle("리뷰 확인", for: .normal)
-            case channel.match?.buyer.id:
+            case channel.match?.buyer:
                 classItemCellView.matchButton.setTitle("리뷰 하기", for: .normal)
             default:
                 print("error")
@@ -235,9 +244,31 @@ class ChatViewController: MessagesViewController {
                 case .success(let user):
                     self.currentUser = user
                     self.initializeSender()
+                    self.configure()
                     self.messagesCollectionView.reloadData()
                 case .failure(let error):
                     print(error)
+            }
+        }
+    }
+    
+    private func getSellerAndBuyer() {
+        firestoreManager.readUser(uid: channel.sellerID) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.seller = user
+                case .failure(_):
+                    print("GetSeller Fail")
+            }
+        }
+        firestoreManager.readUser(uid: channel.buyerID) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.buyer = user
+                case .failure(_):
+                    print("GetBuyer Fail")
             }
         }
     }
@@ -387,7 +418,7 @@ extension ChatViewController: MessagesDisplayDelegate {
 //MARK: - Input bar delegate
 extension ChatViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        let message = Message(content: text, senderId: currentUser?.id ?? "", displayName: currentUser?.name ?? "")
+        let message = Message(content: text, senderId: currentUser?.id ?? "", displayName: currentUser?.nickName ?? "")
         
         chatStreamManager.save(message) { [weak self] error in
             if let error = error {
@@ -425,7 +456,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
             self?.isSendingPhoto = false
             guard let url = url else { return }
             
-            var message = Message(image: image, senderId: self?.currentUser?.id ?? "", displayName: self?.currentUser?.name ?? "")
+            var message = Message(image: image, senderId: self?.currentUser?.id ?? "", displayName: self?.currentUser?.nickName ?? "")
             message.downloadURL = url
             self?.chatStreamManager.save(message)
             self?.messagesCollectionView.scrollToLastItem()
@@ -478,7 +509,7 @@ extension ChatViewController: ChatClassItemCellDelegate {
 extension ChatViewController: MatchInputViewControllerDelegate {
     func saveMatchingInformation(match: Match) {
         channel.match = match
-        let message = Message(matchFlag: true, senderId: currentUser?.id ?? "", displayName: currentUser?.name ?? "")
+        let message = Message(matchFlag: true, senderId: currentUser?.id ?? "", displayName: currentUser?.nickName ?? "")
         chatStreamManager.save(message)
         print(channel)
         updateChannel(channel: channel)
@@ -487,8 +518,9 @@ extension ChatViewController: MatchInputViewControllerDelegate {
 
 extension ChatViewController: MatchConfirmViewControllerDelegate {
     func confirmMatch() {
-        let confirmMessage = Message(validityFlag: true, senderId: currentUser?.id ?? "", displayName: currentUser?.name ?? "")
-        let message = Message(content: "강사: \(channel.match!.seller.name)\n학생: \(channel.match!.buyer.name)\n수업시간: \(channel.match!.time ?? "")\n수업장소: \(channel.match!.place ?? "")\n가격: \(channel.match!.price ?? "")", senderId: currentUser?.id ?? "", displayName: currentUser?.name ?? "")
+        
+        let confirmMessage = Message(validityFlag: true, senderId: currentUser?.id ?? "", displayName: currentUser?.nickName ?? "")
+        let message = Message(content: "강사: \(seller!.nickName)\n학생: \(buyer!.nickName)\n수업시간: \(channel.match!.time ?? "")\n수업장소: \(channel.match!.place ?? "")\n가격: \(channel.match!.price ?? "")", senderId: currentUser?.id ?? "", displayName: currentUser?.nickName ?? "")
         chatStreamManager.save(confirmMessage)
         chatStreamManager.save(message)
         enableReviewButton()

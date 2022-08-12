@@ -244,7 +244,7 @@ class ClassModifyViewController: UIViewController {
                                               targets: self.classTarget,
                                               itemType: self.classItem.itemType,
                                               validity: true,
-                                              writer: self.currentUser!,
+                                              writer: UserDefaultsManager.shared.isLogin()!,
                                               createdTime: Date(),
                                               modifiedTime: nil)
             self.firestoreManager.update(classItem: modifiedClassItem)

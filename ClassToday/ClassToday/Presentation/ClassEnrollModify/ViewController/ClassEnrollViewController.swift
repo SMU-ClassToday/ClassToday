@@ -220,7 +220,7 @@ class ClassEnrollViewController: UIViewController {
                                       targets: self.classTarget,
                                       itemType: self.classItemType,
                                       validity: true,
-                                      writer: self.currentUser!,
+                                      writer: UserDefaultsManager.shared.isLogin()!,
                                       createdTime: Date(),
                                       modifiedTime: nil
             )

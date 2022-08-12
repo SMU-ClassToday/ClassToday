@@ -148,8 +148,8 @@ class DetailCustomNavigationBar: UIView {
         }
     }
 
-    func setupButton(with user: User) {
-        if user == MockData.mockUser {
+    func setupButton(with id: String) {
+        if id == UserDefaultsManager.shared.isLogin()! {
             rightButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
             rightButton.addTarget(self, action: #selector(didTapEditButton(_:)), for: .touchUpInside)
         } else {

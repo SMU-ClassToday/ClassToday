@@ -62,6 +62,7 @@ class ClassDetailViewController: UIViewController {
     var checkChannel: [Channel] = []
     private var classItem: ClassItem
     private var currentUser: User?
+    private var writer: User?
     var delegate: ClassUpdateDelegate?
     private let storageManager = StorageManager.shared
     private let firestoreManager = FirestoreManager.shared
@@ -81,15 +82,7 @@ class ClassDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        User.getCurrentUser { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let user):
-                self.currentUser = user
-            case .failure(let error):
-                print("ERROR \(error)🌔")
-            }
-        }
+        getUsers()
         configureUI()
         checkStar()
         self.setNeedsStatusBarAppearanceUpdate()
@@ -114,18 +107,39 @@ class ClassDetailViewController: UIViewController {
     private func checkIsChannelAlreadyMade() {
         switch classItem.itemType {
             case .buy:
-                firestoreManager.checkChannel(sellerID: UserDefaultsManager.shared.isLogin()!, buyerID: classItem.writer.id, classItemID: classItem.id) { [weak self] data in
+                firestoreManager.checkChannel(sellerID: UserDefaultsManager.shared.isLogin()!, buyerID: classItem.writer, classItemID: classItem.id) { [weak self] data in
                     guard let self = self else { return }
                     self.checkChannel = data
                 }
             case .sell:
-                firestoreManager.checkChannel(sellerID: classItem.writer.id, buyerID: UserDefaultsManager.shared.isLogin()!, classItemID: classItem.id) { [weak self] data in
+                firestoreManager.checkChannel(sellerID: classItem.writer, buyerID: UserDefaultsManager.shared.isLogin()!, classItemID: classItem.id) { [weak self] data in
                     guard let self = self else { return }
                     self.checkChannel = data
                 }
         }
         
         print(checkChannel.count)
+    }
+    
+    func getUsers() {
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let user):
+                self.currentUser = user
+            case .failure(let error):
+                print("ERROR \(error)🌔")
+            }
+        }
+        FirestoreManager.shared.readUser(uid: classItem.writer) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.writer = user
+                case .failure(let error):
+                    print(error)
+            }
+        }
     }
     
     private func configureUI() {
@@ -179,16 +193,16 @@ class ClassDetailViewController: UIViewController {
             print("종료된 수업입니다")
             return
         }
-        if classItem.writer.id == currentUser?.id {
+        if classItem.writer == currentUser?.id {
             present(alertController, animated: true)
         } else {
             if checkChannel.isEmpty {
                 let channel: Channel
                 switch classItem.itemType {
                     case .buy:
-                        channel = Channel(sellerID: currentUser?.id ?? "", buyerID: classItem.writer.id, classItem: classItem)
+                        channel = Channel(sellerID: currentUser?.id ?? "", buyerID: classItem.writer, classItem: classItem)
                     case .sell:
-                        channel = Channel(sellerID: classItem.writer.id, buyerID: currentUser?.id ?? "", classItem: classItem)
+                        channel = Channel(sellerID: classItem.writer, buyerID: currentUser?.id ?? "", classItem: classItem)
                 }
                 
                 if let channels = currentUser?.channels {
@@ -197,10 +211,10 @@ class ClassDetailViewController: UIViewController {
                     currentUser?.channels = [channel.id]
                 }
                 
-                if let channels2 = classItem.writer.channels {
-                    classItem.writer.channels!.append(channel.id)
+                if let channels2 = writer?.channels {
+                    writer?.channels!.append(channel.id)
                 } else {
-                    classItem.writer.channels = [channel.id]
+                    writer?.channels = [channel.id]
                 }
                 
                 firestoreManager.uploadUser(user: currentUser!) { result in
@@ -212,7 +226,7 @@ class ClassDetailViewController: UIViewController {
                     }
                 }
                 
-                firestoreManager.uploadUser(user: classItem.writer) { result in
+                firestoreManager.uploadUser(user: writer!) { result in
                     switch result {
                         case .success(_):
                             print("업로드 성공2")
@@ -366,7 +380,7 @@ extension ClassDetailViewController: ClassUpdateDelegate {
 extension ClassDetailViewController {
     func setButtonOnSale() {
         //TODO: mock 관련 로직 수정
-        matchingButton.setTitle(classItem.writer.id == UserDefaultsManager.shared.isLogin()! ? "비활성화" : "신청하기", for: .normal)
+        matchingButton.setTitle(classItem.writer == UserDefaultsManager.shared.isLogin()! ? "비활성화" : "신청하기", for: .normal)
         matchingButton.backgroundColor = .mainColor
         matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
     }
