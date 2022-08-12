@@ -30,7 +30,7 @@ struct MockData {
                                      targets: [.elementary,.senior],
                                      itemType: .sell,
                                      validity: true,
-                                     writer: mockUser,
+                                     writer: mockUser.id,
                                      createdTime: Date(),
                                      modifiedTime: nil
     )

@@ -227,10 +227,10 @@ class MatchInputViewController: UIViewController {
     }
     
     weak var delegate: MatchInputViewControllerDelegate?
-    private var seller: User? = nil
-    private var buyer: User? = nil
+    private var seller: User?
+    private var buyer: User?
     private let channel: Channel
-    private var match: Match? = nil
+    private var match: Match?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -280,8 +280,8 @@ extension MatchInputViewController {
     }
     
     private func configure() {
-        sellerLabel2.text = seller?.name ?? ""
-        buyerLabel2.text = buyer?.name ?? ""
+        sellerLabel2.text = seller?.nickName ?? ""
+        buyerLabel2.text = buyer?.nickName ?? ""
         timeTextField.placeholder = channel.classItem?.time
         placeTextField.placeholder = channel.classItem?.place
         priceTextField.placeholder = channel.classItem?.price
@@ -307,8 +307,8 @@ extension MatchInputViewController {
     
     //TODO: - 입력된 정보로 변경할것
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
-        match = Match(seller: self.seller!,
-                      buyer: self.buyer!,
+        match = Match(seller: self.seller?.id ?? "",
+                      buyer: self.buyer?.id ?? "",
                       date: channel.classItem?.date,
                       time: channel.classItem?.time,
                       place: channel.classItem?.place,

@@ -23,7 +23,7 @@ struct ClassItem: Codable {
     let targets: Set<Target>?
     let itemType: ClassItemType
     var validity: Bool
-    var writer: User
+    var writer: String
     let createdTime: Date
     let modifiedTime: Date?
 

@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import AVFoundation
+import XCTest
 
 class ChannelTableViewCell: UITableViewCell {
     lazy var chatRoomThumbnailView: UIImageView = {
@@ -49,6 +51,8 @@ class ChannelTableViewCell: UITableViewCell {
     }()
     
     static let identifier = "ChannelTableViewCell"
+    private var seller: User?
+    private var buyer: User?
     
     //MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -99,7 +103,34 @@ class ChannelTableViewCell: UITableViewCell {
     }
     
     func configureWith(channel: Channel) {
-        chatRoomLabel.text = channel.classItem?.writer.name
+        FirestoreManager.shared.readUser(uid: channel.sellerID) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.seller = user
+                    FirestoreManager.shared.readUser(uid: channel.buyerID) { [weak self] result in
+                        guard let self = self else { return }
+                        switch result {
+                            case .success(let user):
+                                self.buyer = user
+                                switch UserDefaultsManager.shared.isLogin()! {
+                                    case channel.sellerID:
+                                        self.chatRoomLabel.text = self.buyer?.nickName
+                                    case channel.buyerID:
+                                        self.chatRoomLabel.text = self.seller?.nickName
+                                    default:
+                                        print("ERROR")
+                                }
+                            case .failure(_):
+                                print("GetBuyer Fail")
+                        }
+                    }
+                case .failure(_):
+                    print("GetSeller Fail")
+            }
+        }
+        
+        
         classItemLabel.text = "[\(channel.classItem?.name ?? "")]"
     }
     

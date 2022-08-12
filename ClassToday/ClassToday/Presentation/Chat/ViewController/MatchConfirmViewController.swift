@@ -183,11 +183,37 @@ class MatchConfirmViewController: UIViewController {
     
     weak var delegate: MatchConfirmViewControllerDelegate?
     private let match: Match
+    private var seller: User?
+    private var buyer: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getUsers()
         configureUI()
-        configure()
+    }
+    
+    private func getUsers() {
+        FirestoreManager.shared.readUser(uid: match.seller) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.seller = user
+                    print("강사 성공")
+                    FirestoreManager.shared.readUser(uid: self.match.buyer) { [weak self] result in
+                        guard let self = self else { return }
+                        switch result {
+                            case .success(let user):
+                                self.buyer = user
+                                print("학생 성공")
+                                self.configure()
+                            case .failure(let error):
+                                print(error)
+                        }
+                    }
+                case .failure(let error):
+                    print(error)
+            }
+        }
     }
 }
 
@@ -208,8 +234,8 @@ extension MatchConfirmViewController {
     }
     
     private func configure() {
-        sellerLabel2.text = match.seller.name
-        buyerLabel2.text = match.buyer.name
+        sellerLabel2.text = seller?.nickName
+        buyerLabel2.text = buyer?.nickName
         timeLabel2.text = match.time ?? ""
         placeLabel2.text = match.place ?? ""
         priceLabel2.text = match.price ?? ""
