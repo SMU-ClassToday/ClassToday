@@ -11,6 +11,7 @@ protocol MatchConfirmViewControllerDelegate: AnyObject {
     func confirmMatch()
 }
 
+//TODO: - date관련 라벨 추가하기
 class MatchConfirmViewController: UIViewController {
 
     private lazy var customNavigationBar: UINavigationBar = {

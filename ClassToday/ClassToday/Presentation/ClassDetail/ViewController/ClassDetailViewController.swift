@@ -8,8 +8,7 @@
 import UIKit
 import SwiftUI
 
-// TODO: - Channel의 중복 생성 문제
-// 같은 {유저1, 유저2, 수업}의 집합에서 신청하기를 눌렀을때 다시 Channel을 생성하지 않도록
+
 class ClassDetailViewController: UIViewController {
     
     // MARK: - Views
@@ -379,7 +378,6 @@ extension ClassDetailViewController: ClassUpdateDelegate {
 // MARK: - Extension for Button
 extension ClassDetailViewController {
     func setButtonOnSale() {
-        //TODO: mock 관련 로직 수정
         matchingButton.setTitle(classItem.writer == UserDefaultsManager.shared.isLogin()! ? "비활성화" : "신청하기", for: .normal)
         matchingButton.backgroundColor = .mainColor
         matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)

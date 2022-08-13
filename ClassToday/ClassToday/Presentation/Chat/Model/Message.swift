@@ -33,6 +33,7 @@ struct Message: MessageType {
     var downloadURL: URL?
     var matchFlag: Bool?
     var validityFlag: Bool?
+    var reviewFlag: Bool?
     
     init(content: String) {
         sender = Sender(senderId: "any_unique_id", displayName: "김민상")
@@ -72,6 +73,14 @@ struct Message: MessageType {
         id = nil
     }
     
+    init(reviewFlag: Bool = true, senderId: String, displayName: String) {
+        sender = Sender(senderId: senderId, displayName: displayName)
+        self.reviewFlag = reviewFlag
+        sentDate = Date()
+        content = "리뷰 완료"
+        id = nil
+    }
+    
     init?(document: QueryDocumentSnapshot) {
         let data = document.data()
         guard let sentDate = data["created"] as? Timestamp,
@@ -95,6 +104,10 @@ struct Message: MessageType {
             self.validityFlag = validityFlag
             downloadURL = nil
             content = "매칭 완료"
+        } else if let reviewFlag = data["reviewFlag"] as? Bool {
+            self.reviewFlag = reviewFlag
+            downloadURL = nil
+            content = "리뷰 완료"
         } else {
             return nil
         }
@@ -116,6 +129,8 @@ extension Message: DatabaseRepresentation {
             representation["matchFlag"] = matchFlag
         } else if let validityFlag = validityFlag {
             representation["validityFlag"] = validityFlag
+        } else if let reviewFlag = reviewFlag {
+            representation["reviewFlag"] = reviewFlag
         } else {
             representation["content"] = content
         }
