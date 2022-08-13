@@ -137,6 +137,7 @@
 		FC25F8B12865DF9F00B2BBEB /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8B02865DF9F00B2BBEB /* Channel.swift */; };
 		FC25F8B92865E04900B2BBEB /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8B82865E04900B2BBEB /* Sender.swift */; };
 		FC25F8BD2865E1F400B2BBEB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8BC2865E1F400B2BBEB /* ChatViewController.swift */; };
+		FC7FB97128A7DB32004958FA /* ReviewInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7FB97028A7DB32004958FA /* ReviewInputViewController.swift */; };
 		FC870F192899478900DACDA6 /* ChatStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC870F182899478900DACDA6 /* ChatStorageManager.swift */; };
 		FCA26EBF2867A159004F4C20 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA26EBE2867A159004F4C20 /* Message.swift */; };
 		FCA26EC12867A193004F4C20 /* ImageMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA26EC02867A193004F4C20 /* ImageMediaItem.swift */; };
@@ -270,6 +271,7 @@
 		FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarViewController.swift; sourceTree = "<group>"; };
 		FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
 		FC58F0FB280F137900AB9B07 /* CategoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailViewController.swift; sourceTree = "<group>"; };
+		FC7FB97028A7DB32004958FA /* ReviewInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewInputViewController.swift; sourceTree = "<group>"; };
 		FC8507D128202036008A8618 /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
 		FC870F182899478900DACDA6 /* ChatStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStorageManager.swift; sourceTree = "<group>"; };
 		FC87FA9F281ECF6500F57CE0 /* SearchRecentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecentTableViewCell.swift; sourceTree = "<group>"; };
@@ -410,7 +412,6 @@
 				6B7997BF27F33C5A00F37393 /* ClassItem.swift */,
 				6B7997BC27F33C4C00F37393 /* User.swift */,
 				8941FF1E2830C97300A90AB0 /* Location.swift */,
-				8941FF222830CF7D00A90AB0 /* ReviewItem.swift */,
 				6BC2B234288C4A710025817D /* NaverUserInfo.swift */,
 			);
 			path = Model;
@@ -725,6 +726,7 @@
 				FC25F8BC2865E1F400B2BBEB /* ChatViewController.swift */,
 				FCB99C8F288F0C41006CE372 /* MatchInputViewController.swift */,
 				FCD624D728951FDC002F443A /* MatchConfirmViewController.swift */,
+				FC7FB97028A7DB32004958FA /* ReviewInputViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -732,6 +734,7 @@
 		FCFDFCCB2897C5C50031F77D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8941FF222830CF7D00A90AB0 /* ReviewItem.swift */,
 				FCA26EBE2867A159004F4C20 /* Message.swift */,
 				FC25F8B02865DF9F00B2BBEB /* Channel.swift */,
 				8941FF202830CDA200A90AB0 /* Match.swift */,
@@ -967,6 +970,7 @@
 				89098E03282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift in Sources */,
 				89098E3A282271E2006EFD4E /* ClassModifyViewController.swift in Sources */,
 				89675B2F2827BFDE00933C48 /* DetailUserCell.swift in Sources */,
+				FC7FB97128A7DB32004958FA /* ReviewInputViewController.swift in Sources */,
 				6B42D941284BBE6000384480 /* FirebaseAuthManager.swift in Sources */,
 				8971F21C283A1A4200D4AAD0 /* ImageCacheManager.swift in Sources */,
 				892C1CCF28322AD600DE27D3 /* ClassItemType.swift in Sources */,

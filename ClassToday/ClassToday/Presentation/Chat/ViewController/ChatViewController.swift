@@ -221,18 +221,29 @@ class ChatViewController: MessagesViewController {
     }
     
     private func enableMatchButton() {
-        classItemCellView.matchButton.isEnabled = true
-        classItemCellView.matchButton.backgroundColor = .mainColor
+        if classItemCellView.matchButton.titleLabel?.text == "매칭 확인" {
+            classItemCellView.matchButton.isEnabled = true
+            classItemCellView.matchButton.backgroundColor = .mainColor
+        }
     }
     
     private func enableReviewButton() {
         switch UserDefaultsManager.shared.isLogin() {
             case channel.match?.seller:
                 classItemCellView.matchButton.setTitle("리뷰 확인", for: .normal)
+                classItemCellView.matchButton.isEnabled = false
+                classItemCellView.matchButton.backgroundColor = .lightGray
             case channel.match?.buyer:
                 classItemCellView.matchButton.setTitle("리뷰 하기", for: .normal)
             default:
                 print("error")
+        }
+    }
+    
+    private func enableReviewConfirmButton() {
+        if classItemCellView.matchButton.titleLabel?.text == "리뷰 확인" {
+            classItemCellView.matchButton.isEnabled = true
+            classItemCellView.matchButton.backgroundColor = .mainColor
         }
     }
 
@@ -319,6 +330,10 @@ class ChatViewController: MessagesViewController {
                 if validityFlag == true {
                     fetchChannel(channel: channel)
                     enableReviewButton()
+                }
+            } else if let reviewFlag = message.reviewFlag {
+                if reviewFlag == true {
+                    enableReviewConfirmButton()
                 }
             } else {
                 insertNewMessage(message)
@@ -492,12 +507,12 @@ extension ChatViewController: ChatClassItemCellDelegate {
                 let viewcontroller = MatchConfirmViewController(match: self.channel.match!)
                 viewcontroller.delegate = self
                 present(viewcontroller, animated: true, completion: nil)
-            //TODO: - 리뷰 뷰컨 구현할것
             case "리뷰 하기":
-                let viewcontroller = UIViewController()
+                let viewcontroller = ReviewInputViewController(channel: channel, classItem: classItem)
+                viewcontroller.delegate = self
                 present(viewcontroller, animated: true, completion: nil)
             case "리뷰 확인":
-                let viewcontroller = UIViewController()
+                let viewcontroller = ReviewDetailViewController()
                 present(viewcontroller, animated: true, completion: nil)
             default:
                 debugPrint("해당 아이템 없음")
@@ -525,6 +540,17 @@ extension ChatViewController: MatchConfirmViewControllerDelegate {
         chatStreamManager.save(message)
         enableReviewButton()
         channel.validity = false
+        uploadMatch(match: channel.match!, classItem: classItem!)
+        updateChannel(channel: channel)
+    }
+}
+
+extension ChatViewController: ReviewInputViewControllerDelegate {
+    func saveReview(review: ReviewItem) {
+        let message = Message(reviewFlag: true, senderId: currentUser?.id ?? "", displayName: currentUser?.nickName ?? "")
+        chatStreamManager.save(message)
+        enableReviewConfirmButton()
+        channel.match?.review = review
         uploadMatch(match: channel.match!, classItem: classItem!)
         updateChannel(channel: channel)
     }

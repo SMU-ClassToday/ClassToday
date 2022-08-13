@@ -84,8 +84,6 @@ class ChatClassItemCell: UIView {
     private let locationManager = LocationManager.shared
     private let firebaseAuthManager = FirebaseAuthManager.shared
     
-    //TODO: delegate
-    
     init(classItem: ClassItem) {
         super.init(frame: .zero)
         self.classItem = classItem
