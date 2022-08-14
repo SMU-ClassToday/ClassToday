@@ -76,7 +76,7 @@ private extension ProfileModifyViewController {
             description: newDescription,
             stars: user.stars,
             subjects: newSubjectList,
-            chatItems: user.chatItems
+            channels: user.channels
         )
         
         FirestoreManager.shared.uploadUser(user: newInfo) { [weak self] result in

@@ -80,6 +80,7 @@ class ClassModifyViewController: UIViewController {
     private var classDescription: String?
     private var classSubject: Set<Subject>?
     private var classTarget: Set<Target>?
+    private var currentUser: User?
 
     // MARK: - Initialize
     
@@ -107,11 +108,24 @@ class ClassModifyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getCurrentUser()
         configureUI()
         configureGesture()
     }
     
     // MARK: - Method
+    
+    private func getCurrentUser() {
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.currentUser = user
+                case .failure(let error):
+                    print(error)
+            }
+        }
+    }
     
     private func configureUI() {
         configureNavigationBar()
@@ -230,10 +244,9 @@ class ClassModifyViewController: UIViewController {
                                               targets: self.classTarget,
                                               itemType: self.classItem.itemType,
                                               validity: true,
-                                              writer: MockData.mockUser,
+                                              writer: UserDefaultsManager.shared.isLogin()!,
                                               createdTime: Date(),
-                                              modifiedTime: nil,
-                                              match: nil)
+                                              modifiedTime: nil)
             self.firestoreManager.update(classItem: modifiedClassItem)
             self.classUpdateDelegate?.update(with: modifiedClassItem)
             debugPrint("\(modifiedClassItem) 수정")

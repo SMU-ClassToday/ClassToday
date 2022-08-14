@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SwiftUI
+
 
 class ClassDetailViewController: UIViewController {
     
@@ -31,16 +33,39 @@ class ClassDetailViewController: UIViewController {
     private lazy var matchingButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(didTapMatchingButton(_:)), for: .touchUpInside)
-        button.layer.cornerRadius = 15
+        button.layer.cornerRadius = 20
         return button
+    }()
+    
+    private lazy var alertController: UIAlertController = {
+        let alert = UIAlertController(title: "모집을 종료하시겠습니까?", message: nil, preferredStyle: .alert)
+        alert.view?.tintColor = .mainColor
+        
+        let closeAction = UIAlertAction(title: "예", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.toggleClassItem()
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        cancelAction.titleTextColor = .red
+        
+        [
+            closeAction,
+            cancelAction
+        ].forEach { alert.addAction($0) }
+        return alert
     }()
 
     // MARK: - Properties
 
+    var checkChannel: [Channel] = []
     private var classItem: ClassItem
+    private var currentUser: User?
+    private var writer: User?
     var delegate: ClassUpdateDelegate?
     private let storageManager = StorageManager.shared
-    private let fireStoreManager = FirestoreManager.shared
+    private let firestoreManager = FirestoreManager.shared
+    private let firebaseAuthManager = FirebaseAuthManager.shared
 
     // MARK: - Initialize
 
@@ -56,6 +81,7 @@ class ClassDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        getUsers()
         configureUI()
         checkStar()
         self.setNeedsStatusBarAppearanceUpdate()
@@ -63,6 +89,7 @@ class ClassDetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        checkIsChannelAlreadyMade()
         checkStar()
         navigationController?.navigationBar.isHidden = true
         blackBackNavigationBar()
@@ -70,12 +97,50 @@ class ClassDetailViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.barStyle = .default
     }
 
     // MARK: - Method
-
+    private func checkIsChannelAlreadyMade() {
+        switch classItem.itemType {
+            case .buy:
+                firestoreManager.checkChannel(sellerID: UserDefaultsManager.shared.isLogin()!, buyerID: classItem.writer, classItemID: classItem.id) { [weak self] data in
+                    guard let self = self else { return }
+                    self.checkChannel = data
+                }
+            case .sell:
+                firestoreManager.checkChannel(sellerID: classItem.writer, buyerID: UserDefaultsManager.shared.isLogin()!, classItemID: classItem.id) { [weak self] data in
+                    guard let self = self else { return }
+                    self.checkChannel = data
+                }
+        }
+        
+        print(checkChannel.count)
+    }
+    
+    func getUsers() {
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let user):
+                self.currentUser = user
+            case .failure(let error):
+                print("ERROR \(error)🌔")
+            }
+        }
+        FirestoreManager.shared.readUser(uid: classItem.writer) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.writer = user
+                case .failure(let error):
+                    print(error)
+            }
+        }
+    }
+    
     private func configureUI() {
         view.backgroundColor = .white
         view.addSubview(tableView)
@@ -123,7 +188,60 @@ class ClassDetailViewController: UIViewController {
     // MARK: - Actions
 
     @objc func didTapMatchingButton(_ button: UIButton) {
-        debugPrint(#function)
+        if matchingButton.titleLabel?.text == "종료된 수업입니다" {
+            print("종료된 수업입니다")
+            return
+        }
+        if classItem.writer == currentUser?.id {
+            present(alertController, animated: true)
+        } else {
+            if checkChannel.isEmpty {
+                let channel: Channel
+                switch classItem.itemType {
+                    case .buy:
+                        channel = Channel(sellerID: currentUser?.id ?? "", buyerID: classItem.writer, classItem: classItem)
+                    case .sell:
+                        channel = Channel(sellerID: classItem.writer, buyerID: currentUser?.id ?? "", classItem: classItem)
+                }
+                
+                if let channels = currentUser?.channels {
+                    currentUser?.channels!.append(channel.id)
+                } else {
+                    currentUser?.channels = [channel.id]
+                }
+                
+                if let channels2 = writer?.channels {
+                    writer?.channels!.append(channel.id)
+                } else {
+                    writer?.channels = [channel.id]
+                }
+                
+                firestoreManager.uploadUser(user: currentUser!) { result in
+                    switch result {
+                        case .success(_):
+                            print("업로드 성공")
+                        case .failure(_):
+                            print("업로드 실패")
+                    }
+                }
+                
+                firestoreManager.uploadUser(user: writer!) { result in
+                    switch result {
+                        case .success(_):
+                            print("업로드 성공2")
+                        case .failure(_):
+                            print("업로드 실패2")
+                    }
+                }
+                firestoreManager.uploadChannel(channel: channel)
+                let viewcontroller = ChatViewController(channel: channel)
+                navigationController?.pushViewController(viewcontroller, animated: true)
+            } else {
+                let channel = checkChannel[0]
+                let viewController = ChatViewController(channel: channel)
+                navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
     }
 }
 
@@ -212,7 +330,7 @@ extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
         present(alert, animated: true)
     }
     func deleteClassItem() {
-        fireStoreManager.delete(classItem: classItem)
+        firestoreManager.delete(classItem: classItem)
         navigationController?.popViewController(animated: true)
     }
     func toggleClassItem() {
@@ -222,7 +340,7 @@ extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
         } else {
             setButtonOffSale()
         }
-        fireStoreManager.update(classItem: classItem)
+        firestoreManager.update(classItem: classItem)
     }
     func classItemValidity() -> Bool {
         return classItem.validity
@@ -260,13 +378,13 @@ extension ClassDetailViewController: ClassUpdateDelegate {
 // MARK: - Extension for Button
 extension ClassDetailViewController {
     func setButtonOnSale() {
-        matchingButton.setTitle(classItem.writer == MockData.mockUser ? "채팅 목록" : "신청하기", for: .normal)
+        matchingButton.setTitle(classItem.writer == UserDefaultsManager.shared.isLogin()! ? "비활성화" : "신청하기", for: .normal)
         matchingButton.backgroundColor = .mainColor
         matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
     }
     func setButtonOffSale() {
         matchingButton.setTitle("종료된 수업입니다", for: .normal)
         matchingButton.backgroundColor = .systemGray
-        matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        matchingButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
     }
 }

@@ -51,6 +51,7 @@ class EnrollPriceCell: UITableViewCell {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "ellipsis"), for: .normal)
+        button.tintColor = .mainColor
         button.addTarget(self, action: #selector(selectUnit(_:)), for: .touchUpInside)
         return button
     }()

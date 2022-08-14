@@ -125,7 +125,6 @@ extension LaunchSignInViewController: NaverThirdPartyLoginConnectionDelegate {
     // 로그인 성공시 호출
     func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
         print("로그인 성공")
-        // TODO: - 이미 DB에 있는 유저는 거르기
         NaverLoginManager.shared.getInfo { [weak self] result in
             switch result {
             case .success(let naverUser):
