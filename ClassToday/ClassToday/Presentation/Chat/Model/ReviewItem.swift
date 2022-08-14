@@ -13,4 +13,11 @@ struct ReviewItem: Codable {
     let grade: Double
     let description: String
     let createdTime: Date
+    
+    init(writerId: String, grade: Double, description: String) {
+        self.writerId = writerId
+        self.grade = grade
+        self.description = description
+        self.createdTime = Date()
+    }
 }

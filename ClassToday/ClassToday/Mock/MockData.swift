@@ -30,15 +30,15 @@ struct MockData {
                                      targets: [.elementary,.senior],
                                      itemType: .sell,
                                      validity: true,
-                                     writer: mockUser,
+                                     writer: mockUser.id,
                                      createdTime: Date(),
-                                     modifiedTime: nil,
-                                     match: nil
+                                     modifiedTime: nil
     )
     
     static let mockLocation = Location(lat: 11.1111, lon: 11.1111)
 
     static var mockUser = User(
+        id: "JYZhAYhOhPgrqm64Oy0Z51FFD0J3",
         name: "이영찬",
         nickName: "Cobugi",
         gender: "남",
@@ -49,7 +49,7 @@ struct MockData {
         description: "수학에 관심이 많은, 개발자를 지망하는 수학교육 전공자입니다. 궁금하신 점은 메세지 문의 언제든지 주세요!",
         stars: ["ABB60E50-C5DA-4049-A0AC-FB078912F913", "57E3D0E7-70E7-41D4-A84F-1D26DF3AEC57"],
         subjects: [.korean, .math, .english, .science, .hobby],
-        chatItems: nil
+        channels: nil
     )
 
     static let mockUser2 = User(
@@ -63,7 +63,7 @@ struct MockData {
         description: "수학에 관심이 많은, 개발자를 지망하는 일본어 전공자입니다. 궁금하신 점은 메세지 문의 언제든지 주세요!",
         stars: nil,
         subjects: [.korean, .math, .english, .science, .hobby],
-        chatItems: nil
+        channels: nil
     )
 
 }

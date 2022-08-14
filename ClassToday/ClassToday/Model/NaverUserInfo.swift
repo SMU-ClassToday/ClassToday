@@ -32,7 +32,7 @@ struct NaverUserInfo: Decodable {
             description: nil,
             stars: [],
             subjects: [],
-            chatItems: []
+            channels: []
         )
     }
 }

@@ -11,7 +11,6 @@ import FirebaseFirestoreSwift
 
 class FirestoreManager {
     static let shared = FirestoreManager()
-
     private init() {}
 
     // - MARK: CRUD Method
@@ -149,6 +148,97 @@ extension FirestoreManager {
                 }
                 return
             }
+        }
+    }
+}
+
+//MARK: - chat 관련 Firestore Method
+extension FirestoreManager {
+    func uploadChannel(channel: Channel) {
+        do {
+            try FirestoreRoute.channel.ref.document(channel.id).setData(from: channel)
+        } catch {
+            debugPrint(error)
+        }
+    }
+    
+    func delete(channel: Channel) {
+        FirestoreRoute.channel.ref.document(channel.id).delete { error in
+            if let error = error {
+                debugPrint("Error removing document: \(error)")
+            } else {
+                debugPrint("Document successfully removed!")
+            }
+        }
+    }
+    
+    func update(channel: Channel) {
+        uploadChannel(channel: channel)
+    }
+    
+    func checkChannel(sellerID: String, buyerID: String, classItemID: String, completion: @escaping ([Channel]) -> ()) {
+        var data: [Channel] = []
+        FirestoreRoute.channel.ref.whereField("sellerID", isEqualTo: sellerID).whereField("buyerID", isEqualTo: buyerID).whereField("classItemID", isEqualTo: classItemID).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let channel = try document.data(as: Channel.self)
+                        data.append(channel)
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
+    
+    func fetchChannel(channels: [String], completion: @escaping ([Channel]) -> ()) {
+        var data: [Channel] = []
+        //TODO: - whereField(_, in:)이 10개까지밖에 쿼리하지 못하는 문제 해결하기
+        var channels: [String] = channels
+        if channels.count > 10 {
+            channels = Array(channels[0...9])
+        }
+        FirestoreRoute.channel.ref.whereField("id", in: channels).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let channel = try document.data(as: Channel.self)
+                        data.append(channel)
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
+    
+    func fetch(channel: Channel, completion: @escaping (Channel) -> ()) {
+        FirestoreRoute.channel.ref.document(channel.id).getDocument(as: Channel.self) { result in
+            switch result {
+            case .success(let channel):
+                completion(channel)
+            case .failure(let error):
+                debugPrint(error)
+            }
+        }
+    }
+    
+    func uploadMatch(match: Match, classItem: ClassItem) {
+        do {
+            try FirestoreRoute.db.collection("ClassItem/\(classItem.id)/match").document(match.id).setData(from: match)
+        } catch {
+            debugPrint(error)
         }
     }
 }

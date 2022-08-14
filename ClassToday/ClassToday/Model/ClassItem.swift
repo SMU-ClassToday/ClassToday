@@ -23,10 +23,9 @@ struct ClassItem: Codable {
     let targets: Set<Target>?
     let itemType: ClassItemType
     var validity: Bool
-    let writer: User
+    var writer: String
     let createdTime: Date
     let modifiedTime: Date?
-    let match: [Match]?
 
     func thumbnailImage(completion: @escaping (UIImage?) -> Void) {
         guard let imagesURL = images, let url = imagesURL.first  else {
