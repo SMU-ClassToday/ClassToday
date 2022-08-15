@@ -20,7 +20,11 @@ class MapViewController: UIViewController {
     }()
     
     private lazy var starItem: UIBarButtonItem = {
-        let starItem = UIBarButtonItem.menuButton(self, action: #selector(didTapStarButton), image: Icon.star.image)
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        button.setImage(Icon.star.image, for: .normal)
+        button.setImage(Icon.fillStar.image, for: .selected)
+        button.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
+        let starItem = UIBarButtonItem(customView: button)
         return starItem
     }()
     
@@ -127,7 +131,7 @@ class MapViewController: UIViewController {
         mapClassListView.snp.makeConstraints {
             $0.top.equalTo(mapView.snp.bottom)
             $0.leading.trailing.equalTo(scrollView.contentLayoutGuide)
-            $0.bottom.equalTo(scrollView.contentLayoutGuide).inset(16)
+            $0.bottom.equalTo(scrollView.contentLayoutGuide).inset(50)
             $0.width.equalToSuperview()
         }
     }
@@ -155,21 +159,20 @@ class MapViewController: UIViewController {
 
 //MARK: - objc function
 extension MapViewController {
-    @objc private func didTapStarButton(sender: UIButton) {
-        if sender.state == .selected {
+    /// 즐겨찾기 버튼
+    @objc private func didTapStarButton(_ sender: UIButton) {
+        if sender.isSelected == true {
             sender.isSelected = false
-            starItem.image = Icon.star.image?.withTintColor(.mainColor)
             guard let location = curLocation else { return }
             fetchClassItem(location: location)
         } else {
             sender.isSelected = true
-            starItem.image = Icon.fillStar.image?.withTintColor(.mainColor)
             FirestoreManager.shared.starSort(starList: MockData.mockUser.stars ?? [""]) {
                 self.classItemData = $0
             }
         }
     }
-    @objc private func didTapSearchButton(sender: UIButton) {
+    @objc private func didTapSearchButton(_ sender: UIButton) {
         // 검색 뷰 컨트롤러를 활용할 방법?
         navigationController?.pushViewController(SearchViewController(), animated: true)
     }

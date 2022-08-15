@@ -14,7 +14,15 @@ protocol EnrollDescriptionCellDelegate: AnyObject {
 class EnrollDescriptionCell: UITableViewCell {
 
     // MARK: - Views
-
+    private lazy var toolBarKeyboard: UIToolbar = {
+        let toolBarKeyboard = UIToolbar()
+        toolBarKeyboard.sizeToFit()
+        let blankSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didTapDoneButton))
+        toolBarKeyboard.items = [blankSpace, doneButton]
+        toolBarKeyboard.tintColor = UIColor.mainColor
+        return toolBarKeyboard
+    }()
     private lazy var descriptionTextView: UITextView = {
         let textView = UITextView(frame: .zero)
         textView.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -23,6 +31,7 @@ class EnrollDescriptionCell: UITableViewCell {
         textView.backgroundColor = UIColor(red: 244/255, green: 244/255, blue: 244/255, alpha: 1)
         textView.isScrollEnabled = false
         textView.delegate = self
+        textView.inputAccessoryView = toolBarKeyboard
         return textView
     }()
 
@@ -57,6 +66,10 @@ class EnrollDescriptionCell: UITableViewCell {
         descriptionTextView.text = description
         descriptionTextView.textColor = .black
         descriptionTextView.font = UIFont.systemFont(ofSize: 16)
+    }
+
+    @objc func didTapDoneButton() {
+        descriptionTextView.resignFirstResponder()
     }
 }
 

@@ -18,7 +18,6 @@ protocol ClassItemCellUpdateDelegate: AnyObject {
 class ClassEnrollViewController: UIViewController {
 
     // MARK: - Views
-
     private lazy var customNavigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar()
         navigationBar.isTranslucent = false
@@ -61,25 +60,27 @@ class ClassEnrollViewController: UIViewController {
     }()
 
     // MARK: - Properties
-
     weak var delegate: ClassItemCellUpdateDelegate?
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
     private let locationManager = LocationManager.shared
+
     private let classItemType: ClassItemType
     private var classImages: [UIImage]?
     private var className: String?
     private var classTime: String?
     private var classDate: Set<DayWeek>?
-    private var classPlace: String?
+    private var classPlace: String?             // 도로명주소 값
     private var classPrice: String?
     private var classPriceUnit: PriceUnit = .perHour
     private var classDescription: String?
     private var classSubject: Set<Subject>?
     private var classTarget: Set<Target>?
-    private var classLocation: Location?
-    private var classLocality: String?
+    private var classLocation: Location?        // 위도, 경도 값
+    private var classLocality: String?          // "@@시"
+    private var classKeywordLocation: String?   // 패칭 기준값, "@@구"
     private var currentUser: User?
+
     // MARK: - Initialize
 
     init(classItemType: ClassItemType) {
@@ -140,6 +141,7 @@ class ClassEnrollViewController: UIViewController {
         }
     }
 
+    /// 단일 탭 제스처 등록
     private func configureGesture() {
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(myTapMethod(_:)))
         singleTapGestureRecognizer.numberOfTapsRequired = 1
@@ -149,7 +151,7 @@ class ClassEnrollViewController: UIViewController {
     }
 
     // MARK: - Actions
-
+    /// 탭 제스쳐가 들어가면, 수정모드를 종료한다
     @objc func myTapMethod(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
@@ -211,10 +213,20 @@ class ClassEnrollViewController: UIViewController {
             self.classPlace = ""
         }
         group.enter()
-        locationManager.getLocalityOfAddress(of: classLocation) { result in
+        locationManager.getLocality(of: classLocation) { result in
             switch result {
             case .success(let localityAddress):
                 self.classLocality = localityAddress
+            case .failure(let error):
+                debugPrint(error)
+            }
+            group.leave()
+        }
+        group.enter()
+        locationManager.getKeywordOfLocation(of: classLocation) { result in
+            switch result {
+            case .success(let keywordLocation):
+                self.classKeywordLocation = keywordLocation
             case .failure(let error):
                 debugPrint(error)
             }
@@ -229,6 +241,7 @@ class ClassEnrollViewController: UIViewController {
                                           place: self.classPlace,
                                           location: self.classLocation,
                                           locality: self.classLocality,
+                                          keywordLocation: self.classKeywordLocation,
                                           price: self.classPrice,
                                           priceUnit: self.classPriceUnit,
                                           description: classDescription,

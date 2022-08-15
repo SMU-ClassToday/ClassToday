@@ -16,6 +16,7 @@ struct ClassItem: Codable {
     let place: String?
     let location: Location?
     let locality: String?
+    let keywordLocation: String?
     let price: String?
     let priceUnit: PriceUnit
     let description: String
@@ -74,5 +75,26 @@ struct ClassItem: Codable {
         } else {
             completion(nil)
         }
+    }
+    
+    /// 수업이 업로드 되고 경과된 시간을 계산하여, 문자열로 반환합니다.
+    ///
+    /// - form: " | @개월 전" [개월, 일, 시간, 분, 방금 전]
+    func pastDateCalculate() -> String {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.month, .day, .hour, .minute], from: self.createdTime, to: Date())
+        var text = ""
+        if let month = components.month, month != 0 {
+            text = " | \(month)개월 전"
+        } else if let day = components.day, day != 0 {
+            text = " | \(day)일 전"
+        } else if let hour = components.hour, hour != 0 {
+            text = " | \(hour)시간 전"
+        } else if let minute = components.minute, minute != 0 {
+            text = " | \(minute)분 전"
+        } else {
+            text = " | 방금 전"
+        }
+        return text
     }
 }

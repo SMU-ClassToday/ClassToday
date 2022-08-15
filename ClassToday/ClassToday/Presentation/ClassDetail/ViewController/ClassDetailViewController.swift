@@ -18,6 +18,7 @@ class ClassDetailViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(DetailImageCell.self, forCellReuseIdentifier: DetailImageCell.identifier)
+        tableView.register(DetailUserCell.self, forCellReuseIdentifier: DetailUserCell.identifier)
         tableView.register(DetailContentCell.self, forCellReuseIdentifier: DetailContentCell.identifier)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
@@ -36,7 +37,7 @@ class ClassDetailViewController: UIViewController {
         button.layer.cornerRadius = 20
         return button
     }()
-    
+
     private lazy var alertController: UIAlertController = {
         let alert = UIAlertController(title: "모집을 종료하시겠습니까?", message: nil, preferredStyle: .alert)
         alert.view?.tintColor = .mainColor
@@ -54,6 +55,16 @@ class ClassDetailViewController: UIViewController {
             cancelAction
         ].forEach { alert.addAction($0) }
         return alert
+    }()
+
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        activityIndicator.color = UIColor.mainColor
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.medium
+        activityIndicator.stopAnimating()
+        return activityIndicator
     }()
 
     // MARK: - Properties
@@ -76,14 +87,18 @@ class ClassDetailViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    deinit {
+        print("------------------------------")
+    }
 
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         getUsers()
-        configureUI()
+        setUpUI()
         checkStar()
+        activityIndicator.startAnimating()
         self.setNeedsStatusBarAppearanceUpdate()
     }
 
@@ -104,6 +119,7 @@ class ClassDetailViewController: UIViewController {
     }
 
     // MARK: - Method
+
     private func checkIsChannelAlreadyMade() {
         switch classItem.itemType {
             case .buy:
@@ -141,18 +157,20 @@ class ClassDetailViewController: UIViewController {
             }
         }
     }
-    
-    private func configureUI() {
+
+    private func setUpUI() {
         view.backgroundColor = .white
-        view.addSubview(tableView)
-        view.addSubview(navigationBar)
+        [tableView, navigationBar].forEach {view.addSubview($0)}
         tableView.addSubview(matchingButton)
+        tableView.addSubview(activityIndicator)
 
         tableView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.top.equalToSuperview()
         }
-
+        activityIndicator.snp.makeConstraints {
+            $0.center.equalTo(view)
+        }
         matchingButton.snp.makeConstraints {
             $0.centerX.equalTo(view)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-24)
@@ -250,7 +268,7 @@ class ClassDetailViewController: UIViewController {
 
 extension ClassDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -264,13 +282,29 @@ extension ClassDetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
-            classItem.fetchedImages { images in
+            classItem.fetchedImages { [weak self] images in
                 DispatchQueue.main.async {
+                    self?.activityIndicator.stopAnimating()
                     cell.configureWith(images: images)
                 }
             }
             return cell
         case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailUserCell.identifier, for: indexPath) as? DetailUserCell else {
+                return UITableViewCell()
+            }
+            firestoreManager.readUser(uid: classItem.writer) { [weak self] result in
+                switch result {
+                case .success(let user):
+                    cell.configure(with: user) {
+                        self?.navigationController?.pushViewController(ProfileDetailViewController(user: $0), animated: true)
+                    }
+                case .failure(let error):
+                    debugPrint(error)
+                }
+            }
+            return cell
+        case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailContentCell.identifier, for: indexPath) as? DetailContentCell else {
                 return UITableViewCell()
             }
@@ -290,6 +324,8 @@ extension ClassDetailViewController: UITableViewDelegate {
         case 0:
             return view.frame.height * 0.4
         case 1:
+            return 96
+        case 2:
             return UITableView.automaticDimension
         default:
             return 0
