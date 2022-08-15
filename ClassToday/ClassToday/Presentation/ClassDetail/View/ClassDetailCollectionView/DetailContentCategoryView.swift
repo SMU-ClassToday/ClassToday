@@ -19,7 +19,7 @@ class DetailContentCategoryView: UIView {
 
     private lazy var seperator: UIView = {
         let sepertor = UIView()
-        sepertor.backgroundColor = .black
+        sepertor.backgroundColor = .separator
         return sepertor
     }()
 

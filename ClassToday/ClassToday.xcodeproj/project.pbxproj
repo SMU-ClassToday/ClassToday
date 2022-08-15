@@ -160,6 +160,7 @@
 		FCD78A032872CC4500714EC7 /* ChatClassItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD78A022872CC4500714EC7 /* ChatClassItemCell.swift */; };
 		FCD78A0528731B3A00714EC7 /* UIAlertAction+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD78A0428731B3A00714EC7 /* UIAlertAction+.swift */; };
 		FCFDFCD02897C6550031F77D /* ChatStreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFDFCCF2897C6550031F77D /* ChatStreamManager.swift */; };
+		C94C0BD428A494EA00F75B76 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -287,6 +288,7 @@
 		FC25F8B02865DF9F00B2BBEB /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		FC25F8B82865E04900B2BBEB /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
 		FC25F8BC2865E1F400B2BBEB /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
 		FC3458662816E5A800EB7B43 /* CategoryListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListCollectionViewCell.swift; sourceTree = "<group>"; };
 		FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarViewController.swift; sourceTree = "<group>"; };
 		FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
@@ -407,6 +409,7 @@
 				6B59562A28475BA2004821F1 /* UIButton+.swift */,
 				6B59562C2847715D004821F1 /* UIImageView+.swift */,
 				FCD78A0428731B3A00714EC7 /* UIAlertAction+.swift */,
+				C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -984,6 +987,7 @@
 				6B5E1497281312B5001AF21C /* UIColor+.swift in Sources */,
 				6B5E14A928131408001AF21C /* SubjectUserInfoTableViewCell.swift in Sources */,
 				89098E252820E636006EFD4E /* EnrollNameCell.swift in Sources */,
+				C94C0BD428A494EA00F75B76 /* UIAlertController+.swift in Sources */,
 				89A67346282A638800951300 /* TabbarController.swift in Sources */,
 				89A314442878FEAD00A7F6ED /* MapClassListView.swift in Sources */,
 				FCA26EC12867A193004F4C20 /* ImageMediaItem.swift in Sources */,

@@ -20,6 +20,7 @@ class StorageManager {
 
     private init() {}
 
+    /// FireStorage에 이미지를 업로드 합니다.
     func upload(image: UIImage, completion: @escaping (String) -> Void) throws {
         guard let data = image.jpegData(compressionQuality: 0.3) else {
             throw StorageError.invalidData
@@ -45,6 +46,8 @@ class StorageManager {
             }
         }
     }
+    
+    /// FireStorage에서 이미지를 다운로드 합니다.
     func downloadImage(urlString: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
         let storageReference = Storage.storage().reference(forURL: urlString)
         let megaByte = Int64(1 * 1024 * 1024)
@@ -58,6 +61,7 @@ class StorageManager {
         }
     }
 
+    /// FireStorage에서 이미지를 삭제합니다.
     func deleteImage(urlString: String) {
         let storageReference = Storage.storage().reference(forURL: urlString)
         storageReference.delete { error in

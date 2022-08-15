@@ -32,6 +32,12 @@ class MapClassListCell: UITableViewCell {
         return label
     }()
     
+    private lazy var priceUnitLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        return label
+    }()
+    
     private lazy var countLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -59,36 +65,14 @@ class MapClassListCell: UITableViewCell {
     // MARK: - Methods
     func configure(with classItem: ClassItem) {
         titleLabel.text = classItem.name
-        LocationManager.shared.getAddress(of: classItem.location) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let location):
-                self.addressLabel.text = location
-            case .failure:
-                self.addressLabel.text = "failed"
-            }
-        }
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.month, .day, .hour, .minute], from: classItem.createdTime, to: Date())
-        if let month = components.month, month != 0 {
-            timeLabel.text = " | \(month)개월 전"
-        } else if let day = components.day, day != 0 {
-            timeLabel.text = " | \(day)일 전"
-        } else if let hour = components.hour, hour != 0 {
-            timeLabel.text = " | \(hour)시간 전"
-        } else if let minute = components.minute, minute != 0 {
-            timeLabel.text = " | \(minute)분 전"
-        } else {
-            timeLabel.text = " | 방금 전"
-        }
+        addressLabel.text = "\(classItem.locality ?? "") \(classItem.keywordLocation ?? "")"
+        timeLabel.text = classItem.pastDateCalculate()
         costLabel.text = "\(String(classItem.price ?? "0"))원"
-//        if let count = classItem.match?.count {
-//            countLabel.text = "\(count)"
-//        }
+        priceUnitLabel.text = classItem.priceUnit.description
     }
 
     private func setUpLayout() {
-        [titleLabel, addressLabel, timeLabel, costLabel, countLabel, recommendLabel].forEach { self.addSubview($0)}
+        [titleLabel, addressLabel, timeLabel, costLabel, priceUnitLabel, countLabel, recommendLabel].forEach { self.addSubview($0)}
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(self.snp.top).offset(8)
             $0.leading.equalTo(self.snp.leading).offset(12)
@@ -113,6 +97,10 @@ class MapClassListCell: UITableViewCell {
         }
         costLabel.snp.makeConstraints {
             $0.trailing.equalTo(countLabel.snp.leading)
+            $0.bottom.equalTo(recommendLabel.snp.bottom)
+        }
+        priceUnitLabel.snp.makeConstraints {
+            $0.trailing.equalTo(costLabel.snp.leading).offset(-4)
             $0.bottom.equalTo(recommendLabel.snp.bottom)
         }
     }

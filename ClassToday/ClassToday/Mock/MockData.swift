@@ -14,7 +14,7 @@ struct MockData {
                                      place: nil,
                                      location: nil,
                                      locality: nil,
-                                     price: "12000",
+                                     keywordLocation: "", price: "12000",
                                      priceUnit: .perClass,
                                      description:
                                      """
