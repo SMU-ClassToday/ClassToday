@@ -6,6 +6,19 @@
 	<string>de72sn7jx4</string>
 	<key>NMFClientSecret</key>
 	<string>QgJoMx1RNy5cuvFpzHOYIRlzXPvNkssaLTZ3LoHo</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>naverLogin</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>naverlogin</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

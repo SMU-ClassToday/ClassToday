@@ -90,8 +90,7 @@ class SearchResultViewController: UIViewController {
             guard let self = self else { return }
             self.data = data.filter {
                 $0.name.contains(keyword) ||
-                $0.description.contains(keyword) ||
-                $0.writer.name.contains(keyword)
+                $0.description.contains(keyword)
             }
             self.dataBuy = self.data.filter { $0.itemType == ClassItemType.buy }
             self.dataSell = self.data.filter { $0.itemType == ClassItemType.sell }
