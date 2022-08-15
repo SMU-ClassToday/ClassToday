@@ -10,7 +10,7 @@ import NMapsMap
 import Moya
 
 protocol MapSelectionViewControllerDelegate: AnyObject {
-    func isLocationSelected(location: Location, place: String)
+    func isLocationSelected(location: Location, place: String?)
 }
 
 class MapSelectionViewController: UIViewController {
@@ -52,27 +52,33 @@ class MapSelectionViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.numberOfLines = 2
         label.text = "선택한 수업의 위치"
-        label.isHidden = true
         return label
     }()
     
     private lazy var locationDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        label.isHidden = true
+        label.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         return label
     }()
     
-    private lazy var resetButton: UIButton = {
+    private lazy var currentLocationButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("현재 위치로 설정하기", for: .normal)
         button.setTitleColor(UIColor.mainColor, for: .normal)
-        button.addTarget(self, action: #selector(isResetButtonTouched(_:)), for: .touchUpInside)
-        button.isHidden = true
+        button.addTarget(self, action: #selector(isCurrentLocationButtonTouched(_:)), for: .touchUpInside)
         return button
     }()
     
-    private lazy var button: UIButton = {
+    private lazy var deleteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.tintColor = .systemRed
+        button.isHidden = true
+        button.addTarget(self, action: #selector(isDeleteButtonTouched(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var submitButton: UIButton = {
         let button = UIButton()
         button.setTitle("설정하기", for: .normal)
         button.setTitle("장소를 선택해주세요", for: .disabled)
@@ -82,7 +88,7 @@ class MapSelectionViewController: UIViewController {
         button.isEnabled = false
         button.setBackgroundColor(UIColor.mainColor, for: .normal)
         button.setBackgroundColor(UIColor.gray, for: .disabled)
-        button.addTarget(self, action: #selector(isButtonTouched(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(isSubmitButtonTouched(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -102,8 +108,10 @@ class MapSelectionViewController: UIViewController {
         willSet {
             guard let newValue = newValue else {
                 locationDescriptionLabel.text = "주소 정보 없음"
+                deleteButton.isHidden = true
                 return
             }
+            deleteButton.isHidden = false
             locationDescriptionLabel.text = "\(newValue)"
         }
     }
@@ -113,20 +121,14 @@ class MapSelectionViewController: UIViewController {
             guard let newValue = newValue else {
                 marker.mapView = nil
                 placeName = nil
-                locationLabel.isHidden = true
-                locationDescriptionLabel.isHidden = true
-                resetButton.isHidden = true
                 return
             }
             marker.position = newValue
             marker.mapView = mapView.mapView
-            locationLabel.isHidden = false
-            locationDescriptionLabel.isHidden = false
-            resetButton.isHidden = false
             let location = Location(lat: newValue.lat, lon: newValue.lng)
             self.moyaProvider.locationToAddress(location: location) { address in
                 self.placeName = address
-                self.button.isEnabled = true
+                self.submitButton.isEnabled = true
             }
         }
     }
@@ -145,20 +147,20 @@ class MapSelectionViewController: UIViewController {
             return
         }
         position = NMGLatLng(lat: location.lat, lng: location.lon)
-        resetButton.isHidden = false
     }
     
     private func setUpLayout() {
         view.backgroundColor = .white
         [
             titleLabel, mapView, descriptionLabel, locationLabel,
-            resetButton ,locationDescriptionLabel, button
+            currentLocationButton ,locationDescriptionLabel, submitButton,
+            deleteButton
         ].forEach { view.addSubview($0)}
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(25)
             $0.leading.equalToSuperview().offset(20)
         }
-        resetButton.snp.makeConstraints {
+        currentLocationButton.snp.makeConstraints {
             $0.trailing.equalTo(mapView)
             $0.bottom.equalTo(mapView.snp.top)
         }
@@ -173,13 +175,17 @@ class MapSelectionViewController: UIViewController {
         locationLabel.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(16)
             $0.leading.equalTo(descriptionLabel)
-            $0.trailing.equalTo(resetButton).offset(8)
+            $0.trailing.equalTo(currentLocationButton).offset(8)
         }
         locationDescriptionLabel.snp.makeConstraints {
             $0.top.equalTo(locationLabel.snp.bottom).offset(4)
-            $0.leading.trailing.equalTo(locationLabel)
+            $0.leading.equalTo(locationLabel)
         }
-        button.snp.makeConstraints {
+        deleteButton.snp.makeConstraints {
+            $0.centerY.equalTo(locationDescriptionLabel)
+            $0.leading.equalTo(locationDescriptionLabel.snp.trailing)
+        }
+        submitButton.snp.makeConstraints {
             $0.top.equalTo(locationDescriptionLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalTo(mapView)
             $0.height.equalTo(60)
@@ -187,26 +193,27 @@ class MapSelectionViewController: UIViewController {
         }
     }
     
-    @objc func isButtonTouched(_ sender: UIButton) {
+    @objc func isSubmitButtonTouched(_ sender: UIButton) {
         guard let position = position else {
             /// 선택된 좌표가 없는 경우
             /// 현재 위치와 주소명 리턴
             guard let location = LocationManager.shared.getCurrentLocation() else { return }
-            moyaProvider.locationToAddress(location: location) { [weak self] address in
-                guard let self = self else { return }
-                self.delegate?.isLocationSelected(location: location, place: address)
-            }
+            delegate?.isLocationSelected(location: location, place: nil)
             dismiss(animated: true)
             return
         }
         let location = Location(lat: position.lat, lon: position.lng)
-        delegate?.isLocationSelected(location: location, place: placeName ?? "주소 정보 없음")
+        delegate?.isLocationSelected(location: location, place: placeName)
         dismiss(animated: true)
     }
 
-    @objc func isResetButtonTouched(_ sender: UIButton) {
+    @objc func isCurrentLocationButtonTouched(_ sender: UIButton) {
         guard let location = LocationManager.shared.getCurrentLocation() else { return }
         position = NMGLatLng(lat: location.lat, lng: location.lon)
+    }
+    
+    @objc func isDeleteButtonTouched(_ sender: UIButton) {
+        position = nil
     }
 }
 
