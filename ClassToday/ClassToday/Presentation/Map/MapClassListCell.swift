@@ -82,9 +82,9 @@ class MapClassListCell: UITableViewCell {
             timeLabel.text = " | 방금 전"
         }
         costLabel.text = "\(String(classItem.price ?? "0"))원"
-        if let count = classItem.match?.count {
-            countLabel.text = "\(count)"
-        }
+//        if let count = classItem.match?.count {
+//            countLabel.text = "\(count)"
+//        }
     }
 
     private func setUpLayout() {

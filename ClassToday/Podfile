@@ -8,6 +8,7 @@ def common_pods
   pod 'Popover'
   pod 'NMapsMap'
   pod 'Moya'
+  pod 'naveridlogin-sdk-ios'
 end
 
 target 'ClassToday' do

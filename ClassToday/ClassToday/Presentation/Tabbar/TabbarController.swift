@@ -97,11 +97,3 @@ private extension TabbarController {
         }
     }
 }
-
-//ChatVC
-class ChatViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-    }
-}

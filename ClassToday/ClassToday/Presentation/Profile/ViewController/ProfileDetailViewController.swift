@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import CoreMedia
 
 class ProfileDetailViewController: UIViewController {
     // MARK: - UI Components
@@ -31,7 +30,9 @@ class ProfileDetailViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    let user: User
+    private var user: User
+    private let currentUserID = UserDefaultsManager.shared.isLogin()
+    weak var delegate: ProfileDetailViewControllerDelegate?
     
     // MARK: - init
     init(user: User) {
@@ -103,14 +104,32 @@ extension ProfileDetailViewController: ProfileUserInfoViewDelegate {
     }
 }
 
+// MARK: - ProfileModifyViewControllerDelegate
+extension ProfileDetailViewController: ProfileModifyViewControllerDelegate {
+    func didFinishUpdateUserInfo() {
+        beginRefresh()
+        delegate?.didFinishUpdateUserInfo()
+    }
+}
+
 // MARK: - @objc Methods
 private extension ProfileDetailViewController {
     @objc func beginRefresh() {
+        User.getCurrentUser { result in
+            switch result {
+            case .success(let user):
+                self.user = user
+                self.userInfoTableView.reloadData()
+            case .failure(let error):
+                print("ERROR: \(error.localizedDescription)😷")
+            }
+        }
         refreshControl.endRefreshing()
     }
     @objc func didTapRightBarButton() {
         print("didTapRightBarButton")
         let rootViewController = ProfileModifyViewController(user: user)
+        rootViewController.delegate = self
         let profileModifyViewController = UINavigationController(rootViewController: rootViewController)
         profileModifyViewController.modalPresentationStyle = .fullScreen
         present(profileModifyViewController, animated: true)
@@ -122,7 +141,7 @@ private extension ProfileDetailViewController {
     func setupNavigationBar() {
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
         // 본인 프로필 상세 뷰로 들어갈 때, 다른 사람의 프로필 상세 뷰로 들어갈 때
-        if user == MockData.mockUser {
+        if user.id == currentUserID {
             navigationItem.title = "나의 프로필"
             let rightBarButtonItem = UIBarButtonItem(
                 image: UIImage(named: "pencil"),
