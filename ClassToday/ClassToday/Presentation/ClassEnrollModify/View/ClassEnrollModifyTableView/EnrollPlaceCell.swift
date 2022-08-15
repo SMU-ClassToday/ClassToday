@@ -22,7 +22,6 @@ class EnrollPlaceCell: UITableViewCell {
         textField.rightView = button
         textField.rightViewMode = .always
         textField.delegate = self
-        textField.clearButtonMode = .whileEditing
         return textField
     }()
 
@@ -98,8 +97,8 @@ extension EnrollPlaceCell: UITextFieldDelegate {
 }
 
 extension EnrollPlaceCell: MapSelectionViewControllerDelegate {
-    func isLocationSelected(location: Location, place: String) {
-        self.placeTextField.text = place
+    func isLocationSelected(location: Location, place: String?) {
+        self.placeTextField.text = place ?? nil
         self.location = location
         delegate?.passData(place: place, location: location)
     }

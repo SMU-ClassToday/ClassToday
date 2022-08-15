@@ -10,6 +10,7 @@ import SnapKit
 import Popover
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Moya
 
 protocol ClassItemCellUpdateDelegate: AnyObject {
     func updatePriceUnit(with priceUnit: PriceUnit)
@@ -64,6 +65,7 @@ class ClassEnrollViewController: UIViewController {
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
     private let locationManager = LocationManager.shared
+    private let naverMapAPIProvider = NaverMapAPIProvider()
 
     private let classItemType: ClassItemType
     private var classImages: [UIImage]?
@@ -210,7 +212,14 @@ class ClassEnrollViewController: UIViewController {
         }
         if classLocation == nil {
             self.classLocation = locationManager.getCurrentLocation()
-            self.classPlace = ""
+        }
+        if classPlace == nil {
+            if let location = classLocation {
+                naverMapAPIProvider.locationToAddress(location: location) { [weak self] in
+                    guard let self = self else { return }
+                    self.classPlace = $0
+                }
+            }
         }
         group.enter()
         locationManager.getLocality(of: classLocation) { result in

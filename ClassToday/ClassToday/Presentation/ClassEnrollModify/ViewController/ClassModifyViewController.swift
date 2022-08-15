@@ -69,6 +69,7 @@ class ClassModifyViewController: UIViewController {
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
     private let locationManager = LocationManager.shared
+    private let naverMapAPIProvider = NaverMapAPIProvider()
 
     private var classItem: ClassItem
     private var classImages: [UIImage]?
@@ -259,7 +260,16 @@ class ClassModifyViewController: UIViewController {
                 group.leave()
             }
         }
-        
+        if classLocation == nil {
+            self.classLocation = locationManager.getCurrentLocation()
+            if let location = classLocation {
+                naverMapAPIProvider.locationToAddress(location: location) { [weak self] in
+                    guard let self = self else { return }
+                    self.classPlace = $0
+                }
+            }
+        }
+
         group.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
             

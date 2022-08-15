@@ -9,42 +9,6 @@ import Foundation
 import Alamofire
 import Moya
 
-//struct NaverMapAPI {
-//    let apiKey = "b8f03fc5e25bdeaaa478064e15410d68"
-//    private var components = URLComponents(string: "\(MovieAPI.now_playing.url)")
-//    private var urlQueryItems: [URLQueryItem]?
-//
-//    init(of api: API, with queryItems: [URLQueryItem] = []) {
-//        components = URLComponents(string: "\(api.url)")
-//        urlQueryItems = queryItems
-//    }
-//
-//    mutating func targetURL() -> URL? {
-//        components?.queryItems = urlQueryItems
-//        return components?.url
-//    }
-//}
-//
-//extension NaverMapAPI {
-//    enum RoadAddressAPI: API {
-//        case roadaddr(Location)
-//
-//        static let baseURL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&"
-//
-//        var url: String {
-//            switch self {
-//            case .roadaddr(let location):
-//                return Self.baseURL + "coords=\(location.lat),\(location.lon)" + "&sourcecrs=epsg:4326&output=json&orders=roadaddr"
-//            }
-//        }
-//    }
-//}
-//
-//protocol API {
-//    static var baseURL: String { get }
-//    var url: String { get }
-//}
-
 enum NaverMapAPI {
     case reverseGeocoding(_ lat: Double, _ lon: Double)
 }
