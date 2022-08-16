@@ -147,6 +147,8 @@ class MapSelectionViewController: UIViewController {
             return
         }
         position = NMGLatLng(lat: location.lat, lng: location.lon)
+        let _position = NMGLatLng(lat: location.lat, lng: location.lon)
+        mapView.mapView.moveCamera(NMFCameraUpdate(scrollTo: _position))
     }
     
     private func setUpLayout() {
@@ -197,7 +199,6 @@ class MapSelectionViewController: UIViewController {
         guard let position = position else {
             /// 선택된 좌표가 없는 경우
             /// 현재 위치와 주소명 리턴
-//            guard let location = LocationManager.shared.getCurrentLocation() else { return }
             delegate?.isLocationSelected(location: nil, place: nil)
             dismiss(animated: true)
             return
