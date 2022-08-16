@@ -91,6 +91,7 @@ extension EnrollPlaceCell: UITextFieldDelegate {
         return false
     }
 
+    /// 텍스트 필드 입력 수정 방지
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return false
     }
