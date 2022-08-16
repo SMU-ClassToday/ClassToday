@@ -237,6 +237,15 @@ extension MatchConfirmViewController {
     private func configure() {
         sellerLabel2.text = seller?.nickName
         buyerLabel2.text = buyer?.nickName
+        if let date = match.date {
+            let sortedSet = date.sorted(by: {$0 < $1})
+            var text = ""
+            sortedSet.forEach {
+                text += "\($0.description) ,"
+            }
+            let _ = text.removeLast(2)
+            dayWeekLabel2.text = text
+        }
         timeLabel2.text = match.time ?? ""
         placeLabel2.text = match.place ?? ""
         priceLabel2.text = match.price ?? ""

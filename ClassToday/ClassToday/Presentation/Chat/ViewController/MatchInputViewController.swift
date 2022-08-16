@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Popover
 import SwiftUI
+import NMapsMap
 
 protocol MatchInputViewControllerDelegate: AnyObject {
     func saveMatchingInformation(match: Match)
@@ -156,6 +157,28 @@ class MatchInputViewController: UIViewController {
         return textField
     }()
     
+    private lazy var mapView: NMFNaverMapView = {
+        let naverMapView = NMFNaverMapView()
+        let mapView = naverMapView.mapView
+        mapView.mapType = NMFMapType.basic
+        mapView.setLayerGroup(NMF_LAYER_GROUP_BUILDING, isEnabled: true)
+        mapView.setLayerGroup(NMF_LAYER_GROUP_TRANSIT, isEnabled: true)
+        mapView.isTiltGestureEnabled = false
+        mapView.isRotateGestureEnabled = false
+        mapView.isScrollGestureEnabled = false
+        return naverMapView
+    }()
+
+    private lazy var marker: NMFMarker = {
+        let marker = NMFMarker()
+        marker.iconImage = NMF_MARKER_IMAGE_BLACK
+        marker.iconTintColor = UIColor.mainColor
+        marker.iconPerspectiveEnabled = true
+        marker.width = 30
+        marker.height = 40
+        return marker
+    }()
+    
     private lazy var mapButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "map"), for: .normal)
@@ -221,6 +244,7 @@ class MatchInputViewController: UIViewController {
             timeTextField,
             placeLabel,
             placeTextField,
+            mapView,
             priceLabel,
             priceTextField
         ].forEach { stackView.addArrangedSubview($0) }
@@ -274,7 +298,15 @@ class MatchInputViewController: UIViewController {
             _classLocation = newValue
         }
     }
-    private var _classLocation: Location?
+    private var _classLocation: Location? {
+        willSet {
+            guard let newValue = newValue else { return }
+            let position = NMGLatLng(lat: newValue.lat, lng: newValue.lon)
+            mapView.mapView.moveCamera(NMFCameraUpdate(scrollTo: position))
+            marker.position = position
+            marker.mapView = mapView.mapView
+        }
+    }
     private var classPriceUnit: PriceUnit? {
         willSet {
             priceUnitLabel.text = newValue?.description
@@ -349,6 +381,10 @@ extension MatchInputViewController {
         }
         dayWeekTextField.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
+        }
+        mapView.snp.makeConstraints {
+            $0.width.equalTo(stackView.snp.width)
+            $0.height.equalTo(stackView.snp.width)
         }
         
         /// 키보드 사용 시 텍스트필드가 가려지는 문제 해결을 위한 옵저버
