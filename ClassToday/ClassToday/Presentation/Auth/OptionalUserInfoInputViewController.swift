@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import PhotosUI
 
 class OptionalUserInfoInputViewController: UIViewController {
     // MARK: - UI Components
@@ -21,6 +22,11 @@ class OptionalUserInfoInputViewController: UIViewController {
         button.setImage(UIImage(named: "person"), for: .normal)
         button.layer.cornerRadius = 40.0
         button.clipsToBounds = true
+        button.addTarget(
+            self,
+            action: #selector(didTapProfileImagePickerButton),
+            for: .touchUpInside
+        )
         button.snp.makeConstraints { $0.height.equalTo(80.0) }
         return button
     }()
@@ -48,6 +54,7 @@ class OptionalUserInfoInputViewController: UIViewController {
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.borderStyle = .roundedRect
+        textField.delegate = self
         textField.snp.makeConstraints { $0.height.equalTo(48.0) }
         return textField
     }()
@@ -96,6 +103,17 @@ class OptionalUserInfoInputViewController: UIViewController {
         return label
     }()
     
+    // MARK: - Properties
+    var essentialUserInfoInput: (
+        name: String?,
+        nickName: String?,
+        gender: String?,
+        location: Location?
+    )?
+    private var profileImage: UIImage?
+    private var company: String?
+    private var descriptionText: String?
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,10 +123,95 @@ class OptionalUserInfoInputViewController: UIViewController {
     }
 }
 
+// MARK: - @objc Methods
+private extension OptionalUserInfoInputViewController {
+    @objc func didTapProfileImagePickerButton() {
+        print("didTapProfileImagePickerButton")
+        let imagePickerViewController = PHPickerViewController.makeImagePicker(selectLimit: 1)
+        imagePickerViewController.delegate = self
+        present(imagePickerViewController, animated: true)
+    }
+    @objc func didTapRightBarButton() {
+//        print(essentialUserInfoInput)
+//        print(profileImage, company, descriptionText, subjectPickerView.checkedSubjects.filter { $0.1 })
+        // TODO: - 에러처리
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let user):
+                FirestoreManager.shared.uploadUser(
+                    user: User(
+                        id: user.id,
+                        name: self.essentialUserInfoInput?.name ?? "",
+                        nickName: self.essentialUserInfoInput?.nickName ?? "",
+                        gender: self.essentialUserInfoInput?.gender ?? "",
+                        location: self.essentialUserInfoInput?.location,
+                        email: user.email,
+                        profileImage: "이미지있음", // TODO: - 이미지 등록하기
+                        company: self.company,
+                        description: self.descriptionText,
+                        stars: [],
+                        subjects: self.subjectPickerView.checkedSubjects.filter { $0.1 }.map { $0.0 } ,
+                        channels: []
+                    )
+                ) { result in
+                    switch result {
+                    case .success(_):
+                        print("성공!@#!@#!#!@#!@👨‍👩‍👦‍👦")
+                    case .failure(let error):
+                        print("ERROR \(error.localizedDescription) 👕")
+                    }
+                }
+            case .failure(let error):
+                break
+            }
+        }
+    }
+}
+
 // MARK: - UITextViewDelegate
 extension OptionalUserInfoInputViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         textViewPlaceholderLabel.isHidden = !textView.text.isEmpty
+        if !textView.text.isEmpty {
+            descriptionText = textView.text
+        } else {
+            descriptionText = nil
+        }
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension OptionalUserInfoInputViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if !(textField.text ?? "").isEmpty {
+            company = textField.text
+        } else {
+            company = nil
+        }
+    }
+}
+
+// MARK: - PHPickerViewControllerDelegate
+extension OptionalUserInfoInputViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        if !results.isEmpty {
+            let result = results.first!
+            let itemProvider = result.itemProvider
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                    if let error = error {
+                        print("ERROR \(error.localizedDescription)🩲🩲")
+                    }
+                    guard let selectedImage = image as? UIImage else { return }
+                    DispatchQueue.main.async {
+                        // TODO: - 버튼 이미지 업데이트 변경
+                        self.profileImagePickerButton.setImage(selectedImage, for: .normal)
+                    }
+                }
+            }
+        }
+        picker.dismiss(animated: true)
     }
 }
 
@@ -121,7 +224,7 @@ private extension OptionalUserInfoInputViewController {
             title: "저장",
             style: .plain,
             target: self,
-            action: nil
+            action: #selector(didTapRightBarButton)
         )
     }
     func attribute() {
