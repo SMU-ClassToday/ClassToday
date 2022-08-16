@@ -72,6 +72,11 @@ class EssentialUserInfoInputViewController: UIViewController {
         button.setTitle("🚻", for: .normal)
 //        button.setTitle("🚹🚺", for: .selected)
         button.titleLabel?.font = .systemFont(ofSize: 32.0, weight: .regular)
+        button.addTarget(
+            self,
+            action: #selector(didTapGenderButton),
+            for: .touchUpInside
+        )
         button.snp.makeConstraints { $0.size.equalTo(44.0) }
         return button
     }()
@@ -95,6 +100,11 @@ class EssentialUserInfoInputViewController: UIViewController {
         button.layer.borderWidth = 0.3
         button.setTitle("📍", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 32.0, weight: .regular)
+        button.addTarget(
+            self,
+            action: #selector(didTapLocationButton),
+            for: .touchUpInside
+        )
         button.snp.makeConstraints { $0.size.equalTo(44.0) }
         return button
     }()
@@ -105,6 +115,21 @@ class EssentialUserInfoInputViewController: UIViewController {
         [locationLabel, locationButton].forEach { stackView.addArrangedSubview($0) }
         return stackView
     }()
+    private lazy var rightBarButtonItem: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.title = "다음"
+        button.style = .plain
+        button.target = self
+        button.action = #selector(didTapRightBarButton)
+        button.isEnabled = false
+        return button
+    }()
+    
+    // MARK: - Properties
+    private var name: String?
+    private var nickName: String?
+    private var gender: String?
+    private var location: Location?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -119,19 +144,118 @@ class EssentialUserInfoInputViewController: UIViewController {
 private extension EssentialUserInfoInputViewController {
     @objc func didTapRightBarButton() {
         let optionalUserInfoInputViewController = OptionalUserInfoInputViewController()
+        optionalUserInfoInputViewController.essentialUserInfoInput = (
+            name,
+            nickName,
+            gender,
+            location
+        )
         navigationController?.pushViewController(
             optionalUserInfoInputViewController,
             animated: true
         )
+    }
+    @objc func didTapGenderButton() {
+        print("didTapGenderButton")
+        
+        if gender == nil {
+            gender = "남"
+            genderButton.setTitle("🚹", for: .normal)
+            genderLabel.text = "남"
+            genderLabel.textColor = .systemBlue
+        } else if gender == "남" {
+            gender = "여"
+            genderButton.setTitle("🚺", for: .normal)
+            genderLabel.text = "여"
+            genderLabel.textColor = .systemRed
+        } else {
+            gender = "남"
+            genderButton.setTitle("🚹", for: .normal)
+            genderLabel.text = "남"
+            genderLabel.textColor = .systemBlue
+        }
+        
+        checkEnableRightBarButtonItem(
+            rightBarButtonItem,
+            name: name,
+            nickName: nickName,
+            gender: gender,
+            location: location
+        )
+    }
+    @objc func didTapLocationButton() {
+        print("didTapLocationButton")
+        guard location == nil else { return }
+        
+        location = LocationManager.shared.getCurrentLocation()
+        checkEnableRightBarButtonItem(
+            rightBarButtonItem,
+            name: name,
+            nickName: nickName,
+            gender: gender,
+            location: location
+        )
+        
+        LocationManager.shared.getAddress(of: location) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let address):
+                self.locationLabel.text = address
+                self.locationLabel.textColor = .mainColor
+            case .failure(let error):
+                print("ERROR \(error.localizedDescription)🧖‍♂️")
+            }
+        }
     }
 }
 
 // MARK: - UITextFieldDelegate
 extension EssentialUserInfoInputViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        print(textField.text!, "🤲🏾")
-        print(textField == nameTextField)
-        print(textField == nickNameTextField)
+        switch textField {
+        case nameTextField:
+            if !(textField.text ?? "").isEmpty {
+                name = textField.text
+            } else {
+                name = nil
+            }
+        case nickNameTextField:
+            if !(textField.text ?? "").isEmpty {
+                nickName = textField.text
+            } else {
+                nickName = nil
+            }
+        default:
+            break
+        }
+        
+        checkEnableRightBarButtonItem(
+            rightBarButtonItem,
+            name: name,
+            nickName: nickName,
+            gender: gender,
+            location: location
+        )
+    }
+}
+
+// MARK: - Methods
+private extension EssentialUserInfoInputViewController {
+    func checkEnableRightBarButtonItem(
+        _ button: UIBarButtonItem,
+        name: String?,
+        nickName: String?,
+        gender: String?,
+        location: Location?
+    ) {
+        guard name != nil,
+              nickName != nil,
+              gender != nil,
+              location != nil else {
+            button.isEnabled = false
+            return
+        }
+        button.isEnabled = true
     }
 }
 
@@ -139,12 +263,7 @@ extension EssentialUserInfoInputViewController: UITextFieldDelegate {
 private extension EssentialUserInfoInputViewController {
     func setupNavigationBar() {
         navigationItem.title = "필수 정보 입력"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "다음",
-            style: .plain,
-            target: self,
-            action: #selector(didTapRightBarButton)
-        )
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     func attribute() {
         view.backgroundColor = .systemBackground

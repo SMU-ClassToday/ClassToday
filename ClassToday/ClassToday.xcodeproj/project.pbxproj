@@ -10,6 +10,8 @@
 		6B1483FB287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1483FA287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift */; };
 		6B1483FD287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1483FC287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift */; };
 		6B42D941284BBE6000384480 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */; };
+		6B4942FD28AA693A0047CA0B /* OptionalUserInfoInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4942FC28AA693A0047CA0B /* OptionalUserInfoInputViewController.swift */; };
+		6B4942FF28AA69610047CA0B /* EssentialUserInfoInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4942FE28AA69610047CA0B /* EssentialUserInfoInputViewController.swift */; };
 		6B4FA9DD28917E3B0048B60F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FA9DC28917E3B0048B60F /* UserDefaultsManager.swift */; };
 		6B560C20284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B560C1F284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift */; };
 		6B568EE0284DC47D00B6CA13 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B568EDF284DC47D00B6CA13 /* SignInViewController.swift */; };
@@ -156,6 +158,8 @@
 		6B1483FA287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6B1483FC287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModifyViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
+		6B4942FC28AA693A0047CA0B /* OptionalUserInfoInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalUserInfoInputViewController.swift; sourceTree = "<group>"; };
+		6B4942FE28AA69610047CA0B /* EssentialUserInfoInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialUserInfoInputViewController.swift; sourceTree = "<group>"; };
 		6B4FA9DC28917E3B0048B60F /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		6B560C1F284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchSignInViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6B568EDF284DC47D00B6CA13 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -330,6 +334,8 @@
 				6B59562528474672004821F1 /* SignUpViewController.swift */,
 				6B568EDF284DC47D00B6CA13 /* SignInViewController.swift */,
 				6B59562828475490004821F1 /* LaunchSignInViewController.swift */,
+				6B4942FE28AA69610047CA0B /* EssentialUserInfoInputViewController.swift */,
+				6B4942FC28AA693A0047CA0B /* OptionalUserInfoInputViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -973,6 +979,7 @@
 				FC7FB97128A7DB32004958FA /* ReviewInputViewController.swift in Sources */,
 				6B42D941284BBE6000384480 /* FirebaseAuthManager.swift in Sources */,
 				8971F21C283A1A4200D4AAD0 /* ImageCacheManager.swift in Sources */,
+				6B4942FD28AA693A0047CA0B /* OptionalUserInfoInputViewController.swift in Sources */,
 				892C1CCF28322AD600DE27D3 /* ClassItemType.swift in Sources */,
 				89C26A8C2811EC3A00648206 /* UITextField+.swift in Sources */,
 				892C1CD128322B9D00DE27D3 /* FirestoreRoute.swift in Sources */,
@@ -1004,6 +1011,7 @@
 				89865EA4282A70EA00113242 /* CategoryListViewController.swift in Sources */,
 				89865EA1282A70E300113242 /* SearchHistory.swift in Sources */,
 				89675B422828336C00933C48 /* DetailContentPlaceView.swift in Sources */,
+				6B4942FF28AA69610047CA0B /* EssentialUserInfoInputViewController.swift in Sources */,
 				FCB99C90288F0C41006CE372 /* MatchInputViewController.swift in Sources */,
 				89098E0928202C2D006EFD4E /* UITextView+.swift in Sources */,
 				6B7997C027F33C5A00F37393 /* ClassItem.swift in Sources */,
