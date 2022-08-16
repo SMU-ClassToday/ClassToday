@@ -98,8 +98,13 @@ extension EnrollPlaceCell: UITextFieldDelegate {
 }
 
 extension EnrollPlaceCell: MapSelectionViewControllerDelegate {
-    func isLocationSelected(location: Location, place: String?) {
+    func isLocationSelected(location: Location?, place: String?) {
         self.placeTextField.text = place ?? nil
+        guard let location = location else {
+            self.location = LocationManager.shared.getCurrentLocation()
+            delegate?.passData(place: place, location: self.location)
+            return
+        }
         self.location = location
         delegate?.passData(place: place, location: location)
     }

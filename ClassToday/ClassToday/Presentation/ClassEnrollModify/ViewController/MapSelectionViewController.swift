@@ -10,7 +10,7 @@ import NMapsMap
 import Moya
 
 protocol MapSelectionViewControllerDelegate: AnyObject {
-    func isLocationSelected(location: Location, place: String?)
+    func isLocationSelected(location: Location?, place: String?)
 }
 
 class MapSelectionViewController: UIViewController {
@@ -197,8 +197,8 @@ class MapSelectionViewController: UIViewController {
         guard let position = position else {
             /// 선택된 좌표가 없는 경우
             /// 현재 위치와 주소명 리턴
-            guard let location = LocationManager.shared.getCurrentLocation() else { return }
-            delegate?.isLocationSelected(location: location, place: nil)
+//            guard let location = LocationManager.shared.getCurrentLocation() else { return }
+            delegate?.isLocationSelected(location: nil, place: nil)
             dismiss(animated: true)
             return
         }
