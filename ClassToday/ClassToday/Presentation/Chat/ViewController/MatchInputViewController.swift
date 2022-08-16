@@ -7,12 +7,14 @@
 
 import UIKit
 import SnapKit
+import Popover
 
 protocol MatchInputViewControllerDelegate: AnyObject {
     func saveMatchingInformation(match: Match)
 }
 
 class MatchInputViewController: UIViewController {
+    // MARK: - Views
     private lazy var customNavigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar()
         navigationBar.isTranslucent = false
@@ -106,6 +108,19 @@ class MatchInputViewController: UIViewController {
         return label
     }()
     
+    private lazy var dayWeekView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private lazy var dayWeekTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "수업 요일"
+        textField.borderStyle = .roundedRect
+        textField.isUserInteractionEnabled = false
+        return textField
+    }()
+    
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.text = "수업시간"
@@ -136,7 +151,7 @@ class MatchInputViewController: UIViewController {
         textField.borderStyle = .roundedRect
         textField.rightView = mapButton
         textField.rightViewMode = .always
-        textField.clearButtonMode = .whileEditing
+        textField.delegate = self
         return textField
     }()
     
@@ -178,7 +193,6 @@ class MatchInputViewController: UIViewController {
     
     private lazy var priceUnitLabel: UILabel = {
         let label = UILabel()
-        label.text = PriceUnit.perHour.description
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
@@ -190,12 +204,18 @@ class MatchInputViewController: UIViewController {
         button.addTarget(self, action: #selector(selectUnit(_:)), for: .touchUpInside)
         return button
     }()
-    
+
+    private lazy var popover: Popover = {
+        let popover = Popover(options: nil, showHandler: nil, dismissHandler: nil)
+        return popover
+    }()
+
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         [
             userStackView,
             dayWeekLabel,
+            dayWeekView,
             timeLabel,
             timeTextField,
             placeLabel,
@@ -209,13 +229,46 @@ class MatchInputViewController: UIViewController {
         return stackView
     }()
     
-    func configureNavBar() {
+    private func configureNavBar() {
         view.addSubview(customNavigationBar)
         customNavigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
+    // MARK: - Properties
+
+    weak var delegate: MatchInputViewControllerDelegate?
+    private let channel: Channel
+    private var seller: User?
+    private var buyer: User?
+    private var match: Match?
+    
+    private var classDayweek: Set<DayWeek>? {
+        willSet {
+            guard let newValue = newValue, !newValue.isEmpty else {
+                dayWeekTextField.text = nil
+                return
+            }
+            let sortedSet = newValue.sorted(by: {$0 < $1})
+            var text = ""
+            sortedSet.forEach {
+                text += "\($0.description) ,"
+            }
+            let _ = text.removeLast(2)
+            dayWeekTextField.text = text
+        }
+    }
+    private var classLocation: Location?
+    private var classPlace: String?
+    private var classPriceUnit: PriceUnit? {
+        willSet {
+            priceUnitLabel.text = newValue?.description
+        }
+    }
+    
+    // MARK: - LifeCycle
+    /// 채널 인스턴스를 가지고 초기화
     init(channel: Channel) {
         self.channel = channel
         super.init(nibName: nil, bundle: nil)
@@ -226,18 +279,14 @@ class MatchInputViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    weak var delegate: MatchInputViewControllerDelegate?
-    private var seller: User?
-    private var buyer: User?
-    private let channel: Channel
-    private var match: Match?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         getUser()
         configureUI()
+        configureGesture()
     }
     
+    /// 강사와 학생의 유저 데이터 패칭
     private func getUser() {
         FirestoreManager.shared.readUser(uid: channel.sellerID) { [weak self] result in
             guard let self = self else { return }
@@ -270,21 +319,35 @@ extension MatchInputViewController {
         [
             stackView
         ].forEach { view.addSubview($0) }
-        
+        dayWeekView.addSubview(dayWeekTextField)
         let commonInset: CGFloat = 15.0
         
         stackView.snp.makeConstraints {
             $0.top.equalTo(customNavigationBar.snp.bottom).offset(commonInset)
             $0.leading.trailing.equalToSuperview().inset(commonInset)
         }
+        dayWeekTextField.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     private func configure() {
         sellerLabel2.text = seller?.nickName ?? ""
         buyerLabel2.text = buyer?.nickName ?? ""
-        timeTextField.placeholder = channel.classItem?.time
-        placeTextField.placeholder = channel.classItem?.place
-        priceTextField.placeholder = channel.classItem?.price
+        if let date = channel.classItem?.date {
+            let sortedSet = date.sorted(by: {$0 < $1})
+            var text = ""
+            sortedSet.forEach {
+                text += "\($0.description) ,"
+            }
+            let _ = text.removeLast(2)
+            dayWeekTextField.placeholder = text
+        }
+        timeTextField.placeholder = channel.classItem?.time ?? "수업시간"
+        placeTextField.placeholder = channel.classItem?.place ?? "수업장소"
+        priceTextField.placeholder = channel.classItem?.price ?? "수업가격"
+        priceUnitLabel.text = channel.classItem?.priceUnit.description
+        classLocation = channel.classItem?.location
     }
 }
 
@@ -295,10 +358,19 @@ extension MatchInputViewController {
     
     @objc func selectPlace(_ button: UIButton) {
         debugPrint(#function)
+        let mapViewController = MapSelectionViewController()
+        mapViewController.configure(location: classLocation)
     }
     
     @objc func selectUnit(_ button: UIButton) {
         debugPrint("unitTapped")
+        let rect = button.convert(button.bounds, to: self.view)
+        let point = CGPoint(x: rect.midX, y: rect.midY)
+        let view = PriceUnitTableView(frame: CGRect(x: 0, y: 0,
+                                                    width: view.frame.width / 3,
+                                                    height: PriceUnitTableViewCell.height * CGFloat(PriceUnit.allCases.count)))
+        view.delegate = self
+        popover.show(view, point: point)
     }
     
     @objc func didTapBackButton(_ button: UIBarButtonItem) {
@@ -309,13 +381,60 @@ extension MatchInputViewController {
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
         match = Match(seller: self.seller?.id ?? "",
                       buyer: self.buyer?.id ?? "",
-                      date: channel.classItem?.date,
-                      time: channel.classItem?.time,
-                      place: channel.classItem?.place,
-                      location: channel.classItem?.location,
-                      price: channel.classItem?.price,
-                      priceUnit: channel.classItem?.priceUnit)
+                      date: self.classDayweek ?? self.channel.classItem?.date,
+                      time: self.timeTextField.text ?? channel.classItem?.time,
+                      place: self.placeTextField.text ?? channel.classItem?.place,
+                      location: self.classLocation ?? channel.classItem?.location,
+                      price: self.priceTextField.text ?? channel.classItem?.price,
+                      priceUnit: self.classPriceUnit ?? channel.classItem?.priceUnit)
         delegate?.saveMatchingInformation(match: match!)
         dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - DayWeek 요일 선택 관련 구현부, delegate 구현부
+extension MatchInputViewController: ClassDateSelectionViewControllerDelegate {
+    func resignFirstResponder() {
+        dayWeekTextField.resignFirstResponder()
+    }
+    
+    func selectionResult(date: Set<DayWeek>) {
+        self.classDayweek = date
+    }
+    
+    private func configureGesture() {
+        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didDayWeekTextFieldTapped(_:)))
+        singleTapGestureRecognizer.numberOfTapsRequired = 1
+        singleTapGestureRecognizer.isEnabled = true
+        singleTapGestureRecognizer.cancelsTouchesInView = true
+        dayWeekView.addGestureRecognizer(singleTapGestureRecognizer)
+    }
+
+    // MARK: - Actions
+
+    @objc func didDayWeekTextFieldTapped(_ sender: UITapGestureRecognizer) {
+        let viewController = ClassDateSelectionViewController()
+        viewController.modalPresentationStyle = .formSheet
+        viewController.preferredContentSize = .init(width: 100, height: 100)
+        viewController.delegate = self
+        if let classDayweek = classDayweek {
+            viewController.configureData(selectedDate: classDayweek)
+        }
+        present(viewController, animated: true)
+    }
+}
+
+// MARK: PriceUnit 관련 구현부
+extension MatchInputViewController: PriceUnitTableViewDelegate {
+    func selectedPriceUnit(priceUnit: PriceUnit) {
+        classPriceUnit = priceUnit
+        popover.dismiss()
+    }
+}
+
+// MARK: TextFieldDelegate 구현부
+extension MatchInputViewController: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return false
     }
 }
