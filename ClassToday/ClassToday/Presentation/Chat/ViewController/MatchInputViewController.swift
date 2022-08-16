@@ -266,8 +266,15 @@ class MatchInputViewController: UIViewController {
             dayWeekTextField.text = text
         }
     }
-    private var classLocation: Location?
-    private var classPlace: String?
+    private var classLocation: Location? {
+        get {
+            return _classLocation ?? channel.classItem?.location
+        }
+        set {
+            _classLocation = newValue
+        }
+    }
+    private var _classLocation: Location?
     private var classPriceUnit: PriceUnit? {
         willSet {
             priceUnitLabel.text = newValue?.description
@@ -376,18 +383,32 @@ extension MatchInputViewController {
 }
 
 extension MatchInputViewController {
+    /// Keyboard의 상단 확인 버튼
+    ///
+    /// - 확인 버튼을 누르면 입력모드가 해제되고 키보드가 내려간다.
     @objc func didTapDoneButton(_ button: UIButton) {
         view.endEditing(true)
     }
     
+    @objc func didDayWeekTextFieldTapped(_ sender: UITapGestureRecognizer) {
+        let viewController = ClassDateSelectionViewController()
+        viewController.modalPresentationStyle = .formSheet
+        viewController.preferredContentSize = .init(width: 100, height: 100)
+        viewController.delegate = self
+        if let classDayweek = classDayweek {
+            viewController.configureData(selectedDate: classDayweek)
+        }
+        present(viewController, animated: true)
+    }
+    
     @objc func selectPlace(_ button: UIButton) {
-        debugPrint(#function)
-        let mapViewController = MapSelectionViewController()
-        mapViewController.configure(location: classLocation)
+        let mapSelectionViewController = MapSelectionViewController()
+        mapSelectionViewController.configure(location: classLocation)
+        mapSelectionViewController.delegate = self
+        present(mapSelectionViewController, animated: true)
     }
     
     @objc func selectUnit(_ button: UIButton) {
-        debugPrint("unitTapped")
         let rect = button.convert(button.bounds, to: self.view)
         let point = CGPoint(x: rect.midX, y: rect.midY)
         let view = PriceUnitTableView(frame: CGRect(x: 0, y: 0,
@@ -433,19 +454,6 @@ extension MatchInputViewController: ClassDateSelectionViewControllerDelegate {
         singleTapGestureRecognizer.cancelsTouchesInView = true
         dayWeekView.addGestureRecognizer(singleTapGestureRecognizer)
     }
-
-    // MARK: - Actions
-
-    @objc func didDayWeekTextFieldTapped(_ sender: UITapGestureRecognizer) {
-        let viewController = ClassDateSelectionViewController()
-        viewController.modalPresentationStyle = .formSheet
-        viewController.preferredContentSize = .init(width: 100, height: 100)
-        viewController.delegate = self
-        if let classDayweek = classDayweek {
-            viewController.configureData(selectedDate: classDayweek)
-        }
-        present(viewController, animated: true)
-    }
 }
 
 // MARK: PriceUnit 관련 구현부
@@ -482,5 +490,12 @@ extension MatchInputViewController {
             self.scrollView.contentInset = contentInset
             self.scrollView.scrollIndicatorInsets = contentInset
         }
+    }
+}
+
+extension MatchInputViewController: MapSelectionViewControllerDelegate {
+    func isLocationSelected(location: Location?, place: String?) {
+        self.classLocation = location
+        self.placeTextField.text = place
     }
 }
