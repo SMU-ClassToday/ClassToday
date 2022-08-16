@@ -427,10 +427,10 @@ extension MatchInputViewController {
         match = Match(seller: self.seller?.id ?? "",
                       buyer: self.buyer?.id ?? "",
                       date: self.classDayweek ?? self.channel.classItem?.date,
-                      time: self.timeTextField.text ?? channel.classItem?.time,
-                      place: self.placeTextField.text ?? channel.classItem?.place,
+                      time: self.timeTextField.text == "" ? channel.classItem?.time : self.timeTextField.text,
+                      place: self.placeTextField.text == "" ? channel.classItem?.place : self.placeTextField.text,
                       location: self.classLocation ?? channel.classItem?.location,
-                      price: self.priceTextField.text ?? channel.classItem?.price,
+                      price: self.priceTextField.text == "" ? channel.classItem?.price : self.priceTextField.text,
                       priceUnit: self.classPriceUnit ?? channel.classItem?.priceUnit)
         delegate?.saveMatchingInformation(match: match!)
         dismiss(animated: true, completion: nil)
