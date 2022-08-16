@@ -29,36 +29,32 @@ class FirestoreManager {
     /// 기준 값: locality
     func fetch(_ location: Location?, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        DispatchQueue.global().sync { [weak self] in
-            guard let self = self else { return }
-            LocationManager.shared.getKeywordOfLocation(of: location) { result in
-                switch result {
-                case .success(let locality):
-                    self.targetLocality = locality
-                case .failure(let error):
-                    debugPrint(error)
-                    self.targetLocality = ""
-                }
-            }
-        }
-        FirestoreRoute.classItem.ref.getDocuments() { (snapshot, error) in
-            if let error = error {
-                debugPrint("Error getting documents: \(error)")
-                return
-            }
-            if let snapshot = snapshot {
-                for document in snapshot.documents {
-                    do {
-                        let classItem = try document.data(as: ClassItem.self)
-                        if self.targetLocality == classItem.keywordLocation {
-                            data.append(classItem)
-                        }
-                    } catch {
-                        
+        LocationManager.shared.getKeywordOfLocation(of: location) { [weak self] result in
+            switch result {
+            case .success(let locality):
+                self?.targetLocality = locality
+                /// keywordLocation이 locality와 동일한 아이템만 패칭합니다.
+                FirestoreRoute.classItem.ref.whereField("keywordLocation", isEqualTo: locality).getDocuments() { (snapshot, error) in
+                    if let error = error {
+                        debugPrint("Error getting documents: \(error)")
+                        return
                     }
+                    if let snapshot = snapshot {
+                        for document in snapshot.documents {
+                            do {
+                                let classItem = try document.data(as: ClassItem.self)
+                                data.append(classItem)
+                            } catch {
+                                debugPrint("Decoding is failed")
+                            }
+                        }
+                    }
+                    completion(data)
                 }
+            case .failure(let error):
+                debugPrint(error)
+                self?.targetLocality = ""
             }
-            completion(data)
         }
     }
 
