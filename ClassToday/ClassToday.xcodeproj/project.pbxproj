@@ -144,6 +144,7 @@
 		89DCD0812896C9FC00C1CCA3 /* NaverMapAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */; };
 		C125E03189012D809E3DC3FC /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */; };
 		C94C0BD428A494EA00F75B76 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */; };
+		C9ECC1A628AB3566000011B1 /* UIToolBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */; };
 		FC25F8AA2865DD2D00B2BBEB /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC25F8A92865DD2D00B2BBEB /* MessageKit */; };
 		FC25F8AD2865DE9900B2BBEB /* ChatChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8AC2865DE9900B2BBEB /* ChatChannelViewController.swift */; };
 		FC25F8AF2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8AE2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift */; };
@@ -284,6 +285,7 @@
 		89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapAddress.swift; sourceTree = "<group>"; };
 		8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
+		C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIToolBar+.swift"; sourceTree = "<group>"; };
 		FC25F8AC2865DE9900B2BBEB /* ChatChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChannelViewController.swift; sourceTree = "<group>"; };
 		FC25F8AE2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChannelTableViewCell.swift; sourceTree = "<group>"; };
 		FC25F8B02865DF9F00B2BBEB /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				6B59562C2847715D004821F1 /* UIImageView+.swift */,
 				FCD78A0428731B3A00714EC7 /* UIAlertAction+.swift */,
 				C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */,
+				C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1014,6 +1017,7 @@
 				89A67344282A634C00951300 /* AppDelegate.swift in Sources */,
 				8941FF1F2830C97300A90AB0 /* Location.swift in Sources */,
 				89098E03282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift in Sources */,
+				C9ECC1A628AB3566000011B1 /* UIToolBar+.swift in Sources */,
 				89098E3A282271E2006EFD4E /* ClassModifyViewController.swift in Sources */,
 				89675B2F2827BFDE00933C48 /* DetailUserCell.swift in Sources */,
 				FC7FB97128A7DB32004958FA /* ReviewInputViewController.swift in Sources */,
