@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Popover
+import SwiftUI
 
 protocol MatchInputViewControllerDelegate: AnyObject {
     func saveMatchingInformation(match: Match)
@@ -229,6 +230,12 @@ class MatchInputViewController: UIViewController {
         return stackView
     }()
     
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isUserInteractionEnabled = true
+        return scrollView
+    }()
+    
     private func configureNavBar() {
         view.addSubview(customNavigationBar)
         customNavigationBar.snp.makeConstraints {
@@ -316,19 +323,36 @@ extension MatchInputViewController {
     private func configureUI() {
         configureNavBar()
         view.backgroundColor = .white
-        [
-            stackView
-        ].forEach { view.addSubview($0) }
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
         dayWeekView.addSubview(dayWeekTextField)
+
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(customNavigationBar.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+
         let commonInset: CGFloat = 15.0
-        
+
         stackView.snp.makeConstraints {
-            $0.top.equalTo(customNavigationBar.snp.bottom).offset(commonInset)
-            $0.leading.trailing.equalToSuperview().inset(commonInset)
+            $0.top.equalTo(scrollView.contentLayoutGuide).inset(commonInset)
+            $0.leading.trailing.bottom.equalTo(scrollView.contentLayoutGuide).inset(commonInset)
+            $0.width.equalToSuperview().inset(commonInset)
         }
         dayWeekTextField.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
+        
+        /// 키보드 사용 시 텍스트필드가 가려지는 문제 해결을 위한 옵저버
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardDidHideNotification,
+                                               object: nil)
     }
     
     private func configure() {
@@ -436,5 +460,27 @@ extension MatchInputViewController: PriceUnitTableViewDelegate {
 extension MatchInputViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return false
+    }
+}
+
+// MARK: - Keyboard 관련 로직
+
+extension MatchInputViewController {
+    @objc func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.size.height, right: 0)
+        scrollView.contentInset = contentInset
+        scrollView.scrollIndicatorInsets = contentInset
+    }
+
+    @objc func keyboardWillHide() {
+        let contentInset = UIEdgeInsets.zero
+        // TODO: - ScrollView의 변화를 바로 반영하는 방법은 없을까?
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [weak self] in
+            guard let self = self else { return }
+            self.scrollView.contentInset = contentInset
+            self.scrollView.scrollIndicatorInsets = contentInset
+        }
     }
 }
