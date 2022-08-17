@@ -28,14 +28,9 @@ class MapViewController: UIViewController {
         return starItem
     }()
     
-    private lazy var searchItem: UIBarButtonItem = {
-        let searchItem = UIBarButtonItem.menuButton(self, action: #selector(didTapSearchButton), image: Icon.search.image)
-        return searchItem
-    }()
-    
     private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftTitle)
-        navigationItem.rightBarButtonItems = [starItem, searchItem]
+        navigationItem.rightBarButtonItems = [starItem]
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
     }
@@ -171,10 +166,6 @@ extension MapViewController {
                 self.classItemData = $0
             }
         }
-    }
-    @objc private func didTapSearchButton(_ sender: UIButton) {
-        // 검색 뷰 컨트롤러를 활용할 방법?
-        navigationController?.pushViewController(SearchViewController(), animated: true)
     }
 }
 

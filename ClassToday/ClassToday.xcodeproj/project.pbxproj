@@ -143,6 +143,7 @@
 		89DCD07F2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD07D2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift */; };
 		89DCD0812896C9FC00C1CCA3 /* NaverMapAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */; };
 		C125E03189012D809E3DC3FC /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */; };
+		C93CCEEF28AC7C7400B17CEE /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CCEEE28AC7C7400B17CEE /* NaverMapView.swift */; };
 		C94C0BD428A494EA00F75B76 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */; };
 		C9ECC1A628AB3566000011B1 /* UIToolBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */; };
 		FC25F8AA2865DD2D00B2BBEB /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC25F8A92865DD2D00B2BBEB /* MessageKit */; };
@@ -284,6 +285,7 @@
 		89DCD07D2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaverMapAPIProvider.swift; sourceTree = "<group>"; };
 		89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapAddress.swift; sourceTree = "<group>"; };
 		8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C93CCEEE28AC7C7400B17CEE /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
 		C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIToolBar+.swift"; sourceTree = "<group>"; };
 		FC25F8AC2865DE9900B2BBEB /* ChatChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChannelViewController.swift; sourceTree = "<group>"; };
@@ -740,6 +742,7 @@
 			children = (
 				FCF850F3280DB6F000D5D3DC /* Tabbar.swift */,
 				FCDB85532824D78400273A9A /* CustomBarButton.swift */,
+				C93CCEEE28AC7C7400B17CEE /* NaverMapView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1081,6 +1084,7 @@
 				FCBCABF8287C96AF001C4687 /* StreamError.swift in Sources */,
 				89675B222826EC1A00933C48 /* ClassDetailViewController.swift in Sources */,
 				FC25F8BD2865E1F400B2BBEB /* ChatViewController.swift in Sources */,
+				C93CCEEF28AC7C7400B17CEE /* NaverMapView.swift in Sources */,
 				89675B3C28280D8800933C48 /* DetailContentCategoryView.swift in Sources */,
 				8980575128677F290089CF47 /* MapViewController.swift in Sources */,
 				89675B352827DC3B00933C48 /* DetailContentTimeView.swift in Sources */,
