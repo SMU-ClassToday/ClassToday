@@ -151,39 +151,35 @@ class MatchInputViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "수업 장소"
         textField.borderStyle = .roundedRect
-        textField.rightView = mapButton
+        textField.rightView = placeStackView
         textField.rightViewMode = .always
         textField.delegate = self
         return textField
     }()
-    
-//    private lazy var mapView: NMFNaverMapView = {
-//        let naverMapView = NMFNaverMapView()
-//        let mapView = naverMapView.mapView
-//        mapView.mapType = NMFMapType.basic
-//        mapView.setLayerGroup(NMF_LAYER_GROUP_BUILDING, isEnabled: true)
-//        mapView.setLayerGroup(NMF_LAYER_GROUP_TRANSIT, isEnabled: true)
-//        mapView.isTiltGestureEnabled = false
-//        mapView.isRotateGestureEnabled = false
-//        mapView.isScrollGestureEnabled = false
-//        return naverMapView
-//    }()
-//
-//    private lazy var marker: NMFMarker = {
-//        let marker = NMFMarker()
-//        marker.iconImage = NMF_MARKER_IMAGE_BLACK
-//        marker.iconTintColor = UIColor.mainColor
-//        marker.iconPerspectiveEnabled = true
-//        marker.width = 30
-//        marker.height = 40
-//        return marker
-//    }()
+
     private lazy var mapView: NaverMapView = {
         let mapView = NaverMapView()
         return mapView
     }()
-    
-    private lazy var mapButton: UIButton = {
+
+    private lazy var placeStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.addArrangedSubview(deleteButton)
+        stackView.addArrangedSubview(mapSelectButton)
+        return stackView
+    }()
+
+    private lazy var deleteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.tintColor = .systemRed
+        button.addTarget(self, action: #selector(deletePlace(_:)), for: .touchDown)
+        return button
+    }()
+
+    private lazy var mapSelectButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "map"), for: .normal)
         button.tintColor = .mainColor
@@ -250,7 +246,7 @@ class MatchInputViewController: UIViewController {
             priceTextField,
             placeLabel,
             placeTextField,
-            mapView,
+            mapView
         ].forEach { stackView.addArrangedSubview($0) }
         stackView.axis = .vertical
         stackView.spacing = 20
@@ -448,6 +444,11 @@ extension MatchInputViewController {
         mapSelectionViewController.configure(location: classLocation)
         mapSelectionViewController.delegate = self
         present(mapSelectionViewController, animated: true)
+    }
+    
+    @objc func deletePlace(_ button: UIButton) {
+        classLocation = nil
+        placeTextField.text = nil
     }
     
     @objc func selectUnit(_ button: UIButton) {
