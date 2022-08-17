@@ -129,6 +129,7 @@ class MatchConfirmViewController: UIViewController {
         let label = UILabel()
         label.text = ""
         label.font = .systemFont(ofSize: 25.0, weight: .bold)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -146,6 +147,17 @@ class MatchConfirmViewController: UIViewController {
         return label
     }()
     
+    private lazy var mapView: NaverMapView = {
+        let mapView = NaverMapView()
+        return mapView
+    }()
+    
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isUserInteractionEnabled = true
+        return scrollView
+    }()
+    
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         [
@@ -154,10 +166,11 @@ class MatchConfirmViewController: UIViewController {
             dayWeekLabel2,
             timeLabel,
             timeLabel2,
+            priceLabel,
+            priceLabel2,
             placeLabel,
             placeLabel2,
-            priceLabel,
-            priceLabel2
+            mapView
         ].forEach { stackView.addArrangedSubview($0) }
         stackView.axis = .vertical
         stackView.spacing = 20
@@ -222,15 +235,26 @@ extension MatchConfirmViewController {
     private func configureUI() {
         configureNavBar()
         view.backgroundColor = .white
-        [
-            stackView
-        ].forEach { view.addSubview($0) }
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
         
         let commonInset: CGFloat = 15.0
         
-        stackView.snp.makeConstraints {
+        scrollView.snp.makeConstraints {
             $0.top.equalTo(customNavigationBar.snp.bottom).offset(commonInset)
-            $0.leading.trailing.equalToSuperview().inset(commonInset)
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        
+        stackView.snp.makeConstraints {
+            $0.top.equalTo(scrollView.contentLayoutGuide)
+            $0.leading.trailing.bottom.equalTo(scrollView.contentLayoutGuide).inset(commonInset)
+            $0.width.equalToSuperview().inset(commonInset)
+        }
+        
+        mapView.snp.makeConstraints {
+            $0.width.equalTo(stackView.snp.width)
+            $0.height.equalTo(stackView.snp.width)
         }
     }
     
@@ -249,6 +273,9 @@ extension MatchConfirmViewController {
         timeLabel2.text = match.time ?? ""
         placeLabel2.text = match.place ?? ""
         priceLabel2.text = match.price ?? ""
+        if let location = match.location {
+            mapView.configure(with: location)
+        }
     }
 }
 

@@ -157,26 +157,30 @@ class MatchInputViewController: UIViewController {
         return textField
     }()
     
-    private lazy var mapView: NMFNaverMapView = {
-        let naverMapView = NMFNaverMapView()
-        let mapView = naverMapView.mapView
-        mapView.mapType = NMFMapType.basic
-        mapView.setLayerGroup(NMF_LAYER_GROUP_BUILDING, isEnabled: true)
-        mapView.setLayerGroup(NMF_LAYER_GROUP_TRANSIT, isEnabled: true)
-        mapView.isTiltGestureEnabled = false
-        mapView.isRotateGestureEnabled = false
-        mapView.isScrollGestureEnabled = false
-        return naverMapView
-    }()
-
-    private lazy var marker: NMFMarker = {
-        let marker = NMFMarker()
-        marker.iconImage = NMF_MARKER_IMAGE_BLACK
-        marker.iconTintColor = UIColor.mainColor
-        marker.iconPerspectiveEnabled = true
-        marker.width = 30
-        marker.height = 40
-        return marker
+//    private lazy var mapView: NMFNaverMapView = {
+//        let naverMapView = NMFNaverMapView()
+//        let mapView = naverMapView.mapView
+//        mapView.mapType = NMFMapType.basic
+//        mapView.setLayerGroup(NMF_LAYER_GROUP_BUILDING, isEnabled: true)
+//        mapView.setLayerGroup(NMF_LAYER_GROUP_TRANSIT, isEnabled: true)
+//        mapView.isTiltGestureEnabled = false
+//        mapView.isRotateGestureEnabled = false
+//        mapView.isScrollGestureEnabled = false
+//        return naverMapView
+//    }()
+//
+//    private lazy var marker: NMFMarker = {
+//        let marker = NMFMarker()
+//        marker.iconImage = NMF_MARKER_IMAGE_BLACK
+//        marker.iconTintColor = UIColor.mainColor
+//        marker.iconPerspectiveEnabled = true
+//        marker.width = 30
+//        marker.height = 40
+//        return marker
+//    }()
+    private lazy var mapView: NaverMapView = {
+        let mapView = NaverMapView()
+        return mapView
     }()
     
     private lazy var mapButton: UIButton = {
@@ -242,11 +246,11 @@ class MatchInputViewController: UIViewController {
             dayWeekView,
             timeLabel,
             timeTextField,
+            priceLabel,
+            priceTextField,
             placeLabel,
             placeTextField,
             mapView,
-            priceLabel,
-            priceTextField
         ].forEach { stackView.addArrangedSubview($0) }
         stackView.axis = .vertical
         stackView.spacing = 20
@@ -300,11 +304,13 @@ class MatchInputViewController: UIViewController {
     }
     private var _classLocation: Location? {
         willSet {
-            guard let newValue = newValue else { return }
-            let position = NMGLatLng(lat: newValue.lat, lng: newValue.lon)
-            mapView.mapView.moveCamera(NMFCameraUpdate(scrollTo: position))
-            marker.position = position
-            marker.mapView = mapView.mapView
+            guard let newValue = newValue else {
+                if let location = channel.classItem?.location {
+                    mapView.configure(with: location)
+                }
+                return
+            }
+            mapView.configure(with: newValue)
         }
     }
     private var classPriceUnit: PriceUnit? {
