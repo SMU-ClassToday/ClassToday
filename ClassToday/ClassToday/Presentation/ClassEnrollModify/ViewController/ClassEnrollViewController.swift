@@ -10,6 +10,7 @@ import SnapKit
 import Popover
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Moya
 
 protocol ClassItemCellUpdateDelegate: AnyObject {
     func updatePriceUnit(with priceUnit: PriceUnit)
@@ -18,7 +19,6 @@ protocol ClassItemCellUpdateDelegate: AnyObject {
 class ClassEnrollViewController: UIViewController {
 
     // MARK: - Views
-
     private lazy var customNavigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar()
         navigationBar.isTranslucent = false
@@ -61,24 +61,28 @@ class ClassEnrollViewController: UIViewController {
     }()
 
     // MARK: - Properties
-
     weak var delegate: ClassItemCellUpdateDelegate?
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
     private let locationManager = LocationManager.shared
+    private let naverMapAPIProvider = NaverMapAPIProvider()
+
     private let classItemType: ClassItemType
     private var classImages: [UIImage]?
     private var className: String?
     private var classTime: String?
     private var classDate: Set<DayWeek>?
-    private var classPlace: String?
+    private var classPlace: String?             // 도로명주소 값
     private var classPrice: String?
     private var classPriceUnit: PriceUnit = .perHour
     private var classDescription: String?
     private var classSubject: Set<Subject>?
     private var classTarget: Set<Target>?
+    private var classLocation: Location?        // 위도, 경도 값
+    private var classLocality: String?          // "@@시"
+    private var classKeywordLocation: String?   // 패칭 기준값, "@@구"
     private var currentUser: User?
-    
+
     // MARK: - Initialize
 
     init(classItemType: ClassItemType) {
@@ -139,6 +143,7 @@ class ClassEnrollViewController: UIViewController {
         }
     }
 
+    /// 단일 탭 제스처 등록
     private func configureGesture() {
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(myTapMethod(_:)))
         singleTapGestureRecognizer.numberOfTapsRequired = 1
@@ -148,7 +153,7 @@ class ClassEnrollViewController: UIViewController {
     }
 
     // MARK: - Actions
-
+    /// 탭 제스쳐가 들어가면, 수정모드를 종료한다
     @objc func myTapMethod(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
@@ -157,6 +162,7 @@ class ClassEnrollViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
+    /// 수업 등록 메서드
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
         view.endEditing(true)
         var classImagesURL: [String] = []
@@ -169,13 +175,13 @@ class ClassEnrollViewController: UIViewController {
             return alert
         }()
 
-        // 수업 등록시 필수 항목 체크
+        /// 수업 등록시 필수 항목 체크
         guard let className = className, let classDescription = classDescription else {
             present(alert, animated: true)
             return
         }
 
-        // 수업 판매 등록시
+        /// 수업 판매 등록시
         if classItemType == .sell, classTime == nil {
             present(alert, animated: true)
             return
@@ -204,29 +210,63 @@ class ClassEnrollViewController: UIViewController {
                 }
             }
         }
+        if classLocation == nil {
+            self.classLocation = locationManager.getCurrentLocation()
+        }
+        if classPlace == nil {
+            if let location = classLocation {
+                naverMapAPIProvider.locationToAddress(location: location) { [weak self] in
+                    guard let self = self else { return }
+                    self.classPlace = $0
+                }
+            }
+        }
+        group.enter()
+        locationManager.getLocality(of: classLocation) { result in
+            switch result {
+            case .success(let localityAddress):
+                self.classLocality = localityAddress
+            case .failure(let error):
+                debugPrint(error)
+            }
+            group.leave()
+        }
+        group.enter()
+        locationManager.getKeywordOfLocation(of: classLocation) { result in
+            switch result {
+            case .success(let keywordLocation):
+                self.classKeywordLocation = keywordLocation
+            case .failure(let error):
+                debugPrint(error)
+            }
+            group.leave()
+        }
 
         group.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
-            let classItem = ClassItem(name: className,
-                                      date: self.classDate,
-                                      time: self.classTime,
-                                      place: self.classPlace,
-                                      location: self.locationManager.getCurrentLocation(),
-                                      price: self.classPrice,
-                                      priceUnit: self.classPriceUnit,
-                                      description: classDescription,
-                                      images: classImagesURL,
-                                      subjects: self.classSubject,
-                                      targets: self.classTarget,
-                                      itemType: self.classItemType,
-                                      validity: true,
-                                      writer: UserDefaultsManager.shared.isLogin()!,
-                                      createdTime: Date(),
-                                      modifiedTime: nil
-            )
+                let classItem = ClassItem(name: className,
+                                          date: self.classDate,
+                                          time: self.classTime,
+                                          place: self.classPlace,
+                                          location: self.classLocation,
+                                          locality: self.classLocality,
+                                          keywordLocation: self.classKeywordLocation,
+                                          price: self.classPrice,
+                                          priceUnit: self.classPriceUnit,
+                                          description: classDescription,
+                                          images: classImagesURL,
+                                          subjects: self.classSubject,
+                                          targets: self.classTarget,
+                                          itemType: self.classItemType,
+                                          validity: true,
+                                          writer: UserDefaultsManager.shared.isLogin()!,
+                                          createdTime: Date(),
+                                          modifiedTime: nil
+                )
 
             self.firestoreManager.upload(classItem: classItem)
             debugPrint("\(classItem) 등록")
+                                          
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -391,8 +431,13 @@ extension ClassEnrollViewController: EnrollDateCellDelegate {
 }
 
 extension ClassEnrollViewController: EnrollPlaceCellDelegate {
-    func passData(place: String?) {
+    func passData(place: String?, location: Location?) {
         classPlace = place
+        classLocation = location
+    }
+    
+    func presentFromPlaceCell(viewController: UIViewController) {
+        present(viewController, animated: true)
     }
 }
 

@@ -6,6 +6,8 @@
 def common_pods
   pod 'SwiftLint'
   pod 'Popover'
+  pod 'NMapsMap'
+  pod 'Moya'
   pod 'naveridlogin-sdk-ios'
 end
 

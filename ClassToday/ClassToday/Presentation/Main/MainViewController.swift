@@ -8,6 +8,9 @@
 import UIKit
 import SnapKit
 
+protocol MainViewControllerLocationDelegate: AnyObject {
+    func checkLocationAuthority()
+}
 
 class MainViewController: UIViewController {
     //MARK: - NavigationBar Components
@@ -37,6 +40,8 @@ class MainViewController: UIViewController {
     private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftTitle)
         navigationItem.rightBarButtonItems = [starItem, searchItem, categoryItem]
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
 
     //MARK: - Main View의 UI Components
@@ -58,6 +63,13 @@ class MainViewController: UIViewController {
         classItemTableView.delegate = self
         classItemTableView.register(ClassItemTableViewCell.self, forCellReuseIdentifier: ClassItemTableViewCell.identifier)
         return classItemTableView
+    }()
+    
+    private lazy var nonAuthorizationAlertLabel: UILabel = {
+        let label = UILabel()
+        label.text = "위치정보 권한을 허용해주세요."
+        label.textColor = UIColor.systemGray
+        return label
     }()
     
     private lazy var refreshControl: UIRefreshControl = {
@@ -83,6 +95,7 @@ class MainViewController: UIViewController {
     private let firestoreManager = FirestoreManager.shared
     private let locationManager = LocationManager.shared
     private let dispatchGroup: DispatchGroup = DispatchGroup()
+    weak var delegate: MainViewControllerLocationDelegate?
 
     //MARK: - view lifecycle
     override func viewDidLoad() {
@@ -96,29 +109,31 @@ class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        activityIndicator.startAnimating()
-        fetchData()
-        dispatchGroup.notify(queue: DispatchQueue.main) {
-            self.activityIndicator.stopAnimating()
-        }
-        navigationController?.navigationBar.isHidden = false
+        _ = requestLocationAuthorization()
     }
 
     // MARK: - Method
+    /// 현재 기기의 위치를 기준으로 수업 아이템을 패칭합니다.
+    ///
+    /// - 패칭 기준: Location의 KeywordLocation 값 ("@@구")
     private func fetchData() {
-        dispatchGroup.enter()
-        firestoreManager.fetch { [weak self] data in
-            guard let self = self else { return }
-            self.data = data
-            self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
-            self.dataSell = data.filter { $0.itemType == ClassItemType.sell }
-            self.classItemTableView.reloadData()
-            self.dispatchGroup.leave()
+        activityIndicator.startAnimating()
+        guard let currentLocation = locationManager.getCurrentLocation() else { return }
+        firestoreManager.fetch(currentLocation) { [weak self] data in
+            self?.data = data
+            self?.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
+            self?.dataSell = data.filter { $0.itemType == ClassItemType.sell }
+            DispatchQueue.main.async {
+                self?.classItemTableView.reloadData()
+                self?.activityIndicator.stopAnimating()
+            }
         }
     }
-
+    /// 현재 기기의 위치를 주소명으로 패칭하여 상단에 표시합니다.
+    ///
+    ///  - 출력 형태: "@@시 @@구의 수업"
     private func configureLocation() {
-        dispatchGroup.enter()
+        print("Location was fetched and Now Address Fetching")
         locationManager.getCurrentAddress { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -126,12 +141,26 @@ class MainViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.leftTitle.text = address + "의 수업"
                     self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
-                    self.dispatchGroup.leave()
                 }
             case .failure(let error):
                 debugPrint(error)
             }
         }
+    }
+    
+    /// 위치권한상태를 확인하고, 필요한 경우 얼럿을 호출합니다.
+    ///
+    /// - return 값: true - 권한요청, false - 권한허용
+    private func requestLocationAuthorization() -> Bool {
+        if !locationManager.isLocationAuthorizationAllowed() {
+            nonAuthorizationAlertLabel.isHidden = false
+            present(UIAlertController.locationAlert(), animated: true) {
+                self.refreshControl.endRefreshing()
+            }
+            return true
+        }
+        nonAuthorizationAlertLabel.isHidden = true
+        return false
     }
 }
 
@@ -162,6 +191,9 @@ private extension MainViewController {
 
     @objc func beginRefresh() {
         print("beginRefresh!")
+        if requestLocationAuthorization() {
+            return
+        }
         fetchData()
         refreshControl.endRefreshing()
     }
@@ -190,7 +222,8 @@ private extension MainViewController {
             classItemTableView,
         ].forEach { view.addSubview($0) }
         [
-            activityIndicator
+            activityIndicator,
+            nonAuthorizationAlertLabel
         ].forEach { classItemTableView.addSubview($0) }
 
         segmentedControl.snp.makeConstraints {
@@ -205,6 +238,10 @@ private extension MainViewController {
         }
         
         activityIndicator.snp.makeConstraints {
+            $0.center.equalTo(view)
+        }
+        
+        nonAuthorizationAlertLabel.snp.makeConstraints {
             $0.center.equalTo(view)
         }
     }
@@ -272,7 +309,23 @@ extension MainViewController: UITableViewDelegate {
 
 //MARK: - LocationManagerDelegate
 extension MainViewController: LocationManagerDelegate {
+    /// 위치정보가 갱신되면 호출됩니다. 보통 권한이 허용될때 최초 호출됩니다.
+    ///
+    /// - 주소명과 수업 아이템을 패칭합니다.
     func didUpdateLocation() {
         configureLocation()
+        fetchData()
+    }
+
+    /// 위치정보권한 상태 변경에 따른 경고 레이블 처리
+    ///
+    /// - denied, restricted의 경우 경고 레이블 표시
+    /// - allowed, not determined의 경우 경고 레이블 미표시
+    func didUpdateAuthorization() {
+        if locationManager.isLocationAuthorizationAllowed() {
+            nonAuthorizationAlertLabel.isHidden = true
+        } else {
+            nonAuthorizationAlertLabel.isHidden = false
+        }
     }
 }

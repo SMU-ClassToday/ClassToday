@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F23A8B4ECD140BC782CCC46 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		6B1483FB287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1483FA287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift */; };
 		6B1483FD287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1483FC287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift */; };
 		6B42D941284BBE6000384480 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */; };
@@ -71,6 +72,7 @@
 		89098E492824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E482824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift */; };
 		89098E4B282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E4A282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift */; };
 		89098E4D28245503006EFD4E /* DayWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89098E4C28245503006EFD4E /* DayWeek.swift */; };
+		8922C94328AA3FE300EC82C9 /* ReviewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922C94228AA3FE300EC82C9 /* ReviewItem.swift */; };
 		892C1CC9283211B300DE27D3 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892C1CC8283211B300DE27D3 /* FirestoreManager.swift */; };
 		892C1CCF28322AD600DE27D3 /* ClassItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892C1CCE28322AD600DE27D3 /* ClassItemType.swift */; };
 		892C1CD128322B9D00DE27D3 /* FirestoreRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892C1CD028322B9D00DE27D3 /* FirestoreRoute.swift */; };
@@ -79,7 +81,6 @@
 		8941FF1D2830C2B600A90AB0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8941FF1C2830C2B600A90AB0 /* GoogleService-Info.plist */; };
 		8941FF1F2830C97300A90AB0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8941FF1E2830C97300A90AB0 /* Location.swift */; };
 		8941FF212830CDA200A90AB0 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8941FF202830CDA200A90AB0 /* Match.swift */; };
-		8941FF232830CF7D00A90AB0 /* ReviewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8941FF222830CF7D00A90AB0 /* ReviewItem.swift */; };
 		895209DA282A0D520009E97B /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895209D9282A0D520009E97B /* UIApplication+.swift */; };
 		895D107A27F32DCA009FB26F /* (null) in Sources */ = {isa = PBXBuildFile; };
 		895D107F27F32DCB009FB26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895D107E27F32DCB009FB26F /* Assets.xcassets */; };
@@ -103,6 +104,7 @@
 		89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */; };
 		89675B492828C84400933C48 /* NavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B482828C84400933C48 /* NavigationBar+.swift */; };
 		8971F21C283A1A4200D4AAD0 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */; };
+		8980575128677F290089CF47 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8980575028677F290089CF47 /* MapViewController.swift */; };
 		89865E9D282A70D700113242 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F9280DC02800D5D3DC /* MainViewController.swift */; };
 		89865E9E282A70DC00113242 /* SearchRecentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC87FA9F281ECF6500F57CE0 /* SearchRecentTableViewCell.swift */; };
 		89865E9F282A70DE00113242 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850FE280E6AD300D5D3DC /* SearchViewController.swift */; };
@@ -116,6 +118,11 @@
 		899D3F002834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */; };
 		89A0CD3C280D441A006FDF89 /* ClassImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */; };
 		89A0CD3F280D4E17006FDF89 /* ClassImageEnrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */; };
+		89A3143C286D9DA300A7F6ED /* MapCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A3143B286D9DA300A7F6ED /* MapCategoryView.swift */; };
+		89A3143E286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A3143D286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift */; };
+		89A314402870AE2100A7F6ED /* MapCategorySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A3143F2870AE2000A7F6ED /* MapCategorySelectViewController.swift */; };
+		89A314442878FEAD00A7F6ED /* MapClassListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A314432878FEAC00A7F6ED /* MapClassListView.swift */; };
+		89A31446287900CD00A7F6ED /* MapClassListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A31445287900CD00A7F6ED /* MapClassListCell.swift */; };
 		89A67342282A634C00951300 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A67340282A634C00951300 /* SceneDelegate.swift */; };
 		89A67344282A634C00951300 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A67341282A634C00951300 /* AppDelegate.swift */; };
 		89A67346282A638800951300 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F1280DB65D00D5D3DC /* TabbarController.swift */; };
@@ -130,7 +137,15 @@
 		89B891D1284735A8008B27DD /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B891D0284735A8008B27DD /* LocationManager.swift */; };
 		89C26A8C2811EC3A00648206 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A8B2811EC3A00648206 /* UITextField+.swift */; };
 		89C26A912811EE1300648206 /* PHPickerViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C26A902811EE1300648206 /* PHPickerViewController+.swift */; };
-		C0B824ADA5F2490FAB047218 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40411B468A6BE7377D0B7F6F /* Pods_ClassToday.framework */; };
+		89DCD06E28839AAA00C1CCA3 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD06D28839AA900C1CCA3 /* MapView.swift */; };
+		89DCD073288EF10C00C1CCA3 /* MapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD072288EF10C00C1CCA3 /* MapSelectionViewController.swift */; };
+		89DCD07E2896C9CA00C1CCA3 /* NaverMapAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD07C2896C9C900C1CCA3 /* NaverMapAPI.swift */; };
+		89DCD07F2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD07D2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift */; };
+		89DCD0812896C9FC00C1CCA3 /* NaverMapAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */; };
+		C125E03189012D809E3DC3FC /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */; };
+		C93CCEEF28AC7C7400B17CEE /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CCEEE28AC7C7400B17CEE /* NaverMapView.swift */; };
+		C94C0BD428A494EA00F75B76 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */; };
+		C9ECC1A628AB3566000011B1 /* UIToolBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */; };
 		FC25F8AA2865DD2D00B2BBEB /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC25F8A92865DD2D00B2BBEB /* MessageKit */; };
 		FC25F8AD2865DE9900B2BBEB /* ChatChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8AC2865DE9900B2BBEB /* ChatChannelViewController.swift */; };
 		FC25F8AF2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8AE2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift */; };
@@ -151,8 +166,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		40411B468A6BE7377D0B7F6F /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		487FF9A4C439BF31DE53CB09 /* Pods-ClassToday_NonFirebase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday_NonFirebase.release.xcconfig"; path = "Target Support Files/Pods-ClassToday_NonFirebase/Pods-ClassToday_NonFirebase.release.xcconfig"; sourceTree = "<group>"; };
+		2391B318EB858FCFC9F3D19A /* Pods-ClassToday.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.release.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.release.xcconfig"; sourceTree = "<group>"; };
+		2B42C29EC9BFA1A59899D3B2 /* Pods-ClassToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.debug.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.debug.xcconfig"; sourceTree = "<group>"; };
 		6B1483FA287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6B1483FC287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModifyViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
@@ -197,7 +212,6 @@
 		6BC2B234288C4A710025817D /* NaverUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverUserInfo.swift; sourceTree = "<group>"; };
 		6BC2B236288C4D8F0025817D /* NaverLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverLoginManager.swift; sourceTree = "<group>"; };
 		6BE71FC628435B50009A17F4 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
-		84BBBEB094FE4B7ECA803F6C /* Pods-ClassToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.debug.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.debug.xcconfig"; sourceTree = "<group>"; };
 		89098E02282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCategoryCollectionReusableView.swift; sourceTree = "<group>"; };
 		89098E0828202C2D006EFD4E /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		89098E0C28203A04006EFD4E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -217,6 +231,7 @@
 		89098E482824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDateSelectionCollectionReusableView.swift; sourceTree = "<group>"; };
 		89098E4A282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDateSelectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		89098E4C28245503006EFD4E /* DayWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayWeek.swift; sourceTree = "<group>"; };
+		8922C94228AA3FE300EC82C9 /* ReviewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewItem.swift; sourceTree = "<group>"; };
 		892C1CC8283211B300DE27D3 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		892C1CCE28322AD600DE27D3 /* ClassItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassItemType.swift; sourceTree = "<group>"; };
 		892C1CD028322B9D00DE27D3 /* FirestoreRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreRoute.swift; sourceTree = "<group>"; };
@@ -225,7 +240,6 @@
 		8941FF1C2830C2B600A90AB0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8941FF1E2830C97300A90AB0 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		8941FF202830CDA200A90AB0 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
-		8941FF222830CF7D00A90AB0 /* ReviewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewItem.swift; sourceTree = "<group>"; };
 		895209D9282A0D520009E97B /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		895D107227F32DCA009FB26F /* ClassToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895D107E27F32DCB009FB26F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -251,17 +265,29 @@
 		89675B482828C84400933C48 /* NavigationBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationBar+.swift"; sourceTree = "<group>"; };
 		89675B4C282976CA00933C48 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		8980575028677F290089CF47 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryCollectionFlowLayout.swift; sourceTree = "<group>"; };
 		89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageCell.swift; sourceTree = "<group>"; };
 		89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageEnrollCell.swift; sourceTree = "<group>"; };
+		89A3143B286D9DA300A7F6ED /* MapCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategoryView.swift; sourceTree = "<group>"; };
+		89A3143D286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryCollectionView.swift; sourceTree = "<group>"; };
+		89A3143F2870AE2000A7F6ED /* MapCategorySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategorySelectViewController.swift; sourceTree = "<group>"; };
+		89A314432878FEAC00A7F6ED /* MapClassListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapClassListView.swift; sourceTree = "<group>"; };
+		89A31445287900CD00A7F6ED /* MapClassListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapClassListCell.swift; sourceTree = "<group>"; };
 		89A67340282A634C00951300 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		89A67341282A634C00951300 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		89B891D0284735A8008B27DD /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		89C26A8B2811EC3A00648206 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		89C26A902811EE1300648206 /* PHPickerViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHPickerViewController+.swift"; sourceTree = "<group>"; };
-		990420C98CBC7BA2031CEFC4 /* Pods_ClassToday_NonFirebase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday_NonFirebase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E7FF7A0220DE013346881477 /* Pods-ClassToday.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday.release.xcconfig"; path = "Target Support Files/Pods-ClassToday/Pods-ClassToday.release.xcconfig"; sourceTree = "<group>"; };
-		F959602C3B27C7EECB19A108 /* Pods-ClassToday_NonFirebase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClassToday_NonFirebase.debug.xcconfig"; path = "Target Support Files/Pods-ClassToday_NonFirebase/Pods-ClassToday_NonFirebase.debug.xcconfig"; sourceTree = "<group>"; };
+		89DCD06D28839AA900C1CCA3 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		89DCD072288EF10C00C1CCA3 /* MapSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSelectionViewController.swift; sourceTree = "<group>"; };
+		89DCD07C2896C9C900C1CCA3 /* NaverMapAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaverMapAPI.swift; sourceTree = "<group>"; };
+		89DCD07D2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaverMapAPIProvider.swift; sourceTree = "<group>"; };
+		89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapAddress.swift; sourceTree = "<group>"; };
+		8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C93CCEEE28AC7C7400B17CEE /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
+		C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
+		C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIToolBar+.swift"; sourceTree = "<group>"; };
 		FC25F8AC2865DE9900B2BBEB /* ChatChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChannelViewController.swift; sourceTree = "<group>"; };
 		FC25F8AE2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChannelTableViewCell.swift; sourceTree = "<group>"; };
 		FC25F8B02865DF9F00B2BBEB /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
@@ -306,7 +332,8 @@
 				89A67354282A697C00951300 /* FirebaseAuth in Frameworks */,
 				89A67351282A68BD00951300 /* Alamofire in Frameworks */,
 				89A6735A282A697C00951300 /* FirebaseStorage in Frameworks */,
-				C0B824ADA5F2490FAB047218 /* Pods_ClassToday.framework in Frameworks */,
+				4F23A8B4ECD140BC782CCC46 /* (null) in Frameworks */,
+				C125E03189012D809E3DC3FC /* Pods_ClassToday.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,12 +343,18 @@
 		50ADC23D7B4CF06FDA3D0EBF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				84BBBEB094FE4B7ECA803F6C /* Pods-ClassToday.debug.xcconfig */,
-				E7FF7A0220DE013346881477 /* Pods-ClassToday.release.xcconfig */,
-				F959602C3B27C7EECB19A108 /* Pods-ClassToday_NonFirebase.debug.xcconfig */,
-				487FF9A4C439BF31DE53CB09 /* Pods-ClassToday_NonFirebase.release.xcconfig */,
+				2B42C29EC9BFA1A59899D3B2 /* Pods-ClassToday.debug.xcconfig */,
+				2391B318EB858FCFC9F3D19A /* Pods-ClassToday.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		618E076531F0435856316EA2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		6B59562728474677004821F1 /* Auth */ = {
@@ -380,6 +413,8 @@
 				6B59562A28475BA2004821F1 /* UIButton+.swift */,
 				6B59562C2847715D004821F1 /* UIImageView+.swift */,
 				FCD78A0428731B3A00714EC7 /* UIAlertAction+.swift */,
+				C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */,
+				C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -412,6 +447,7 @@
 				6B7997BF27F33C5A00F37393 /* ClassItem.swift */,
 				6B7997BC27F33C4C00F37393 /* User.swift */,
 				8941FF1E2830C97300A90AB0 /* Location.swift */,
+				89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */,
 				6BC2B234288C4A710025817D /* NaverUserInfo.swift */,
 			);
 			path = Model;
@@ -445,6 +481,8 @@
 				892C1CD22832DABF00DE27D3 /* StorageManager.swift */,
 				8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */,
 				89B891D0284735A8008B27DD /* LocationManager.swift */,
+				89DCD07C2896C9C900C1CCA3 /* NaverMapAPI.swift */,
+				89DCD07D2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift */,
 				6BC2B236288C4D8F0025817D /* NaverLoginManager.swift */,
 				6B4FA9DC28917E3B0048B60F /* UserDefaultsManager.swift */,
 			);
@@ -475,7 +513,7 @@
 				895D107427F32DCA009FB26F /* ClassToday */,
 				895D107327F32DCA009FB26F /* Products */,
 				50ADC23D7B4CF06FDA3D0EBF /* Pods */,
-				89A6734B282A67F500951300 /* Frameworks */,
+				618E076531F0435856316EA2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -571,9 +609,9 @@
 				89675B242826F07300933C48 /* ClassDetailTableView */,
 				89C26A892811EC1400648206 /* ClassDetailCollectionView */,
 				89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */,
+				89675B412828336B00933C48 /* DetailContentPlaceView.swift */,
 				89675B342827DC3A00933C48 /* DetailContentTimeView.swift */,
 				89675B372827F10C00933C48 /* DetailContentPriceView.swift */,
-				89675B412828336B00933C48 /* DetailContentPlaceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -584,6 +622,7 @@
 				89098E1C2820C445006EFD4E /* ClassEnrollViewController.swift */,
 				89098E39282271E2006EFD4E /* ClassModifyViewController.swift */,
 				89098E4628245371006EFD4E /* ClassDateSelectionViewController.swift */,
+				89DCD072288EF10C00C1CCA3 /* MapSelectionViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -616,19 +655,24 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		89A6734B282A67F500951300 /* Frameworks */ = {
+		8980574F28677F110089CF47 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				40411B468A6BE7377D0B7F6F /* Pods_ClassToday.framework */,
-				990420C98CBC7BA2031CEFC4 /* Pods_ClassToday_NonFirebase.framework */,
+				8980575028677F290089CF47 /* MapViewController.swift */,
+				89DCD06D28839AA900C1CCA3 /* MapView.swift */,
+				89A3143B286D9DA300A7F6ED /* MapCategoryView.swift */,
+				89A3143F2870AE2000A7F6ED /* MapCategorySelectViewController.swift */,
+				89A314432878FEAC00A7F6ED /* MapClassListView.swift */,
+				89A31445287900CD00A7F6ED /* MapClassListCell.swift */,
 			);
-			name = Frameworks;
+			path = Map;
 			sourceTree = "<group>";
 		};
 		89C26A892811EC1400648206 /* ClassDetailCollectionView */ = {
 			isa = PBXGroup;
 			children = (
 				89675B3B28280D8800933C48 /* DetailContentCategoryView.swift */,
+				89A3143D286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift */,
 				89675B3E2828101400933C48 /* DetailContentCategoryCollectionViewCell.swift */,
 				899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */,
 			);
@@ -698,6 +742,7 @@
 			children = (
 				FCF850F3280DB6F000D5D3DC /* Tabbar.swift */,
 				FCDB85532824D78400273A9A /* CustomBarButton.swift */,
+				C93CCEEE28AC7C7400B17CEE /* NaverMapView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -713,6 +758,7 @@
 				FC34586A2816F56D00EB7B43 /* Search */,
 				FC34586C2816F57D00EB7B43 /* Category */,
 				FC34586B2816F57600EB7B43 /* Star */,
+				8980574F28677F110089CF47 /* Map */,
 				89675B4D282990B900933C48 /* ClassEnrollModify */,
 				89675B4F2829916500933C48 /* ClassDetail */,
 			);
@@ -734,11 +780,11 @@
 		FCFDFCCB2897C5C50031F77D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8941FF222830CF7D00A90AB0 /* ReviewItem.swift */,
 				FCA26EBE2867A159004F4C20 /* Message.swift */,
 				FC25F8B02865DF9F00B2BBEB /* Channel.swift */,
 				8941FF202830CDA200A90AB0 /* Match.swift */,
 				FC25F8B82865E04900B2BBEB /* Sender.swift */,
+				8922C94228AA3FE300EC82C9 /* ReviewItem.swift */,
 				FCA26EC02867A193004F4C20 /* ImageMediaItem.swift */,
 			);
 			path = Model;
@@ -778,11 +824,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 895D108627F32DCB009FB26F /* Build configuration list for PBXNativeTarget "ClassToday" */;
 			buildPhases = (
-				92BA0BC8EE3F3A9B74A237FB /* [CP] Check Pods Manifest.lock */,
+				FF04A8CF318AD965E50E4579 /* [CP] Check Pods Manifest.lock */,
 				895D106E27F32DCA009FB26F /* Sources */,
 				895D106F27F32DCA009FB26F /* Frameworks */,
 				895D107027F32DCA009FB26F /* Resources */,
-				C4F5280CA5F46081E4E3572E /* [CP] Embed Pods Frameworks */,
+				2DD7F613D849908DFA2E774A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -859,7 +905,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		92BA0BC8EE3F3A9B74A237FB /* [CP] Check Pods Manifest.lock */ = {
+		2DD7F613D849908DFA2E774A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ClassToday/Pods-ClassToday-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ClassToday/Pods-ClassToday-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClassToday/Pods-ClassToday-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FF04A8CF318AD965E50E4579 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -879,23 +942,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C4F5280CA5F46081E4E3572E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClassToday/Pods-ClassToday-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClassToday/Pods-ClassToday-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClassToday/Pods-ClassToday-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -940,13 +986,17 @@
 				6B5E14BB281314D4001AF21C /* SubjectPickerCollectionViewCell.swift in Sources */,
 				6B5E1489281311B9001AF21C /* OptionTableViewCell.swift in Sources */,
 				6B5E14B128131460001AF21C /* ClassItemCollectionViewCell.swift in Sources */,
+				89A3143E286DA53D00A7F6ED /* DetailContentCategoryCollectionView.swift in Sources */,
 				6B5E14A12813135E001AF21C /* Setting.swift in Sources */,
+				89DCD07E2896C9CA00C1CCA3 /* NaverMapAPI.swift in Sources */,
+				89DCD06E28839AAA00C1CCA3 /* MapView.swift in Sources */,
 				6B5E1497281312B5001AF21C /* UIColor+.swift in Sources */,
 				6B5E14A928131408001AF21C /* SubjectUserInfoTableViewCell.swift in Sources */,
 				89098E252820E636006EFD4E /* EnrollNameCell.swift in Sources */,
+				C94C0BD428A494EA00F75B76 /* UIAlertController+.swift in Sources */,
 				89A67346282A638800951300 /* TabbarController.swift in Sources */,
+				89A314442878FEAD00A7F6ED /* MapClassListView.swift in Sources */,
 				FCA26EC12867A193004F4C20 /* ImageMediaItem.swift in Sources */,
-				8941FF232830CF7D00A90AB0 /* ReviewItem.swift in Sources */,
 				89098E4B282454A5006EFD4E /* ClassDateSelectionCollectionViewCell.swift in Sources */,
 				6B4FA9DD28917E3B0048B60F /* UserDefaultsManager.swift in Sources */,
 				89098E492824540B006EFD4E /* ClassDateSelectionCollectionReusableView.swift in Sources */,
@@ -956,7 +1006,9 @@
 				89675B172826782600933C48 /* PriceUnit.swift in Sources */,
 				89098E0D28203A04006EFD4E /* Category.swift in Sources */,
 				89098E4D28245503006EFD4E /* DayWeek.swift in Sources */,
+				89DCD073288EF10C00C1CCA3 /* MapSelectionViewController.swift in Sources */,
 				6B7997BD27F33C4C00F37393 /* User.swift in Sources */,
+				89A3143C286D9DA300A7F6ED /* MapCategoryView.swift in Sources */,
 				89098E372820FE5C006EFD4E /* EnrollCategoryCell.swift in Sources */,
 				6B59562928475490004821F1 /* LaunchSignInViewController.swift in Sources */,
 				89098E3D28227293006EFD4E /* MockData.swift in Sources */,
@@ -968,6 +1020,7 @@
 				89A67344282A634C00951300 /* AppDelegate.swift in Sources */,
 				8941FF1F2830C97300A90AB0 /* Location.swift in Sources */,
 				89098E03282015F2006EFD4E /* ClassCategoryCollectionReusableView.swift in Sources */,
+				C9ECC1A628AB3566000011B1 /* UIToolBar+.swift in Sources */,
 				89098E3A282271E2006EFD4E /* ClassModifyViewController.swift in Sources */,
 				89675B2F2827BFDE00933C48 /* DetailUserCell.swift in Sources */,
 				FC7FB97128A7DB32004958FA /* ReviewInputViewController.swift in Sources */,
@@ -990,6 +1043,8 @@
 				895209DA282A0D520009E97B /* UIApplication+.swift in Sources */,
 				6BC2B237288C4D8F0025817D /* NaverLoginManager.swift in Sources */,
 				89098E312820FA5B006EFD4E /* EnrollPriceCell.swift in Sources */,
+				89A314402870AE2100A7F6ED /* MapCategorySelectViewController.swift in Sources */,
+				89DCD07F2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift in Sources */,
 				89865E9F282A70DE00113242 /* SearchViewController.swift in Sources */,
 				89A0CD3C280D441A006FDF89 /* ClassImageCell.swift in Sources */,
 				89098E342820FB4F006EFD4E /* EnrollDescriptionCell.swift in Sources */,
@@ -1002,6 +1057,7 @@
 				89675B3F2828101400933C48 /* DetailContentCategoryCollectionViewCell.swift in Sources */,
 				89A67347282A638B00951300 /* ClassItemTableViewCell.swift in Sources */,
 				89865EA4282A70EA00113242 /* CategoryListViewController.swift in Sources */,
+				89DCD0812896C9FC00C1CCA3 /* NaverMapAddress.swift in Sources */,
 				89865EA1282A70E300113242 /* SearchHistory.swift in Sources */,
 				89675B422828336C00933C48 /* DetailContentPlaceView.swift in Sources */,
 				FCB99C90288F0C41006CE372 /* MatchInputViewController.swift in Sources */,
@@ -1011,6 +1067,7 @@
 				89675B322827C0A300933C48 /* DetailContentCell.swift in Sources */,
 				89098E1D2820C445006EFD4E /* ClassEnrollViewController.swift in Sources */,
 				89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */,
+				89A31446287900CD00A7F6ED /* MapClassListCell.swift in Sources */,
 				89A67348282A639600951300 /* Tabbar.swift in Sources */,
 				89B891D1284735A8008B27DD /* LocationManager.swift in Sources */,
 				FCD78A0528731B3A00714EC7 /* UIAlertAction+.swift in Sources */,
@@ -1027,10 +1084,13 @@
 				FCBCABF8287C96AF001C4687 /* StreamError.swift in Sources */,
 				89675B222826EC1A00933C48 /* ClassDetailViewController.swift in Sources */,
 				FC25F8BD2865E1F400B2BBEB /* ChatViewController.swift in Sources */,
+				C93CCEEF28AC7C7400B17CEE /* NaverMapView.swift in Sources */,
 				89675B3C28280D8800933C48 /* DetailContentCategoryView.swift in Sources */,
+				8980575128677F290089CF47 /* MapViewController.swift in Sources */,
 				89675B352827DC3B00933C48 /* DetailContentTimeView.swift in Sources */,
 				89865EA0282A70E000113242 /* SearchResultViewController.swift in Sources */,
 				893D70E4281B1935006CD232 /* ClassCategoryCollectionViewCell.swift in Sources */,
+				8922C94328AA3FE300EC82C9 /* ReviewItem.swift in Sources */,
 				89098E282820EF75006EFD4E /* EnrollTimeCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1153,6 +1213,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1174,13 +1235,14 @@
 		};
 		895D108727F32DCB009FB26F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 84BBBEB094FE4B7ECA803F6C /* Pods-ClassToday.debug.xcconfig */;
+			baseConfigurationReference = 2B42C29EC9BFA1A59899D3B2 /* Pods-ClassToday.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UZ47X98976;
+				DEVELOPMENT_TEAM = 67D46DJNPH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClassToday/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
@@ -1196,8 +1258,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1206,13 +1269,14 @@
 		};
 		895D108827F32DCB009FB26F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7FF7A0220DE013346881477 /* Pods-ClassToday.release.xcconfig */;
+			baseConfigurationReference = 2391B318EB858FCFC9F3D19A /* Pods-ClassToday.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UZ47X98976;
+				DEVELOPMENT_TEAM = 67D46DJNPH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClassToday/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
@@ -1228,8 +1292,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

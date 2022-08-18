@@ -1,24 +1,38 @@
 PODS:
+  - Alamofire (5.6.2)
+  - Moya (15.0.0):
+    - Moya/Core (= 15.0.0)
+  - Moya/Core (15.0.0):
+    - Alamofire (~> 5.0)
   - naveridlogin-sdk-ios (4.1.3)
+  - NMapsMap (3.15.0)
   - Popover (1.3.0)
   - SwiftLint (0.45.0)
 
 DEPENDENCIES:
+  - Moya
   - naveridlogin-sdk-ios
+  - NMapsMap
   - Popover
   - SwiftLint
 
 SPEC REPOS:
   trunk:
+    - Alamofire
+    - Moya
     - naveridlogin-sdk-ios
+    - NMapsMap
     - Popover
     - SwiftLint
 
 SPEC CHECKSUMS:
+  Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   naveridlogin-sdk-ios: b9d7c20677981177ed994ecb1c8c2b49f223277d
+  NMapsMap: f151761c088d6516064c59da03ab6503769486e6
   Popover: 10e1d9528f81d9504df984b7b3f491292bc1822d
   SwiftLint: e5c7f1fba68eccfc51509d5b2ce1699f5502e0c7
 
-PODFILE CHECKSUM: 58af74c520293d8a1671134e735ac96270b62e62
+PODFILE CHECKSUM: 42ce0a87e25f86f8d1590d6fb1f90d2a2d457337
 
 COCOAPODS: 1.11.3

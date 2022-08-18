@@ -12,9 +12,11 @@ import FirebaseFirestoreSwift
 class FirestoreManager {
     static let shared = FirestoreManager()
     private init() {}
+    private var targetLocality: String? = ""
 
     // - MARK: CRUD Method
 
+    /// ClassItem을 업로드합니다.
     func upload(classItem: ClassItem) {
         do {
             try FirestoreRoute.classItem.ref.document(classItem.id).setData(from: classItem)
@@ -22,28 +24,41 @@ class FirestoreManager {
             debugPrint(error)
         }
     }
-
-    func fetch(completion: @escaping ([ClassItem]) -> ()) {
+    
+    /// ClassItem을 지역 기준으로 패칭합니다.
+    /// 기준 값: locality
+    func fetch(_ location: Location?, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        FirestoreRoute.classItem.ref.getDocuments() { (snapshot, error) in
-            if let error = error {
-                debugPrint("Error getting documents: \(error)")
-                return
-            }
-            if let snapshot = snapshot {
-                for document in snapshot.documents {
-                    do {
-                        let classItem = try document.data(as: ClassItem.self)
-                        data.append(classItem)
-                    } catch {
-                        debugPrint(error)
+        LocationManager.shared.getKeywordOfLocation(of: location) { [weak self] result in
+            switch result {
+            case .success(let locality):
+                self?.targetLocality = locality
+                /// keywordLocation이 locality와 동일한 아이템만 패칭합니다.
+                FirestoreRoute.classItem.ref.whereField("keywordLocation", isEqualTo: locality).getDocuments() { (snapshot, error) in
+                    if let error = error {
+                        debugPrint("Error getting documents: \(error)")
+                        return
                     }
+                    if let snapshot = snapshot {
+                        for document in snapshot.documents {
+                            do {
+                                let classItem = try document.data(as: ClassItem.self)
+                                data.append(classItem)
+                            } catch {
+                                debugPrint("Decoding is failed")
+                            }
+                        }
+                    }
+                    completion(data)
                 }
+            case .failure(let error):
+                debugPrint(error)
+                self?.targetLocality = ""
             }
-            completion(data)
         }
     }
-    
+
+    /// ClassItem을 직접 패칭합니다.
     func fetch(classItem: ClassItem, completion: @escaping (ClassItem) -> ()) {
         FirestoreRoute.classItem.ref.document(classItem.id).getDocument(as: ClassItem.self) { result in
             switch result {
@@ -54,11 +69,13 @@ class FirestoreManager {
             }
         }
     }
-
+    
+    /// ClassItem을 업데이트 합니다.
     func update(classItem: ClassItem) {
         upload(classItem: classItem)
     }
-
+    
+    /// ClassItem을 삭제합니다.
     func delete(classItem: ClassItem) {
         FirestoreRoute.classItem.ref.document(classItem.id).delete { error in
             if let error = error {
@@ -68,10 +85,23 @@ class FirestoreManager {
             }
         }
     }
-
+    
     //category
-    func categorySort(category: String, completion: @escaping ([ClassItem]) -> ()) {
+    /// Category에 해당하는 ClassItem을 패칭합니다.
+    func categorySort(location: Location, category: String, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
+        DispatchQueue.global().sync {
+            LocationManager.shared.getKeywordOfLocation(of: location) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let locality):
+                    self.targetLocality = locality
+                case .failure(let error):
+                    debugPrint(error)
+                    self.targetLocality = ""
+                }
+            }
+        }
         FirestoreRoute.classItem.ref.whereField("subjects", arrayContains: category).getDocuments() { (snapshot, error) in
             if let error = error {
                 debugPrint("Error getting documents: \(error)")
@@ -81,7 +111,9 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        data.append(classItem)
+                        if self.targetLocality == classItem.keywordLocation {
+                            data.append(classItem)
+                        }
                     } catch {
                         debugPrint(error)
                     }
@@ -90,7 +122,42 @@ class FirestoreManager {
             completion(data)
         }
     }
-
+    
+    func categorySort(location: Location, categories: [String], completion: @escaping ([ClassItem]) -> ()) {
+        var data: [ClassItem] = []
+        DispatchQueue.global().sync {
+            LocationManager.shared.getKeywordOfLocation(of: location) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let locality):
+                    self.targetLocality = locality
+                case .failure(let error):
+                    debugPrint(error)
+                    self.targetLocality = ""
+                }
+            }
+        }
+        FirestoreRoute.classItem.ref.whereField("subjects", arrayContainsAny: categories).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let classItem = try document.data(as: ClassItem.self)
+                        if self.targetLocality == classItem.keywordLocation {
+                            data.append(classItem)
+                        }
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
+    
     //star
     func starSort(starList: [String], completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
@@ -103,7 +170,9 @@ class FirestoreManager {
                 for document in snapshot.documents {
                     do {
                         let classItem = try document.data(as: ClassItem.self)
-                        data.append(classItem)
+                        if self.targetLocality == classItem.keywordLocation {
+                            data.append(classItem)
+                        }
                     } catch {
                         debugPrint(error)
                     }
