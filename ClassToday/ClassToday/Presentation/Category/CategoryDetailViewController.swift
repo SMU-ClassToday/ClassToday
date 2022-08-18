@@ -57,11 +57,11 @@ class CategoryDetailViewController: UIViewController {
 
     // MARK: Properties
 
-    private var datas: [ClassItem] = [MockData.classItem, MockData.classItem, MockData.classItem, MockData.classItem]
     private var data: [ClassItem] = []
     private var dataBuy: [ClassItem] = []
     private var dataSell: [ClassItem] = []
     private let firestoreManager = FirestoreManager.shared
+    private let locationManager = LocationManager.shared
     private var categoryItem: Subject?
     
     // MARK: Initialize
@@ -80,12 +80,13 @@ class CategoryDetailViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBar()
         layout()
-        categorySort(category: categoryItem?.rawValue ?? "")
+        categorySort()
     }
     
     //MARK: - Methods
-    private func categorySort(category: String) {
-        firestoreManager.categorySort(category: category) { [weak self] data in
+    private func categorySort() {
+        guard let currentLocation = locationManager.getCurrentLocation() else { return }
+        firestoreManager.categorySort(location: currentLocation, category: categoryItem?.rawValue ?? "") { [weak self] data in
             guard let self = self else { return }
             self.data = data
             self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import NMapsMap
 
 class DetailContentPlaceView: UIView {
 
@@ -20,14 +21,28 @@ class DetailContentPlaceView: UIView {
 
     private lazy var seperator: UIView = {
         let sepertor = UIView()
-        sepertor.backgroundColor = .black
+        sepertor.backgroundColor = .separator
         return sepertor
     }()
 
     private lazy var placeLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         return label
     }()
+
+    private lazy var mapView: NaverMapView = {
+        let mapView = NaverMapView()
+        return mapView
+    }()
+
+    private var location: Location? {
+        willSet {
+            guard let newValue = newValue else { return }
+            mapView.configure(with: newValue)
+        }
+    }
 
     // MARK: - Initialize
 
@@ -43,9 +58,7 @@ class DetailContentPlaceView: UIView {
     // MARK: - Method
 
     private func configureUI() {
-        self.addSubview(headLabel)
-        self.addSubview(seperator)
-        self.addSubview(placeLabel)
+        [headLabel, seperator, placeLabel, mapView].forEach { addSubview($0) }
 
         headLabel.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -57,11 +70,17 @@ class DetailContentPlaceView: UIView {
         }
         placeLabel.snp.makeConstraints {
             $0.top.equalTo(seperator.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview()
+        }
+        mapView.snp.makeConstraints {
+            $0.top.equalTo(placeLabel.snp.bottom).offset(16)
+            $0.height.equalTo(self.snp.width)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
 
-    func configureWith(place: String) {
+    func configureWith(place: String, location: Location) {
         placeLabel.text = place
+        self.location = location
     }
 }

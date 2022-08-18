@@ -108,7 +108,7 @@ class LaunchSignInViewController: UIViewController {
     }()
     
     // MARK: - Properties
-//    weak var delegate: LaunchSignInViewControllerDelegate?
+    weak var delegate: LaunchSignInViewControllerDelegate?
     private let naverLoginInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
     // MARK: - Life Cycle

@@ -31,7 +31,7 @@ class ClassItemTableViewCell: UITableViewCell {
         return locationLabel
     }()
     
-    private lazy var dateDiffLabel: UILabel = {
+    private lazy var timeLabel: UILabel = {
         let dateDiffLabel = UILabel()
         dateDiffLabel.text = " | 1분 전"
         dateDiffLabel.font = .systemFont(ofSize: 14.0, weight: .thin)
@@ -82,7 +82,7 @@ class ClassItemTableViewCell: UITableViewCell {
             thumbnailView,
             titleLabel,
             locationLabel,
-            dateDiffLabel,
+            timeLabel,
             priceLabel,
             priceUnitLabel,
             nthClass
@@ -103,13 +103,13 @@ class ClassItemTableViewCell: UITableViewCell {
             $0.leading.equalTo(titleLabel.snp.leading)
             $0.top.equalTo(titleLabel.snp.bottom).offset(4.0)
         }
-        dateDiffLabel.snp.makeConstraints {
+        timeLabel.snp.makeConstraints {
             $0.leading.equalTo(locationLabel.snp.trailing)
             $0.top.equalTo(locationLabel.snp.top)
         }
         priceLabel.snp.makeConstraints {
             $0.leading.equalTo(locationLabel.snp.leading)
-            $0.top.equalTo(dateDiffLabel.snp.bottom).offset(8.0)
+            $0.top.equalTo(timeLabel.snp.bottom).offset(8.0)
         }
         priceUnitLabel.snp.makeConstraints {
             $0.leading.equalTo(priceLabel.snp.trailing).offset(5.0)
@@ -123,15 +123,8 @@ class ClassItemTableViewCell: UITableViewCell {
 
     func configureWith(classItem: ClassItem, completion: @escaping (UIImage)->()) {
         titleLabel.text = classItem.name
-        locationManager.getAddress(of: classItem.location) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                debugPrint(error)
-            case .success(let address):
-                self.locationLabel.text = address
-            }
-        }
+
+        locationLabel.text = "\(classItem.locality ?? "") \(classItem.keywordLocation ?? "")"
         if let price = classItem.price {
             priceLabel.text = price.formattedWithWon()
             priceUnitLabel.text = classItem.priceUnit.description
@@ -139,19 +132,10 @@ class ClassItemTableViewCell: UITableViewCell {
             priceLabel.text = "가격협의"
             priceUnitLabel.text = nil
         }
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.month, .day, .hour, .minute], from: classItem.createdTime, to: Date())
-        if let month = components.month, month != 0 {
-            dateDiffLabel.text = " | \(month)개월 전"
-        } else if let day = components.day, day != 0 {
-            dateDiffLabel.text = " | \(day)일 전"
-        } else if let hour = components.hour, hour != 0 {
-            dateDiffLabel.text = " | \(hour)시간 전"
-        } else if let minute = components.minute, minute != 0 {
-            dateDiffLabel.text = " | \(minute)분 전"
-        } else {
-            dateDiffLabel.text = " | 방금 전"
-        }
+        timeLabel.text = classItem.pastDateCalculate()
+//        if let match = classItem.match {
+//            nthClass.text = "\(match.count) 회차"
+//        }
         classItem.thumbnailImage { image in
             guard let image = image else {
                 return
@@ -166,7 +150,7 @@ class ClassItemTableViewCell: UITableViewCell {
         priceLabel.text = nil
         priceUnitLabel.text = nil
         locationLabel.text = nil
-        dateDiffLabel.text = nil
+        timeLabel.text = nil
         nthClass.text = nil
     }
 }

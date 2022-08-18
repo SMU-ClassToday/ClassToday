@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NMFClientId</key>
+	<string>de72sn7jx4</string>
+	<key>NMFClientSecret</key>
+	<string>QgJoMx1RNy5cuvFpzHOYIRlzXPvNkssaLTZ3LoHo</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
