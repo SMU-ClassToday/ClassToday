@@ -264,6 +264,7 @@ private extension EssentialUserInfoInputViewController {
     func setupNavigationBar() {
         navigationItem.title = "필수 정보 입력"
         navigationItem.rightBarButtonItem = rightBarButtonItem
+        navigationItem.hidesBackButton = true
     }
     func attribute() {
         view.backgroundColor = .systemBackground

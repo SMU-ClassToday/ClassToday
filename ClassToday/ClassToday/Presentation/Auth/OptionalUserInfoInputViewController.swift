@@ -81,6 +81,8 @@ class OptionalUserInfoInputViewController: UIViewController {
         textView.layer.borderWidth = 0.4
         textView.layer.borderColor = UIColor.separator.cgColor
         textView.font = .systemFont(ofSize: 16.0, weight: .medium)
+        textView.autocorrectionType = .no
+        textView.autocapitalizationType = .none
         textView.delegate = self
         textView.snp.makeConstraints { $0.height.equalTo(150.0) }
         return textView
@@ -158,6 +160,8 @@ private extension OptionalUserInfoInputViewController {
                     switch result {
                     case .success(_):
                         print("성공!@#!@#!#!@#!@👨‍👩‍👦‍👦")
+                        // TODO: - 정보를 입력했는지 여부 저장
+                        self.dismiss(animated: true)
                     case .failure(let error):
                         print("ERROR \(error.localizedDescription) 👕")
                     }
