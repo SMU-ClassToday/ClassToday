@@ -13,6 +13,8 @@ Pods/
 # Xcode
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+Info.plist
+GoogleService-Info.plist
 
 .DS_Store
 ## User settings
@@ -34,7 +36,7 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-
+ㅠ
 ## Obj-C/Swift specific
 *.hmap
 
