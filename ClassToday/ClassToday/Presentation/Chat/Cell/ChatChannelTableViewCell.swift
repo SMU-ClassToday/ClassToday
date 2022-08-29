@@ -137,5 +137,8 @@ class ChannelTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         chatRoomThumbnailView.image = UIImage(named: "person")
         chatRoomLabel.text = nil
+        latestMessage.text = nil
+        dateDiffLabel.text = nil
+        classItemLabel.text = nil
     }
 }

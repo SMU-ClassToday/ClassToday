@@ -305,7 +305,7 @@ extension FirestoreManager {
     
     func uploadMatch(match: Match, classItem: ClassItem) {
         do {
-            try FirestoreRoute.db.collection("ClassItem/\(classItem.id)/match").document(match.id).setData(from: match)
+            try FirestoreRoute.match.ref.document(match.id).setData(from: match)
         } catch {
             debugPrint(error)
         }
