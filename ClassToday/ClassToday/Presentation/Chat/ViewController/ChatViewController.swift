@@ -512,7 +512,7 @@ extension ChatViewController: ChatClassItemCellDelegate {
                 viewcontroller.delegate = self
                 present(viewcontroller, animated: true, completion: nil)
             case "리뷰 확인":
-                let viewcontroller = ReviewDetailViewController()
+                let viewcontroller = ReviewDetailViewController(match: channel.match!, seller: seller!, classItem: channel.classItem!)
                 present(viewcontroller, animated: true, completion: nil)
             default:
                 debugPrint("해당 아이템 없음")

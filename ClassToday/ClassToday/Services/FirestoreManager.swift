@@ -269,26 +269,24 @@ extension FirestoreManager {
     func fetchChannel(channels: [String], completion: @escaping ([Channel]) -> ()) {
         var data: [Channel] = []
         //TODO: - whereField(_, in:)이 10개까지밖에 쿼리하지 못하는 문제 해결하기
-        var channels: [String] = channels
-        if channels.count > 10 {
-            channels = Array(channels[0...9])
-        }
-        FirestoreRoute.channel.ref.whereField("id", in: channels).getDocuments() { (snapshot, error) in
-            if let error = error {
-                debugPrint("Error getting documents: \(error)")
-                return
-            }
-            if let snapshot = snapshot {
-                for document in snapshot.documents {
-                    do {
-                        let channel = try document.data(as: Channel.self)
-                        data.append(channel)
-                    } catch {
-                        debugPrint(error)
+        for channel in channels {
+            FirestoreRoute.channel.ref.whereField("id", isEqualTo: channel).getDocuments() { (snapshot, error) in
+                if let error = error {
+                    debugPrint("Error getting documents: \(error)")
+                    return
+                }
+                if let snapshot = snapshot {
+                    for document in snapshot.documents {
+                        do {
+                            let channel = try document.data(as: Channel.self)
+                            data.append(channel)
+                        } catch {
+                            debugPrint(error)
+                        }
                     }
                 }
+                completion(data)
             }
-            completion(data)
         }
     }
     
