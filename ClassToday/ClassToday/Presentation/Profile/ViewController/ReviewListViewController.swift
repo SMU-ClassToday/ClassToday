@@ -55,7 +55,7 @@ class ReviewListViewController: UIViewController {
 // MARK: - UITableViewDelegate
 extension ReviewListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let reviewDetailViewController = ReviewDetailViewController()
+        let reviewDetailViewController = UIViewController()
         navigationController?.pushViewController(reviewDetailViewController, animated: true)
     }
 }

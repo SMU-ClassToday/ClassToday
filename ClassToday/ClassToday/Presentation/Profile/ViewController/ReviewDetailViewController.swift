@@ -90,12 +90,28 @@ class ReviewDetailViewController: UIViewController {
         return label
     }()
     
+    private let match: Match
+    private let seller: User
+    private let classItem: ClassItem
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         attribute()
+        configure()
         layout()
+    }
+    
+    init(match: Match, seller: User, classItem: ClassItem) {
+        self.match = match
+        self.seller = seller
+        self.classItem = classItem
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -106,6 +122,10 @@ private extension ReviewDetailViewController {
     }
     func attribute() {
         view.backgroundColor = .systemBackground
+    }
+    func configure() {
+        userNameLabel.text = seller.nickName
+        contentLabel.text = match.review?.description
     }
     func layout() {
         
