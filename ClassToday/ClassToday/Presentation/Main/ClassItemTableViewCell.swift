@@ -26,14 +26,12 @@ class ClassItemTableViewCell: UITableViewCell {
     
     private lazy var locationLabel: UILabel = {
         let locationLabel = UILabel()
-        locationLabel.text = "노원구 중계 1동"
         locationLabel.font = .systemFont(ofSize: 14.0, weight: .thin)
         return locationLabel
     }()
     
     private lazy var timeLabel: UILabel = {
         let dateDiffLabel = UILabel()
-        dateDiffLabel.text = " | 1분 전"
         dateDiffLabel.font = .systemFont(ofSize: 14.0, weight: .thin)
         return dateDiffLabel
     }()
@@ -53,7 +51,6 @@ class ClassItemTableViewCell: UITableViewCell {
     
     private lazy var nthClass: UILabel = {
         let nthClass = UILabel()
-        nthClass.text = "11회차"
         nthClass.font = .systemFont(ofSize: 12.0, weight: .regular)
         return nthClass
     }()
@@ -124,7 +121,9 @@ class ClassItemTableViewCell: UITableViewCell {
     func configureWith(classItem: ClassItem, completion: @escaping (UIImage)->()) {
         titleLabel.text = classItem.name
 
-        locationLabel.text = "\(classItem.locality ?? "") \(classItem.keywordLocation ?? "")"
+        if let semiKeywordLocation = classItem.semiKeywordLocation {
+            locationLabel.text = semiKeywordLocation
+        }
         if let price = classItem.price {
             priceLabel.text = price.formattedWithWon()
             priceUnitLabel.text = classItem.priceUnit.description
