@@ -83,6 +83,7 @@ class ChatClassItemCell: UIView {
     private var classItem: ClassItem = MockData.classItem
     private let locationManager = LocationManager.shared
     private let firebaseAuthManager = FirebaseAuthManager.shared
+    private let provider = NaverMapAPIProvider()
     
     init(classItem: ClassItem) {
         super.init(frame: .zero)
@@ -101,14 +102,10 @@ class ChatClassItemCell: UIView {
     
     private func configure(classItem: ClassItem, completion: @escaping (UIImage)->()) {
         titleLabel.text = classItem.name
-        locationManager.getAddress(of: classItem.location) { [weak self] result in
+        
+        provider.locationToSemiKeyword(location: classItem.location) { [weak self] keyword in
             guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                debugPrint(error)
-            case .success(let address):
-                self.locationLabel.text = address
-            }
+            self.locationLabel.text = keyword
         }
         if let price = classItem.price {
             priceLabel.text = price.formattedWithWon()

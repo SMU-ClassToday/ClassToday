@@ -94,6 +94,7 @@ class MainViewController: UIViewController {
     private var dataSell: [ClassItem] = []
     private let firestoreManager = FirestoreManager.shared
     private let locationManager = LocationManager.shared
+    private let provider = NaverMapAPIProvider()
     private let dispatchGroup: DispatchGroup = DispatchGroup()
     weak var delegate: MainViewControllerLocationDelegate?
 
@@ -134,16 +135,12 @@ class MainViewController: UIViewController {
     ///  - 출력 형태: "@@시 @@구의 수업"
     private func configureLocation() {
         print("Location was fetched and Now Address Fetching")
-        locationManager.getCurrentAddress { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let address):
-                DispatchQueue.main.async {
-                    self.leftTitle.text = address + "의 수업"
-                    self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
-                }
-            case .failure(let error):
-                debugPrint(error)
+        guard let location = locationManager.getCurrentLocation() else { return }
+        provider.locationToKeywordAddress(location: location) { [weak self] result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.leftTitle.text = result + "의 수업"
+                self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
             }
         }
     }

@@ -29,31 +29,26 @@ class FirestoreManager {
     /// 기준 값: locality
     func fetch(_ location: Location?, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        LocationManager.shared.getKeywordOfLocation(of: location) { [weak self] result in
-            switch result {
-            case .success(let locality):
-                self?.targetLocality = locality
-                /// keywordLocation이 locality와 동일한 아이템만 패칭합니다.
-                FirestoreRoute.classItem.ref.whereField("keywordLocation", isEqualTo: locality).getDocuments() { (snapshot, error) in
-                    if let error = error {
-                        debugPrint("Error getting documents: \(error)")
-                        return
-                    }
-                    if let snapshot = snapshot {
-                        for document in snapshot.documents {
-                            do {
-                                let classItem = try document.data(as: ClassItem.self)
-                                data.append(classItem)
-                            } catch {
-                                debugPrint("Decoding is failed")
-                            }
+        let provider = NaverMapAPIProvider()
+
+        provider.locationToKeyword(location: location) { [weak self] keyword in
+            self?.targetLocality = keyword
+            FirestoreRoute.classItem.ref.whereField("keywordLocation", isEqualTo: keyword).getDocuments() { (snapshot, error) in
+                if let error = error {
+                    debugPrint("Error getting documents: \(error)")
+                    return
+                }
+                if let snapshot = snapshot {
+                    for document in snapshot.documents {
+                        do {
+                            let classItem = try document.data(as: ClassItem.self)
+                            data.append(classItem)
+                        } catch {
+                            debugPrint("Decoding is failed")
                         }
                     }
-                    completion(data)
                 }
-            case .failure(let error):
-                debugPrint(error)
-                self?.targetLocality = ""
+                completion(data)
             }
         }
     }
