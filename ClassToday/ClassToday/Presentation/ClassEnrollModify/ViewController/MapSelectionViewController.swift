@@ -69,15 +69,6 @@ class MapSelectionViewController: UIViewController {
         return button
     }()
     
-    private lazy var deleteButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = .systemRed
-        button.isHidden = true
-        button.addTarget(self, action: #selector(isDeleteButtonTouched(_:)), for: .touchUpInside)
-        return button
-    }()
-    
     private lazy var submitButton: UIButton = {
         let button = UIButton()
         button.setTitle("설정하기", for: .normal)
@@ -108,10 +99,8 @@ class MapSelectionViewController: UIViewController {
         willSet {
             guard let newValue = newValue else {
                 locationDescriptionLabel.text = "주소 정보 없음"
-                deleteButton.isHidden = true
                 return
             }
-            deleteButton.isHidden = false
             locationDescriptionLabel.text = "\(newValue)"
         }
     }
@@ -155,8 +144,7 @@ class MapSelectionViewController: UIViewController {
         view.backgroundColor = .white
         [
             titleLabel, mapView, descriptionLabel, locationLabel,
-            currentLocationButton ,locationDescriptionLabel, submitButton,
-            deleteButton
+            currentLocationButton ,locationDescriptionLabel, submitButton
         ].forEach { view.addSubview($0)}
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(25)
@@ -183,10 +171,6 @@ class MapSelectionViewController: UIViewController {
             $0.top.equalTo(locationLabel.snp.bottom).offset(4)
             $0.leading.equalTo(locationLabel)
         }
-        deleteButton.snp.makeConstraints {
-            $0.centerY.equalTo(locationDescriptionLabel)
-            $0.leading.equalTo(locationDescriptionLabel.snp.trailing)
-        }
         submitButton.snp.makeConstraints {
             $0.top.equalTo(locationDescriptionLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalTo(mapView)
@@ -211,10 +195,6 @@ class MapSelectionViewController: UIViewController {
     @objc func isCurrentLocationButtonTouched(_ sender: UIButton) {
         guard let location = LocationManager.shared.getCurrentLocation() else { return }
         position = NMGLatLng(lat: location.lat, lng: location.lon)
-    }
-    
-    @objc func isDeleteButtonTouched(_ sender: UIButton) {
-        position = nil
     }
 }
 
