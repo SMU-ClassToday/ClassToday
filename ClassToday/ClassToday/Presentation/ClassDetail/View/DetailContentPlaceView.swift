@@ -32,35 +32,15 @@ class DetailContentPlaceView: UIView {
         return label
     }()
 
-    private lazy var mapView: NMFNaverMapView = {
-        let naverMapView = NMFNaverMapView()
-        let mapView = naverMapView.mapView
-        mapView.mapType = NMFMapType.basic
-        mapView.setLayerGroup(NMF_LAYER_GROUP_BUILDING, isEnabled: true)
-        mapView.setLayerGroup(NMF_LAYER_GROUP_TRANSIT, isEnabled: true)
-        mapView.isTiltGestureEnabled = false
-        mapView.isRotateGestureEnabled = false
-        mapView.isScrollGestureEnabled = false
-        return naverMapView
-    }()
-
-    private lazy var marker: NMFMarker = {
-        let marker = NMFMarker()
-        marker.iconImage = NMF_MARKER_IMAGE_BLACK
-        marker.iconTintColor = UIColor.mainColor
-        marker.iconPerspectiveEnabled = true
-        marker.width = 30
-        marker.height = 40
-        return marker
+    private lazy var mapView: NaverMapView = {
+        let mapView = NaverMapView()
+        return mapView
     }()
 
     private var location: Location? {
         willSet {
             guard let newValue = newValue else { return }
-            let position = NMGLatLng(lat: newValue.lat, lng: newValue.lon)
-            mapView.mapView.moveCamera(NMFCameraUpdate(scrollTo: position))
-            marker.position = position
-            marker.mapView = mapView.mapView
+            mapView.configure(with: newValue)
         }
     }
 

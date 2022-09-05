@@ -19,13 +19,30 @@ class EnrollPlaceCell: UITableViewCell {
     private lazy var placeTextField: UITextField = {
         let textField = UITextField()
         textField.configureWith(placeholder: "수업장소 미지정시 현재 위치로 저장됩니다")
-        textField.rightView = button
+        textField.rightView = stackView
         textField.rightViewMode = .always
         textField.delegate = self
         return textField
     }()
+    
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.addArrangedSubview(deleteButton)
+        stackView.addArrangedSubview(mapSelectButton)
+        return stackView
+    }()
 
-    private lazy var button: UIButton = {
+    private lazy var deleteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.tintColor = .systemRed
+        button.addTarget(self, action: #selector(deletePlace(_:)), for: .touchDown)
+        return button
+    }()
+
+    private lazy var mapSelectButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "map"), for: .normal)
         button.tintColor = .mainColor
@@ -81,6 +98,11 @@ class EnrollPlaceCell: UITableViewCell {
         mapSelectionViewController.configure(location: location)
         mapSelectionViewController.delegate = self
         delegate?.presentFromPlaceCell(viewController: mapSelectionViewController)
+    }
+    
+    @objc func deletePlace(_ button: UIButton) {
+        location = nil
+        placeTextField.text = nil
     }
 }
 

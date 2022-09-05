@@ -48,13 +48,28 @@ class CategoryDetailViewController: UIViewController {
         classItemTableView.register(ClassItemTableViewCell.self, forCellReuseIdentifier: ClassItemTableViewCell.identifier)
         return classItemTableView
     }()
+
+    private lazy var nonAuthorizationAlertLabel: UILabel = {
+        let label = UILabel()
+        label.text = "위치정보 권한을 허용해주세요."
+        label.textColor = UIColor.systemGray
+        return label
+    }()
+    
+    private lazy var nonDataAlertLabel: UILabel = {
+        let label = UILabel()
+        label.text = "현재 수업 아이템이 없어요"
+        label.textColor = UIColor.systemGray
+        return label
+    }()
     
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
+        refreshControl.tintColor = .mainColor
         return refreshControl
     }()
-
+    
     // MARK: Properties
 
     private var data: [ClassItem] = []
@@ -78,6 +93,7 @@ class CategoryDetailViewController: UIViewController {
     //MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setNavigationBar()
         layout()
         categorySort()
@@ -85,13 +101,17 @@ class CategoryDetailViewController: UIViewController {
     
     //MARK: - Methods
     private func categorySort() {
+        classItemTableView.refreshControl?.beginRefreshing()
         guard let currentLocation = locationManager.getCurrentLocation() else { return }
         firestoreManager.categorySort(location: currentLocation, category: categoryItem?.rawValue ?? "") { [weak self] data in
             guard let self = self else { return }
             self.data = data
             self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
             self.dataSell = data.filter { $0.itemType == ClassItemType.sell }
-            self.classItemTableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.classItemTableView.refreshControl?.endRefreshing()
+                self?.classItemTableView.reloadData()
+            }
         }
     }
 }
@@ -120,7 +140,7 @@ private extension CategoryDetailViewController {
     
     @objc func beginRefresh() {
         print("beginRefresh!")
-        refreshControl.endRefreshing()
+        categorySort()
     }
 }
 
@@ -131,7 +151,10 @@ private extension CategoryDetailViewController {
             segmentedControl,
             classItemTableView
         ].forEach { view.addSubview($0) }
-        
+        [
+            nonAuthorizationAlertLabel,
+            nonDataAlertLabel
+        ].forEach { classItemTableView.addSubview($0) }
         segmentedControl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -142,22 +165,40 @@ private extension CategoryDetailViewController {
             $0.top.equalTo(segmentedControl.snp.bottom)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+        nonAuthorizationAlertLabel.snp.makeConstraints {
+            $0.center.equalTo(view)
+        }
+        nonDataAlertLabel.snp.makeConstraints {
+            $0.center.equalTo(view)
+        }
     }
 }
 
 //MARK: - tableview datasource
 extension CategoryDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var count = 0
         switch segmentedControl.selectedSegmentIndex {
             case 0:
-                return data.count
+                count = data.count
             case 1:
-                return dataBuy.count
+                count = dataBuy.count
             case 2:
-                return dataSell.count
+                count = dataSell.count
             default:
-                return data.count
+                count = data.count
         }
+        
+        guard nonAuthorizationAlertLabel.isHidden else {
+            nonDataAlertLabel.isHidden = true
+            return count
+        }
+        if count == 0 {
+            nonDataAlertLabel.isHidden = false
+        } else {
+            nonDataAlertLabel.isHidden = true
+        }
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

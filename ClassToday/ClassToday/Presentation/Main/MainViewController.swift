@@ -72,20 +72,18 @@ class MainViewController: UIViewController {
         return label
     }()
     
-    private lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
-        return refreshControl
+    private lazy var nonDataAlertLabel: UILabel = {
+        let label = UILabel()
+        label.text = "현재 수업 아이템이 없어요"
+        label.textColor = UIColor.systemGray
+        return label
     }()
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-        activityIndicator.color = UIColor.mainColor
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = UIActivityIndicatorView.Style.medium
-        activityIndicator.stopAnimating()
-        return activityIndicator
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .mainColor
+        refreshControl.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
+        return refreshControl
     }()
     
     // MARK: Properties
@@ -118,7 +116,8 @@ class MainViewController: UIViewController {
     ///
     /// - 패칭 기준: Location의 KeywordLocation 값 ("@@구")
     private func fetchData() {
-        activityIndicator.startAnimating()
+        classItemTableView.refreshControl?.beginRefreshing()
+        nonDataAlertLabel.isHidden = true
         guard let currentLocation = locationManager.getCurrentLocation() else { return }
         firestoreManager.fetch(currentLocation) { [weak self] data in
             self?.data = data
@@ -126,7 +125,7 @@ class MainViewController: UIViewController {
             self?.dataSell = data.filter { $0.itemType == ClassItemType.sell }
             DispatchQueue.main.async {
                 self?.classItemTableView.reloadData()
-                self?.activityIndicator.stopAnimating()
+                self?.classItemTableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -149,14 +148,14 @@ class MainViewController: UIViewController {
     ///
     /// - return 값: true - 권한요청, false - 권한허용
     private func requestLocationAuthorization() -> Bool {
-        if !locationManager.isLocationAuthorizationAllowed() {
-            nonAuthorizationAlertLabel.isHidden = false
-            present(UIAlertController.locationAlert(), animated: true) {
-                self.refreshControl.endRefreshing()
-            }
-            return true
-        }
-        nonAuthorizationAlertLabel.isHidden = true
+//        if !locationManager.isLocationAuthorizationAllowed() {
+//            nonAuthorizationAlertLabel.isHidden = false
+//            present(UIAlertController.locationAlert(), animated: true) {
+//                self.refreshControl.endRefreshing()
+//            }
+//            return true
+//        }
+//        nonAuthorizationAlertLabel.isHidden = true
         return false
     }
 }
@@ -192,7 +191,6 @@ private extension MainViewController {
             return
         }
         fetchData()
-        refreshControl.endRefreshing()
     }
 
     @objc func didTapStarButton() {
@@ -219,8 +217,8 @@ private extension MainViewController {
             classItemTableView,
         ].forEach { view.addSubview($0) }
         [
-            activityIndicator,
-            nonAuthorizationAlertLabel
+            nonAuthorizationAlertLabel,
+            nonDataAlertLabel
         ].forEach { classItemTableView.addSubview($0) }
 
         segmentedControl.snp.makeConstraints {
@@ -234,11 +232,10 @@ private extension MainViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        activityIndicator.snp.makeConstraints {
+        nonAuthorizationAlertLabel.snp.makeConstraints {
             $0.center.equalTo(view)
         }
-        
-        nonAuthorizationAlertLabel.snp.makeConstraints {
+        nonDataAlertLabel.snp.makeConstraints {
             $0.center.equalTo(view)
         }
     }
@@ -247,16 +244,28 @@ private extension MainViewController {
 //MARK: - TableView datasource
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var count = 0
         switch segmentedControl.selectedSegmentIndex {
             case 0:
-                return data.count
+                count = data.count
             case 1:
-                return dataBuy.count
+                count = dataBuy.count
             case 2:
-                return dataSell.count
+                count = dataSell.count
             default:
-                return data.count
+                count = data.count
         }
+        
+        guard nonAuthorizationAlertLabel.isHidden else {
+            nonDataAlertLabel.isHidden = true
+            return count
+        }
+        if count == 0 {
+            nonDataAlertLabel.isHidden = false
+        } else {
+            nonDataAlertLabel.isHidden = true
+        }
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
