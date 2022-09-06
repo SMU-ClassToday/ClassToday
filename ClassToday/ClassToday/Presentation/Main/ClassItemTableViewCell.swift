@@ -55,6 +55,15 @@ class ClassItemTableViewCell: UITableViewCell {
         return nthClass
     }()
 
+    private lazy var imageEmptyLabel: UILabel = {
+        let label = UILabel()
+        label.text = "이미지가 없어요"
+        label.font = .systemFont(ofSize: 12.0, weight: .regular)
+        label.textColor = .black
+        label.isHidden = true
+        return label
+    }()
+    
     // MARK: - Properties
 
     static let identifier = "ClassItemTableViewCell"
@@ -116,6 +125,10 @@ class ClassItemTableViewCell: UITableViewCell {
             $0.trailing.equalToSuperview().inset(commonInset*2)
             $0.bottom.equalToSuperview().inset(commonInset)
         }
+        thumbnailView.addSubview(imageEmptyLabel)
+        imageEmptyLabel.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
     }
 
     func configureWith(classItem: ClassItem, completion: @escaping (UIImage)->()) {
@@ -135,8 +148,9 @@ class ClassItemTableViewCell: UITableViewCell {
 //        if let match = classItem.match {
 //            nthClass.text = "\(match.count) 회차"
 //        }
-        classItem.thumbnailImage { image in
+        classItem.thumbnailImage { [weak self] image in
             guard let image = image else {
+                self?.imageEmptyLabel.isHidden = false
                 return
             }
             completion(image)
@@ -151,5 +165,6 @@ class ClassItemTableViewCell: UITableViewCell {
         locationLabel.text = nil
         timeLabel.text = nil
         nthClass.text = nil
+        imageEmptyLabel.isHidden = true
     }
 }

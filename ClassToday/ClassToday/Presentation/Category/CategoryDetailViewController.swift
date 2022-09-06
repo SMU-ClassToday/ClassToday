@@ -52,6 +52,7 @@ class CategoryDetailViewController: UIViewController {
     private lazy var nonAuthorizationAlertLabel: UILabel = {
         let label = UILabel()
         label.text = "위치정보 권한을 허용해주세요."
+        label.isHidden = true
         label.textColor = UIColor.systemGray
         return label
     }()
@@ -96,7 +97,13 @@ class CategoryDetailViewController: UIViewController {
         view.backgroundColor = .white
         setNavigationBar()
         layout()
-        categorySort()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !requestLocationAuthorization() {
+            categorySort()
+        }
     }
     
     //MARK: - Methods
@@ -113,6 +120,21 @@ class CategoryDetailViewController: UIViewController {
                 self?.classItemTableView.reloadData()
             }
         }
+    }
+    
+    /// 위치권한상태를 확인하고, 필요한 경우 얼럿을 호출합니다.
+    ///
+    /// - return 값: true - 권한요청, false - 권한허용
+    private func requestLocationAuthorization() -> Bool {
+        if !locationManager.isLocationAuthorizationAllowed() {
+            nonAuthorizationAlertLabel.isHidden = false
+            present(UIAlertController.locationAlert(), animated: true) {
+                self.refreshControl.endRefreshing()
+            }
+            return true
+        }
+        nonAuthorizationAlertLabel.isHidden = true
+        return false
     }
 }
 

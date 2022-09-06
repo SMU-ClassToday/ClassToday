@@ -402,7 +402,7 @@ extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
         } else {
             setButtonOffSale()
         }
-        firestoreManager.update(classItem: classItem)
+        firestoreManager.update(classItem: classItem) {}
     }
     func addStar() {
         MockData.mockUser.stars?.append(classItem.id)
