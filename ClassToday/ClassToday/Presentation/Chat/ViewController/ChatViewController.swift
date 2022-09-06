@@ -333,6 +333,7 @@ class ChatViewController: MessagesViewController {
                 }
             } else if let reviewFlag = message.reviewFlag {
                 if reviewFlag == true {
+                    fetchChannel(channel: channel)
                     enableReviewConfirmButton()
                 }
             } else {
