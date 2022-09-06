@@ -2,7 +2,7 @@
 //  UIAlertController+.swift
 //  ClassToday
 //
-//  Created by Twave on 2022/08/11.
+//  Created by Yescoach on 2022/08/11.
 //
 
 import UIKit

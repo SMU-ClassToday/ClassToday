@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         instance?.consumerSecret = kConsumerSecret
         instance?.appName = kServiceAppName
         
+        sleep(3)
         return true
     }
     

@@ -2,7 +2,7 @@
 //  MapView.swift
 //  ClassToday
 //
-//  Created by Twave on 2022/08/17.
+//  Created by Yescoach on 2022/08/17.
 //
 
 import UIKit
