@@ -44,7 +44,7 @@ class GradeStarView: UIView {
     }
 }
 
-private extension GradeStarView {
+extension GradeStarView {
     func updateStars(grade: Double) {
         switch grade {
         case (0.0..<1.0):
@@ -73,6 +73,9 @@ private extension GradeStarView {
             break
         }
     }
+}
+
+private extension GradeStarView {
     func layout() {
         [
             starImageView1,
