@@ -41,22 +41,49 @@ class ReviewListViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    var reviewList = [1, 2, 3, 4, 5] // [Review]()
+    var reviewList: [Match] = []
+    var buyer: User?
+    var classItem: ClassItem?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         attribute()
+        fetchMatch()
         layout()
+    }
+
+    private func fetchMatch() {
+        FirestoreManager.shared.fetchMatch(userId: UserDefaultsManager.shared.isLogin()!) { [weak self] data in
+            self?.reviewList = data
+            self?.reviewListCountLabel.text = "총 \(data.count)건"
+            self?.reviewListTableView.reloadData()
+        }
     }
 }
 
 // MARK: - UITableViewDelegate
 extension ReviewListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let reviewDetailViewController = UIViewController()
-        navigationController?.pushViewController(reviewDetailViewController, animated: true)
+        FirestoreManager.shared.fetch(classItemId: reviewList[indexPath.row].classItem) { [weak self] result in
+            switch result {
+            case .success(let classItem):
+                self?.classItem = classItem
+                FirestoreManager.shared.readUser(uid: self!.reviewList[indexPath.row].buyer) { [weak self] result in
+                    switch result {
+                    case .success(let user):
+                        self?.buyer = user
+                        let reviewDetailViewController = ReviewDetailViewController(match: self!.reviewList[indexPath.row], buyer: self!.buyer!, classItem: self!.classItem!)
+                        self?.navigationController?.pushViewController(reviewDetailViewController, animated: true)
+                    case .failure(_):
+                        print("fetchbuyer fail")
+                    }
+                }
+            case .failure(_):
+                print("fetchClassItem Fail")
+            }
+        }
     }
 }
 
@@ -70,7 +97,7 @@ extension ReviewListViewController: UITableViewDataSource {
             withIdentifier: ReviewListTableViewCell.identifier,
             for: indexPath
         ) as? ReviewListTableViewCell else { return UITableViewCell() }
-        cell.setupView()
+        cell.setupView(match: reviewList[indexPath.row])
         cell.selectionStyle = .none
         return cell
     }
