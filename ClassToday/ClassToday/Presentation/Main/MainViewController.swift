@@ -108,7 +108,10 @@ class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        _ = requestLocationAuthorization()
+        if !requestLocationAuthorization() {
+            configureLocation()
+            fetchData()
+        }
     }
 
     // MARK: - Method
