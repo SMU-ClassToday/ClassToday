@@ -295,8 +295,8 @@ class ChatViewController: MessagesViewController {
         }
     }
     
-    private func uploadMatch(match: Match, classItem: ClassItem) {
-        firestoreManager.uploadMatch(match: match, classItem: classItem)
+    private func uploadMatch(match: Match) {
+        firestoreManager.uploadMatch(match: match)
     }
     
     private func listenToMessages() {
@@ -383,7 +383,7 @@ extension ChatViewController: MessagesDataSource {
     var currentSender: SenderType {
         return sender
     }
-    
+
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return messages.count
     }
@@ -512,8 +512,8 @@ extension ChatViewController: ChatClassItemCellDelegate {
                 viewcontroller.delegate = self
                 present(viewcontroller, animated: true, completion: nil)
             case "리뷰 확인":
-                let viewcontroller = ReviewDetailViewController(match: channel.match!, seller: seller!, classItem: channel.classItem!)
-                present(viewcontroller, animated: true, completion: nil)
+                let viewcontroller = ReviewDetailViewController(match: channel.match!, buyer: buyer!, classItem: classItem)
+                navigationController?.pushViewController(viewcontroller, animated: true)
             default:
                 debugPrint("해당 아이템 없음")
         }
@@ -540,7 +540,7 @@ extension ChatViewController: MatchConfirmViewControllerDelegate {
         chatStreamManager.save(message)
         enableReviewButton()
         channel.validity = false
-        uploadMatch(match: channel.match!, classItem: classItem!)
+        uploadMatch(match: channel.match!)
         updateChannel(channel: channel)
     }
 }
@@ -551,7 +551,7 @@ extension ChatViewController: ReviewInputViewControllerDelegate {
         chatStreamManager.save(message)
         enableReviewConfirmButton()
         channel.match?.review = review
-        uploadMatch(match: channel.match!, classItem: classItem!)
+        uploadMatch(match: channel.match!)
         updateChannel(channel: channel)
     }
 }
