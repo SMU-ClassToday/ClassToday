@@ -2,7 +2,7 @@
 //  UIWindow+.swift
 //  ClassToday
 //
-//  Created by Twave on 2022/08/25.
+//  Created by Yescoach on 2022/08/25.
 //
 
 import UIKit

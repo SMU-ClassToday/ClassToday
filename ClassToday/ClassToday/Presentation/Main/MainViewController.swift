@@ -148,14 +148,14 @@ class MainViewController: UIViewController {
     ///
     /// - return 값: true - 권한요청, false - 권한허용
     private func requestLocationAuthorization() -> Bool {
-//        if !locationManager.isLocationAuthorizationAllowed() {
-//            nonAuthorizationAlertLabel.isHidden = false
-//            present(UIAlertController.locationAlert(), animated: true) {
-//                self.refreshControl.endRefreshing()
-//            }
-//            return true
-//        }
-//        nonAuthorizationAlertLabel.isHidden = true
+        if !locationManager.isLocationAuthorizationAllowed() {
+            nonAuthorizationAlertLabel.isHidden = false
+            present(UIAlertController.locationAlert(), animated: true) {
+                self.refreshControl.endRefreshing()
+            }
+            return true
+        }
+        nonAuthorizationAlertLabel.isHidden = true
         return false
     }
 }

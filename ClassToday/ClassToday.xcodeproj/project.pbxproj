@@ -142,6 +142,7 @@
 		89DCD07E2896C9CA00C1CCA3 /* NaverMapAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD07C2896C9C900C1CCA3 /* NaverMapAPI.swift */; };
 		89DCD07F2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD07D2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift */; };
 		89DCD0812896C9FC00C1CCA3 /* NaverMapAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */; };
+		89EDC56828C62C7000F53A5A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 89EDC56728C62C7000F53A5A /* FirebaseMessaging */; };
 		C125E03189012D809E3DC3FC /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */; };
 		C93CCEEF28AC7C7400B17CEE /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CCEEE28AC7C7400B17CEE /* NaverMapView.swift */; };
 		C94C0BD428A494EA00F75B76 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */; };
@@ -285,6 +286,7 @@
 		89DCD07C2896C9C900C1CCA3 /* NaverMapAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaverMapAPI.swift; sourceTree = "<group>"; };
 		89DCD07D2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaverMapAPIProvider.swift; sourceTree = "<group>"; };
 		89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapAddress.swift; sourceTree = "<group>"; };
+		89EDC56928C62CC600F53A5A /* ClassToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClassToday.entitlements; sourceTree = "<group>"; };
 		8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93CCEEE28AC7C7400B17CEE /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				89A67351282A68BD00951300 /* Alamofire in Frameworks */,
 				89A6735A282A697C00951300 /* FirebaseStorage in Frameworks */,
 				4F23A8B4ECD140BC782CCC46 /* (null) in Frameworks */,
+				89EDC56828C62C7000F53A5A /* FirebaseMessaging in Frameworks */,
 				C125E03189012D809E3DC3FC /* Pods_ClassToday.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -531,6 +534,7 @@
 		895D107427F32DCA009FB26F /* ClassToday */ = {
 			isa = PBXGroup;
 			children = (
+				89EDC56928C62CC600F53A5A /* ClassToday.entitlements */,
 				6B5E14C028131A59001AF21C /* Protocol */,
 				6B5E14BE28131A37001AF21C /* Extension */,
 				FCF850FD280E6A8700D5D3DC /* Presentation */,
@@ -847,6 +851,7 @@
 				89A67359282A697C00951300 /* FirebaseStorage */,
 				6B8984BF284E2D5700192DFD /* Toast */,
 				FC25F8A92865DD2D00B2BBEB /* MessageKit */,
+				89EDC56728C62C7000F53A5A /* FirebaseMessaging */,
 			);
 			productName = ClassToday;
 			productReference = 895D107227F32DCA009FB26F /* ClassToday.app */;
@@ -882,6 +887,7 @@
 				89A67352282A697C00951300 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6B8984BE284E2D5700192DFD /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				FC25F8A82865DD2D00B2BBEB /* XCRemoteSwiftPackageReference "MessageKit" */,
+				89EDC56628C62C7000F53A5A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 895D107327F32DCA009FB26F /* Products */;
 			projectDirPath = "";
@@ -1243,6 +1249,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClassToday/ClassToday.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1277,6 +1284,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClassToday/ClassToday.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1361,6 +1369,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		89EDC56628C62C7000F53A5A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		FC25F8A82865DD2D00B2BBEB /* XCRemoteSwiftPackageReference "MessageKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MessageKit/MessageKit";
@@ -1406,6 +1422,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 89A67352282A697C00951300 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		89EDC56728C62C7000F53A5A /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 89A67352282A697C00951300 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		FC25F8A92865DD2D00B2BBEB /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
