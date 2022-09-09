@@ -64,8 +64,12 @@ class ReviewListViewController: UIViewController {
             for match in data {
                 gradeMean += match.review!.grade
             }
-            gradeMean /= Double(data.count)
-            self?.gradeStarView.updateStars(grade: gradeMean)
+            if data.isEmpty {
+                self?.gradeStarView.updateStars(grade: 0.0)
+            } else {
+                gradeMean /= Double(data.count)
+                self?.gradeStarView.updateStars(grade: gradeMean)
+            }
             self?.reviewListTableView.reloadData()
         }
     }
