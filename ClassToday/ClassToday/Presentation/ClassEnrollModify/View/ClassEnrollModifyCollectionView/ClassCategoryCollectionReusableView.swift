@@ -48,7 +48,8 @@ class ClassCategoryCollectionReusableView: UICollectionReusableView {
         self.addSubview(supplementaryLabel)
 
         titleLabel.snp.makeConstraints {
-            $0.leading.centerY.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(16)
         }
 
         supplementaryLabel.snp.makeConstraints {

@@ -14,7 +14,7 @@ class DetailContentCategoryCollectionViewCell: UICollectionViewCell {
     private lazy var categoryButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .mainColor
-        button.layer.cornerRadius = 15
+        button.layer.cornerRadius = 13
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.numberOfLines = 1
         if #available(iOS 15.0, *) {

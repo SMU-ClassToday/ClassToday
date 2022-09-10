@@ -62,7 +62,7 @@ class DetailImageCell: UITableViewCell {
 
         for index in 0 ..< images.count {
             let imageView = UIImageView(frame: CGRect(x: CGFloat(index) * width, y: 0, width: width, height: height))
-            imageView.contentMode = .scaleToFill
+            imageView.contentMode = .scaleAspectFill
             imageView.image = images[index]
             imageView.isUserInteractionEnabled = true
             scrollView.addSubview(imageView)

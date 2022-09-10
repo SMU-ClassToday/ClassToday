@@ -24,6 +24,7 @@ class SignUpViewController: UIViewController {
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.borderStyle = .roundedRect
+        textField.inputAccessoryView = toolBarKeyboard
         textField.snp.makeConstraints { $0.height.equalTo(48.0) }
         return textField
     }()
@@ -47,6 +48,7 @@ class SignUpViewController: UIViewController {
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.borderStyle = .roundedRect
+        textField.inputAccessoryView = toolBarKeyboard
         textField.isSecureTextEntry = true
         textField.snp.makeConstraints { $0.height.equalTo(48.0) }
         return textField
@@ -79,7 +81,16 @@ class SignUpViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         return button
     }()
-    
+    private lazy var toolBarKeyboard: UIToolbar = {
+        let toolBarKeyboard = UIToolbar()
+        toolBarKeyboard.sizeToFit()
+        let blankSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didTapDoneButton))
+        toolBarKeyboard.items = [blankSpace, doneButton]
+        toolBarKeyboard.tintColor = UIColor.mainColor
+        return toolBarKeyboard
+    }()
+
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,6 +133,10 @@ private extension SignUpViewController {
                 self.view.makeToast("회원가입 실패")
             }
         }
+    }
+    @objc func didTapDoneButton(_ sender: UIButton) {
+        emailTextField.resignFirstResponder()
+        pwTextField.resignFirstResponder()
     }
 }
 
