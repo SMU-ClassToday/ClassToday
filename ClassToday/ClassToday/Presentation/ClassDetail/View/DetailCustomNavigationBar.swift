@@ -13,8 +13,6 @@ protocol DetailCustomNavigationBarDelegate: AnyObject {
     func pushEditPage()
     func pushAlert(alert: UIAlertController)
     func deleteClassItem()
-    func toggleClassItem()
-    func classItemValidity() -> Bool
     func addStar()
     func deleteStar()
     func checkStar()
@@ -204,13 +202,6 @@ class DetailCustomNavigationBar: UIView {
                 self.delegate?.pushEditPage()
             }
 
-            guard let delegate = delegate else { return alertController }
-            let validity = delegate.classItemValidity()
-            let alertDisableAction = UIAlertAction(title: validity ? "비활성화":"활성화",
-                                                   style: validity ? .destructive : .default) { [weak self] _ in
-                guard let self = self else { return }
-                self.delegate?.toggleClassItem()
-            }
             let alertDeleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
                 guard let self = self else { return }
                 self.delegate?.pushAlert(alert: self.deleteAlert)
@@ -218,7 +209,7 @@ class DetailCustomNavigationBar: UIView {
             let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
                 alertController.dismiss(animated: true)
             }
-            [alertEditAction, alertDisableAction, alertDeleteAction, cancelAction].forEach {
+            [alertEditAction, alertDeleteAction, cancelAction].forEach {
                 alertController.addAction($0)
             }
             return alertController
