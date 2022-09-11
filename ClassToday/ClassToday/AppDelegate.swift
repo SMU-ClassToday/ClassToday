@@ -27,7 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         instance?.consumerSecret = kConsumerSecret
         instance?.appName = kServiceAppName
         
+        sleep(3)
         return true
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        print(#function)
     }
     
     // MARK: - Naver Login

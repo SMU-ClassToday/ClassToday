@@ -72,20 +72,18 @@ class MainViewController: UIViewController {
         return label
     }()
     
-    private lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
-        return refreshControl
+    private lazy var nonDataAlertLabel: UILabel = {
+        let label = UILabel()
+        label.text = "현재 수업 아이템이 없어요"
+        label.textColor = UIColor.systemGray
+        return label
     }()
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-        activityIndicator.color = UIColor.mainColor
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = UIActivityIndicatorView.Style.medium
-        activityIndicator.stopAnimating()
-        return activityIndicator
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .mainColor
+        refreshControl.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
+        return refreshControl
     }()
     
     // MARK: Properties
@@ -94,6 +92,7 @@ class MainViewController: UIViewController {
     private var dataSell: [ClassItem] = []
     private let firestoreManager = FirestoreManager.shared
     private let locationManager = LocationManager.shared
+    private let provider = NaverMapAPIProvider()
     private let dispatchGroup: DispatchGroup = DispatchGroup()
     weak var delegate: MainViewControllerLocationDelegate?
 
@@ -109,7 +108,10 @@ class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        _ = requestLocationAuthorization()
+        if !requestLocationAuthorization() {
+            configureLocation()
+            fetchData()
+        }
     }
 
     // MARK: - Method
@@ -117,7 +119,8 @@ class MainViewController: UIViewController {
     ///
     /// - 패칭 기준: Location의 KeywordLocation 값 ("@@구")
     private func fetchData() {
-        activityIndicator.startAnimating()
+        classItemTableView.refreshControl?.beginRefreshing()
+        nonDataAlertLabel.isHidden = true
         guard let currentLocation = locationManager.getCurrentLocation() else { return }
         firestoreManager.fetch(currentLocation) { [weak self] data in
             self?.data = data
@@ -125,7 +128,7 @@ class MainViewController: UIViewController {
             self?.dataSell = data.filter { $0.itemType == ClassItemType.sell }
             DispatchQueue.main.async {
                 self?.classItemTableView.reloadData()
-                self?.activityIndicator.stopAnimating()
+                self?.classItemTableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -134,16 +137,12 @@ class MainViewController: UIViewController {
     ///  - 출력 형태: "@@시 @@구의 수업"
     private func configureLocation() {
         print("Location was fetched and Now Address Fetching")
-        locationManager.getCurrentAddress { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let address):
-                DispatchQueue.main.async {
-                    self.leftTitle.text = address + "의 수업"
-                    self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
-                }
-            case .failure(let error):
-                debugPrint(error)
+        guard let location = locationManager.getCurrentLocation() else { return }
+        provider.locationToKeywordAddress(location: location) { [weak self] result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.leftTitle.text = result + "의 수업"
+                self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
             }
         }
     }
@@ -195,7 +194,6 @@ private extension MainViewController {
             return
         }
         fetchData()
-        refreshControl.endRefreshing()
     }
 
     @objc func didTapStarButton() {
@@ -222,8 +220,8 @@ private extension MainViewController {
             classItemTableView,
         ].forEach { view.addSubview($0) }
         [
-            activityIndicator,
-            nonAuthorizationAlertLabel
+            nonAuthorizationAlertLabel,
+            nonDataAlertLabel
         ].forEach { classItemTableView.addSubview($0) }
 
         segmentedControl.snp.makeConstraints {
@@ -237,11 +235,10 @@ private extension MainViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        activityIndicator.snp.makeConstraints {
+        nonAuthorizationAlertLabel.snp.makeConstraints {
             $0.center.equalTo(view)
         }
-        
-        nonAuthorizationAlertLabel.snp.makeConstraints {
+        nonDataAlertLabel.snp.makeConstraints {
             $0.center.equalTo(view)
         }
     }
@@ -250,16 +247,28 @@ private extension MainViewController {
 //MARK: - TableView datasource
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var count = 0
         switch segmentedControl.selectedSegmentIndex {
             case 0:
-                return data.count
+                count = data.count
             case 1:
-                return dataBuy.count
+                count = dataBuy.count
             case 2:
-                return dataSell.count
+                count = dataSell.count
             default:
-                return data.count
+                count = data.count
         }
+        
+        guard nonAuthorizationAlertLabel.isHidden else {
+            nonDataAlertLabel.isHidden = true
+            return count
+        }
+        if count == 0 {
+            nonDataAlertLabel.isHidden = false
+        } else {
+            nonDataAlertLabel.isHidden = true
+        }
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

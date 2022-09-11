@@ -13,7 +13,7 @@ struct MockData {
                                      time: "2",
                                      place: nil,
                                      location: nil,
-                                     locality: nil,
+                                     semiKeywordLocation: nil,
                                      keywordLocation: "", price: "12000",
                                      priceUnit: .perClass,
                                      description:
