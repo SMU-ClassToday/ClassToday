@@ -22,7 +22,7 @@ enum Option: String, CaseIterable, MenuListable {
     var viewController: UIViewController {
         switch self {
         case .location:
-            return UIViewController()
+            return LocationSettingViewController()
         case .category:
             return UIViewController()
         case .notice:

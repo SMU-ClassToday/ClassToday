@@ -85,6 +85,7 @@
 		895D107A27F32DCA009FB26F /* (null) in Sources */ = {isa = PBXBuildFile; };
 		895D107F27F32DCB009FB26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 895D107E27F32DCB009FB26F /* Assets.xcassets */; };
 		895D108227F32DCB009FB26F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 895D108027F32DCB009FB26F /* LaunchScreen.storyboard */; };
+		895D521628C8ADA500F8A464 /* LocationSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D521528C8ADA500F8A464 /* LocationSettingViewController.swift */; };
 		8966CF5B28100652001CBBDC /* FullImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8966CF5A28100652001CBBDC /* FullImagesViewController.swift */; };
 		8966CF5E2810787C001CBBDC /* ClassImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8966CF5D2810787C001CBBDC /* ClassImageView.swift */; };
 		89675B122826776100933C48 /* PriceUnitTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B112826776100933C48 /* PriceUnitTableView.swift */; };
@@ -247,6 +248,7 @@
 		895D107E27F32DCB009FB26F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		895D108127F32DCB009FB26F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		895D108327F32DCB009FB26F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		895D521528C8ADA500F8A464 /* LocationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingViewController.swift; sourceTree = "<group>"; };
 		8966CF5A28100652001CBBDC /* FullImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullImagesViewController.swift; sourceTree = "<group>"; };
 		8966CF5D2810787C001CBBDC /* ClassImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageView.swift; sourceTree = "<group>"; };
 		89675B112826776100933C48 /* PriceUnitTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUnitTableView.swift; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 				6B5E149A2813130F001AF21C /* ClassHistoryViewController.swift */,
 				6BA8E0092820B7D500B0CC8C /* ReviewListViewController.swift */,
 				6BB1480C28220C1C00DB94B1 /* ReviewDetailViewController.swift */,
+				895D521528C8ADA500F8A464 /* LocationSettingViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -981,6 +984,7 @@
 				6B59562D2847715D004821F1 /* UIImageView+.swift in Sources */,
 				FCA26EBF2867A159004F4C20 /* Message.swift in Sources */,
 				6B5E14A328131386001AF21C /* ClassHistory.swift in Sources */,
+				895D521628C8ADA500F8A464 /* LocationSettingViewController.swift in Sources */,
 				6B568EE0284DC47D00B6CA13 /* SignInViewController.swift in Sources */,
 				6B5E14A7281313F6001AF21C /* GradeUserInfoTableViewCell.swift in Sources */,
 				6B5E1499281312D0001AF21C /* Option.swift in Sources */,
