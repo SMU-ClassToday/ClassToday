@@ -70,7 +70,6 @@ class EssentialUserInfoInputViewController: UIViewController {
         button.layer.borderColor = UIColor.separator.cgColor
         button.layer.borderWidth = 0.3
         button.setTitle("🚻", for: .normal)
-//        button.setTitle("🚹🚺", for: .selected)
         button.titleLabel?.font = .systemFont(ofSize: 32.0, weight: .regular)
         button.addTarget(
             self,
@@ -196,15 +195,12 @@ private extension EssentialUserInfoInputViewController {
             location: location
         )
         
-        LocationManager.shared.getAddress(of: location) { [weak self] result in
+        guard let location = location else { return }
+        
+        NaverMapAPIProvider().locationToKeywordAddress(location: location) { [weak self] address in
             guard let self = self else { return }
-            switch result {
-            case .success(let address):
-                self.locationLabel.text = address
-                self.locationLabel.textColor = .mainColor
-            case .failure(let error):
-                print("ERROR \(error.localizedDescription)🧖‍♂️")
-            }
+            self.locationLabel.text = address
+            self.locationLabel.textColor = .mainColor
         }
     }
 }
