@@ -65,7 +65,7 @@ class MapClassListCell: UITableViewCell {
     // MARK: - Methods
     func configure(with classItem: ClassItem) {
         titleLabel.text = classItem.name
-        addressLabel.text = "\(classItem.locality ?? "") \(classItem.keywordLocation ?? "")"
+        addressLabel.text = "\(classItem.keywordLocation ?? "") \(classItem.semiKeywordLocation ?? "") "
         timeLabel.text = classItem.pastDateCalculate()
         costLabel.text = "\(String(classItem.price ?? "0"))원"
         priceUnitLabel.text = classItem.priceUnit.description
