@@ -183,7 +183,11 @@ private extension ProfileUserInfoView {
     func setupView(user: User) {
         userNameLabel.text = user.nickName
         companyLabel.text = user.company
-        locationLabel.text = user.location?.name
+        guard let location = user.location else { return }
+        NaverMapAPIProvider().locationToKeywordAddress(location: location) { [weak self] address in
+            guard let self = self else { return }
+            self.locationLabel.text = address
+        }
         desciptionLabel.text = user.description
         buyCountLabel.text = "6"
         sellCountLabel.text = "7"
