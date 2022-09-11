@@ -23,7 +23,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="클래스 투데이" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pld-zs-nhl">
-                                <rect key="frame" x="104" y="423" width="270" height="60"/>
+                                <rect key="frame" x="40" y="423" width="270" height="60"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="50"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -35,8 +35,8 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wxb-MI-Ur6" secondAttribute="trailing" constant="40" id="KaV-8O-kDV"/>
                             <constraint firstItem="wxb-MI-Ur6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="UxQ-xk-Xev"/>
                             <constraint firstItem="Pld-zs-nhl" firstAttribute="top" secondItem="wxb-MI-Ur6" secondAttribute="bottom" constant="20" id="hMP-Og-vOB"/>
+                            <constraint firstItem="Pld-zs-nhl" firstAttribute="leading" secondItem="wxb-MI-Ur6" secondAttribute="leading" id="i43-fo-twT"/>
                             <constraint firstItem="Pld-zs-nhl" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="itP-cg-UYv"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Pld-zs-nhl" secondAttribute="trailing" constant="40" id="mHD-aS-sLS"/>
                         </constraints>
                     </view>
                 </viewController>
