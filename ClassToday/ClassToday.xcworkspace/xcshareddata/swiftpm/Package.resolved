@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/MessageKit/MessageKit",
       "state" : {
-        "branch" : "main",
-        "revision" : "fb128e0038609e076c27005af7107279812c3b3c"
+        "revision" : "f3f61ebbc9c56533700c2e7b5742682849cc314d",
+        "version" : "4.0.0"
       }
     },
     {
