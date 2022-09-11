@@ -104,6 +104,7 @@
 		89675B422828336C00933C48 /* DetailContentPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B412828336B00933C48 /* DetailContentPlaceView.swift */; };
 		89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */; };
 		89675B492828C84400933C48 /* NavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B482828C84400933C48 /* NavigationBar+.swift */; };
+		8967E5CE28CDCA0700BA1F6F /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8967E5CD28CDCA0700BA1F6F /* MessageKit */; };
 		8971F21C283A1A4200D4AAD0 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */; };
 		8980575128677F290089CF47 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8980575028677F290089CF47 /* MapViewController.swift */; };
 		89865E9D282A70D700113242 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F9280DC02800D5D3DC /* MainViewController.swift */; };
@@ -149,7 +150,6 @@
 		C94C0BD428A494EA00F75B76 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */; };
 		C9C7C38E28B75C5800595126 /* UIWindow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7C38D28B75C5800595126 /* UIWindow+.swift */; };
 		C9ECC1A628AB3566000011B1 /* UIToolBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */; };
-		FC25F8AA2865DD2D00B2BBEB /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC25F8A92865DD2D00B2BBEB /* MessageKit */; };
 		FC25F8AD2865DE9900B2BBEB /* ChatChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8AC2865DE9900B2BBEB /* ChatChannelViewController.swift */; };
 		FC25F8AF2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8AE2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift */; };
 		FC25F8B12865DF9F00B2BBEB /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8B02865DF9F00B2BBEB /* Channel.swift */; };
@@ -333,7 +333,7 @@
 				6B8984C0284E2D5700192DFD /* Toast in Frameworks */,
 				89A67358282A697C00951300 /* FirebaseFirestoreSwift in Frameworks */,
 				89A6734E282A684F00951300 /* SnapKit in Frameworks */,
-				FC25F8AA2865DD2D00B2BBEB /* MessageKit in Frameworks */,
+				8967E5CE28CDCA0700BA1F6F /* MessageKit in Frameworks */,
 				89A67356282A697C00951300 /* FirebaseFirestore in Frameworks */,
 				89A67354282A697C00951300 /* FirebaseAuth in Frameworks */,
 				89A67351282A68BD00951300 /* Alamofire in Frameworks */,
@@ -853,8 +853,8 @@
 				89A67357282A697C00951300 /* FirebaseFirestoreSwift */,
 				89A67359282A697C00951300 /* FirebaseStorage */,
 				6B8984BF284E2D5700192DFD /* Toast */,
-				FC25F8A92865DD2D00B2BBEB /* MessageKit */,
 				89EDC56728C62C7000F53A5A /* FirebaseMessaging */,
+				8967E5CD28CDCA0700BA1F6F /* MessageKit */,
 			);
 			productName = ClassToday;
 			productReference = 895D107227F32DCA009FB26F /* ClassToday.app */;
@@ -889,8 +889,8 @@
 				89A6734F282A68BD00951300 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				89A67352282A697C00951300 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6B8984BE284E2D5700192DFD /* XCRemoteSwiftPackageReference "Toast-Swift" */,
-				FC25F8A82865DD2D00B2BBEB /* XCRemoteSwiftPackageReference "MessageKit" */,
 				89EDC56628C62C7000F53A5A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8967E5CC28CDCA0700BA1F6F /* XCRemoteSwiftPackageReference "MessageKit" */,
 			);
 			productRefGroup = 895D107327F32DCA009FB26F /* Products */;
 			projectDirPath = "";
@@ -1349,6 +1349,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		8967E5CC28CDCA0700BA1F6F /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		89A6734C282A684F00951300 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1381,14 +1389,6 @@
 				minimumVersion = 9.0.0;
 			};
 		};
-		FC25F8A82865DD2D00B2BBEB /* XCRemoteSwiftPackageReference "MessageKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MessageKit/MessageKit";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1396,6 +1396,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6B8984BE284E2D5700192DFD /* XCRemoteSwiftPackageReference "Toast-Swift" */;
 			productName = Toast;
+		};
+		8967E5CD28CDCA0700BA1F6F /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8967E5CC28CDCA0700BA1F6F /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
 		};
 		89A6734D282A684F00951300 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1431,11 +1436,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 89A67352282A697C00951300 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
-		};
-		FC25F8A92865DD2D00B2BBEB /* MessageKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FC25F8A82865DD2D00B2BBEB /* XCRemoteSwiftPackageReference "MessageKit" */;
-			productName = MessageKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
