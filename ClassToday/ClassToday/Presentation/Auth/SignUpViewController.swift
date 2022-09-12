@@ -110,6 +110,8 @@ private extension SignUpViewController {
             nickName: "Cobugi",
             gender: "남",
             location: nil,
+            detailLocation: "서울시 노원구 중계동",
+            keywordLocation: "노원구",
             email: email,
             profileImage: nil,
             company: "상명대학교 수학교육과",

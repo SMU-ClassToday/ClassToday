@@ -36,8 +36,9 @@ class NaverMapAPIProvider {
         }
     }
     
+    
     /// 주소를  받아옵니다
-    /// - @@시 ##구
+    /// (@@시 ##구)
     func locationToKeywordAddress(location: Location, completion: @escaping (String) -> Void) {
         provider.request(.reverseGeocoding(location.lat, location.lon)) { result in
             switch result {
@@ -57,7 +58,7 @@ class NaverMapAPIProvider {
     }
     
     /// 키워드 주소를 받아옵니다
-    /// - ##구
+    /// (##구)
     func locationToKeyword(location: Location?, completion: @escaping (String) -> Void) {
         guard let location = location else { return }
         provider.request(.reverseGeocoding(location.lat, location.lon)) { result in
@@ -73,6 +74,8 @@ class NaverMapAPIProvider {
         }
     }
     
+    /// 상세주소를 받아옵니다
+    /// ($$동)
     func locationToSemiKeyword(location: Location?, completion: @escaping (String) -> Void) {
         guard let location = location else { return }
         provider.request(.reverseGeocoding(location.lat, location.lon)) { result in
