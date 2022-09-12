@@ -12,7 +12,11 @@ struct User: Codable, Equatable {
     let name: String
     let nickName: String
     let gender: String
-    let location: Location?
+    var location: String?
+    /// 주소 문자열(@@시 ##구)
+    var detailLocation: String?
+    /// 키워드 주소 문자열(##구)
+    var keywordLocation: String?
     let email: String
     let profileImage: String?
     let company: String?

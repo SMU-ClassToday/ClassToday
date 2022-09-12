@@ -94,6 +94,7 @@ class MainViewController: UIViewController {
     private let locationManager = LocationManager.shared
     private let provider = NaverMapAPIProvider()
     private let dispatchGroup: DispatchGroup = DispatchGroup()
+    private var currentUser: User?
     weak var delegate: MainViewControllerLocationDelegate?
 
     //MARK: - view lifecycle
@@ -115,38 +116,35 @@ class MainViewController: UIViewController {
     }
 
     // MARK: - Method
-    /// 현재 기기의 위치를 기준으로 수업 아이템을 패칭합니다.
-    ///
-    /// - 패칭 기준: Location의 KeywordLocation 값 ("@@구")
-    private func fetchData() {
-        classItemTableView.refreshControl?.beginRefreshing()
-        nonDataAlertLabel.isHidden = true
-        guard let currentLocation = locationManager.getCurrentLocation() else { return }
-        firestoreManager.fetch(currentLocation) { [weak self] data in
-            self?.data = data
-            self?.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
-            self?.dataSell = data.filter { $0.itemType == ClassItemType.sell }
-            DispatchQueue.main.async {
-                self?.classItemTableView.reloadData()
-                self?.classItemTableView.refreshControl?.endRefreshing()
-            }
-        }
-    }
+
     /// 현재 기기의 위치를 주소명으로 패칭하여 상단에 표시합니다.
     ///
     ///  - 출력 형태: "@@시 @@구의 수업"
     private func configureLocation() {
-        print("Location was fetched and Now Address Fetching")
-        guard let location = locationManager.getCurrentLocation() else { return }
-        provider.locationToKeywordAddress(location: location) { [weak self] result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.leftTitle.text = result + "의 수업"
-                self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
+        dispatchGroup.enter()
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let user):
+                self.currentUser = user
+                self.dispatchGroup.leave()
+                guard let location = user.detailLocation else {
+                    // 위치 설정 해야됨
+                    return
+                }
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.leftTitle.text = location + "의 수업"
+                    self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
+                }
+
+            case .failure(let error):
+                self.dispatchGroup.leave()
+                print("ERROR \(error)🌔")
             }
         }
     }
-    
+
     /// 위치권한상태를 확인하고, 필요한 경우 얼럿을 호출합니다.
     ///
     /// - return 값: true - 권한요청, false - 권한허용
@@ -160,6 +158,34 @@ class MainViewController: UIViewController {
         }
         nonAuthorizationAlertLabel.isHidden = true
         return false
+    }
+
+    /// 키워드 주소를 기준으로 수업 아이템을 패칭합니다.
+    ///
+    /// - 패칭 기준: User의 KeywordLocation 값 ("@@구")
+    private func fetchData() {
+        classItemTableView.refreshControl?.beginRefreshing()
+        nonDataAlertLabel.isHidden = true
+        dispatchGroup.notify(queue: .global()) { [weak self] in
+            guard let currentUser = self?.currentUser else {
+                debugPrint("유저 정보가 없거나 아직 받아오지 못했습니다😭")
+                return
+            }
+            guard let keyword = currentUser.keywordLocation else {
+                debugPrint("유저의 키워드 주소 설정 값이 없습니다. 주소 설정 먼저 해주세요😭")
+                return
+            }
+
+            self?.firestoreManager.fetch(keyword: keyword) { data in
+                self?.data = data
+                self?.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
+                self?.dataSell = data.filter { $0.itemType == ClassItemType.sell }
+                DispatchQueue.main.async {
+                    self?.classItemTableView.reloadData()
+                    self?.classItemTableView.refreshControl?.endRefreshing()
+                }
+            }
+        }
     }
 }
 

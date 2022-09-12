@@ -33,11 +33,14 @@ class FirestoreManager {
     }
     
     /// ClassItem을 지역 기준으로 패칭합니다.
-    /// 기준 값: locality
+    ///
+    /// - parameter location: 위치 좌표 값(Location)
+    /// - parameter completion: 수업 아이템 패칭 결과 클로저
     func fetch(_ location: Location?, completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
         let provider = NaverMapAPIProvider()
 
+        /// naver reversegeocode를 사용한 기준 지역 패칭
         provider.locationToKeyword(location: location) { [weak self] keyword in
             self?.targetLocality = keyword
             FirestoreRoute.classItem.ref.whereField("keywordLocation", isEqualTo: keyword).getDocuments() { (snapshot, error) in
@@ -58,6 +61,32 @@ class FirestoreManager {
                 completion(data)
             }
         }
+    }
+    
+    /// ClassItem을 지역 기준으로 패칭합니다.
+    ///
+    /// - parameter keyword: 키워드 문자열(@@구)
+    /// - parameter completion: 수업 아이템 패칭 결과 클로저
+    func fetch(keyword: String, completion: @escaping ([ClassItem]) -> ()) {
+        var data: [ClassItem] = []
+
+            FirestoreRoute.classItem.ref.whereField("keywordLocation", isEqualTo: keyword).getDocuments() { (snapshot, error) in
+                if let error = error {
+                    debugPrint("Error getting documents: \(error)")
+                    return
+                }
+                if let snapshot = snapshot {
+                    for document in snapshot.documents {
+                        do {
+                            let classItem = try document.data(as: ClassItem.self)
+                            data.append(classItem)
+                        } catch {
+                            debugPrint("Decoding is failed")
+                        }
+                    }
+                }
+                completion(data)
+            }
     }
 
     /// ClassItem을 직접 패칭합니다.
