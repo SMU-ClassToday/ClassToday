@@ -84,7 +84,7 @@ class MapViewController: UIViewController {
             }
         }
     }
-    
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -156,14 +156,16 @@ class MapViewController: UIViewController {
 extension MapViewController {
     /// 즐겨찾기 버튼
     @objc private func didTapStarButton(_ sender: UIButton) {
-        if sender.isSelected == true {
-            sender.isSelected = false
-            guard let location = curLocation else { return }
-            fetchClassItem(location: location)
-        } else {
-            sender.isSelected = true
-            FirestoreManager.shared.starSort(starList: MockData.mockUser.stars ?? [""]) {
-                self.classItemData = $0
+        guard let location = curLocation else { return }
+        NaverMapAPIProvider().locationToKeyword(location: location) { [weak self] keyword in
+            if sender.isSelected == true {
+                sender.isSelected = false
+                self?.fetchClassItem(location: location)
+            } else {
+                sender.isSelected = true
+                FirestoreManager.shared.starSort(keyword: keyword, starList: MockData.mockUser.stars ?? [""]) {
+                    self?.classItemData = $0
+                }
             }
         }
     }
@@ -219,10 +221,16 @@ extension MapViewController: MapCategorySelectViewControllerDelegate {
             }
             return
         }
-
-        FirestoreManager.shared.categorySort(location: curLocation, categories: categoryData.map{$0 as? Subject}.compactMap{$0}.map{$0.rawValue}) { [weak self] data in
+        NaverMapAPIProvider().locationToKeyword(location: curLocation) { [weak self] keyword in
             guard let self = self else { return }
-            self.classItemData = data
+            FirestoreManager.shared.categorySort(keyword: keyword,
+                                                 categories: self.categoryData
+                                                            .map{$0 as? Subject}
+                                                            .compactMap{$0}
+                                                            .map{$0.rawValue}) { [weak self] data in
+                guard let self = self else { return }
+                self.classItemData = data
+            }
         }
     }
 }
