@@ -90,8 +90,8 @@ class FirestoreManager {
     }
 
     /// ClassItem을 직접 패칭합니다.
-    func fetch(classItem: ClassItem, completion: @escaping (ClassItem) -> ()) {
-        FirestoreRoute.classItem.ref.document(classItem.id).getDocument(as: ClassItem.self) { result in
+    func fetch(classItemID: String, completion: @escaping (ClassItem) -> ()) {
+        FirestoreRoute.classItem.ref.document(classItemID).getDocument(as: ClassItem.self) { result in
             switch result {
             case .success(let classItem):
                 completion(classItem)
