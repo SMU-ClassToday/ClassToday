@@ -168,7 +168,7 @@ private extension ProfileUserInfoView {
             delegate?.moveToViewController(viewController: classHistoryViewController)
         case 2:
             print("sell")
-            let classHistoryViewController = ClassHistoryViewController(classHistory: .sell, classItemsID: user.soldClassItemss)
+            let classHistoryViewController = ClassHistoryViewController(classHistory: .sell, classItemsID: user.soldClassItems)
             delegate?.moveToViewController(viewController: classHistoryViewController)
         case 3:
             print("후기")
@@ -187,8 +187,8 @@ private extension ProfileUserInfoView {
         companyLabel.text = user.company
         locationLabel.text = user.detailLocation
         desciptionLabel.text = user.description
-        buyCountLabel.text = String(user.soldClassItemss?.count ?? 0)
-        sellCountLabel.text = String(user.purchasedClassItems?.count ?? 0)
+        buyCountLabel.text = String(user.purchasedClassItems?.count ?? 0)
+        sellCountLabel.text = String(user.soldClassItems?.count ?? 0)
         bookmarkCountLabel.text = "8"
     }
     func layout() {
