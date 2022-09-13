@@ -17,37 +17,11 @@ class ReviewDetailViewController: UIViewController {
         return scrollView
     }()
     private lazy var contentView = UIView()
-    private lazy var classThumbnailView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 4.0
-        imageView.backgroundColor = .secondarySystemBackground
-        return imageView
-    }()
-    private lazy var classTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "6월 수학 가형 모고풀이"
-        label.font = .systemFont(ofSize: 16.0, weight: .medium)
-        return label
-    }()
-    private lazy var classLocationAndDateLabel: UILabel = {
-        let label = UILabel()
-        label.text = "노원구 중계1동 | 하루 전"
-        label.font = .systemFont(ofSize: 14.0, weight: .medium)
-        label.textColor = .secondaryLabel
-        return label
-    }()
-    private lazy var classPriceLabel: UILabel = {
-        let label = UILabel()
-        label.text = "20,000원"
-        label.font = .systemFont(ofSize: 16.0, weight: .medium)
-        return label
-    }()
-    private lazy var classLabelStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 4.0
-        return stackView
+
+    private lazy var classItemCellView: ChatClassItemCell = {
+        let cell = ChatClassItemCell(classItem: classItem)
+        cell.matchButton.removeFromSuperview()
+        return cell
     }()
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
@@ -75,7 +49,7 @@ class ReviewDetailViewController: UIViewController {
         stackView.spacing = 4.0
         return stackView
     }()
-    private lazy var gradeStarView = GradeStarView(grade: 2.7129)
+    private lazy var gradeStarView = GradeStarView(grade: match.review!.grade)
     private lazy var contentLabelBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .secondarySystemBackground
@@ -90,12 +64,29 @@ class ReviewDetailViewController: UIViewController {
         return label
     }()
     
+    private let match: Match
+    private var buyer: User
+    private var classItem: ClassItem
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         attribute()
+        configureReviewContent()
+        configureUser()
         layout()
+    }
+    
+    init(match: Match, buyer: User, classItem: ClassItem) {
+        self.match = match
+        self.buyer = buyer
+        self.classItem = classItem
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -103,17 +94,21 @@ class ReviewDetailViewController: UIViewController {
 private extension ReviewDetailViewController {
     func setupNavigationBar() {
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
+        title = "후기 상세"
     }
     func attribute() {
         view.backgroundColor = .systemBackground
     }
+    func configureUser() {
+        userNameLabel.text = buyer.nickName
+        userLocationAndDateLabel.text = buyer.location?.name
+    }
+    func configureReviewContent() {
+        contentLabel.text = match.review?.description
+    }
     func layout() {
         
-        [
-            classTitleLabel,
-            classLocationAndDateLabel,
-            classPriceLabel,
-        ].forEach { classLabelStackView.addArrangedSubview($0) }
+
         [
             userNameLabel,
             userLocationAndDateLabel
@@ -136,8 +131,7 @@ private extension ReviewDetailViewController {
         }
         
         [
-            classThumbnailView,
-            classLabelStackView,
+            classItemCellView,
             userImageView,
             userLabelStackView,
             gradeStarView,
@@ -145,20 +139,15 @@ private extension ReviewDetailViewController {
         ].forEach { contentView.addSubview($0) }
         
         let commonInset: CGFloat = 16.0
-        
-        classThumbnailView.snp.makeConstraints {
-            $0.leading.top.equalToSuperview().inset(commonInset)
-            $0.size.equalTo(80.0)
-        }
-        classLabelStackView.snp.makeConstraints {
-            $0.leading.equalTo(classThumbnailView.snp.trailing).offset(commonInset)
-            $0.centerY.equalTo(classThumbnailView.snp.centerY)
-            $0.trailing.equalToSuperview().inset(commonInset)
+
+        classItemCellView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(100)
         }
         userImageView.snp.makeConstraints {
             $0.size.equalTo(80.0)
             $0.leading.equalToSuperview().inset(commonInset)
-            $0.top.equalTo(classThumbnailView.snp.bottom).offset(commonInset)
+            $0.top.equalTo(classItemCellView.snp.bottom).offset(commonInset)
         }
         userLabelStackView.snp.makeConstraints {
             $0.centerY.equalTo(userImageView.snp.centerY)
