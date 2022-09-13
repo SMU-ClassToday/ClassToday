@@ -63,7 +63,38 @@ class ReviewInputViewController: UIViewController {
     }()
     
     //TODO: - 별점 커스텀 슬라이더 만들기
-    private lazy var gradeStarView = GradeStarView(grade: 2.7129)
+    private lazy var gradeTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "별점 선택"
+        textField.inputView = gradePickerView
+        textField.inputAccessoryView = pickerToolBar
+        return textField
+    }()
+    private lazy var gradePickerView: UIPickerView = {
+        let picker = UIPickerView()
+        picker.frame = CGRect(x: 100, y: 100, width: 200, height: 200)
+        picker.delegate = self
+        picker.dataSource = self
+        return picker
+    }()
+
+    private lazy var pickerToolBar: UIToolbar = {
+        let toolBar = UIToolbar()
+        toolBar.tintColor = .darkGray
+        toolBar.frame = CGRect(x: 0, y: 0, width: 0, height: 35)
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolBar.setItems([flexSpace, exitButton], animated: true)
+        return toolBar
+    }()
+
+    private lazy var exitButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.title = "완료"
+        button.target = self
+        button.action = #selector(pickerExit)
+        return button
+    }()
+    private lazy var gradeStarView = GradeStarView(grade: 5.0)
     
     private lazy var descriptionTextField: UITextField = {
         let textField = UITextField()
@@ -78,6 +109,7 @@ class ReviewInputViewController: UIViewController {
             sojungLabel,
             gradeLabel,
             gradeStarView,
+            gradeTextField,
             descriptionTextField
         ].forEach { stackView.addArrangedSubview($0) }
         descriptionTextField.snp.makeConstraints {
@@ -106,7 +138,9 @@ class ReviewInputViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    private var gradeList: [Double] = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
+    private var grade: Double?
     private var seller: User?
     private var buyer: User?
     private let channel: Channel
@@ -175,8 +209,31 @@ extension ReviewInputViewController {
     }
     
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
-        let review = ReviewItem(writerId: UserDefaultsManager.shared.isLogin()!, grade: 5.0, description: descriptionTextField.text ?? "")
+        let review = ReviewItem(writerId: UserDefaultsManager.shared.isLogin()!, grade: grade ?? 5.0, description: descriptionTextField.text ?? "")
         delegate?.saveReview(review: review)
         dismiss(animated: true, completion: nil)
+    }
+
+    @objc func pickerExit() {
+        self.view.endEditing(true)
+    }
+}
+
+extension ReviewInputViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return gradeList.count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return "\(gradeList[row])"
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        gradeStarView.updateStars(grade: gradeList[row])
+        grade = gradeList[row]
     }
 }

@@ -164,7 +164,7 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
     }
-    
+
     private func configure() {
         switch currentUser?.id {
             case channel.sellerID:
@@ -295,8 +295,8 @@ class ChatViewController: MessagesViewController {
         }
     }
     
-    private func uploadMatch(match: Match, classItem: ClassItem) {
-        firestoreManager.uploadMatch(match: match, classItem: classItem)
+    private func uploadMatch(match: Match) {
+        firestoreManager.uploadMatch(match: match)
     }
     
     private func listenToMessages() {
@@ -333,6 +333,7 @@ class ChatViewController: MessagesViewController {
                 }
             } else if let reviewFlag = message.reviewFlag {
                 if reviewFlag == true {
+                    fetchChannel(channel: channel)
                     enableReviewConfirmButton()
                 }
             } else {
@@ -383,7 +384,7 @@ extension ChatViewController: MessagesDataSource {
     var currentSender: SenderType {
         return sender
     }
-    
+
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return messages.count
     }
@@ -427,6 +428,11 @@ extension ChatViewController: MessagesDisplayDelegate {
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
         let cornerDirection: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
         return .bubbleTail(cornerDirection, .curved)
+    }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        let avatar = Avatar(image: UIImage(named: "person"), initials: "")
+        avatarView.set(avatar: avatar)
     }
 }
 
@@ -512,8 +518,8 @@ extension ChatViewController: ChatClassItemCellDelegate {
                 viewcontroller.delegate = self
                 present(viewcontroller, animated: true, completion: nil)
             case "리뷰 확인":
-                let viewcontroller = ReviewDetailViewController()
-                present(viewcontroller, animated: true, completion: nil)
+                let viewcontroller = ReviewDetailViewController(match: channel.match!, buyer: buyer!, classItem: classItem)
+                navigationController?.pushViewController(viewcontroller, animated: true)
             default:
                 debugPrint("해당 아이템 없음")
         }
@@ -540,7 +546,7 @@ extension ChatViewController: MatchConfirmViewControllerDelegate {
         chatStreamManager.save(message)
         enableReviewButton()
         channel.validity = false
-        uploadMatch(match: channel.match!, classItem: classItem!)
+        uploadMatch(match: channel.match!)
         updateChannel(channel: channel)
         
         guard let classItemID = classItem?.id else { return }
@@ -592,7 +598,7 @@ extension ChatViewController: ReviewInputViewControllerDelegate {
         chatStreamManager.save(message)
         enableReviewConfirmButton()
         channel.match?.review = review
-        uploadMatch(match: channel.match!, classItem: classItem!)
+        uploadMatch(match: channel.match!)
         updateChannel(channel: channel)
     }
 }

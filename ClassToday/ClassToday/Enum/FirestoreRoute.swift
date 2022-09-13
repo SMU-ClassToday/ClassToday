@@ -12,6 +12,7 @@ enum FirestoreRoute {
     case classItem
     case user
     case channel
+    case match
 
     static var db = Firestore.firestore()
 
@@ -23,6 +24,8 @@ enum FirestoreRoute {
             return Self.db.collection("User")
         case .channel:
             return Self.db.collection("channel")
+        case .match:
+            return Self.db.collection("match")
         }
     }
 }
