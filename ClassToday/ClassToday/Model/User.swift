@@ -25,7 +25,7 @@ struct User: Codable, Equatable {
     let subjects: [Subject]?
     var channels: [String]?
     var purchasedClassItems: [String]?
-    var soldClassItemss: [String]?
+    var soldClassItems: [String]?
     
     func thumbnailImage(completion: @escaping (UIImage?) -> Void) {
         guard let profileImageURL = profileImage else {
@@ -44,7 +44,7 @@ struct User: Codable, Equatable {
             }
         }
     }
-    
+
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.id == rhs.id
     }

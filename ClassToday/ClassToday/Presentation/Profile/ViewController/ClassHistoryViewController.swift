@@ -11,10 +11,10 @@ class ClassHistoryViewController: UIViewController {
 
     private lazy var classItemTableView: UITableView = {
         let classItemTableView = UITableView()
-        classItemTableView.refreshControl = refreshControl
         classItemTableView.rowHeight = 150.0
         classItemTableView.dataSource = self
         classItemTableView.delegate = self
+        classItemTableView.refreshControl = nil
         classItemTableView.register(ClassItemTableViewCell.self, forCellReuseIdentifier: ClassItemTableViewCell.identifier)
         return classItemTableView
     }()
@@ -29,6 +29,7 @@ class ClassHistoryViewController: UIViewController {
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .mainColor
+        refreshControl.isHidden = true
         return refreshControl
     }()
     
@@ -73,11 +74,14 @@ private extension ClassHistoryViewController {
     }
     private func layout() {
         view.addSubview(classItemTableView)
-        classItemTableView.addSubview(nonDataAlertLabel)
+        [nonDataAlertLabel, refreshControl].forEach{ classItemTableView.addSubview($0) }
         classItemTableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         nonDataAlertLabel.snp.makeConstraints {
+            $0.center.equalTo(view)
+        }
+        refreshControl.snp.makeConstraints {
             $0.center.equalTo(view)
         }
     }
@@ -85,7 +89,8 @@ private extension ClassHistoryViewController {
         guard classItemsID.isEmpty == false else {
             return
         }
-        classItemTableView.refreshControl?.beginRefreshing()
+        refreshControl.isHidden = false
+        refreshControl.beginRefreshing()
         classItemsID.forEach { id in
             dispatchGroup.enter()
             firestoreManager.fetch(classItemID: id) { [weak self] classItem in
@@ -94,7 +99,8 @@ private extension ClassHistoryViewController {
             }
         }
         dispatchGroup.notify(queue: .main) { [weak self] in
-            self?.classItemTableView.refreshControl?.endRefreshing()
+            self?.refreshControl.endRefreshing()
+            self?.refreshControl.isHidden = true
             self?.classItemTableView.reloadData()
         }
     }
