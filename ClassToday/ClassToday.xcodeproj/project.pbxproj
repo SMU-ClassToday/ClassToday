@@ -105,6 +105,9 @@
 		89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */; };
 		89675B492828C84400933C48 /* NavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B482828C84400933C48 /* NavigationBar+.swift */; };
 		8967E5CE28CDCA0700BA1F6F /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8967E5CD28CDCA0700BA1F6F /* MessageKit */; };
+		8967E5D028CF9E8300BA1F6F /* korea-administrative-district.json in Resources */ = {isa = PBXBuildFile; fileRef = 8967E5CF28CF9E8300BA1F6F /* korea-administrative-district.json */; };
+		8967E5D228CF9E9B00BA1F6F /* KoreaAdministrativeDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8967E5D128CF9E9A00BA1F6F /* KoreaAdministrativeDistrict.swift */; };
+		8967E5D428CFA2F600BA1F6F /* LocationSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8967E5D328CFA2F600BA1F6F /* LocationSelectViewController.swift */; };
 		8971F21C283A1A4200D4AAD0 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */; };
 		8980575128677F290089CF47 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8980575028677F290089CF47 /* MapViewController.swift */; };
 		89865E9D282A70D700113242 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F9280DC02800D5D3DC /* MainViewController.swift */; };
@@ -268,6 +271,9 @@
 		89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCustomNavigationBar.swift; sourceTree = "<group>"; };
 		89675B482828C84400933C48 /* NavigationBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationBar+.swift"; sourceTree = "<group>"; };
 		89675B4C282976CA00933C48 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		8967E5CF28CF9E8300BA1F6F /* korea-administrative-district.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "korea-administrative-district.json"; sourceTree = "<group>"; };
+		8967E5D128CF9E9A00BA1F6F /* KoreaAdministrativeDistrict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreaAdministrativeDistrict.swift; sourceTree = "<group>"; };
+		8967E5D328CFA2F600BA1F6F /* LocationSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectViewController.swift; sourceTree = "<group>"; };
 		8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		8980575028677F290089CF47 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryCollectionFlowLayout.swift; sourceTree = "<group>"; };
@@ -385,6 +391,7 @@
 				6BA8E0092820B7D500B0CC8C /* ReviewListViewController.swift */,
 				6BB1480C28220C1C00DB94B1 /* ReviewDetailViewController.swift */,
 				895D521528C8ADA500F8A464 /* LocationSettingViewController.swift */,
+				8967E5D328CFA2F600BA1F6F /* LocationSelectViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -458,6 +465,7 @@
 				8941FF1E2830C97300A90AB0 /* Location.swift */,
 				89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */,
 				6BC2B234288C4A710025817D /* NaverUserInfo.swift */,
+				8967E5D128CF9E9A00BA1F6F /* KoreaAdministrativeDistrict.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -549,6 +557,7 @@
 				895D108027F32DCB009FB26F /* LaunchScreen.storyboard */,
 				89A67341282A634C00951300 /* AppDelegate.swift */,
 				89A67340282A634C00951300 /* SceneDelegate.swift */,
+				8967E5CF28CF9E8300BA1F6F /* korea-administrative-district.json */,
 				8941FF1C2830C2B600A90AB0 /* GoogleService-Info.plist */,
 				895D108327F32DCB009FB26F /* Info.plist */,
 				895D107E27F32DCB009FB26F /* Assets.xcassets */,
@@ -908,6 +917,7 @@
 			files = (
 				89675B2928277AE500933C48 /* 1.jpeg in Resources */,
 				895D108227F32DCB009FB26F /* LaunchScreen.storyboard in Resources */,
+				8967E5D028CF9E8300BA1F6F /* korea-administrative-district.json in Resources */,
 				8941FF1D2830C2B600A90AB0 /* GoogleService-Info.plist in Resources */,
 				89675B2C28277AF600933C48 /* 2.jpeg in Resources */,
 				895D107F27F32DCB009FB26F /* Assets.xcassets in Resources */,
@@ -1099,6 +1109,7 @@
 				89675B222826EC1A00933C48 /* ClassDetailViewController.swift in Sources */,
 				FC25F8BD2865E1F400B2BBEB /* ChatViewController.swift in Sources */,
 				C93CCEEF28AC7C7400B17CEE /* NaverMapView.swift in Sources */,
+				8967E5D228CF9E9B00BA1F6F /* KoreaAdministrativeDistrict.swift in Sources */,
 				89675B3C28280D8800933C48 /* DetailContentCategoryView.swift in Sources */,
 				8980575128677F290089CF47 /* MapViewController.swift in Sources */,
 				89675B352827DC3B00933C48 /* DetailContentTimeView.swift in Sources */,
@@ -1106,6 +1117,7 @@
 				893D70E4281B1935006CD232 /* ClassCategoryCollectionViewCell.swift in Sources */,
 				8922C94328AA3FE300EC82C9 /* ReviewItem.swift in Sources */,
 				89098E282820EF75006EFD4E /* EnrollTimeCell.swift in Sources */,
+				8967E5D428CFA2F600BA1F6F /* LocationSelectViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
