@@ -151,9 +151,16 @@ class ProfileUserInfoView: UIView {
         super.init(frame: .zero)
         layout()
         setupView(user: user)
+        fetchMatch()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func fetchMatch() {
+        FirestoreManager.shared.fetchMatch(userId: UserDefaultsManager.shared.isLogin()!) { [weak self] data in
+            self!.bookmarkCountLabel.text = "\(data.count)"
+        }
     }
 }
 

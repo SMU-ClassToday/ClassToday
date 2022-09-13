@@ -104,7 +104,6 @@
 		89675B422828336C00933C48 /* DetailContentPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B412828336B00933C48 /* DetailContentPlaceView.swift */; };
 		89675B452828C25C00933C48 /* DetailCustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B442828C25C00933C48 /* DetailCustomNavigationBar.swift */; };
 		89675B492828C84400933C48 /* NavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89675B482828C84400933C48 /* NavigationBar+.swift */; };
-		8967E5CE28CDCA0700BA1F6F /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8967E5CD28CDCA0700BA1F6F /* MessageKit */; };
 		8967E5D028CF9E8300BA1F6F /* korea-administrative-district.json in Resources */ = {isa = PBXBuildFile; fileRef = 8967E5CF28CF9E8300BA1F6F /* korea-administrative-district.json */; };
 		8967E5D228CF9E9B00BA1F6F /* KoreaAdministrativeDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8967E5D128CF9E9A00BA1F6F /* KoreaAdministrativeDistrict.swift */; };
 		8967E5D428CFA2F600BA1F6F /* LocationSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8967E5D328CFA2F600BA1F6F /* LocationSelectViewController.swift */; };
@@ -158,6 +157,7 @@
 		FC25F8B12865DF9F00B2BBEB /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8B02865DF9F00B2BBEB /* Channel.swift */; };
 		FC25F8B92865E04900B2BBEB /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8B82865E04900B2BBEB /* Sender.swift */; };
 		FC25F8BD2865E1F400B2BBEB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8BC2865E1F400B2BBEB /* ChatViewController.swift */; };
+		FC261A4528CDFBB2008644AE /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC261A4428CDFBB2008644AE /* MessageKit */; };
 		FC7FB97128A7DB32004958FA /* ReviewInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7FB97028A7DB32004958FA /* ReviewInputViewController.swift */; };
 		FC870F192899478900DACDA6 /* ChatStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC870F182899478900DACDA6 /* ChatStorageManager.swift */; };
 		FCA26EBF2867A159004F4C20 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA26EBE2867A159004F4C20 /* Message.swift */; };
@@ -339,7 +339,6 @@
 				6B8984C0284E2D5700192DFD /* Toast in Frameworks */,
 				89A67358282A697C00951300 /* FirebaseFirestoreSwift in Frameworks */,
 				89A6734E282A684F00951300 /* SnapKit in Frameworks */,
-				8967E5CE28CDCA0700BA1F6F /* MessageKit in Frameworks */,
 				89A67356282A697C00951300 /* FirebaseFirestore in Frameworks */,
 				89A67354282A697C00951300 /* FirebaseAuth in Frameworks */,
 				89A67351282A68BD00951300 /* Alamofire in Frameworks */,
@@ -347,6 +346,7 @@
 				4F23A8B4ECD140BC782CCC46 /* (null) in Frameworks */,
 				89EDC56828C62C7000F53A5A /* FirebaseMessaging in Frameworks */,
 				C125E03189012D809E3DC3FC /* Pods_ClassToday.framework in Frameworks */,
+				FC261A4528CDFBB2008644AE /* MessageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,7 +863,7 @@
 				89A67359282A697C00951300 /* FirebaseStorage */,
 				6B8984BF284E2D5700192DFD /* Toast */,
 				89EDC56728C62C7000F53A5A /* FirebaseMessaging */,
-				8967E5CD28CDCA0700BA1F6F /* MessageKit */,
+				FC261A4428CDFBB2008644AE /* MessageKit */,
 			);
 			productName = ClassToday;
 			productReference = 895D107227F32DCA009FB26F /* ClassToday.app */;
@@ -898,8 +898,7 @@
 				89A6734F282A68BD00951300 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				89A67352282A697C00951300 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6B8984BE284E2D5700192DFD /* XCRemoteSwiftPackageReference "Toast-Swift" */,
-				89EDC56628C62C7000F53A5A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				8967E5CC28CDCA0700BA1F6F /* XCRemoteSwiftPackageReference "MessageKit" */,
+				FC261A4328CDFBB2008644AE /* XCRemoteSwiftPackageReference "MessageKit" */,
 			);
 			productRefGroup = 895D107327F32DCA009FB26F /* Products */;
 			projectDirPath = "";
@@ -1361,14 +1360,6 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		8967E5CC28CDCA0700BA1F6F /* XCRemoteSwiftPackageReference "MessageKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MessageKit/MessageKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
 		89A6734C282A684F00951300 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1393,14 +1384,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
-		89EDC56628C62C7000F53A5A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
-			};
-		};
+		FC261A4328CDFBB2008644AE /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+            isa = XCRemoteSwiftPackageReference;
+            repositoryURL = "https://github.com/MessageKit/MessageKit";
+            requirement = {
+                kind = upToNextMajorVersion;
+                minimumVersion = 4.0.0;
+            };
+        };
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1408,11 +1399,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6B8984BE284E2D5700192DFD /* XCRemoteSwiftPackageReference "Toast-Swift" */;
 			productName = Toast;
-		};
-		8967E5CD28CDCA0700BA1F6F /* MessageKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8967E5CC28CDCA0700BA1F6F /* XCRemoteSwiftPackageReference "MessageKit" */;
-			productName = MessageKit;
 		};
 		89A6734D282A684F00951300 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1448,6 +1434,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 89A67352282A697C00951300 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+        };
+		FC261A4428CDFBB2008644AE /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FC261A4328CDFBB2008644AE /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
