@@ -14,11 +14,12 @@ protocol MainViewControllerLocationDelegate: AnyObject {
 
 class MainViewController: UIViewController {
     //MARK: - NavigationBar Components
-    private lazy var leftTitle: UILabel = {
-        let leftTitle = UILabel()
-        leftTitle.textColor = .black
-        leftTitle.sizeToFit()
-        leftTitle.font = .systemFont(ofSize: 20.0, weight: .bold)
+    private lazy var leftTitle: UIButton = {
+        let leftTitle = UIButton()
+        leftTitle.setTitleColor(UIColor.black, for: .normal)
+        leftTitle.titleLabel?.sizeToFit()
+        leftTitle.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .bold)
+        leftTitle.addTarget(self, action: #selector(didTapTitleLabel(_:)), for: .touchUpInside)
         return leftTitle
     }()
 
@@ -110,8 +111,9 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !requestLocationAuthorization() {
-            configureLocation()
-            fetchData()
+            configureLocation { [weak self] in
+                self?.fetchData()
+            }
         }
     }
 
@@ -120,27 +122,32 @@ class MainViewController: UIViewController {
     /// 현재 기기의 위치를 주소명으로 패칭하여 상단에 표시합니다.
     ///
     ///  - 출력 형태: "@@시 @@구의 수업"
-    private func configureLocation() {
+    private func configureLocation(_ completion: @escaping ()->()) {
         dispatchGroup.enter()
+        classItemTableView.refreshControl?.beginRefreshing()
         User.getCurrentUser { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let user):
                 self.currentUser = user
                 self.dispatchGroup.leave()
+                self.classItemTableView.refreshControl?.endRefreshing()
                 guard let location = user.detailLocation else {
                     // 위치 설정 해야됨
                     return
                 }
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    self.leftTitle.text = location + "의 수업"
-                    self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
+                    self.leftTitle.setTitle(location + "의 수업", for: .normal)
+                    self.leftTitle.frame.size = self.leftTitle.titleLabel?.intrinsicContentSize ?? CGSize(width: 0, height: 0)
                 }
+                completion()
 
             case .failure(let error):
                 self.dispatchGroup.leave()
+                self.classItemTableView.refreshControl?.endRefreshing()
                 print("ERROR \(error)🌔")
+                completion()
             }
         }
     }
@@ -198,6 +205,11 @@ extension MainViewController: UIGestureRecognizerDelegate {
 
 //MARK: - objc functions
 private extension MainViewController {
+    @objc func didTapTitleLabel(_ sender: UIButton) {
+        let locationSettingViewController = LocationSettingViewController()
+        navigationController?.pushViewController(locationSettingViewController, animated: true)
+    }
+
     @objc func didChangedSegmentControlValue(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -348,8 +360,9 @@ extension MainViewController: LocationManagerDelegate {
     ///
     /// - 주소명과 수업 아이템을 패칭합니다.
     func didUpdateLocation() {
-        configureLocation()
-        fetchData()
+        configureLocation() { [weak self] in
+            self?.fetchData()
+        }
     }
 
     /// 위치정보권한 상태 변경에 따른 경고 레이블 처리
