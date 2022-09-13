@@ -467,14 +467,15 @@ extension MatchInputViewController {
     
     //TODO: - 입력된 정보로 변경할것
     @objc func didTapEnrollButton(_ button: UIBarButtonItem) {
-        match = Match(seller: self.seller?.id ?? "",
-                      buyer: self.buyer?.id ?? "",
-                      date: self.classDayweek ?? self.channel.classItem?.date,
-                      time: self.timeTextField.text == "" ? channel.classItem?.time : self.timeTextField.text,
-                      place: self.placeTextField.text == "" ? channel.classItem?.place : self.placeTextField.text,
-                      location: self.classLocation ?? channel.classItem?.location,
-                      price: self.priceTextField.text == "" ? channel.classItem?.price : self.priceTextField.text,
-                      priceUnit: self.classPriceUnit ?? channel.classItem?.priceUnit)
+        match = Match(classItem: self.channel.classItemID,
+                    seller: self.seller?.id ?? "",
+                    buyer: self.buyer?.id ?? "",
+                    date: self.classDayweek ?? self.channel.classItem?.date,
+                    time: self.timeTextField.text == "" ? channel.classItem?.time : self.timeTextField.text,
+                    place: self.placeTextField.text == "" ? channel.classItem?.place : self.placeTextField.text,
+                    location: self.classLocation ?? channel.classItem?.location,
+                    price: self.priceTextField.text == "" ? channel.classItem?.price : self.priceTextField.text,
+                    priceUnit: self.classPriceUnit ?? channel.classItem?.priceUnit)
         delegate?.saveMatchingInformation(match: match!)
         dismiss(animated: true, completion: nil)
     }

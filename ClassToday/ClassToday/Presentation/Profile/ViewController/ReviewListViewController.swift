@@ -13,8 +13,8 @@ class ReviewListViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.bigFontSize(
-            text: "예스코치님의 평균 별점",
-            bigText: "예스코치",
+            text: "\(currentUser?.nickName ?? "")님의 평균 별점",
+            bigText: "\(currentUser?.nickName ?? "")",
             fontSize: 18.0,
             bigFontSize: 32.0,
             weight: .medium,
@@ -22,7 +22,7 @@ class ReviewListViewController: UIViewController {
         )
         return label
     }()
-    private lazy var gradeStarView = GradeStarView(grade: 3.141592)
+    private lazy var gradeStarView = GradeStarView(grade: 5.0)
     private lazy var reviewListCountLabel: UILabel = {
         let label = UILabel()
         label.text = "총 \(reviewList.count)건"
@@ -41,22 +41,80 @@ class ReviewListViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    var reviewList = [1, 2, 3, 4, 5] // [Review]()
+    var currentUser: User?
+    var reviewList: [Match] = []
+    var buyer: User?
+    var classItem: ClassItem?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         attribute()
+        fetchMatch()
+        getCurrentUser()
         layout()
+    }
+
+    private func fetchMatch() {
+        FirestoreManager.shared.fetchMatch(userId: UserDefaultsManager.shared.isLogin()!) { [weak self] data in
+            self?.reviewList = data
+            self?.reviewListCountLabel.text = "총 \(data.count)건"
+            var gradeMean: Double = 0
+            for match in data {
+                gradeMean += match.review!.grade
+            }
+            if data.isEmpty {
+                self?.gradeStarView.updateStars(grade: 0.0)
+            } else {
+                gradeMean /= Double(data.count)
+                self?.gradeStarView.updateStars(grade: gradeMean)
+            }
+            self?.reviewListTableView.reloadData()
+        }
+    }
+
+    private func getCurrentUser() {
+        FirestoreManager.shared.readUser(uid: UserDefaultsManager.shared.isLogin()!) { [weak self] result in
+            switch result {
+            case .success(let user):
+                self!.currentUser = user
+                self!.titleLabel.bigFontSize(
+                        text: "\(user.nickName)님의 평균 별점",
+                        bigText: "\(user.nickName)",
+                        fontSize: 18.0,
+                        bigFontSize: 32.0,
+                        weight: .medium,
+                        bigWeight: .semibold
+                )
+            case .failure(_):
+                print("getcurrentUser fail")
+            }
+        }
     }
 }
 
 // MARK: - UITableViewDelegate
 extension ReviewListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let reviewDetailViewController = ReviewDetailViewController()
-        navigationController?.pushViewController(reviewDetailViewController, animated: true)
+        FirestoreManager.shared.fetch(classItemId: reviewList[indexPath.row].classItem) { [weak self] result in
+            switch result {
+            case .success(let classItem):
+                self?.classItem = classItem
+                FirestoreManager.shared.readUser(uid: self!.reviewList[indexPath.row].buyer) { [weak self] result in
+                    switch result {
+                    case .success(let user):
+                        self?.buyer = user
+                        let reviewDetailViewController = ReviewDetailViewController(match: self!.reviewList[indexPath.row], buyer: self!.buyer!, classItem: self!.classItem!)
+                        self?.navigationController?.pushViewController(reviewDetailViewController, animated: true)
+                    case .failure(_):
+                        print("fetchbuyer fail")
+                    }
+                }
+            case .failure(_):
+                print("fetchClassItem Fail")
+            }
+        }
     }
 }
 
@@ -70,7 +128,7 @@ extension ReviewListViewController: UITableViewDataSource {
             withIdentifier: ReviewListTableViewCell.identifier,
             for: indexPath
         ) as? ReviewListTableViewCell else { return UITableViewCell() }
-        cell.setupView()
+        cell.setupView(match: reviewList[indexPath.row])
         cell.selectionStyle = .none
         return cell
     }
