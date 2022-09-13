@@ -12,13 +12,13 @@ class LocationSelectViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "지역 선택"
-        label.font = UIFont.systemFont(ofSize: 26, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         label.textColor = .black
         return label
     }()
 
     private lazy var headerView: UIView = {
-        let view = UIView()
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: sectionHeaderHeight))
         return view
     }()
     
@@ -28,13 +28,14 @@ class LocationSelectViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableHeaderView = headerView
-        tableView.sectionHeaderHeight = sectionHeaderHeight
         return tableView
     }()
 
     private var locations: [[String: [String]]]?
-    private let sectionHeaderHeight: CGFloat = 80.0
-
+    private let sectionHeaderHeight: CGFloat = 60.0
+    private var currentUser: User?
+    private let firestoreManager = FirestoreManager.shared
+    
     private var completionHandler: ((String) -> ())?
 
     override func viewDidLoad() {
@@ -58,17 +59,11 @@ class LocationSelectViewController: UIViewController {
         [locationsTableView].forEach { view.addSubview($0) }
         
         locationsTableView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(8)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.top.leading.trailing.bottom.equalToSuperview()
         }
         [titleLabel].forEach { headerView.addSubview($0) }
         titleLabel.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().inset(16)
-        }
-        headerView.snp.makeConstraints {
-            $0.width.equalTo(locationsTableView.snp.width)
-            $0.height.equalTo(sectionHeaderHeight)
+            $0.top.leading.equalToSuperview().inset(24)
         }
     }
     
@@ -103,14 +98,40 @@ extension LocationSelectViewController: UITableViewDataSource {
 extension LocationSelectViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let locations = locations,
+              let city = locations[indexPath.section].first?.key,
               let selectedLocation = locations[indexPath.section].first?.value[indexPath.row] else { return }
+        let address = "\(city) \(selectedLocation)"
         let alert = UIAlertController(title: nil,
-                                      message: "선택하신 주소(\(selectedLocation))로 하시겠어요?",
+                                      message: "선택하신 주소(\(address))로 하시겠어요?",
                                       preferredStyle: .alert)
         let allowAction = UIAlertAction(title: "네", style: .default) { [weak self] _ in
-            guard let completionHandler = self?.completionHandler else { return }
-            completionHandler(selectedLocation)
-            self?.dismiss(animated: true)
+            User.getCurrentUser { result in
+                switch result {
+                case .success(let user):
+                    self?.currentUser = user
+                    self?.currentUser?.detailLocation = address
+                    self?.currentUser?.keywordLocation = selectedLocation
+                    guard let currentUser = self?.currentUser else {
+                        print("Firestore 저장 실패ㅠ🐢")
+                        return
+                    }
+                    self?.firestoreManager.uploadUser(user: currentUser) { result in
+                        switch result {
+                        case .success(_):
+                            print("Firestore 저장 성공!👍")
+                            guard let completionHandler = self?.completionHandler else { return }
+                            completionHandler(address)
+                            self?.dismiss(animated: true)
+                            return
+                        case .failure(_):
+                            print("Firestore 저장 실패ㅠ🐢")
+                            return
+                        }
+                    }
+                case .failure(let error):
+                    print("ERROR \(error)🌔")
+                }
+            }
         }
         let cancelAction = UIAlertAction(title: "아니요", style: .cancel)
         [allowAction, cancelAction].forEach { alert.addAction($0) }
