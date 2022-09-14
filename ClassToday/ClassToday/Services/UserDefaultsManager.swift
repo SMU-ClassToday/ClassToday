@@ -10,6 +10,7 @@ import Foundation
 enum LoginType: String {
     case naver
     case email
+    case kakao
 }
 
 class UserDefaultsManager {
