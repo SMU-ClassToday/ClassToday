@@ -44,6 +44,7 @@ class ClassEnrollViewController: UIViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.selectionFollowsFocus = false
+        tableView.refreshControl = refreshControl
         tableView.register(EnrollImageCell.self, forCellReuseIdentifier: EnrollImageCell.identifier)
         tableView.register(EnrollNameCell.self, forCellReuseIdentifier: EnrollNameCell.identifier)
         tableView.register(EnrollTimeCell.self, forCellReuseIdentifier: EnrollTimeCell.identifier)
@@ -60,6 +61,13 @@ class ClassEnrollViewController: UIViewController {
         return popover
     }()
 
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .mainColor
+        refreshControl.isHidden = true
+        return refreshControl
+    }()
+    
     // MARK: - Properties
     weak var delegate: ClassItemCellUpdateDelegate?
     private let firestoreManager = FirestoreManager.shared
@@ -79,7 +87,7 @@ class ClassEnrollViewController: UIViewController {
     private var classSubject: Set<Subject>?
     private var classTarget: Set<Target>?
     private var classLocation: Location?        // 위도, 경도 값
-    private var classLocality: String?          // "@@시"
+    private var classSemiKeywordLocation: String?          // "@@시"
     private var classKeywordLocation: String?   // 패칭 기준값, "@@구"
     private var currentUser: User?
 
@@ -125,6 +133,10 @@ class ClassEnrollViewController: UIViewController {
         tableView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.top.equalTo(customNavigationBar.snp.bottom)
+        }
+        tableView.addSubview(refreshControl)
+        refreshControl.snp.makeConstraints {
+            $0.centerX.centerY.equalTo(view)
         }
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -210,64 +222,69 @@ class ClassEnrollViewController: UIViewController {
                 }
             }
         }
+        /// location 추가
         if classLocation == nil {
             self.classLocation = locationManager.getCurrentLocation()
         }
+        /// place (도로명주소) 추가
         if classPlace == nil {
             if let location = classLocation {
-                naverMapAPIProvider.locationToAddress(location: location) { [weak self] in
+                group.enter()
+                naverMapAPIProvider.locationToDetailAddress(location: location) { [weak self] in
                     guard let self = self else { return }
                     self.classPlace = $0
+                    group.leave()
                 }
+            } else {
+                print("Enroll ClassItem but, No Location")
             }
         }
+        /// keyword 주소 추가 (@@구)
         group.enter()
-        locationManager.getLocality(of: classLocation) { result in
-            switch result {
-            case .success(let localityAddress):
-                self.classLocality = localityAddress
-            case .failure(let error):
-                debugPrint(error)
-            }
+        naverMapAPIProvider.locationToKeyword(location: classLocation) { [weak self] keyword in
+            guard let self = self else { return }
+            self.classKeywordLocation = keyword
             group.leave()
         }
+        
+        /// semiKeyword 주소 추가 (@@동)
         group.enter()
-        locationManager.getKeywordOfLocation(of: classLocation) { result in
-            switch result {
-            case .success(let keywordLocation):
-                self.classKeywordLocation = keywordLocation
-            case .failure(let error):
-                debugPrint(error)
-            }
+        naverMapAPIProvider.locationToSemiKeyword(location: classLocation) { [weak self] semiKeyword in
+            guard let self = self else { return }
+            self.classSemiKeywordLocation = semiKeyword
             group.leave()
         }
 
         group.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
-                let classItem = ClassItem(name: className,
-                                          date: self.classDate,
-                                          time: self.classTime,
-                                          place: self.classPlace,
-                                          location: self.classLocation,
-                                          locality: self.classLocality,
-                                          keywordLocation: self.classKeywordLocation,
-                                          price: self.classPrice,
-                                          priceUnit: self.classPriceUnit,
-                                          description: classDescription,
-                                          images: classImagesURL,
-                                          subjects: self.classSubject,
-                                          targets: self.classTarget,
-                                          itemType: self.classItemType,
-                                          validity: true,
-                                          writer: UserDefaultsManager.shared.isLogin()!,
-                                          createdTime: Date(),
-                                          modifiedTime: nil
-                )
-
-            self.firestoreManager.upload(classItem: classItem)
-            debugPrint("\(classItem) 등록")
-                                          
-            self.dismiss(animated: true, completion: nil)
+            self.refreshControl.isHidden = false
+            self.refreshControl.beginRefreshing()
+            let classItem = ClassItem(name: className,
+                                      date: self.classDate,
+                                      time: self.classTime,
+                                      place: self.classPlace,
+                                      location: self.classLocation,
+                                      semiKeywordLocation: self.classSemiKeywordLocation,
+                                      keywordLocation: self.classKeywordLocation,
+                                      price: self.classPrice,
+                                      priceUnit: self.classPriceUnit,
+                                      description: classDescription,
+                                      images: classImagesURL,
+                                      subjects: self.classSubject,
+                                      targets: self.classTarget,
+                                      itemType: self.classItemType,
+                                      validity: true,
+                                      writer: UserDefaultsManager.shared.isLogin()!,
+                                      createdTime: Date(),
+                                      modifiedTime: nil
+            )
+            self.firestoreManager.upload(classItem: classItem) { [weak self] in
+                guard let self = self else { return }
+                debugPrint("\(classItem) 등록")
+                self.refreshControl.isHidden = true
+                self.refreshControl.endRefreshing()
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
 }

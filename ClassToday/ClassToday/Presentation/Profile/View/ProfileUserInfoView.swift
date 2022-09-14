@@ -139,6 +139,7 @@ class ProfileUserInfoView: UIView {
     
     // MARK: - Properties
     private let type: UserProfileType
+    private let user: User
     
     // MARK: - Delegate
     weak var delegate: ProfileUserInfoViewDelegate?
@@ -146,6 +147,7 @@ class ProfileUserInfoView: UIView {
     // MARK: - init
     init(user: User, type: UserProfileType) {
         self.type = type
+        self.user = user
         super.init(frame: .zero)
         layout()
         setupView(user: user)
@@ -169,11 +171,11 @@ private extension ProfileUserInfoView {
         switch tag {
         case 1:
             print("buy")
-            let classHistoryViewController = ClassHistoryViewController(classHistory: .buy)
+            let classHistoryViewController = ClassHistoryViewController(classHistory: .buy, classItemsID: user.purchasedClassItems)
             delegate?.moveToViewController(viewController: classHistoryViewController)
         case 2:
             print("sell")
-            let classHistoryViewController = ClassHistoryViewController(classHistory: .sell)
+            let classHistoryViewController = ClassHistoryViewController(classHistory: .sell, classItemsID: user.soldClassItems)
             delegate?.moveToViewController(viewController: classHistoryViewController)
         case 3:
             print("후기")
@@ -190,11 +192,11 @@ private extension ProfileUserInfoView {
     func setupView(user: User) {
         userNameLabel.text = user.nickName
         companyLabel.text = user.company
-        locationLabel.text = user.location?.name
+        locationLabel.text = user.detailLocation
         desciptionLabel.text = user.description
-        buyCountLabel.text = "6"
-        sellCountLabel.text = "7"
-        bookmarkCountLabel.text = ""
+        buyCountLabel.text = String(user.purchasedClassItems?.count ?? 0)
+        sellCountLabel.text = String(user.soldClassItems?.count ?? 0)
+        bookmarkCountLabel.text = "8"
     }
     func layout() {
         [

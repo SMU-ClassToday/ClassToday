@@ -98,6 +98,9 @@ class DetailImageCell: UITableViewCell {
     // MARK: - Actions
 
     @objc func touchImageView(_ sender: UITapGestureRecognizer) {
+        if let images = images, images.isEmpty {
+            return
+        }
         let selectedIndex = pageControl.currentPage
         let fullImageViewController = FullImagesViewController(images: images, startIndex: selectedIndex)
         delegate?.present(fullImageViewController)

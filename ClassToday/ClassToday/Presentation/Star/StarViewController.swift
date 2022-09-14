@@ -22,6 +22,13 @@ class StarViewController: UIViewController {
         return navigationTitle
     }()
     
+    private lazy var nonDataAlertLabel: UILabel = {
+        let label = UILabel()
+        label.text = "현재 수업 아이템이 없어요"
+        label.textColor = UIColor.systemGray
+        return label
+    }()
+    
     private lazy var rightBarItem: UIBarButtonItem = {
         let rightBarItem = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: nil, action: nil)
         return rightBarItem
@@ -69,10 +76,26 @@ class StarViewController: UIViewController {
     }
     // MARK: - Method
     private func starSort(starList: [String]) {
-        firestoreManager.starSort(starList: starList) { [weak self] data in
+        User.getCurrentUser { [weak self] result in
             guard let self = self else { return }
-            self.data = data
-            self.classItemTableView.reloadData()
+            switch result {
+            case .success(let user):
+                self.classItemTableView.refreshControl?.endRefreshing()
+                guard let keywordLocation = user.keywordLocation else {
+                    // 위치 설정 해야됨
+                    return
+                }
+                self.firestoreManager.starSort(keyword: keywordLocation, starList: starList) { [weak self] data in
+                    self?.data = data
+                    DispatchQueue.main.async {
+                        self?.classItemTableView.reloadData()
+                    }
+                }
+                
+            case .failure(let error):
+                self.classItemTableView.refreshControl?.endRefreshing()
+                print("ERROR \(error)🌔")
+            }
         }
     }
 }
@@ -101,12 +124,21 @@ private extension StarViewController {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+        classItemTableView.addSubview(nonDataAlertLabel)
+        nonDataAlertLabel.snp.makeConstraints {
+            $0.center.equalTo(view)
+        }
     }
 }
 
 //MARK: - TableView DataSource
 extension StarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if data.isEmpty {
+            nonDataAlertLabel.isHidden = false
+        } else {
+            nonDataAlertLabel.isHidden = true
+        }
         return data.count
     }
     

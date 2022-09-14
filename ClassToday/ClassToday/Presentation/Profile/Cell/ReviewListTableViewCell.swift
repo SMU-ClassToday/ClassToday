@@ -61,7 +61,7 @@ class ReviewListTableViewCell: UITableViewCell {
             case .success(let user):
                 self.buyer = user
                 self.userNameLabel.text = user.nickName
-                self.locationDateLabel.text = user.location?.name
+                self.locationDateLabel.text = user.detailLocation
             case .failure(_):
                 print("getbuyer fail")
             }

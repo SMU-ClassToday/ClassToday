@@ -58,7 +58,7 @@ extension ProfileDetailViewController: UITableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return 5
+        return 3
     }
     func tableView(
         _ tableView: UITableView,
@@ -78,16 +78,6 @@ extension ProfileDetailViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell = SubjectUserInfoTableViewCell(user: user)
-            cell.setupView()
-            cell.selectionStyle = .none
-            return cell
-        case 3:
-            let cell = BuyUserInfoTableViewCell()
-            cell.setupView()
-            cell.selectionStyle = .none
-            return cell
-        case 4:
-            let cell = SellUserInfoTableViewCell()
             cell.setupView()
             cell.selectionStyle = .none
             return cell
