@@ -12,7 +12,11 @@ struct User: Codable, Equatable {
     let name: String
     let nickName: String
     let gender: String
-    let location: Location?
+    var location: String?
+    /// 주소 문자열(@@시 ##구)
+    var detailLocation: String?
+    /// 키워드 주소 문자열(##구)
+    var keywordLocation: String?
     let email: String
     let profileImage: String?
     let company: String?
@@ -20,6 +24,8 @@ struct User: Codable, Equatable {
     var stars: [String]?
     let subjects: [Subject]?
     var channels: [String]?
+    var purchasedClassItems: [String]?
+    var soldClassItems: [String]?
     
     func thumbnailImage(completion: @escaping (UIImage?) -> Void) {
         guard let profileImageURL = profileImage else {
@@ -38,7 +44,7 @@ struct User: Codable, Equatable {
             }
         }
     }
-    
+
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.id == rhs.id
     }

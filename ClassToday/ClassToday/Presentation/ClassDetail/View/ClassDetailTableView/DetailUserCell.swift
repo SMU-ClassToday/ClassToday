@@ -91,7 +91,7 @@ class DetailUserCell: UITableViewCell {
         self.completion = completion
         userNameLabel.text = user.nickName
         companyLabel.text = user.company
-        locationLabel.text = user.location?.name
+        locationLabel.text = user.detailLocation
         DispatchQueue.main.async { [weak self] in
             user.thumbnailImage { image in
                 guard let self = self,

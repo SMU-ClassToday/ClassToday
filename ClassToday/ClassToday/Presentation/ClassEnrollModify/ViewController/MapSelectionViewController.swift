@@ -115,7 +115,7 @@ class MapSelectionViewController: UIViewController {
             marker.position = newValue
             marker.mapView = mapView.mapView
             let location = Location(lat: newValue.lat, lon: newValue.lng)
-            self.moyaProvider.locationToAddress(location: location) { address in
+            self.moyaProvider.locationToDetailAddress(location: location) { address in
                 self.placeName = address
                 self.submitButton.isEnabled = true
             }

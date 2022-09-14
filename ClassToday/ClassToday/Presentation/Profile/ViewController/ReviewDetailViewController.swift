@@ -101,7 +101,7 @@ private extension ReviewDetailViewController {
     }
     func configureUser() {
         userNameLabel.text = buyer.nickName
-        userLocationAndDateLabel.text = buyer.location?.name
+        userLocationAndDateLabel.text = buyer.detailLocation
     }
     func configureReviewContent() {
         contentLabel.text = match.review?.description

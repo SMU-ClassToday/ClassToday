@@ -49,21 +49,21 @@ class LocationManager: NSObject {
     }
 
     /// 위치에 해당하는 주소를 반환합니다.
-    func getAddress(of location: Location?, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let location = location else {
-            return completion(.failure(LocationManagerError.emptyLocationValue))
-        }
-        let clLocation = CLLocation(latitude: location.lat, longitude: location.lon)
-        getAddress(of: clLocation, completion: completion)
-    }
+//    func getAddress(of location: Location?, completion: @escaping (Result<String, Error>) -> Void) {
+//        guard let location = location else {
+//            return completion(.failure(LocationManagerError.emptyLocationValue))
+//        }
+//        let clLocation = CLLocation(latitude: location.lat, longitude: location.lon)
+//        getAddress(of: clLocation, completion: completion)
+//    }
 
-    /// 현재 기기의 주소를 반환합니다.
-    func getCurrentAddress(completion: @escaping (Result<String, Error>) -> Void) {
-        guard let currentLocation = currentLocation else {
-            return
-        }
-        getAddress(of: currentLocation, completion: completion)
-    }
+//    /// 현재 기기의 주소를 반환합니다.
+//    func getCurrentAddress(completion: @escaping (Result<String, Error>) -> Void) {
+//        guard let currentLocation = currentLocation else {
+//            return
+//        }
+//        getAddress(of: currentLocation, completion: completion)
+//    }
 
     /// 수업 아이템의 기준이 되는 위치정보를 반환합니다
     ///
@@ -105,7 +105,7 @@ class LocationManager: NSObject {
             guard let placemark = placemark?.last else {
                 return completion(.failure(LocationManagerError.emptyPlacemark))
             }
-            guard let locality = placemark.locality else {
+            guard let locality = placemark.administrativeArea else {
                 return completion(.failure(LocationManagerError.emptyPlacemarkLocality))
             }
             completion(.success(locality))
@@ -151,24 +151,26 @@ extension LocationManager: CLLocationManagerDelegate {
 extension LocationManager {
     /// Location을 CLLocation 타입으로 변경 후 호출해서 사용합니다.
     /// Address가 필요한 경우 **getAddress(of location: Location, completion: ...)** 메서드를 사용하세요.
-    private func getAddress(of location: CLLocation, completion: @escaping (Result<String, Error>) -> Void) {
-        CLGeocoder().reverseGeocodeLocation(location, preferredLocale: Locale(identifier: "ko_KR")) { placemark, error in
-            guard error == nil else {
-                return completion(.failure(LocationManagerError.invalidLocation))
-            }
-            guard let placemark = placemark?.last else {
-                return completion(.failure(LocationManagerError.emptyPlacemark))
-            }
-            guard let locality = placemark.locality else {
-                return completion(.failure(LocationManagerError.emptyPlacemarkLocality))
-            }
-            var address = "\(locality)"
-            if let subLocality = placemark.subLocality {
-                address.append(contentsOf: " \(subLocality)")
-            } else if let thoroughfare = placemark.thoroughfare {
-                address.append(contentsOf: " \(thoroughfare)")
-            }
-            completion(.success(address))
-        }
-    }
+//    private func getAddress(of location: CLLocation, completion: @escaping (Result<String, Error>) -> Void) {
+//        CLGeocoder().reverseGeocodeLocation(location, preferredLocale: Locale(identifier: "ko_KR")) { placemark, error in
+//            guard error == nil else {
+//                return completion(.failure(LocationManagerError.invalidLocation))
+//            }
+//
+//            guard let placemark = placemark?.first else {
+//                return completion(.failure(LocationManagerError.emptyPlacemark))
+//            }
+//
+//            guard let locality = placemark.administrativeArea else {
+//                return completion(.failure(LocationManagerError.emptyPlacemarkLocality))
+//            }
+//            var address = "\(locality)"
+//            if let thoroughfare = placemark.subAdministrativeArea {
+//                address.append(contentsOf: " \(thoroughfare)")
+//            }
+//
+//            print(placemark.subLocality)
+//            completion(.success(address))
+//        }
+//    }
 }

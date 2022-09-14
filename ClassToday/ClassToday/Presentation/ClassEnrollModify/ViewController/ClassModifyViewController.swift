@@ -55,6 +55,13 @@ class ClassModifyViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .mainColor
+        refreshControl.isHidden = true
+        return refreshControl
+    }()
+    
     private lazy var popover: Popover = {
         let popover = Popover(options: nil, showHandler: nil, dismissHandler: nil)
         return popover
@@ -80,7 +87,7 @@ class ClassModifyViewController: UIViewController {
     private var classPlace: String?
     private var classLocation: Location?
     private var classKeywordLocation: String?
-    private var classLocality: String?
+    private var classSemiKeywordLocation: String?
     private var classPrice: String?
     private var classPriceUnit: PriceUnit = .perHour
     private var classDescription: String?
@@ -98,7 +105,7 @@ class ClassModifyViewController: UIViewController {
         classPlace = classItem.place
         classLocation = classItem.location
         classKeywordLocation = classItem.keywordLocation
-        classLocality = classItem.locality
+        classSemiKeywordLocation = classItem.semiKeywordLocation
         classPrice = classItem.price
         classPriceUnit = classItem.priceUnit
         classDescription = classItem.description
@@ -143,6 +150,10 @@ class ClassModifyViewController: UIViewController {
         tableView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.top.equalTo(customNavigationBar.snp.bottom)
+        }
+        tableView.addSubview(refreshControl)
+        refreshControl.snp.makeConstraints {
+            $0.centerX.centerY.equalTo(view)
         }
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -238,48 +249,48 @@ class ClassModifyViewController: UIViewController {
             }
         }
         
-        if classLocation != classItem.location {
-            group.enter()
-            locationManager.getLocality(of: classLocation) { result in
-                switch result {
-                case .success(let localityAddress):
-                    self.classLocality = localityAddress
-                case .failure(let error):
-                    debugPrint(error)
-                }
-                group.leave()
-            }
-            group.enter()
-            locationManager.getKeywordOfLocation(of: classLocation) { result in
-                switch result {
-                case .success(let keywordLocation):
-                    self.classKeywordLocation = keywordLocation
-                case .failure(let error):
-                    debugPrint(error)
-                }
-                group.leave()
-            }
-        }
         if classLocation == nil {
             self.classLocation = locationManager.getCurrentLocation()
             if let location = classLocation {
-                naverMapAPIProvider.locationToAddress(location: location) { [weak self] in
+                group.enter()
+                naverMapAPIProvider.locationToDetailAddress(location: location) { [weak self] in
                     guard let self = self else { return }
                     self.classPlace = $0
+                    group.leave()
                 }
             }
         }
+        
+        if classLocation != classItem.location {
+            /// keyword 주소 추가 (@@구)
+            group.enter()
+            naverMapAPIProvider.locationToKeyword(location: classLocation) { [weak self] keyword in
+                guard let self = self else { return }
+                self.classKeywordLocation = keyword
+                group.leave()
+            }
+            
+            /// semiKeyword 주소 추가 (@@동)
+            group.enter()
+            naverMapAPIProvider.locationToSemiKeyword(location: classLocation) { [weak self] semiKeyword in
+                guard let self = self else { return }
+                self.classSemiKeywordLocation = semiKeyword
+                group.leave()
+            }
+        }
+
 
         group.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
-            
+            self.refreshControl.isHidden = false
+            self.refreshControl.beginRefreshing()
             let modifiedClassItem = ClassItem(id: self.classItem.id,
                                               name: className,
                                               date: self.classDate,
                                               time: self.classTime,
                                               place: self.classPlace,
                                               location: self.classLocation,
-                                              locality: self.classLocality,
+                                              semiKeywordLocation: self.classSemiKeywordLocation,
                                               keywordLocation: self.classKeywordLocation,
                                               price: self.classPrice,
                                               priceUnit: self.classPriceUnit,
@@ -292,10 +303,14 @@ class ClassModifyViewController: UIViewController {
                                               writer: UserDefaultsManager.shared.isLogin()!,
                                               createdTime: Date(),
                                               modifiedTime: nil)
-            self.firestoreManager.update(classItem: modifiedClassItem)
-            self.classUpdateDelegate?.update(with: modifiedClassItem)
-            debugPrint("\(modifiedClassItem) 수정")
-            self.dismiss(animated: true, completion: nil)
+            self.firestoreManager.update(classItem: modifiedClassItem) { [weak self] in
+                guard let self = self else { return }
+                self.classUpdateDelegate?.update(with: modifiedClassItem)
+                self.refreshControl.isHidden = true
+                self.refreshControl.endRefreshing()
+                debugPrint("\(modifiedClassItem) 수정")
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
 }
