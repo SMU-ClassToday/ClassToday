@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum LoginError: Error {
+    case notLoggedIn
+}
+
 struct User: Codable, Equatable {
     var id: String = UUID().uuidString
     let name: String
@@ -50,7 +54,10 @@ struct User: Codable, Equatable {
     }
     
     static func getCurrentUser(completion: @escaping (Result<User, Error>) -> Void) {
-        guard let uid = UserDefaultsManager.shared.isLogin() else { return }
+        guard let uid = UserDefaultsManager.shared.isLogin() else {
+            completion(.failure(LoginError.notLoggedIn))
+            return
+        }
         FirestoreManager.shared.readUser(uid: uid) { result in
             switch result {
             case .success(let user):

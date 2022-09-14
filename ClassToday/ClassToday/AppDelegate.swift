@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseCore
 import NaverThirdPartyLogin
+import KakaoSDKCommon
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,6 +28,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         instance?.consumerSecret = kConsumerSecret
         instance?.appName = kServiceAppName
         
+        // MARK: - Kakao Login
+        guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
+            fatalError()
+        }
+        let plist = NSDictionary(contentsOfFile: filePath)
+        if let key = plist?.object(forKey: "Kakao_Native_App_key") as? String {
+            KakaoSDK.initSDK(appKey: key)
+        }
+
+        // Launch Screen 호출 시간
         sleep(3)
         return true
     }

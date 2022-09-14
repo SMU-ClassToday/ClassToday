@@ -9,6 +9,9 @@ def common_pods
   pod 'NMapsMap'
   pod 'Moya'
   pod 'naveridlogin-sdk-ios'
+  pod 'KakaoSDKCommon'
+  pod 'KakaoSDKAuth'
+  pod 'KakaoSDKUser'
 end
 
 target 'ClassToday' do

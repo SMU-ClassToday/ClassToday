@@ -55,6 +55,9 @@ class TabbarController: UITabBarController {
         
         viewControllers = viewControllerList
     }
+    override func viewWillAppear(_ animated: Bool) {
+        checkUser()
+    }
 }
 
 //MARK: - tabbarcontroller delegate

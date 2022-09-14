@@ -86,6 +86,15 @@ private extension SettingViewController {
             let launchSignInVC = UINavigationController(rootViewController: root)
             launchSignInVC.modalPresentationStyle = .fullScreen
             present(launchSignInVC, animated: true)
+        case .kakao:
+            KakaoLoginManager.shared.logout()
+            UserDefaultsManager.shared.removeLoginStatus()
+            let root = LaunchSignInViewController()
+            let launchSignInVC = UINavigationController(rootViewController: root)
+            launchSignInVC.modalPresentationStyle = .fullScreen
+            navigationController?.popToRootViewController(animated: true)
+            tabBarController?.selectedIndex = 0
+            tabBarController?.selectedViewController?.present(launchSignInVC, animated: true)
         }
     }
 }
