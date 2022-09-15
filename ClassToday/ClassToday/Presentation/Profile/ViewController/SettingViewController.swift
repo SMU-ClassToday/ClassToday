@@ -92,9 +92,7 @@ private extension SettingViewController {
             let root = LaunchSignInViewController()
             let launchSignInVC = UINavigationController(rootViewController: root)
             launchSignInVC.modalPresentationStyle = .fullScreen
-            navigationController?.popToRootViewController(animated: true)
-            tabBarController?.selectedIndex = 0
-            tabBarController?.selectedViewController?.present(launchSignInVC, animated: true)
+            present(launchSignInVC, animated: true)
         }
     }
 }
