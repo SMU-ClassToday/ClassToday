@@ -190,9 +190,9 @@ private extension LaunchSignInViewController {
         KakaoLoginManager.shared.login { [weak self] result in
             switch result {
             case .success(let str):
-                guard let presentingViewController = self?.presentingViewController else { return }
-                self?.dismiss(animated: true) {
-                    presentingViewController.tabBarController?.selectedIndex = 0
+                self?.dismiss(animated: false) {
+                    guard let tabbarController = UIApplication.shared.tabbarController() as? TabbarController else { return }
+                    tabbarController.selectedIndex = 0  // Will redirect to first tab ( index = 0 )
                 }
             case .failure(let error):
                 print(error)
