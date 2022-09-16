@@ -1385,13 +1385,13 @@
 			};
 		};
 		FC261A4328CDFBB2008644AE /* XCRemoteSwiftPackageReference "MessageKit" */ = {
-            isa = XCRemoteSwiftPackageReference;
-            repositoryURL = "https://github.com/MessageKit/MessageKit";
-            requirement = {
-                kind = upToNextMajorVersion;
-                minimumVersion = 4.0.0;
-            };
-        };
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1434,7 +1434,7 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 89A67352282A697C00951300 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
-        };
+		};
 		FC261A4428CDFBB2008644AE /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FC261A4328CDFBB2008644AE /* XCRemoteSwiftPackageReference "MessageKit" */;
