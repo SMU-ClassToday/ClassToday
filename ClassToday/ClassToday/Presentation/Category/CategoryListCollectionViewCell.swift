@@ -14,7 +14,7 @@ class CategoryListCollectionViewCell: UICollectionViewCell {
     //MARK: - cell 내부 UI Components
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .secondarySystemBackground
+        imageView.backgroundColor = .white
         imageView.layer.cornerRadius = 4.0
         imageView.clipsToBounds = true
         return imageView
@@ -41,6 +41,9 @@ class CategoryListCollectionViewCell: UICollectionViewCell {
     // 이후에 이미지 설정도 여기서 진행
     func configureWith(categoryItem: CategoryItem) {
         categoryLabel.text = categoryItem.description
+        if let categoryItem = categoryItem as? Subject {
+            imageView.image = categoryItem.image
+        }
     }
 
 }
@@ -54,9 +57,7 @@ private extension CategoryListCollectionViewCell {
         ].forEach { contentView.addSubview($0)}
         
         imageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview()
-            $0.width.equalTo(imageView.snp.height)
+            $0.center.equalToSuperview()
         }
         
         categoryLabel.snp.makeConstraints {

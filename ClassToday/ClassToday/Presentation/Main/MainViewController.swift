@@ -69,6 +69,7 @@ class MainViewController: UIViewController {
     private lazy var nonAuthorizationAlertLabel: UILabel = {
         let label = UILabel()
         label.text = "위치정보 권한을 허용해주세요."
+        label.isHidden = true
         label.textColor = UIColor.systemGray
         return label
     }()
@@ -76,6 +77,7 @@ class MainViewController: UIViewController {
     private lazy var nonDataAlertLabel: UILabel = {
         let label = UILabel()
         label.text = "현재 수업 아이템이 없어요"
+        label.isHidden = true
         label.textColor = UIColor.systemGray
         return label
     }()
