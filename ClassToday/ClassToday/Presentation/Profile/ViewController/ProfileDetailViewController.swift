@@ -31,6 +31,7 @@ class ProfileDetailViewController: UIViewController {
     
     // MARK: - Properties
     private var user: User
+    private var gradeMean: Double = 0.0
     private let currentUserID = UserDefaultsManager.shared.isLogin()
     weak var delegate: ProfileDetailViewControllerDelegate?
     
@@ -38,6 +39,7 @@ class ProfileDetailViewController: UIViewController {
     init(user: User) {
         self.user = user
         super.init(nibName: nil, bundle: nil)
+        self.getGradeMean()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -49,6 +51,20 @@ class ProfileDetailViewController: UIViewController {
         setupNavigationBar()
         attribute()
         layout()
+    }
+    
+    private func getGradeMean() {
+        FirestoreManager.shared.fetchMatch(userId: UserDefaultsManager.shared.isLogin()!) { [weak self] data in
+            var gradeMean: Double = 0
+            if data.isEmpty { return } else {
+                for match in data {
+                    gradeMean += match.review!.grade
+                }
+                gradeMean /= Double(data.count)
+                self?.gradeMean = gradeMean
+                self?.userInfoTableView.reloadData()
+            }
+        }
     }
 }
 
@@ -73,7 +89,7 @@ extension ProfileDetailViewController: UITableViewDataSource {
             return cell
         case 1:
             let cell = GradeUserInfoTableViewCell()
-            cell.setupView()
+            cell.setupView(grade: gradeMean)
             cell.selectionStyle = .none
             return cell
         case 2:
