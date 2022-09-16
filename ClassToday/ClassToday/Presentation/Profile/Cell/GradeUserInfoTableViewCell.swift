@@ -15,10 +15,11 @@ class GradeUserInfoTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 16.0, weight: .medium)
         return label
     }()
-    private lazy var gradeStarView = GradeStarView(grade: 4.79019)
+    private lazy var gradeStarView = GradeStarView(grade: 0.0)
     
-    func setupView() {
+    func setupView(grade: Double) {
         layout()
+        gradeStarView.updateStars(grade: grade)
     }
 }
 

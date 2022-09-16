@@ -115,7 +115,7 @@ private extension ModifyProfileUserInfoView {
     func setupView(user: User) {
         userNameTextField.text = user.nickName
         companyLabel.text = user.company
-        locationLabel.text = user.location?.name
+        locationLabel.text = user.detailLocation
         desciptionTextView.text = user.description
     }
     func layout() {

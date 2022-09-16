@@ -46,6 +46,9 @@ class ProfileViewController: UIViewController {
         setupNavigationBar()
         attribute()
         layout()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         User.getCurrentUser { [weak self] result in
             guard let self = self else { return }
             switch result {

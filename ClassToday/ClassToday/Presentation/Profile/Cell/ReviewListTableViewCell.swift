@@ -51,10 +51,22 @@ class ReviewListTableViewCell: UITableViewCell {
         imageView.tintColor = .mainColor
         return imageView
     }()
-    
+    private var buyer: User?
     // MARK: - setup
-    func setupView() {
+    func setupView(match: Match) {
         layout()
+        FirestoreManager.shared.readUser(uid: match.buyer) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let user):
+                self.buyer = user
+                self.userNameLabel.text = user.nickName
+                self.locationDateLabel.text = user.detailLocation
+            case .failure(_):
+                print("getbuyer fail")
+            }
+        }
+        contentLabel.text = match.review?.description
     }
 }
 

@@ -70,6 +70,8 @@ private extension ProfileModifyViewController {
             nickName: newNickName,
             gender: user.gender,
             location: user.location,
+            detailLocation: user.detailLocation,
+            keywordLocation: user.keywordLocation,
             email: user.email,
             profileImage: user.profileImage,
             company: user.company,

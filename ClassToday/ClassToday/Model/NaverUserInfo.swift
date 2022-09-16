@@ -26,6 +26,8 @@ struct NaverUserInfo: Decodable {
             nickName: self.response.name,
             gender: self.response.gender,
             location: nil,
+            detailLocation: "",
+            keywordLocation: "",
             email: self.response.email,
             profileImage: nil,
             company: nil,
