@@ -9,25 +9,31 @@ import UIKit
 
 class LocationSettingViewController: UIViewController {
     
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.numberOfLines = 0
+        label.text = "위치를 설정하면 해당 지역의 수업을 확인 할 수 있어요!"
+        label.lineBreakMode = .byCharWrapping
+        label.adjustsFontSizeToFitWidth
+        return label
+    }()
     private lazy var currentLocationTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "현재 설정된 위치: "
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
-    
     private lazy var currentLocationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
-
     private lazy var divider: UIView = {
         let view = UIView()
         view.backgroundColor = .separator
         return view
     }()
-    
     private lazy var settingButton: UIButton = {
         let button = UIButton()
         button.setTitle("현 위치로 설정하기", for: .normal)
@@ -38,7 +44,6 @@ class LocationSettingViewController: UIViewController {
         button.addTarget(self, action: #selector(settingLocationButtonTouched(_:)), for: .touchUpInside)
         return button
     }()
-
     private lazy var selectLocationButton: UIButton = {
         let button = UIButton()
         button.setTitle("지역 선택하기", for: .normal)
@@ -64,15 +69,19 @@ class LocationSettingViewController: UIViewController {
     }
     
     private func setUpUI() {
-        navigationItem.title = "내 위치 설정"
+        navigationController?.navigationBar.topItem?.backButtonTitle = ""
+        navigationItem.title = "내 위치 설정하기"
         view.backgroundColor = .white
-        [currentLocationTitleLabel, currentLocationLabel,
+        [descriptionLabel, currentLocationTitleLabel, currentLocationLabel,
          settingButton, divider, selectLocationButton].forEach {
             view.addSubview($0)
         }
-
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
         currentLocationTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(36)
             $0.leading.equalToSuperview().offset(16)
         }
         currentLocationLabel.snp.makeConstraints {
@@ -82,7 +91,7 @@ class LocationSettingViewController: UIViewController {
         divider.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(1)
-            $0.top.equalTo(currentLocationTitleLabel.snp.bottom).offset(16)
+            $0.top.equalTo(currentLocationTitleLabel.snp.bottom).offset(36)
         }
         settingButton.snp.makeConstraints {
             $0.top.equalTo(divider.snp.bottom).offset(16)
