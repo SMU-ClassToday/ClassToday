@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum CategoryType: CaseIterable {
     case subject
@@ -52,6 +53,29 @@ enum Subject: String, CategoryItem, CaseIterable {
                 return "컴퓨터"
             case .hobby:
                 return "취미"
+        }
+    }
+    
+    var image: UIImage? {
+        switch self {
+        case .korean:
+            return "📖".image()
+        case .math:
+            return "📐".image()
+        case .english:
+            return "🔤".image()
+        case .science:
+            return "🔬".image()
+        case .society:
+            return "⚖️".image()
+        case .language:
+            return "🌐".image()
+        case .major:
+            return "🎓".image()
+        case .computer:
+            return "🖥".image()
+        case .hobby:
+            return "🛹".image()
         }
     }
 }
