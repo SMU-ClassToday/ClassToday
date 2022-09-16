@@ -159,7 +159,7 @@ class ProfileUserInfoView: UIView {
 
     private func fetchMatch() {
         FirestoreManager.shared.fetchMatch(userId: UserDefaultsManager.shared.isLogin()!) { [weak self] data in
-            self!.bookmarkCountLabel.text = "\(data.count)"
+            self?.bookmarkCountLabel.text = "\(data.count)"
         }
     }
 }
@@ -196,7 +196,7 @@ private extension ProfileUserInfoView {
         desciptionLabel.text = user.description
         buyCountLabel.text = String(user.purchasedClassItems?.count ?? 0)
         sellCountLabel.text = String(user.soldClassItems?.count ?? 0)
-        bookmarkCountLabel.text = "8"
+        bookmarkCountLabel.text = "0"
     }
     func layout() {
         [
