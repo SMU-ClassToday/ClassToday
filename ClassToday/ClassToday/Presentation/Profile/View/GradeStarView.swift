@@ -44,25 +44,39 @@ class GradeStarView: UIView {
     }
 }
 
-private extension GradeStarView {
+extension GradeStarView {
     func updateStars(grade: Double) {
         switch grade {
         case (0.0..<1.0):
-            break
+            starImageView1.image = Icon.star.image
+            starImageView2.image = Icon.star.image
+            starImageView3.image = Icon.star.image
+            starImageView4.image = Icon.star.image
+            starImageView5.image = Icon.star.image
         case (1.0..<2.0):
             starImageView1.image = Icon.fillStar.image
+            starImageView2.image = Icon.star.image
+            starImageView3.image = Icon.star.image
+            starImageView4.image = Icon.star.image
+            starImageView5.image = Icon.star.image
         case (2.0..<3.0):
             starImageView1.image = Icon.fillStar.image
             starImageView2.image = Icon.fillStar.image
+            starImageView3.image = Icon.star.image
+            starImageView4.image = Icon.star.image
+            starImageView5.image = Icon.star.image
         case (3.0..<4.0):
             starImageView1.image = Icon.fillStar.image
             starImageView2.image = Icon.fillStar.image
             starImageView3.image = Icon.fillStar.image
+            starImageView4.image = Icon.star.image
+            starImageView5.image = Icon.star.image
         case (4.0..<5.0):
             starImageView1.image = Icon.fillStar.image
             starImageView2.image = Icon.fillStar.image
             starImageView3.image = Icon.fillStar.image
             starImageView4.image = Icon.fillStar.image
+            starImageView5.image = Icon.star.image
         case (5.0...):
             starImageView1.image = Icon.fillStar.image
             starImageView2.image = Icon.fillStar.image
@@ -72,7 +86,11 @@ private extension GradeStarView {
         default:
             break
         }
+        gradeLabel.text = "\(grade)"
     }
+}
+
+private extension GradeStarView {
     func layout() {
         [
             starImageView1,

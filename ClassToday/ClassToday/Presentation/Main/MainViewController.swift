@@ -14,11 +14,12 @@ protocol MainViewControllerLocationDelegate: AnyObject {
 
 class MainViewController: UIViewController {
     //MARK: - NavigationBar Components
-    private lazy var leftTitle: UILabel = {
-        let leftTitle = UILabel()
-        leftTitle.textColor = .black
-        leftTitle.sizeToFit()
-        leftTitle.font = .systemFont(ofSize: 20.0, weight: .bold)
+    private lazy var leftTitle: UIButton = {
+        let leftTitle = UIButton()
+        leftTitle.setTitleColor(UIColor.black, for: .normal)
+        leftTitle.titleLabel?.sizeToFit()
+        leftTitle.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .bold)
+        leftTitle.addTarget(self, action: #selector(didTapTitleLabel(_:)), for: .touchUpInside)
         return leftTitle
     }()
 
@@ -68,6 +69,7 @@ class MainViewController: UIViewController {
     private lazy var nonAuthorizationAlertLabel: UILabel = {
         let label = UILabel()
         label.text = "위치정보 권한을 허용해주세요."
+        label.isHidden = true
         label.textColor = UIColor.systemGray
         return label
     }()
@@ -75,6 +77,7 @@ class MainViewController: UIViewController {
     private lazy var nonDataAlertLabel: UILabel = {
         let label = UILabel()
         label.text = "현재 수업 아이템이 없어요"
+        label.isHidden = true
         label.textColor = UIColor.systemGray
         return label
     }()
@@ -94,6 +97,7 @@ class MainViewController: UIViewController {
     private let locationManager = LocationManager.shared
     private let provider = NaverMapAPIProvider()
     private let dispatchGroup: DispatchGroup = DispatchGroup()
+    private var currentUser: User?
     weak var delegate: MainViewControllerLocationDelegate?
 
     //MARK: - view lifecycle
@@ -109,44 +113,47 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !requestLocationAuthorization() {
-            configureLocation()
-            fetchData()
+            configureLocation { [weak self] in
+                self?.fetchData()
+            }
         }
     }
 
     // MARK: - Method
-    /// 현재 기기의 위치를 기준으로 수업 아이템을 패칭합니다.
-    ///
-    /// - 패칭 기준: Location의 KeywordLocation 값 ("@@구")
-    private func fetchData() {
-        classItemTableView.refreshControl?.beginRefreshing()
-        nonDataAlertLabel.isHidden = true
-        guard let currentLocation = locationManager.getCurrentLocation() else { return }
-        firestoreManager.fetch(currentLocation) { [weak self] data in
-            self?.data = data
-            self?.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
-            self?.dataSell = data.filter { $0.itemType == ClassItemType.sell }
-            DispatchQueue.main.async {
-                self?.classItemTableView.reloadData()
-                self?.classItemTableView.refreshControl?.endRefreshing()
-            }
-        }
-    }
+
     /// 현재 기기의 위치를 주소명으로 패칭하여 상단에 표시합니다.
     ///
     ///  - 출력 형태: "@@시 @@구의 수업"
-    private func configureLocation() {
-        print("Location was fetched and Now Address Fetching")
-        guard let location = locationManager.getCurrentLocation() else { return }
-        provider.locationToKeywordAddress(location: location) { [weak self] result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.leftTitle.text = result + "의 수업"
-                self.leftTitle.frame.size = self.leftTitle.intrinsicContentSize
+    private func configureLocation(_ completion: @escaping ()->()) {
+        dispatchGroup.enter()
+        classItemTableView.refreshControl?.beginRefreshing()
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let user):
+                self.currentUser = user
+                self.dispatchGroup.leave()
+                self.classItemTableView.refreshControl?.endRefreshing()
+                guard let location = user.detailLocation else {
+                    // 위치 설정 해야됨
+                    return
+                }
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.leftTitle.setTitle(location + "의 수업", for: .normal)
+                    self.leftTitle.frame.size = self.leftTitle.titleLabel?.intrinsicContentSize ?? CGSize(width: 0, height: 0)
+                }
+                completion()
+
+            case .failure(let error):
+                self.dispatchGroup.leave()
+                self.classItemTableView.refreshControl?.endRefreshing()
+                print("ERROR \(error)🌔")
+                completion()
             }
         }
     }
-    
+
     /// 위치권한상태를 확인하고, 필요한 경우 얼럿을 호출합니다.
     ///
     /// - return 값: true - 권한요청, false - 권한허용
@@ -161,6 +168,34 @@ class MainViewController: UIViewController {
         nonAuthorizationAlertLabel.isHidden = true
         return false
     }
+
+    /// 키워드 주소를 기준으로 수업 아이템을 패칭합니다.
+    ///
+    /// - 패칭 기준: User의 KeywordLocation 값 ("@@구")
+    private func fetchData() {
+        classItemTableView.refreshControl?.beginRefreshing()
+        nonDataAlertLabel.isHidden = true
+        dispatchGroup.notify(queue: .global()) { [weak self] in
+            guard let currentUser = self?.currentUser else {
+                debugPrint("유저 정보가 없거나 아직 받아오지 못했습니다😭")
+                return
+            }
+            guard let keyword = currentUser.keywordLocation else {
+                debugPrint("유저의 키워드 주소 설정 값이 없습니다. 주소 설정 먼저 해주세요😭")
+                return
+            }
+
+            self?.firestoreManager.fetch(keyword: keyword) { data in
+                self?.data = data
+                self?.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
+                self?.dataSell = data.filter { $0.itemType == ClassItemType.sell }
+                DispatchQueue.main.async {
+                    self?.classItemTableView.reloadData()
+                    self?.classItemTableView.refreshControl?.endRefreshing()
+                }
+            }
+        }
+    }
 }
 
 //MARK: - gesture delegate
@@ -172,6 +207,11 @@ extension MainViewController: UIGestureRecognizerDelegate {
 
 //MARK: - objc functions
 private extension MainViewController {
+    @objc func didTapTitleLabel(_ sender: UIButton) {
+        let locationSettingViewController = LocationSettingViewController()
+        navigationController?.pushViewController(locationSettingViewController, animated: true)
+    }
+
     @objc func didChangedSegmentControlValue(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -322,8 +362,9 @@ extension MainViewController: LocationManagerDelegate {
     ///
     /// - 주소명과 수업 아이템을 패칭합니다.
     func didUpdateLocation() {
-        configureLocation()
-        fetchData()
+        configureLocation() { [weak self] in
+            self?.fetchData()
+        }
     }
 
     /// 위치정보권한 상태 변경에 따른 경고 레이블 처리

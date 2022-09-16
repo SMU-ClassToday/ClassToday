@@ -109,15 +109,29 @@ class CategoryDetailViewController: UIViewController {
     //MARK: - Methods
     private func categorySort() {
         classItemTableView.refreshControl?.beginRefreshing()
-        guard let currentLocation = locationManager.getCurrentLocation() else { return }
-        firestoreManager.categorySort(location: currentLocation, category: categoryItem?.rawValue ?? "") { [weak self] data in
+        User.getCurrentUser { [weak self] result in
             guard let self = self else { return }
-            self.data = data
-            self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
-            self.dataSell = data.filter { $0.itemType == ClassItemType.sell }
-            DispatchQueue.main.async { [weak self] in
-                self?.classItemTableView.refreshControl?.endRefreshing()
-                self?.classItemTableView.reloadData()
+            switch result {
+            case .success(let user):
+                self.classItemTableView.refreshControl?.endRefreshing()
+                guard let keywordLocation = user.keywordLocation else {
+                    // 위치 설정 해야됨
+                    return
+                }
+                self.firestoreManager.categorySort(keyword: keywordLocation, category: self.categoryItem?.rawValue ?? "") { [weak self] data in
+                    guard let self = self else { return }
+                    self.data = data
+                    self.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
+                    self.dataSell = data.filter { $0.itemType == ClassItemType.sell }
+                    DispatchQueue.main.async { [weak self] in
+                        self?.classItemTableView.refreshControl?.endRefreshing()
+                        self?.classItemTableView.reloadData()
+                    }
+                }
+                
+            case .failure(let error):
+                self.classItemTableView.refreshControl?.endRefreshing()
+                print("ERROR \(error)🌔")
             }
         }
     }

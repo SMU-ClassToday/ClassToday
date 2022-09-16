@@ -139,6 +139,7 @@ class ProfileUserInfoView: UIView {
     
     // MARK: - Properties
     private let type: UserProfileType
+    private let user: User
     
     // MARK: - Delegate
     weak var delegate: ProfileUserInfoViewDelegate?
@@ -146,12 +147,20 @@ class ProfileUserInfoView: UIView {
     // MARK: - init
     init(user: User, type: UserProfileType) {
         self.type = type
+        self.user = user
         super.init(frame: .zero)
         layout()
         setupView(user: user)
+        fetchMatch()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func fetchMatch() {
+        FirestoreManager.shared.fetchMatch(userId: UserDefaultsManager.shared.isLogin()!) { [weak self] data in
+            self?.bookmarkCountLabel.text = "\(data.count)"
+        }
     }
 }
 
@@ -162,11 +171,11 @@ private extension ProfileUserInfoView {
         switch tag {
         case 1:
             print("buy")
-            let classHistoryViewController = ClassHistoryViewController(classHistory: .buy)
+            let classHistoryViewController = ClassHistoryViewController(classHistory: .buy, classItemsID: user.purchasedClassItems)
             delegate?.moveToViewController(viewController: classHistoryViewController)
         case 2:
             print("sell")
-            let classHistoryViewController = ClassHistoryViewController(classHistory: .sell)
+            let classHistoryViewController = ClassHistoryViewController(classHistory: .sell, classItemsID: user.soldClassItems)
             delegate?.moveToViewController(viewController: classHistoryViewController)
         case 3:
             print("후기")
@@ -183,15 +192,11 @@ private extension ProfileUserInfoView {
     func setupView(user: User) {
         userNameLabel.text = user.nickName
         companyLabel.text = user.company
-        guard let location = user.location else { return }
-        NaverMapAPIProvider().locationToKeywordAddress(location: location) { [weak self] address in
-            guard let self = self else { return }
-            self.locationLabel.text = address
-        }
+        locationLabel.text = user.detailLocation
         desciptionLabel.text = user.description
-        buyCountLabel.text = "6"
-        sellCountLabel.text = "7"
-        bookmarkCountLabel.text = "8"
+        buyCountLabel.text = String(user.purchasedClassItems?.count ?? 0)
+        sellCountLabel.text = String(user.soldClassItems?.count ?? 0)
+        bookmarkCountLabel.text = "0"
     }
     func layout() {
         [

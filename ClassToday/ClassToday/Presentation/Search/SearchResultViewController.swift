@@ -101,22 +101,35 @@ class SearchResultViewController: UIViewController {
     // MARK: - Method
     private func keywordSearch(keyword: String) {
         classItemTableView.refreshControl?.beginRefreshing()
-        guard let currentLocation = LocationManager.shared.getCurrentLocation() else { return }
-        firestoreManager.fetch(currentLocation) { [weak self] data in
+        User.getCurrentUser { [weak self] result in
             guard let self = self else { return }
-            self.data = data.filter {
-                $0.name.contains(keyword) ||
-                $0.description.contains(keyword)
-            }
-            self.dataBuy = self.data.filter { $0.itemType == ClassItemType.buy }
-            self.dataSell = self.data.filter { $0.itemType == ClassItemType.sell }
-            DispatchQueue.main.async { [weak self] in
-                self?.classItemTableView.refreshControl?.endRefreshing()
-                self?.classItemTableView.reloadData()
+            switch result {
+            case .success(let user):
+                self.classItemTableView.refreshControl?.endRefreshing()
+                guard let keywordLocation = user.keywordLocation else {
+                    // 위치 설정 해야됨
+                    return
+                }
+                self.firestoreManager.fetch(keyword: keywordLocation) { [weak self] data in
+                    guard let self = self else { return }
+                    self.data = data.filter {
+                        $0.name.contains(keyword) ||
+                        $0.description.contains(keyword)
+                    }
+                    self.dataBuy = self.data.filter { $0.itemType == ClassItemType.buy }
+                    self.dataSell = self.data.filter { $0.itemType == ClassItemType.sell }
+                    DispatchQueue.main.async { [weak self] in
+                        self?.classItemTableView.refreshControl?.endRefreshing()
+                        self?.classItemTableView.reloadData()
+                    }
+                }
+                
+            case .failure(let error):
+                self.classItemTableView.refreshControl?.endRefreshing()
+                print("ERROR \(error)🌔")
             }
         }
     }
-    
 }
 
 //MARK: - objc functions
