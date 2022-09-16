@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import Alamofire
 import NaverThirdPartyLogin
+import KakaoSDKAuth
+import KakaoSDKUser
 
 class LaunchSignInViewController: UIViewController {
     // MARK: - UI Components
@@ -33,6 +35,11 @@ class LaunchSignInViewController: UIViewController {
             titleColor: .black,
             tintColor: .black,
             backgroundColor: UIColor(red: 0.996, green: 0.898, blue: 0, alpha: 1)
+        )
+        button.addTarget(
+            self,
+            action: #selector(didTapKakaoSignUpButton),
+            for: .touchUpInside
         )
         return button
     }()
@@ -178,6 +185,20 @@ extension LaunchSignInViewController: NaverThirdPartyLoginConnectionDelegate {
 
 // MARK: - @objc Methods
 private extension LaunchSignInViewController {
+    @objc func didTapKakaoSignUpButton() {
+        print("didTapKakaoSignUpButton")
+        KakaoLoginManager.shared.login { [weak self] result in
+            switch result {
+            case .success(let str):
+                self?.dismiss(animated: false) {
+                    guard let tabbarController = UIApplication.shared.tabbarController() as? TabbarController else { return }
+                    tabbarController.selectedIndex = 0  // Will redirect to first tab ( index = 0 )
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     @objc func didTapNaverSignUpButton() {
         print("didTapNaverSignUpButton")
         naverLoginInstance?.requestThirdPartyLogin()

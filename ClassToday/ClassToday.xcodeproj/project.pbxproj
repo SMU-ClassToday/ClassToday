@@ -119,6 +119,7 @@
 		89865EA4282A70EA00113242 /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0F9280F134D00AB9B07 /* CategoryListViewController.swift */; };
 		89865EA5282A70EE00113242 /* StarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58F0F7280F12FE00AB9B07 /* StarViewController.swift */; };
 		89865EA8282A70FD00113242 /* CustomBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDB85532824D78400273A9A /* CustomBarButton.swift */; };
+		8996175A28D1B18100BCCB0D /* KakaoLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8996175928D1B18100BCCB0D /* KakaoLoginManager.swift */; };
 		899D3F002834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */; };
 		89A0CD3C280D441A006FDF89 /* ClassImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */; };
 		89A0CD3F280D4E17006FDF89 /* ClassImageEnrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */; };
@@ -276,6 +277,7 @@
 		8967E5D328CFA2F600BA1F6F /* LocationSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectViewController.swift; sourceTree = "<group>"; };
 		8971F21B283A1A4200D4AAD0 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		8980575028677F290089CF47 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		8996175928D1B18100BCCB0D /* KakaoLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginManager.swift; sourceTree = "<group>"; };
 		899D3EFF2834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContentCategoryCollectionFlowLayout.swift; sourceTree = "<group>"; };
 		89A0CD3B280D441A006FDF89 /* ClassImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageCell.swift; sourceTree = "<group>"; };
 		89A0CD3E280D4E17006FDF89 /* ClassImageEnrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassImageEnrollCell.swift; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 				89DCD07C2896C9C900C1CCA3 /* NaverMapAPI.swift */,
 				89DCD07D2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift */,
 				6BC2B236288C4D8F0025817D /* NaverLoginManager.swift */,
+				8996175928D1B18100BCCB0D /* KakaoLoginManager.swift */,
 				6B4FA9DC28917E3B0048B60F /* UserDefaultsManager.swift */,
 			);
 			path = Services;
@@ -1037,6 +1040,7 @@
 				89098E2B2820F124006EFD4E /* EnrollDateCell.swift in Sources */,
 				6B560C20284DD77100261C35 /* LaunchSignInViewControllerDelegate.swift in Sources */,
 				89675B15282677B900933C48 /* PriceUnitTableViewCell.swift in Sources */,
+				8996175A28D1B18100BCCB0D /* KakaoLoginManager.swift in Sources */,
 				899D3F002834E5E8009061CD /* DetailContentCategoryCollectionFlowLayout.swift in Sources */,
 				89865EA3282A70E900113242 /* CategoryDetailViewController.swift in Sources */,
 				89A67344282A634C00951300 /* AppDelegate.swift in Sources */,
