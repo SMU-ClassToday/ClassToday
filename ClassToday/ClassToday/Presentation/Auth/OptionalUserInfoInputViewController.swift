@@ -115,6 +115,7 @@ class OptionalUserInfoInputViewController: UIViewController {
     private var profileImage: UIImage?
     private var company: String?
     private var descriptionText: String?
+    private let provider = NaverMapAPIProvider()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -134,40 +135,53 @@ private extension OptionalUserInfoInputViewController {
         present(imagePickerViewController, animated: true)
     }
     @objc func didTapRightBarButton() {
-//        print(essentialUserInfoInput)
-//        print(profileImage, company, descriptionText, subjectPickerView.checkedSubjects.filter { $0.1 })
         // TODO: - 에러처리
         User.getCurrentUser { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let user):
-                FirestoreManager.shared.uploadUser(
-                    user: User(
-                        id: user.id,
-                        name: self.essentialUserInfoInput?.name ?? "",
-                        nickName: self.essentialUserInfoInput?.nickName ?? "",
-                        gender: self.essentialUserInfoInput?.gender ?? "",
-                        location: self.essentialUserInfoInput?.location,
-                        email: user.email,
-                        profileImage: "이미지있음", // TODO: - 이미지 등록하기
-                        company: self.company,
-                        description: self.descriptionText,
-                        stars: [],
-                        subjects: self.subjectPickerView.checkedSubjects.filter { $0.1 }.map { $0.0 } ,
-                        channels: []
-                    )
-                ) { result in
-                    switch result {
-                    case .success(_):
-                        print("성공!@#!@#!#!@#!@👨‍👩‍👦‍👦")
-                        // TODO: - 정보를 입력했는지 여부 저장
-                        self.dismiss(animated: true)
-                    case .failure(let error):
-                        print("ERROR \(error.localizedDescription) 👕")
+                guard let location = self.essentialUserInfoInput?.location else { return }
+                
+                self.provider.locationToKeywordAddress(location: location) { sigu in
+                    self.provider.locationToKeyword(location: location) { gu in
+                        self.provider.locationToSemiKeyword(location: location) { dong in
+                            FirestoreManager.shared.uploadUser(
+                                user: User(
+                                    id: user.id,
+                                    name: self.essentialUserInfoInput?.name ?? "",
+                                    nickName: self.essentialUserInfoInput?.nickName ?? "",
+                                    gender: self.essentialUserInfoInput?.gender ?? "",
+                                    location: gu + " " + dong,
+                                    detailLocation: sigu,
+                                    keywordLocation: gu,
+                                    email: user.email,
+                                    profileImage: "이미지있음", // TODO: - 이미지 등록하기
+                                    company: self.company,
+                                    description: self.descriptionText,
+                                    stars: [],
+                                    subjects: self.subjectPickerView.checkedSubjects
+                                        .filter { $0.1 }
+                                        .map { $0.0 },
+                                    channels: []
+                                )
+                            ) { result in
+                                switch result {
+                                case .success(_):
+                                    print("성공!@#!@#!#!@#!@👨‍👩‍👦‍👦")
+                                    // TODO: - 정보를 입력했는지 여부 저장
+                                    self.dismiss(animated: true) {
+                                        guard let tabbarController = UIApplication.shared.tabbarController() as? TabbarController else { return }
+                                        tabbarController.selectedIndex = 0
+                                    }
+                                case .failure(let error):
+                                    print("ERROR \(error.localizedDescription) 👕")
+                                }
+                            }
+                        }
                     }
                 }
             case .failure(let error):
-                break
+                print("ERROR \(error.localizedDescription)")
             }
         }
     }
