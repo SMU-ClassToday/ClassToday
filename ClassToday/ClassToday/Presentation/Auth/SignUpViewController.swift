@@ -106,18 +106,18 @@ private extension SignUpViewController {
         let email = emailTextField.text!
         let password = pwTextField.text!
         let user = User(
-            name: "이영찬",
-            nickName: "Cobugi",
-            gender: "남",
+            name: "",
+            nickName: "",
+            gender: "",
             location: nil,
             detailLocation: "서울시 노원구 중계동",
             keywordLocation: "노원구",
             email: email,
             profileImage: nil,
-            company: "상명대학교 수학교육과",
-            description: "귀는 인간의 같이, 대한 이것이다. 못할 끝에 몸이 얼마나 이상은 것이다. 황금시대를 예가 불러 같은 든 끓는 부패를 미인을 어디 보라. 위하여 불러 간에 위하여서.",
+            company: nil,
+            description: nil,
             stars: nil,
-            subjects: [.computer, .math],
+            subjects: nil,
             channels: nil
         )
         FirebaseAuthManager.shared.signUp(user: user, password: password) { [weak self] result in
@@ -127,10 +127,7 @@ private extension SignUpViewController {
                 print("회원가입 성공!🎉")
                 UserDefaultsManager.shared.saveLoginStatus(uid: uid, type: .email)
                 self.view.hideToastActivity()
-                self.dismiss(animated: true) {
-                    guard let tabbarController = UIApplication.shared.tabbarController() as? TabbarController else { return }
-                    tabbarController.selectedIndex = 0  // Will redirect to first tab ( index = 0 )
-                }
+                self.navigationController?.pushViewController(EssentialUserInfoInputViewController(), animated: true)
             case .failure(let error):
                 print("회원가입 실패 ㅠ \(error.localizedDescription)🐢")
                 self.view.hideToastActivity()
