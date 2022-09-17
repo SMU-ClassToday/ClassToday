@@ -23,7 +23,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
         
-        if UserDefaultsManager.shared.isLogin() == nil {
+        if let uid = UserDefaultsManager.shared.isLogin() {
+            // 로그인을 했지만 필수 유저 정보가 없는 경우, 필수 정보 입력 화면을 띄운다
+            FirestoreManager.shared.readUser(uid: uid) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let user):
+                    if user.location == nil {
+                        let root = EssentialUserInfoInputViewController()
+                        let essentialUserInfoInputViewController = UINavigationController(
+                            rootViewController: root
+                        )
+                        essentialUserInfoInputViewController.modalPresentationStyle = .fullScreen
+                        self.window?.rootViewController?.present(
+                            essentialUserInfoInputViewController,
+                            animated: true
+                        )
+                    }
+                case .failure(let error):
+                    print("ERROR \(error.localizedDescription)👩🏻‍🦳")
+                }
+            }
+        } else {
+            // 로그인이 안되어있는 경우
             let root = LaunchSignInViewController()
             let launchSignInViewController = UINavigationController(rootViewController: root)
             launchSignInViewController.modalPresentationStyle = .fullScreen
