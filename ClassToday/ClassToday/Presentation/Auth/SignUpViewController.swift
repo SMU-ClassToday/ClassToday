@@ -127,10 +127,7 @@ private extension SignUpViewController {
                 print("회원가입 성공!🎉")
                 UserDefaultsManager.shared.saveLoginStatus(uid: uid, type: .email)
                 self.view.hideToastActivity()
-                self.dismiss(animated: true) {
-                    guard let tabbarController = UIApplication.shared.tabbarController() as? TabbarController else { return }
-                    tabbarController.selectedIndex = 0  // Will redirect to first tab ( index = 0 )
-                }
+                self.navigationController?.pushViewController(EssentialUserInfoInputViewController(), animated: true)
             case .failure(let error):
                 print("회원가입 실패 ㅠ \(error.localizedDescription)🐢")
                 self.view.hideToastActivity()

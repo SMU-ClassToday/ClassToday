@@ -129,6 +129,7 @@ class EssentialUserInfoInputViewController: UIViewController {
     private var nickName: String?
     private var gender: String?
     private var location: Location?
+    private let provider = NaverMapAPIProvider()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
