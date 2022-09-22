@@ -14,21 +14,18 @@ class ChannelTableViewCell: UITableViewCell {
     lazy var chatRoomThumbnailView: UIImageView = {
         let thumbnailView = UIImageView()
         thumbnailView.clipsToBounds = true
-        thumbnailView.image = UIImage(named: "person")
         thumbnailView.layer.cornerRadius = 25.0
         return thumbnailView
     }()
     
     private lazy var chatRoomLabel: UILabel = {
         let chatRoomLabel = UILabel()
-        chatRoomLabel.text = "김수한무"
         chatRoomLabel.font = .systemFont(ofSize: 16.0, weight: .semibold)
         return chatRoomLabel
     }()
     
     private lazy var latestMessage: UILabel = {
         let label = UILabel()
-        label.text = ""
         label.font = .systemFont(ofSize: 14.0, weight: .thin)
         label.textColor = .darkGray
         return label
@@ -36,7 +33,6 @@ class ChannelTableViewCell: UITableViewCell {
     
     private lazy var dateDiffLabel: UILabel = {
         let dateDiffLabel = UILabel()
-        dateDiffLabel.text = "3시간 전"
         dateDiffLabel.font = .systemFont(ofSize: 12.0, weight: .thin)
         dateDiffLabel.textColor = .gray
         return dateDiffLabel
@@ -44,7 +40,6 @@ class ChannelTableViewCell: UITableViewCell {
     
     private lazy var classItemLabel: UILabel = {
         let label = UILabel()
-        label.text = "[6월 수학 가형 모고풀이]"
         label.font = .systemFont(ofSize: 14.0, weight: .regular)
         label.textColor = .mainColor
         return label
@@ -106,36 +101,50 @@ class ChannelTableViewCell: UITableViewCell {
         FirestoreManager.shared.readUser(uid: channel.sellerID) { [weak self] result in
             guard let self = self else { return }
             switch result {
-                case .success(let user):
-                    self.seller = user
-                    FirestoreManager.shared.readUser(uid: channel.buyerID) { [weak self] result in
-                        guard let self = self else { return }
-                        switch result {
-                            case .success(let user):
-                                self.buyer = user
-                                switch UserDefaultsManager.shared.isLogin()! {
-                                    case channel.sellerID:
-                                        self.chatRoomLabel.text = self.buyer?.nickName
-                                    case channel.buyerID:
-                                        self.chatRoomLabel.text = self.seller?.nickName
-                                    default:
-                                        print("ERROR")
+            case .success(let user):
+                self.seller = user
+                FirestoreManager.shared.readUser(uid: channel.buyerID) { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success(let user):
+                        self.buyer = user
+                        switch UserDefaultsManager.shared.isLogin()! {
+                        case channel.sellerID:
+                            self.chatRoomLabel.text = self.buyer?.nickName
+                            self.buyer?.thumbnailImage { [weak self] image in
+                                guard let self = self else { return }
+                                if let image = image {
+                                    self.chatRoomThumbnailView.image = image
+                                } else {
+                                    self.chatRoomThumbnailView.image = UIImage(named: "person")
                                 }
-                            case .failure(_):
-                                print("GetBuyer Fail")
+                            }
+                        case channel.buyerID:
+                            self.chatRoomLabel.text = self.seller?.nickName
+                            self.seller?.thumbnailImage { [weak self] image in
+                                guard let self = self else { return }
+                                if let image = image {
+                                    self.chatRoomThumbnailView.image = image
+                                } else {
+                                    self.chatRoomThumbnailView.image = UIImage(named: "person")
+                                }
+                            }
+                        default:
+                            print("ERROR")
                         }
+                    case .failure(_):
+                        print("GetBuyer Fail")
                     }
-                case .failure(_):
-                    print("GetSeller Fail")
+                }
+            case .failure(_):
+                print("GetSeller Fail")
             }
         }
-        
-        
         classItemLabel.text = "[\(channel.classItem?.name ?? "")]"
     }
     
     override func prepareForReuse() {
-        chatRoomThumbnailView.image = UIImage(named: "person")
+        chatRoomThumbnailView.image = nil
         chatRoomLabel.text = nil
         latestMessage.text = nil
         dateDiffLabel.text = nil

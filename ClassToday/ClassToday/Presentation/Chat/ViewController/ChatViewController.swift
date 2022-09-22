@@ -431,8 +431,24 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-        let avatar = Avatar(image: UIImage(named: "person"), initials: "")
-        avatarView.set(avatar: avatar)
+        let oppositeUser = (seller == currentUser) ? buyer : seller
+        if isFromCurrentSender(message: message) {
+            let _ = currentUser?.thumbnailImage { [weak self] image in
+                guard let image = image else {
+                    avatarView.set(avatar: Avatar(image: UIImage(named: "person"), initials: ""))
+                    return
+                }
+                avatarView.set(avatar: Avatar(image: image, initials: ""))
+            }
+        } else {
+            let _ = oppositeUser?.thumbnailImage { [weak self] image in
+                guard let image = image else {
+                    avatarView.set(avatar: Avatar(image: UIImage(named: "person"), initials: ""))
+                    return
+                }
+                avatarView.set(avatar: Avatar(image: image, initials: ""))
+            }
+        }
     }
 }
 

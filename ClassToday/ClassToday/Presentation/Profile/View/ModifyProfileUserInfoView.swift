@@ -14,7 +14,6 @@ class ModifyProfileUserInfoView: UIView {
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "person")
         imageView.layer.cornerRadius = 40.0
         return imageView
     }()
@@ -117,6 +116,13 @@ private extension ModifyProfileUserInfoView {
         companyLabel.text = user.company
         locationLabel.text = user.detailLocation
         desciptionTextView.text = user.description
+        user.thumbnailImage { [weak self] image in
+            guard let image = image else {
+                self?.userImageView.image = UIImage(named: "person")
+                return
+            }
+            self?.userImageView.image = image
+        }
     }
     func layout() {
         [

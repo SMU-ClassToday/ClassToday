@@ -123,32 +123,38 @@ class LocationSettingViewController: UIViewController {
     // MARK: - Objc Methods
     @objc func settingLocationButtonTouched(_ sender: UIButton) {
         guard let location = locationManager.getCurrentLocation() else { return }
-        provider.locationToKeywordAddress(location: location) { [weak self] address in
-            let alert = UIAlertController(title: "현재 위치로 설정하기",
-                                          message: "현재 위치(\(address))로 설정할까요?",
-                                          preferredStyle: .alert)
-            let allowAction = UIAlertAction(title: "네", style: .default) { _ in
-                self?.currentUser?.detailLocation = address
-                self?.currentUser?.keywordLocation = address.components(separatedBy: " ").last
-                guard let currentUser = self?.currentUser else {
-                    return
-                }
-                self?.firestoreManager.uploadUser(user: currentUser) { result in
-                    switch result {
-                    case .success(_):
-                        print("Firestore 저장 성공!👍")
-                        return
-                    case .failure(let error):
-                        debugPrint(error)
-                        print("Firestore 저장 실패ㅠ🐢")
+        provider.locationToKeywordAddress(location: location) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                debugPrint(error.localizedDescription)
+                return
+            case .success(let address):
+                let alert = UIAlertController(title: "현재 위치로 설정하기",
+                                              message: "현재 위치(\(address))로 설정할까요?",
+                                              preferredStyle: .alert)
+                let allowAction = UIAlertAction(title: "네", style: .default) { _ in
+                    self?.currentUser?.detailLocation = address
+                    self?.currentUser?.keywordLocation = address.components(separatedBy: " ").last
+                    guard let currentUser = self?.currentUser else {
                         return
                     }
+                    self?.firestoreManager.uploadUser(user: currentUser) { result in
+                        switch result {
+                        case .success(_):
+                            print("Firestore 저장 성공!👍")
+                            return
+                        case .failure(let error):
+                            debugPrint(error)
+                            print("Firestore 저장 실패ㅠ🐢")
+                            return
+                        }
+                    }
+                    _ = self?.navigationController?.popViewController(animated: true)
                 }
-                _ = self?.navigationController?.popViewController(animated: true)
+                let cancelAction = UIAlertAction(title: "아니요", style: .cancel)
+                [allowAction, cancelAction].forEach { alert.addAction($0) }
+                self?.present(alert, animated: true)
             }
-            let cancelAction = UIAlertAction(title: "아니요", style: .cancel)
-            [allowAction, cancelAction].forEach { alert.addAction($0) }
-            self?.present(alert, animated: true)
         }
     }
     

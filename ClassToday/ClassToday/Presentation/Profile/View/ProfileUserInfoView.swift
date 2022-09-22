@@ -13,7 +13,6 @@ class ProfileUserInfoView: UIView {
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "person")
         imageView.layer.cornerRadius = 40.0
         return imageView
     }()
@@ -197,6 +196,13 @@ private extension ProfileUserInfoView {
         buyCountLabel.text = String(user.purchasedClassItems?.count ?? 0)
         sellCountLabel.text = String(user.soldClassItems?.count ?? 0)
         bookmarkCountLabel.text = "0"
+        user.thumbnailImage { [weak self] image in
+            guard let image = image else {
+                self?.userImageView.image = UIImage(named: "person")
+                return
+            }
+            self?.userImageView.image = image
+        }
     }
     func layout() {
         [
