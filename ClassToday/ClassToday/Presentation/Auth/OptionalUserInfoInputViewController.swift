@@ -7,8 +7,6 @@
 
 import UIKit
 import SnapKit
-import PhotosUI
-import Photos
 import Toast
 
 class OptionalUserInfoInputViewController: UIViewController {
@@ -135,15 +133,10 @@ class OptionalUserInfoInputViewController: UIViewController {
 private extension OptionalUserInfoInputViewController {
     @objc func didTapProfileImagePickerButton() {
         print("didTapProfileImagePickerButton")
-        let imagePickerViewController = PHPickerViewController.makeImagePicker(selectLimit: 1)
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
         picker.delegate = self
-        imagePickerViewController.delegate = self
-        imagePickerViewController.isEditing = true
-        imagePickerViewController.setEditing(true, animated: true)
-//        present(imagePickerViewController, animated: true)
         present(picker, animated: true)
     }
     @objc func didTapRightBarButton() {
@@ -261,30 +254,6 @@ extension OptionalUserInfoInputViewController: UITextFieldDelegate {
         } else {
             company = nil
         }
-    }
-}
-
-// MARK: - PHPickerViewControllerDelegate
-extension OptionalUserInfoInputViewController: PHPickerViewControllerDelegate {
-    
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        if !results.isEmpty {
-            let result = results.first!
-            let itemProvider = result.itemProvider
-            if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                    if let error = error {
-                        print("ERROR \(error.localizedDescription)🩲🩲")
-                    }
-                    guard let selectedImage = image as? UIImage else { return }
-                    DispatchQueue.main.async {
-                        // TODO: - 버튼 이미지 업데이트 변경
-                        self.profileImagePickerButton.setImage(selectedImage, for: .normal)
-                    }
-                }
-            }
-        }
-        picker.dismiss(animated: true)
     }
 }
 

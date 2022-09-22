@@ -13,8 +13,17 @@ protocol MapCategorySelectViewControllerDelegate: AnyObject {
 
 class MapCategorySelectViewController: UIViewController {
     
-    // MARK: - Views
+    //MARK: - NavigationBar Components
+    private lazy var leftBarItem: UIBarButtonItem = {
+        let leftBarItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(didTapBackButton))
+        return leftBarItem
+    }()
+
+    private func setNavigationBar() {
+        navigationItem.leftBarButtonItem = leftBarItem
+    }
     
+    // MARK: - Views
     private lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: view.frame.width * 0.40, height: ClassCategoryCollectionViewCell.height)
@@ -49,6 +58,8 @@ class MapCategorySelectViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setNavigationBar()
+        navigationController?.navigationItem.leftBarButtonItem?.title = ""
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -83,6 +94,10 @@ class MapCategorySelectViewController: UIViewController {
             return
         }
         self.selectedTarget = selectedTarget
+    }
+    
+    @objc func didTapBackButton() {
+        navigationController?.popViewController(animated: true)
     }
 }
 

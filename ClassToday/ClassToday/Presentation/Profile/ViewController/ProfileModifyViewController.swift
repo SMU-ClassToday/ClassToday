@@ -10,7 +10,11 @@ import SnapKit
 
 class ProfileModifyViewController: UIViewController {
     // MARK: - UI Components
-    private lazy var profileUserInfoView = ModifyProfileUserInfoView(user: user)
+    private lazy var profileUserInfoView: ModifyProfileUserInfoView = {
+        let view = ModifyProfileUserInfoView(user: user)
+        view.delegate = self
+        return view
+    }()
     private lazy var subjectPickerView = SubjectPickerView(subjects: user.subjects ?? [])
     private lazy var modifyButton: UIButton = {
         let button = UIButton()
@@ -57,38 +61,59 @@ class ProfileModifyViewController: UIViewController {
 private extension ProfileModifyViewController {
     @objc func didTapModifyButton() {
         print("didTapModifyButton")
-//        print(subjectPickerView.checkedSubjects.map { ($0.0.description, $0.1) })
 
-        let (newNickName, newDescription) = profileUserInfoView.sendChangedValue()
+        let (newNickName, newDescription, newImage) = profileUserInfoView.sendChangedValue()
         let newSubjectList = subjectPickerView.checkedSubjects
             .filter { $0.1 }
             .map { $0.0 }
+        let dispatchGroup = DispatchGroup()
+        var imageURL: String?
         
-        let newInfo = User(
-            id: user.id,
-            name: user.name,
-            nickName: newNickName,
-            gender: user.gender,
-            location: user.location,
-            detailLocation: user.detailLocation,
-            keywordLocation: user.keywordLocation,
-            email: user.email,
-            profileImage: user.profileImage,
-            company: user.company,
-            description: newDescription,
-            stars: user.stars,
-            subjects: newSubjectList,
-            channels: user.channels
-        )
-        
-        FirestoreManager.shared.uploadUser(user: newInfo) { [weak self] result in
+        if let newImage = newImage {
+            dispatchGroup.enter()
+            StorageManager.shared.upload(image: newImage) { result in
+                switch result {
+                case .success(let url):
+                    imageURL = url
+                case .failure(let error):
+                    debugPrint(error)
+                }
+                dispatchGroup.leave()
+            }
+            if let oldImage = user.profileImage {
+                StorageManager.shared.deleteImage(urlString: oldImage)
+            }
+        } else {
+            imageURL = user.profileImage
+        }
+        dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
-            switch result {
-            case .success():
-                self.delegate?.didFinishUpdateUserInfo()
-                self.dismiss(animated: true)
-            case .failure(let error):
-                print("ERROR: \(error.localizedDescription)👜")
+            let newInfo = User(
+                id: self.user.id,
+                name: self.user.name,
+                nickName: newNickName,
+                gender: self.user.gender,
+                location: self.user.location,
+                detailLocation: self.user.detailLocation,
+                keywordLocation: self.user.keywordLocation,
+                email: self.user.email,
+                profileImage: imageURL,
+                company: self.user.company,
+                description: newDescription,
+                stars: self.user.stars,
+                subjects: newSubjectList,
+                channels: self.user.channels
+            )
+            
+            FirestoreManager.shared.uploadUser(user: newInfo) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success():
+                    self.delegate?.didFinishUpdateUserInfo()
+                    self.dismiss(animated: true)
+                case .failure(let error):
+                    print("ERROR: \(error.localizedDescription)👜")
+                }
             }
         }
     }
@@ -132,5 +157,11 @@ private extension ProfileModifyViewController {
             $0.top.equalTo(subjectPickerView.snp.bottom).offset(16.0)
             $0.height.equalTo(48.0)
         }
+    }
+}
+
+extension ProfileModifyViewController: ModifyProfileUserInfoViewDelegate {
+    func present(viewController: UIViewController) {
+        self.present(viewController, animated: true)
     }
 }
