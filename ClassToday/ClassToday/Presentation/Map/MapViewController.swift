@@ -85,12 +85,22 @@ class MapViewController: UIViewController {
             }
         }
     }
+    private var currentUser: User?
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupLayout()
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.currentUser = user
+                case .failure(let error):
+                    print(error)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,7 +110,7 @@ class MapViewController: UIViewController {
         }
         setupMapView(location: location)
         if categoryData.isEmpty {
-            fetchClassItem(location: location)
+            fetchClassItem()
         }
     }
     
@@ -145,10 +155,9 @@ class MapViewController: UIViewController {
         }
     }
 
-    private func fetchClassItem(location: Location) {
-        FirestoreManager.shared.fetch(location) { [weak self] data in
-            guard let self = self else { return }
-            self.classItemData = data
+    private func fetchClassItem() {
+        FirestoreManager.shared.fetch { [weak self] data in
+            self?.classItemData = data
         }
     }
 }
@@ -157,21 +166,17 @@ class MapViewController: UIViewController {
 extension MapViewController {
     /// 즐겨찾기 버튼
     @objc private func didTapStarButton(_ sender: UIButton) {
-        guard let location = curLocation else { return }
-        NaverMapAPIProvider().locationToKeyword(location: location) { [weak self] result in
-            if sender.isSelected == true {
-                sender.isSelected = false
-                self?.fetchClassItem(location: location)
-            } else {
-                sender.isSelected = true
-                switch result {
-                case .success(let keyword):
-                    FirestoreManager.shared.starSort(keyword: keyword, starList: MockData.mockUser.stars ?? [""]) {
-                        self?.classItemData = $0
-                    }
-                case .failure(let error):
-                    debugPrint(error.localizedDescription)
-                }
+        if sender.isSelected == true {
+            sender.isSelected = false
+            fetchClassItem()
+        } else {
+            sender.isSelected = true
+            guard let list = currentUser?.stars, list.isEmpty == false else {
+                classItemData = []
+                return
+            }
+            FirestoreManager.shared.starSort(starList: list) { [weak self] in
+                self?.classItemData = $0
             }
         }
     }

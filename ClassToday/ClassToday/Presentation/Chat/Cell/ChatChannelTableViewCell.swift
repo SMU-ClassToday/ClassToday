@@ -52,7 +52,7 @@ class ChannelTableViewCell: UITableViewCell {
     //MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        selectionStyle = .none
         layout()
     }
     
