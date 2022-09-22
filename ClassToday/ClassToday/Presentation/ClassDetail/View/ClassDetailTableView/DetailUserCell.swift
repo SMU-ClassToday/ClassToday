@@ -12,8 +12,7 @@ class DetailUserCell: UITableViewCell {
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "person")
-        imageView.layer.cornerRadius = 30
+        imageView.layer.cornerRadius = 40
         return imageView
     }()
     private lazy var userNameLabel: UILabel = {
@@ -92,12 +91,12 @@ class DetailUserCell: UITableViewCell {
         userNameLabel.text = user.nickName
         companyLabel.text = user.company
         locationLabel.text = user.detailLocation
-        DispatchQueue.main.async { [weak self] in
-            user.thumbnailImage { image in
-                guard let self = self,
-                      let image = image else { return }
-                self.userImageView.image = image
+        user.thumbnailImage { [weak self] image in
+            guard let image = image else {
+                self?.userImageView.image = UIImage(named: "person")
+                return
             }
+            self?.userImageView.image = image
         }
     }
 }

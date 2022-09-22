@@ -7,6 +7,7 @@
 
 import UIKit
 import NMapsMap
+import XCTest
 
 class MapViewController: UIViewController {
     //MARK: - NavigationBar Components
@@ -157,14 +158,19 @@ extension MapViewController {
     /// 즐겨찾기 버튼
     @objc private func didTapStarButton(_ sender: UIButton) {
         guard let location = curLocation else { return }
-        NaverMapAPIProvider().locationToKeyword(location: location) { [weak self] keyword in
+        NaverMapAPIProvider().locationToKeyword(location: location) { [weak self] result in
             if sender.isSelected == true {
                 sender.isSelected = false
                 self?.fetchClassItem(location: location)
             } else {
                 sender.isSelected = true
-                FirestoreManager.shared.starSort(keyword: keyword, starList: MockData.mockUser.stars ?? [""]) {
-                    self?.classItemData = $0
+                switch result {
+                case .success(let keyword):
+                    FirestoreManager.shared.starSort(keyword: keyword, starList: MockData.mockUser.stars ?? [""]) {
+                        self?.classItemData = $0
+                    }
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
                 }
             }
         }
@@ -221,15 +227,20 @@ extension MapViewController: MapCategorySelectViewControllerDelegate {
             }
             return
         }
-        NaverMapAPIProvider().locationToKeyword(location: curLocation) { [weak self] keyword in
+        NaverMapAPIProvider().locationToKeyword(location: curLocation) { [weak self] result in
             guard let self = self else { return }
-            FirestoreManager.shared.categorySort(keyword: keyword,
-                                                 categories: self.categoryData
-                                                            .map{$0 as? Subject}
-                                                            .compactMap{$0}
-                                                            .map{$0.rawValue}) { [weak self] data in
-                guard let self = self else { return }
-                self.classItemData = data
+            switch result {
+            case .success(let keyword):
+                FirestoreManager.shared.categorySort(keyword: keyword,
+                                                     categories: self.categoryData
+                                                                .map{$0 as? Subject}
+                                                                .compactMap{$0}
+                                                                .map{$0.rawValue}) { [weak self] data in
+                    guard let self = self else { return }
+                    self.classItemData = data
+                }
+            case .failure(let error):
+                debugPrint(error)
             }
         }
     }

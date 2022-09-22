@@ -237,14 +237,14 @@ class ClassModifyViewController: UIViewController {
         if let classImages = classImages {
             for index in existingImagesCount ..< classImages.count {
                 group.enter()
-                do {
-                    try storageManager.upload(image: classImages[index]) { url in
-                        self.classImagesURL?.append(url)
-                        group.leave()
+                storageManager.upload(image: classImages[index]) { [weak self] result in
+                    switch result {
+                    case .success(let url):
+                        self?.classImagesURL?.append(url)
+                    case .failure(let error):
+                        debugPrint(error)
                     }
-                } catch {
-                    debugPrint(error)
-                    return
+                    group.leave()
                 }
             }
         }
@@ -253,9 +253,13 @@ class ClassModifyViewController: UIViewController {
             self.classLocation = locationManager.getCurrentLocation()
             if let location = classLocation {
                 group.enter()
-                naverMapAPIProvider.locationToDetailAddress(location: location) { [weak self] in
-                    guard let self = self else { return }
-                    self.classPlace = $0
+                naverMapAPIProvider.locationToDetailAddress(location: location) { [weak self] result in
+                    switch result {
+                    case .success(let address):
+                        self?.classPlace = address
+                    case .failure(let error):
+                        debugPrint(error.localizedDescription)
+                    }
                     group.leave()
                 }
             }
@@ -264,17 +268,25 @@ class ClassModifyViewController: UIViewController {
         if classLocation != classItem.location {
             /// keyword 주소 추가 (@@구)
             group.enter()
-            naverMapAPIProvider.locationToKeyword(location: classLocation) { [weak self] keyword in
-                guard let self = self else { return }
-                self.classKeywordLocation = keyword
+            naverMapAPIProvider.locationToKeyword(location: classLocation) { [weak self] result in
+                switch result {
+                case .success(let keyword):
+                    self?.classKeywordLocation = keyword
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                }
                 group.leave()
             }
             
             /// semiKeyword 주소 추가 (@@동)
             group.enter()
-            naverMapAPIProvider.locationToSemiKeyword(location: classLocation) { [weak self] semiKeyword in
-                guard let self = self else { return }
-                self.classSemiKeywordLocation = semiKeyword
+            naverMapAPIProvider.locationToSemiKeyword(location: classLocation) { [weak self] result in
+                switch result {
+                case .success(let semiKeyword):
+                    self?.classSemiKeywordLocation = semiKeyword
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                }
                 group.leave()
             }
         }
