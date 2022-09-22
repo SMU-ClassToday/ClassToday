@@ -361,13 +361,18 @@ extension ChatViewController {
     @objc private func didTapCameraButton() {
         let picker = UIImagePickerController()
         picker.delegate = self
-        
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            picker.sourceType = .camera
-        } else {
+        let alert = UIAlertController(title: "이미지 전송", message: nil, preferredStyle: .alert)
+        let action1 = UIAlertAction(title: "사진", style: .default) { [weak self] action in
             picker.sourceType = .photoLibrary
+            self?.present(picker, animated: true)
         }
-        present(picker, animated: true)
+        let action2 = UIAlertAction(title: "카메라", style: .default) { [weak self] action in
+            picker.sourceType = .camera
+            self?.present(picker, animated: true)
+        }
+        let action3 = UIAlertAction(title: "취소", style: .cancel)
+        [action1, action2, action3].forEach { alert.addAction($0) }
+        present(alert, animated: true)
     }
     
     @objc func didTapBackButton() {
