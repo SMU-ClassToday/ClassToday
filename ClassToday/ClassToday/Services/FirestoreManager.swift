@@ -365,4 +365,25 @@ extension FirestoreManager {
             completion(data)
         }
     }
+    
+    func fetchMatchBuy(userId: String, completion: @escaping ([Match]) -> ()) {
+        var data: [Match] = []
+        FirestoreRoute.match.ref.whereField("buyer", isEqualTo: userId).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let match = try document.data(as: Match.self)
+                        data.append(match)
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
 }
