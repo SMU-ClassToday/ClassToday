@@ -92,6 +92,7 @@ class DetailUserCell: UITableViewCell {
         userNameLabel.text = user.nickName
         companyLabel.text = user.company
         locationLabel.text = user.detailLocation
+        /*
         DispatchQueue.main.async { [weak self] in
             user.thumbnailImage { image in
                 guard let self = self,
@@ -99,5 +100,6 @@ class DetailUserCell: UITableViewCell {
                 self.userImageView.image = image
             }
         }
+         */
     }
 }

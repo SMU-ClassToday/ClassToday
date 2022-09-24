@@ -548,47 +548,6 @@ extension ChatViewController: MatchConfirmViewControllerDelegate {
         channel.validity = false
         uploadMatch(match: channel.match!)
         updateChannel(channel: channel)
-        
-        guard let classItemID = classItem?.id else { return }
-        /// 유저 정보의 수업 구매/판매 이력에 등록
-        User.getCurrentUser { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let user):
-                self.currentUser = user
-                switch UserDefaultsManager.shared.isLogin() {
-                case self.channel.match?.seller:
-                    if let soldClassItems = self.currentUser?.soldClassItems {
-                        self.currentUser?.soldClassItems?.append(classItemID)
-                    } else {
-                        self.currentUser?.soldClassItems = [classItemID]
-                    }
-                case self.channel.match?.buyer:
-                    if let purchasedClassItems = self.currentUser?.purchasedClassItems {
-                        self.currentUser?.purchasedClassItems?.append(classItemID)
-                    } else {
-                        self.currentUser?.purchasedClassItems = [classItemID]
-                    }
-                    default:
-                        print("error")
-                }
-                guard let currentUser = self.currentUser else { return }
-                self.firestoreManager.uploadUser(user: currentUser) { result in
-                    switch result {
-                    case .success(_):
-                        print("Firestore 저장 성공!👍")
-                        return
-                    case .failure(let error):
-                        debugPrint(error)
-                        print("Firestore 저장 실패ㅠ🐢")
-                        return
-                    }
-                }
-            case .failure(let error):
-                print("ERROR \(error)🌔")
-                return
-            }
-        }
     }
 }
 

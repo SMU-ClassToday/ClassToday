@@ -163,7 +163,7 @@ extension MapViewController {
                 self?.fetchClassItem(location: location)
             } else {
                 sender.isSelected = true
-                FirestoreManager.shared.starSort(keyword: keyword, starList: MockData.mockUser.stars ?? [""]) {
+                FirestoreManager.shared.starSort(starList: MockData.mockUser.stars ?? [""]) {
                     self?.classItemData = $0
                 }
             }

@@ -140,6 +140,9 @@ class ProfileUserInfoView: UIView {
     // MARK: - Properties
     private let type: UserProfileType
     private let user: User
+    private var match: [Match] = []
+    private var purchasedItems: [String] = []
+    private var soldItems: [String] = []
     
     // MARK: - Delegate
     weak var delegate: ProfileUserInfoViewDelegate?
@@ -152,6 +155,7 @@ class ProfileUserInfoView: UIView {
         layout()
         setupView(user: user)
         fetchMatch()
+        fetchMatchBuy()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -159,7 +163,29 @@ class ProfileUserInfoView: UIView {
 
     private func fetchMatch() {
         FirestoreManager.shared.fetchMatch(userId: UserDefaultsManager.shared.isLogin()!) { [weak self] data in
-            self?.bookmarkCountLabel.text = "\(data.count)"
+            self?.match = data
+            
+            var sold = data.filter {
+                $0.seller == UserDefaultsManager.shared.isLogin()
+            }
+            for match in sold {
+                self?.soldItems.append(match.classItem)
+            }
+            
+            self?.sellCountLabel.text = String(sold.count)
+            self?.bookmarkCountLabel.text = String(data.count)
+        }
+    }
+    
+    private func fetchMatchBuy() {
+        FirestoreManager.shared.fetchMatchBuy(userId: UserDefaultsManager.shared.isLogin()!) { [weak self] data in
+            var purchased = data.filter {
+                $0.buyer == UserDefaultsManager.shared.isLogin()
+            }
+            for match in purchased {
+                self?.purchasedItems.append(match.classItem)
+            }
+            self?.buyCountLabel.text = String(purchased.count)
         }
     }
 }
@@ -171,11 +197,11 @@ private extension ProfileUserInfoView {
         switch tag {
         case 1:
             print("buy")
-            let classHistoryViewController = ClassHistoryViewController(classHistory: .buy, classItemsID: user.purchasedClassItems)
+            let classHistoryViewController = ClassHistoryViewController(classHistory: .buy, classItemsID: purchasedItems)
             delegate?.moveToViewController(viewController: classHistoryViewController)
         case 2:
             print("sell")
-            let classHistoryViewController = ClassHistoryViewController(classHistory: .sell, classItemsID: user.soldClassItems)
+            let classHistoryViewController = ClassHistoryViewController(classHistory: .sell, classItemsID: soldItems)
             delegate?.moveToViewController(viewController: classHistoryViewController)
         case 3:
             print("후기")
@@ -194,8 +220,7 @@ private extension ProfileUserInfoView {
         companyLabel.text = user.company
         locationLabel.text = user.detailLocation
         desciptionLabel.text = user.description
-        buyCountLabel.text = String(user.purchasedClassItems?.count ?? 0)
-        sellCountLabel.text = String(user.soldClassItems?.count ?? 0)
+        
         bookmarkCountLabel.text = "0"
     }
     func layout() {
