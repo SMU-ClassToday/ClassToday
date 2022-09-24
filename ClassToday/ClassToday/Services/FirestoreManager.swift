@@ -191,31 +191,26 @@ class FirestoreManager {
     }
     
     //star
-    /// 즐겨찾기에 추가된 ClassItem을 패칭합니다.
-    ///
-    /// - parameter keyword: 키워드 문자열(@@구)
-    /// - parameter starList: 즐겨찾기 배열
-    /// - parameter completion: 수업 아이템 패칭 결과 클로저
-    func starSort(keyword: String, starList: [String], completion: @escaping ([ClassItem]) -> ()) {
+    func starSort(starList: [String], completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []
-        FirestoreRoute.classItem.ref.whereField("id", in: starList).getDocuments() { (snapshot, error) in
-            if let error = error {
-                debugPrint("Error getting documents: \(error)")
-                return
-            }
-            if let snapshot = snapshot {
-                for document in snapshot.documents {
-                    do {
-                        let classItem = try document.data(as: ClassItem.self)
-                        if keyword == classItem.keywordLocation {
+        for classItem in starList {
+            FirestoreRoute.classItem.ref.whereField("id", isEqualTo: classItem).getDocuments() { (snapshot, error) in
+                if let error = error {
+                    debugPrint("Error getting documents: \(error)")
+                    return
+                }
+                if let snapshot = snapshot {
+                    for document in snapshot.documents {
+                        do {
+                            let classItem = try document.data(as: ClassItem.self)
                             data.append(classItem)
+                        } catch {
+                            debugPrint(error)
                         }
-                    } catch {
-                        debugPrint(error)
                     }
                 }
+                completion(data)
             }
-            completion(data)
         }
     }
 }
