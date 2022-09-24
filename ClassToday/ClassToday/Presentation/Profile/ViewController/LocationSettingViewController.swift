@@ -15,7 +15,6 @@ class LocationSettingViewController: UIViewController {
         label.numberOfLines = 0
         label.text = "위치를 설정하면 해당 지역의 수업을 확인 할 수 있어요!"
         label.lineBreakMode = .byCharWrapping
-        label.adjustsFontSizeToFitWidth
         return label
     }()
     private lazy var currentLocationTitleLabel: UILabel = {

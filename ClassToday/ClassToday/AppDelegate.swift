@@ -38,7 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // Launch Screen 호출 시간
+        debugPrint("Launch Screen Delay start")
         sleep(3)
+        debugPrint("Launch Screen Delay end")
         return true
     }
     

@@ -40,9 +40,9 @@ class ClassHistoryViewController: UIViewController {
     private var classItems: [ClassItem] = []
     private var dispatchGroup = DispatchGroup()
     
-    init(classHistory: ClassHistory, classItemsID: [String]?) {
+    init(classHistory: ClassHistory, classItemsID: [String]) {
         self.classHistory = classHistory
-        self.classItemsID = classItemsID ?? []
+        self.classItemsID = classItemsID
         super.init(nibName: nil, bundle: nil)
     }
     
