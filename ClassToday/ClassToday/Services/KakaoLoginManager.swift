@@ -11,10 +11,15 @@ import KakaoSDKUser
 import KakaoSDKAuth
 import KakaoSDKCommon
 
+enum KakaoLoginStatus {
+    case signUp
+    case signIn
+}
+
 class KakaoLoginManager {
     static let shared = KakaoLoginManager()
     
-    func login(_ completion: @escaping (Result<String, Error>) -> Void) {
+    func login(_ completion: @escaping (Result<(KakaoLoginStatus, String), Error>) -> Void) {
         /// 토큰이 있을 경우
         if (AuthApi.hasToken()) {
             UserApi.shared.accessTokenInfo { [weak self] (_, error) in
@@ -99,7 +104,7 @@ class KakaoLoginManager {
         }
     }
     
-    private func loginOrSignUp(_ completion: @escaping (Result<String, Error>) -> Void) {
+    private func loginOrSignUp(_ completion: @escaping (Result<(KakaoLoginStatus, String), Error>) -> Void) {
         // 로그인 성공 시
         UserApi.shared.me { kuser, error in
             if let error = error {
@@ -110,18 +115,18 @@ class KakaoLoginManager {
                 let email = kakaoEmail + ".kakao"
                 let password = String(describing: kuser?.id)
                 let user = User(
-                    name: "박태현",
-                    nickName: "Yescoach",
-                    gender: "남",
+                    name: "",
+                    nickName: "",
+                    gender: "",
                     location: nil,
-                    detailLocation: "서울특별시 노원구",
-                    keywordLocation: "노원구",
+                    detailLocation: nil,
+                    keywordLocation: nil,
                     email: email,
                     profileImage: nil,
-                    company: "상명대학교 한일문화콘텐츠과",
-                    description: "귀는 인간의 같이, 대한 이것이다. 못할 끝에 몸이 얼마나 이상은 것이다. 황금시대를 예가 불러 같은 든 끓는 부패를 미인을 어디 보라. 위하여 불러 간에 위하여서.",
+                    company: nil,
+                    description: nil,
                     stars: nil,
-                    subjects: [.computer, .math],
+                    subjects: nil,
                     channels: nil
                 )
                 // 회원가입
@@ -130,10 +135,10 @@ class KakaoLoginManager {
                     case .success(let uid):
                         print("회원가입 성공!🎉")
                         UserDefaultsManager.shared.saveLoginStatus(uid: uid, type: .kakao)
-                        completion(.success(uid))
+                        completion(.success((.signUp, uid)))
                     case .failure(let error):
                         print("회원가입 실패 ㅠ \(error.localizedDescription)🐢")
-                        
+
                         // 로그인 진행
                         FirebaseAuthManager.shared.signIn(email: kakaoEmail, password: password) { result in
                             switch result {
@@ -141,7 +146,7 @@ class KakaoLoginManager {
                                 print("로그인 성공🐹")
                                 print(uid, "🥵")
                                 UserDefaultsManager.shared.saveLoginStatus(uid: uid, type: .kakao)
-                                completion(.success(uid))
+                                completion(.success((.signIn, uid)))
                             case .failure(let error):
                                 print("\(error.localizedDescription)🐸🐸")
                                 completion(.failure(error))

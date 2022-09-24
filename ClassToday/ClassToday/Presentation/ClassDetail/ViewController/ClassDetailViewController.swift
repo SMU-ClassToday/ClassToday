@@ -116,7 +116,6 @@ class ClassDetailViewController: UIViewController {
         super.viewDidLoad()
         getUsers()
         setUpUI()
-        checkStar()
         activityIndicator.startAnimating()
         self.setNeedsStatusBarAppearanceUpdate()
     }
@@ -162,6 +161,7 @@ class ClassDetailViewController: UIViewController {
             switch result {
             case .success(let user):
                 self.currentUser = user
+                self.checkStar()
             case .failure(let error):
                 print("ERROR \(error)🌔")
             }
@@ -405,19 +405,38 @@ extension ClassDetailViewController: DetailCustomNavigationBarDelegate {
         firestoreManager.update(classItem: classItem) {}
     }
     func addStar() {
-        MockData.mockUser.stars?.append(classItem.id)
+        currentUser?.stars?.append(classItem.id)
+        firestoreManager.uploadUser(user: currentUser!) { result in
+            switch result {
+                case .success(_):
+                    print("업로드 성공")
+                case .failure(_):
+                    print("업로드 실패")
+            }
+        }
     }
     func deleteStar() {
-        if let index = MockData.mockUser.stars?.firstIndex(of: classItem.id) {
-            MockData.mockUser.stars?.remove(at: index)
+        if let index = currentUser?.stars?.firstIndex(of: classItem.id) {
+            currentUser?.stars?.remove(at: index)
+        }
+        firestoreManager.uploadUser(user: currentUser!) { result in
+            switch result {
+                case .success(_):
+                    print("업로드 성공")
+                case .failure(_):
+                    print("업로드 실패")
+            }
         }
     }
     func checkStar() {
-        guard let starList: [String] = MockData.mockUser.stars else { return }
+        guard let starList: [String] = currentUser?.stars else { return }
+        print(starList)
         if starList.contains(classItem.id) {
+            print("isalreadystared")
             navigationBar.starButton.isSelected = true
         }
         else {
+            print("nostared")
             navigationBar.starButton.isSelected = false
         }
     }
