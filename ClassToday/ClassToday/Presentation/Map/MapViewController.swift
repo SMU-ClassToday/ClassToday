@@ -7,6 +7,7 @@
 
 import UIKit
 import NMapsMap
+import XCTest
 
 class MapViewController: UIViewController {
     //MARK: - NavigationBar Components
@@ -84,12 +85,22 @@ class MapViewController: UIViewController {
             }
         }
     }
+    private var currentUser: User?
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupLayout()
+        User.getCurrentUser { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let user):
+                    self.currentUser = user
+                case .failure(let error):
+                    print(error)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,7 +110,7 @@ class MapViewController: UIViewController {
         }
         setupMapView(location: location)
         if categoryData.isEmpty {
-            fetchClassItem(location: location)
+            fetchClassItem()
         }
     }
     
@@ -144,10 +155,9 @@ class MapViewController: UIViewController {
         }
     }
 
-    private func fetchClassItem(location: Location) {
-        FirestoreManager.shared.fetch(location) { [weak self] data in
-            guard let self = self else { return }
-            self.classItemData = data
+    private func fetchClassItem() {
+        FirestoreManager.shared.fetch { [weak self] data in
+            self?.classItemData = data
         }
     }
 }
@@ -156,16 +166,17 @@ class MapViewController: UIViewController {
 extension MapViewController {
     /// 즐겨찾기 버튼
     @objc private func didTapStarButton(_ sender: UIButton) {
-        guard let location = curLocation else { return }
-        NaverMapAPIProvider().locationToKeyword(location: location) { [weak self] keyword in
-            if sender.isSelected == true {
-                sender.isSelected = false
-                self?.fetchClassItem(location: location)
-            } else {
-                sender.isSelected = true
-                FirestoreManager.shared.starSort(starList: MockData.mockUser.stars ?? [""]) {
-                    self?.classItemData = $0
-                }
+        if sender.isSelected == true {
+            sender.isSelected = false
+            fetchClassItem()
+        } else {
+            sender.isSelected = true
+            guard let list = currentUser?.stars, list.isEmpty == false else {
+                classItemData = []
+                return
+            }
+            FirestoreManager.shared.starSort(starList: list) { [weak self] in
+                self?.classItemData = $0
             }
         }
     }
@@ -221,15 +232,20 @@ extension MapViewController: MapCategorySelectViewControllerDelegate {
             }
             return
         }
-        NaverMapAPIProvider().locationToKeyword(location: curLocation) { [weak self] keyword in
+        NaverMapAPIProvider().locationToKeyword(location: curLocation) { [weak self] result in
             guard let self = self else { return }
-            FirestoreManager.shared.categorySort(keyword: keyword,
-                                                 categories: self.categoryData
-                                                            .map{$0 as? Subject}
-                                                            .compactMap{$0}
-                                                            .map{$0.rawValue}) { [weak self] data in
-                guard let self = self else { return }
-                self.classItemData = data
+            switch result {
+            case .success(let keyword):
+                FirestoreManager.shared.categorySort(keyword: keyword,
+                                                     categories: self.categoryData
+                                                                .map{$0 as? Subject}
+                                                                .compactMap{$0}
+                                                                .map{$0.rawValue}) { [weak self] data in
+                    guard let self = self else { return }
+                    self.classItemData = data
+                }
+            case .failure(let error):
+                debugPrint(error)
             }
         }
     }

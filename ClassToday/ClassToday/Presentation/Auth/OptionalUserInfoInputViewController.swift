@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-import PhotosUI
+import Toast
 
 class OptionalUserInfoInputViewController: UIViewController {
     // MARK: - UI Components
@@ -27,7 +27,10 @@ class OptionalUserInfoInputViewController: UIViewController {
             action: #selector(didTapProfileImagePickerButton),
             for: .touchUpInside
         )
-        button.snp.makeConstraints { $0.height.equalTo(80.0) }
+        button.snp.makeConstraints {
+            $0.height.equalTo(80.0)
+            $0.width.equalTo(80.0)
+        }
         return button
     }()
     private lazy var profileImageStackView: UIStackView = {
@@ -104,7 +107,7 @@ class OptionalUserInfoInputViewController: UIViewController {
         label.font = .systemFont(ofSize: 16.0, weight: .medium)
         return label
     }()
-    
+
     // MARK: - Properties
     var essentialUserInfoInput: (
         name: String?,
@@ -130,54 +133,98 @@ class OptionalUserInfoInputViewController: UIViewController {
 private extension OptionalUserInfoInputViewController {
     @objc func didTapProfileImagePickerButton() {
         print("didTapProfileImagePickerButton")
-        let imagePickerViewController = PHPickerViewController.makeImagePicker(selectLimit: 1)
-        imagePickerViewController.delegate = self
-        present(imagePickerViewController, animated: true)
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
     }
     @objc func didTapRightBarButton() {
         // TODO: - 에러처리
+        let dispatchGroup = DispatchGroup()
+
         User.getCurrentUser { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let user):
                 guard let location = self.essentialUserInfoInput?.location else { return }
                 
-                self.provider.locationToKeywordAddress(location: location) { sigu in
-                    self.provider.locationToKeyword(location: location) { gu in
-                        self.provider.locationToSemiKeyword(location: location) { dong in
-                            FirestoreManager.shared.uploadUser(
-                                user: User(
-                                    id: user.id,
-                                    name: self.essentialUserInfoInput?.name ?? "",
-                                    nickName: self.essentialUserInfoInput?.nickName ?? "",
-                                    gender: self.essentialUserInfoInput?.gender ?? "",
-                                    location: gu + " " + dong,
-                                    detailLocation: sigu,
-                                    keywordLocation: gu,
-                                    email: user.email,
-                                    profileImage: "이미지있음", // TODO: - 이미지 등록하기
-                                    company: self.company,
-                                    description: self.descriptionText,
-                                    stars: [],
-                                    subjects: self.subjectPickerView.checkedSubjects
-                                        .filter { $0.1 }
-                                        .map { $0.0 },
-                                    channels: []
-                                )
-                            ) { result in
-                                switch result {
-                                case .success(_):
-                                    print("성공!@#!@#!#!@#!@👨‍👩‍👦‍👦")
-                                    // TODO: - 정보를 입력했는지 여부 저장
-                                    self.dismiss(animated: true) {
-                                        guard let tabbarController = UIApplication.shared.tabbarController() as? TabbarController else { return }
-                                        tabbarController.selectedIndex = 0
+                self.view.makeToastActivity(.center)
+                dispatchGroup.enter()
+                self.provider.locationToKeywordAddress(location: location) { [weak self] result in
+                    switch result {
+                    case .success(let sigu):
+                        self?.provider.locationToKeyword(location: location) { result in
+                            switch result {
+                            case .success(let gu):
+                                self?.provider.locationToSemiKeyword(location: location) { result in
+                                    switch result {
+                                    case .success(let dong):
+                                        var imageURL: String?
+                                        if let profileImage = self?.profileImage {
+                                            StorageManager.shared.upload(image: profileImage) { result in
+                                                switch result {
+                                                case .success(let url):
+                                                    imageURL = url
+                                                case .failure(let error):
+                                                    debugPrint(error)
+                                                }
+                                                dispatchGroup.leave()
+                                            }
+                                        } else {
+                                            dispatchGroup.leave()
+                                        }
+                                        dispatchGroup.notify(queue: .global()) {
+                                            FirestoreManager.shared.uploadUser(
+                                                user: User(
+                                                    id: user.id,
+                                                    name: self?.essentialUserInfoInput?.name ?? "",
+                                                    nickName: self?.essentialUserInfoInput?.nickName ?? "",
+                                                    gender: self?.essentialUserInfoInput?.gender ?? "",
+                                                    location: gu + " " + dong,
+                                                    detailLocation: sigu,
+                                                    keywordLocation: gu,
+                                                    email: user.email,
+                                                    profileImage: imageURL,
+                                                    company: self?.company,
+                                                    description: self?.descriptionText,
+                                                    stars: [],
+                                                    subjects: self?.subjectPickerView.checkedSubjects
+                                                        .filter { $0.1 }
+                                                        .map { $0.0 },
+                                                    channels: []
+                                                )
+                                            ) { result in
+                                                switch result {
+                                                case .success(_):
+                                                    print("성공!@#!@#!#!@#!@👨‍👩‍👦‍👦")
+                                                    // TODO: - 정보를 입력했는지 여부 저장
+                                                    DispatchQueue.main.async {
+                                                        self?.view.hideAllToasts()
+                                                        self?.dismiss(animated: true) {
+                                                            guard let tabbarController = UIApplication.shared.tabbarController() as? TabbarController else { return }
+                                                            tabbarController.selectedIndex = 0
+                                                        }
+                                                    }
+                                                case .failure(let error):
+                                                    print("ERROR \(error.localizedDescription) 👕")
+                                                    self?.view.hideAllToasts()
+                                                }
+                                            }
+                                        }
+                                    case .failure(let error):
+                                        debugPrint(error.localizedDescription)
+                                        dispatchGroup.leave()
                                     }
-                                case .failure(let error):
-                                    print("ERROR \(error.localizedDescription) 👕")
                                 }
+                            case .failure(let error):
+                                debugPrint(error.localizedDescription)
+                                dispatchGroup.leave()
                             }
                         }
+                    case .failure(let error):
+                        debugPrint(error.localizedDescription)
+                        dispatchGroup.leave()
                     }
                 }
             case .failure(let error):
@@ -207,29 +254,6 @@ extension OptionalUserInfoInputViewController: UITextFieldDelegate {
         } else {
             company = nil
         }
-    }
-}
-
-// MARK: - PHPickerViewControllerDelegate
-extension OptionalUserInfoInputViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        if !results.isEmpty {
-            let result = results.first!
-            let itemProvider = result.itemProvider
-            if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                    if let error = error {
-                        print("ERROR \(error.localizedDescription)🩲🩲")
-                    }
-                    guard let selectedImage = image as? UIImage else { return }
-                    DispatchQueue.main.async {
-                        // TODO: - 버튼 이미지 업데이트 변경
-                        self.profileImagePickerButton.setImage(selectedImage, for: .normal)
-                    }
-                }
-            }
-        }
-        picker.dismiss(animated: true)
     }
 }
 
@@ -279,5 +303,21 @@ private extension OptionalUserInfoInputViewController {
             $0.leading.trailing.equalTo(descriptionTextView).inset(6.0)
             $0.top.equalTo(descriptionTextView).inset(8.0)
         }
+    }
+}
+
+extension OptionalUserInfoInputViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        if let croppedImage = info[UIImagePickerController.InfoKey.cropRect] as? UIImage {
+            profileImage = croppedImage
+        } else if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            profileImage = possibleImage // 수정된 이미지가 있을 경우
+        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            profileImage = possibleImage // 원본 이미지가 있을 경우
+        }
+        
+        self.profileImagePickerButton.setImage(profileImage, for: .normal) // 받아온 이미지를 update
+        picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
     }
 }

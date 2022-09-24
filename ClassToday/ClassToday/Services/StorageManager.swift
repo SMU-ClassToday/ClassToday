@@ -12,6 +12,7 @@ import Alamofire
 enum StorageError: Error {
     case invalidData
     case putDataError
+    case invailidURL
 }
 
 class StorageManager {
@@ -21,9 +22,10 @@ class StorageManager {
     private init() {}
 
     /// FireStorage에 이미지를 업로드 합니다.
-    func upload(image: UIImage, completion: @escaping (String) -> Void) throws {
+    func upload(image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
         guard let data = image.jpegData(compressionQuality: 0.3) else {
-            throw StorageError.invalidData
+            completion(.failure(StorageError.invalidData))
+            return
         }
         let metaData = StorageMetadata()
         metaData.contentType = "image/png"
@@ -31,18 +33,17 @@ class StorageManager {
         let firebaseReference = storage.reference().child(imagePath)
         firebaseReference.putData(data, metadata: metaData) { metaData, error in
             if let error = error {
-                debugPrint(error)
-                return
+                completion(.failure(error))
             }
             firebaseReference.downloadURL { url, error in
                 if let error = error {
-                    debugPrint(error)
-                    return
+                    completion(.failure(error))
                 }
                 guard let url = url else {
+                    completion(.failure(StorageError.invailidURL))
                     return
                 }
-                completion(url.absoluteString)
+                completion(.success(url.absoluteString))
             }
         }
     }

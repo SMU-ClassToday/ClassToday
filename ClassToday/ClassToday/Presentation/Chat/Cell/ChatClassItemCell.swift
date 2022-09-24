@@ -103,9 +103,14 @@ class ChatClassItemCell: UIView {
     private func configure(classItem: ClassItem, completion: @escaping (UIImage)->()) {
         titleLabel.text = classItem.name
         
-        provider.locationToSemiKeyword(location: classItem.location) { [weak self] keyword in
+        provider.locationToSemiKeyword(location: classItem.location) { [weak self] result in
             guard let self = self else { return }
-            self.locationLabel.text = keyword
+            switch result {
+            case .success(let keyword):
+                self.locationLabel.text = keyword
+            case .failure(let error):
+                debugPrint(error)
+            }
         }
         if let price = classItem.price {
             priceLabel.text = price.formattedWithWon()

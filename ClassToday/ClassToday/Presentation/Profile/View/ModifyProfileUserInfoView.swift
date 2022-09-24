@@ -8,15 +8,24 @@
 import UIKit
 import SnapKit
 
+protocol ModifyProfileUserInfoViewDelegate: AnyObject {
+    func present(viewController: UIViewController)
+}
+
 class ModifyProfileUserInfoView: UIView {
     // TODO: - 수정 화면 추가할거 있음
     // MARK: - UI Components
-    private lazy var userImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "person")
-        imageView.layer.cornerRadius = 40.0
-        return imageView
+    private lazy var userImageView: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 40.0
+        button.clipsToBounds = true
+        button.addTarget(
+            self,
+            action: #selector(didTapProfileImagePickerButton),
+            for: .touchUpInside
+        )
+        button.tintColor = .clear
+        return button
     }()
     private lazy var genderImageView: UIImageView = {
         let imageView = UIImageView()
@@ -78,6 +87,8 @@ class ModifyProfileUserInfoView: UIView {
     }()
     
     private let user: User
+    private var profileImage: UIImage?
+    var delegate: ModifyProfileUserInfoViewDelegate?
     
     // MARK: - init
     init(user: User) {
@@ -90,8 +101,8 @@ class ModifyProfileUserInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func sendChangedValue() -> (String, String) {
-        return (userNameTextField.text ?? user.nickName, desciptionTextView.text ?? user.description ?? "")
+    func sendChangedValue() -> (String, String, UIImage?) {
+        return (userNameTextField.text ?? user.nickName, desciptionTextView.text ?? user.description ?? "", profileImage)
     }
 }
 
@@ -105,6 +116,15 @@ extension ModifyProfileUserInfoView: UITextFieldDelegate {
 
 // MARK: - @objc Methods
 private extension ModifyProfileUserInfoView {
+    @objc func didTapProfileImagePickerButton() {
+        print("didTapProfileImagePickerButton")
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        picker.delegate = self
+        delegate?.present(viewController: picker)
+    }
+    
     @objc func didTapDoneButton() {
         desciptionTextView.endEditing(true)
     }
@@ -117,6 +137,14 @@ private extension ModifyProfileUserInfoView {
         companyLabel.text = user.company
         locationLabel.text = user.detailLocation
         desciptionTextView.text = user.description
+        user.thumbnailImage { [weak self] image in
+            guard let image = image else {
+                self?.userImageView.setImage(UIImage(named: "person"), for: .normal)
+                return
+            }
+            self?.userImageView.setImage(image, for: .normal)
+            self?.profileImage = image
+        }
     }
     func layout() {
         [
@@ -166,5 +194,21 @@ private extension ModifyProfileUserInfoView {
             $0.height.equalTo(8.0)
             $0.bottom.equalToSuperview()
         }
+    }
+}
+
+extension ModifyProfileUserInfoView: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        if let croppedImage = info[UIImagePickerController.InfoKey.cropRect] as? UIImage {
+            profileImage = croppedImage
+        } else if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            profileImage = possibleImage // 수정된 이미지가 있을 경우
+        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            profileImage = possibleImage // 원본 이미지가 있을 경우
+        }
+        
+        self.userImageView.setImage(profileImage, for: .normal) // 받아온 이미지를 update
+        picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
     }
 }

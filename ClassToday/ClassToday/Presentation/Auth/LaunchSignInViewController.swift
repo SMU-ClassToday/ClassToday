@@ -190,10 +190,14 @@ private extension LaunchSignInViewController {
         print("didTapKakaoSignUpButton")
         KakaoLoginManager.shared.login { [weak self] result in
             switch result {
-            case .success(let str):
-                self?.dismiss(animated: false) {
-                    guard let tabbarController = UIApplication.shared.tabbarController() as? TabbarController else { return }
-                    tabbarController.selectedIndex = 0  // Will redirect to first tab ( index = 0 )
+            case .success(let account):
+                if account.0 == .signIn {
+                    self?.dismiss(animated: false) {
+                        guard let tabbarController = UIApplication.shared.tabbarController() as? TabbarController else { return }
+                        tabbarController.selectedIndex = 0  // Will redirect to first tab ( index = 0 )
+                    }
+                } else {
+                    self?.navigationController?.pushViewController(EssentialUserInfoInputViewController(), animated: true)
                 }
             case .failure(let error):
                 print(error)

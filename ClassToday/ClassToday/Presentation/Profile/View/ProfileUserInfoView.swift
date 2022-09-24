@@ -13,7 +13,6 @@ class ProfileUserInfoView: UIView {
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "person")
         imageView.layer.cornerRadius = 40.0
         return imageView
     }()
@@ -165,7 +164,7 @@ class ProfileUserInfoView: UIView {
         FirestoreManager.shared.fetchMatch(userId: UserDefaultsManager.shared.isLogin()!) { [weak self] data in
             self?.match = data
             
-            var sold = data.filter {
+            let sold = data.filter {
                 $0.seller == UserDefaultsManager.shared.isLogin()
             }
             for match in sold {
@@ -179,7 +178,7 @@ class ProfileUserInfoView: UIView {
     
     private func fetchMatchBuy() {
         FirestoreManager.shared.fetchMatchBuy(userId: UserDefaultsManager.shared.isLogin()!) { [weak self] data in
-            var purchased = data.filter {
+            let purchased = data.filter {
                 $0.buyer == UserDefaultsManager.shared.isLogin()
             }
             for match in purchased {
@@ -222,6 +221,13 @@ private extension ProfileUserInfoView {
         desciptionLabel.text = user.description
         
         bookmarkCountLabel.text = "0"
+        user.thumbnailImage { [weak self] image in
+            guard let image = image else {
+                self?.userImageView.image = UIImage(named: "person")
+                return
+            }
+            self?.userImageView.image = image
+        }
     }
     func layout() {
         [

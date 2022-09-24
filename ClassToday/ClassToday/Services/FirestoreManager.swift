@@ -31,6 +31,28 @@ class FirestoreManager {
         }
     }
     
+    /// 모든 ClassItem을 패칭합니다.
+    func fetch(completion: @escaping ([ClassItem]) -> ()) {
+        var data: [ClassItem] = []
+        FirestoreRoute.classItem.ref.getDocuments { (snapshot, error) in
+            if let error = error {
+                debugPrint(error)
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let classItem = try document.data(as: ClassItem.self)
+                        data.append(classItem)
+                    } catch {
+                        debugPrint("Decoding is failed")
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
+    
     /// ClassItem을 지역 기준으로 패칭합니다.
     ///
     /// - parameter location: 위치 좌표 값(Location)
@@ -40,23 +62,28 @@ class FirestoreManager {
         let provider = NaverMapAPIProvider()
 
         /// naver reversegeocode를 사용한 기준 지역 패칭
-        provider.locationToKeyword(location: location) { [weak self] keyword in
-            FirestoreRoute.classItem.ref.whereField("keywordLocation", isEqualTo: keyword).getDocuments() { (snapshot, error) in
-                if let error = error {
-                    debugPrint("Error getting documents: \(error)")
-                    return
-                }
-                if let snapshot = snapshot {
-                    for document in snapshot.documents {
-                        do {
-                            let classItem = try document.data(as: ClassItem.self)
-                            data.append(classItem)
-                        } catch {
-                            debugPrint("Decoding is failed")
+        provider.locationToKeyword(location: location) { result in
+            switch result {
+            case .success(let keyword):
+                FirestoreRoute.classItem.ref.whereField("keywordLocation", isEqualTo: keyword).getDocuments() { (snapshot, error) in
+                    if let error = error {
+                        debugPrint("Error getting documents: \(error)")
+                        return
+                    }
+                    if let snapshot = snapshot {
+                        for document in snapshot.documents {
+                            do {
+                                let classItem = try document.data(as: ClassItem.self)
+                                data.append(classItem)
+                            } catch {
+                                debugPrint("Decoding is failed")
+                            }
                         }
                     }
+                    completion(data)
                 }
-                completion(data)
+            case .failure(let error):
+                debugPrint(error)
             }
         }
     }

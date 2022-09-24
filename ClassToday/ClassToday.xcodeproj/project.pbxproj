@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F23A8B4ECD140BC782CCC46 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		6B1483FB287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1483FA287DC992009B49FB /* ProfileDetailViewControllerDelegate.swift */; };
 		6B1483FD287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1483FC287DC9B7009B49FB /* ProfileModifyViewControllerDelegate.swift */; };
 		6B42D941284BBE6000384480 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B42D940284BBE6000384480 /* FirebaseAuthManager.swift */; };
@@ -136,7 +135,6 @@
 		89A67347282A638B00951300 /* ClassItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850FB280DC05900D5D3DC /* ClassItemTableViewCell.swift */; };
 		89A67348282A639600951300 /* Tabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF850F3280DB6F000D5D3DC /* Tabbar.swift */; };
 		89A6734E282A684F00951300 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 89A6734D282A684F00951300 /* SnapKit */; };
-		89A67351282A68BD00951300 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 89A67350282A68BD00951300 /* Alamofire */; };
 		89A67354282A697C00951300 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 89A67353282A697C00951300 /* FirebaseAuth */; };
 		89A67356282A697C00951300 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 89A67355282A697C00951300 /* FirebaseFirestore */; };
 		89A67358282A697C00951300 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 89A67357282A697C00951300 /* FirebaseFirestoreSwift */; };
@@ -150,10 +148,9 @@
 		89DCD07F2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD07D2896C9CA00C1CCA3 /* NaverMapAPIProvider.swift */; };
 		89DCD0812896C9FC00C1CCA3 /* NaverMapAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD0802896C9FB00C1CCA3 /* NaverMapAddress.swift */; };
 		89EDC56828C62C7000F53A5A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 89EDC56728C62C7000F53A5A /* FirebaseMessaging */; };
-		C125E03189012D809E3DC3FC /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */; };
+		89FCA57B28DF454200C7D079 /* Pods_ClassToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */; };
 		C93CCEEF28AC7C7400B17CEE /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CCEEE28AC7C7400B17CEE /* NaverMapView.swift */; };
 		C94C0BD428A494EA00F75B76 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */; };
-		C9C7C38E28B75C5800595126 /* UIWindow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7C38D28B75C5800595126 /* UIWindow+.swift */; };
 		C9ECC1A628AB3566000011B1 /* UIToolBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */; };
 		FC25F8AD2865DE9900B2BBEB /* ChatChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8AC2865DE9900B2BBEB /* ChatChannelViewController.swift */; };
 		FC25F8AF2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC25F8AE2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift */; };
@@ -304,7 +301,6 @@
 		8EA1F2C39C39BCCBDDEC4511 /* Pods_ClassToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClassToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93CCEEE28AC7C7400B17CEE /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
-		C9C7C38D28B75C5800595126 /* UIWindow+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+.swift"; sourceTree = "<group>"; };
 		C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIToolBar+.swift"; sourceTree = "<group>"; };
 		FC25F8AC2865DE9900B2BBEB /* ChatChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChannelViewController.swift; sourceTree = "<group>"; };
 		FC25F8AE2865DF2F00B2BBEB /* ChatChannelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChannelTableViewCell.swift; sourceTree = "<group>"; };
@@ -343,15 +339,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B8984C0284E2D5700192DFD /* Toast in Frameworks */,
+				89FCA57B28DF454200C7D079 /* Pods_ClassToday.framework in Frameworks */,
 				89A67358282A697C00951300 /* FirebaseFirestoreSwift in Frameworks */,
 				89A6734E282A684F00951300 /* SnapKit in Frameworks */,
 				89A67356282A697C00951300 /* FirebaseFirestore in Frameworks */,
 				89A67354282A697C00951300 /* FirebaseAuth in Frameworks */,
-				89A67351282A68BD00951300 /* Alamofire in Frameworks */,
 				89A6735A282A697C00951300 /* FirebaseStorage in Frameworks */,
-				4F23A8B4ECD140BC782CCC46 /* (null) in Frameworks */,
 				89EDC56828C62C7000F53A5A /* FirebaseMessaging in Frameworks */,
-				C125E03189012D809E3DC3FC /* Pods_ClassToday.framework in Frameworks */,
 				FC261A4528CDFBB2008644AE /* MessageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,7 +432,6 @@
 				FCD78A0428731B3A00714EC7 /* UIAlertAction+.swift */,
 				C94C0BD328A494EA00F75B76 /* UIAlertController+.swift */,
 				C9ECC1A528AB3566000011B1 /* UIToolBar+.swift */,
-				C9C7C38D28B75C5800595126 /* UIWindow+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -865,7 +858,6 @@
 			name = ClassToday;
 			packageProductDependencies = (
 				89A6734D282A684F00951300 /* SnapKit */,
-				89A67350282A68BD00951300 /* Alamofire */,
 				89A67353282A697C00951300 /* FirebaseAuth */,
 				89A67355282A697C00951300 /* FirebaseFirestore */,
 				89A67357282A697C00951300 /* FirebaseFirestoreSwift */,
@@ -904,7 +896,6 @@
 			mainGroup = 895D106927F32DCA009FB26F;
 			packageReferences = (
 				89A6734C282A684F00951300 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				89A6734F282A68BD00951300 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				89A67352282A697C00951300 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6B8984BE284E2D5700192DFD /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				FC261A4328CDFBB2008644AE /* XCRemoteSwiftPackageReference "MessageKit" */,
@@ -1061,7 +1052,6 @@
 				6B4942FD28AA693A0047CA0B /* OptionalUserInfoInputViewController.swift in Sources */,
 				892C1CCF28322AD600DE27D3 /* ClassItemType.swift in Sources */,
 				89C26A8C2811EC3A00648206 /* UITextField+.swift in Sources */,
-				C9C7C38E28B75C5800595126 /* UIWindow+.swift in Sources */,
 				892C1CD128322B9D00DE27D3 /* FirestoreRoute.swift in Sources */,
 				89098E1A2820564F006EFD4E /* EnrollImageCell.swift in Sources */,
 				89098E2E2820F996006EFD4E /* EnrollPlaceCell.swift in Sources */,
@@ -1280,11 +1270,13 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UZ47X98976;
+				DEVELOPMENT_TEAM = 67D46DJNPH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClassToday/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근 권한을 허용하시겠어요?";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진 앱 접근 권한을 허용하시겠어요?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1296,7 +1288,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1315,11 +1307,13 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UZ47X98976;
+				DEVELOPMENT_TEAM = 67D46DJNPH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClassToday/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근 권한을 허용하시겠어요?";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진 앱 접근 권한을 허용하시겠어요?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1331,7 +1325,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smuClasstoday.ClassToday2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1376,14 +1370,6 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
-				branch = develop;
-				kind = branch;
-			};
-		};
-		89A6734F282A68BD00951300 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.0;
 			};
@@ -1416,11 +1402,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 89A6734C282A684F00951300 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		89A67350282A68BD00951300 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 89A6734F282A68BD00951300 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
 		};
 		89A67353282A697C00951300 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

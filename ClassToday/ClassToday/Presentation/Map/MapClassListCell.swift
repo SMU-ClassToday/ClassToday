@@ -67,8 +67,13 @@ class MapClassListCell: UITableViewCell {
         titleLabel.text = classItem.name
         addressLabel.text = "\(classItem.keywordLocation ?? "") \(classItem.semiKeywordLocation ?? "") "
         timeLabel.text = classItem.pastDateCalculate()
-        costLabel.text = "\(String(classItem.price ?? "0"))원"
-        priceUnitLabel.text = classItem.priceUnit.description
+        if let price = classItem.price {
+            costLabel.text = "\(price)원"
+            priceUnitLabel.text = classItem.priceUnit.description
+        } else {
+            priceUnitLabel.isHidden = true
+            costLabel.text = "가격협의"
+        }
     }
 
     private func setUpLayout() {

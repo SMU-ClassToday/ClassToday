@@ -198,10 +198,15 @@ private extension EssentialUserInfoInputViewController {
         
         guard let location = location else { return }
         
-        NaverMapAPIProvider().locationToKeywordAddress(location: location) { [weak self] address in
+        NaverMapAPIProvider().locationToKeywordAddress(location: location) { [weak self] result in
             guard let self = self else { return }
-            self.locationLabel.text = address
-            self.locationLabel.textColor = .mainColor
+            switch result {
+            case .success(let address):
+                self.locationLabel.text = address
+                self.locationLabel.textColor = .mainColor
+            case .failure(let error):
+                debugPrint(error.localizedDescription)
+            }
         }
     }
 }
