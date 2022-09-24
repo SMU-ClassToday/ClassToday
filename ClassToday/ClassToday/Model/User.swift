@@ -28,8 +28,6 @@ struct User: Codable, Equatable {
     var stars: [String]?
     let subjects: [Subject]?
     var channels: [String]?
-    var purchasedClassItems: [String]?
-    var soldClassItems: [String]?
     
     func thumbnailImage(completion: @escaping (UIImage?) -> Void) {
         guard let profileImageURL = profileImage else {

@@ -61,41 +61,40 @@ class StarViewController: UIViewController {
 
     private var data: [ClassItem] = []
     private let firestoreManager = FirestoreManager.shared
+    private var currentUser: User?
 
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBar()
+        starSort()
         layout()
-        starSort(starList: MockData.mockUser.stars ?? [""])
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        starSort(starList: MockData.mockUser.stars ?? [""])
+        starSort()
     }
     // MARK: - Method
-    private func starSort(starList: [String]) {
+    private func starSort() {
         User.getCurrentUser { [weak self] result in
-            guard let self = self else { return }
             switch result {
-            case .success(let user):
-                self.classItemTableView.refreshControl?.endRefreshing()
-                guard let keywordLocation = user.keywordLocation else {
-                    // 위치 설정 해야됨
-                    return
-                }
-                self.firestoreManager.starSort(keyword: keywordLocation, starList: starList) { [weak self] data in
-                    self?.data = data
-                    DispatchQueue.main.async {
+                case .success(let user):
+                    print(user.stars!)
+                    FirestoreManager.shared.starSort(starList: user.stars!) { [weak self] data in
+                        self?.data = data
                         self?.classItemTableView.reloadData()
                     }
-                }
-                
-            case .failure(let error):
-                self.classItemTableView.refreshControl?.endRefreshing()
-                print("ERROR \(error)🌔")
+                case .failure(_):
+                    print("failed")
             }
+        }
+    }
+    
+    private func starSort(starList: [String]) {
+        firestoreManager.starSort(starList: starList) { [weak self] data in
+            self?.data = data
         }
     }
 }
@@ -108,7 +107,7 @@ private extension StarViewController {
     
     @objc func beginRefresh() {
         print("beginRefresh!")
-        starSort(starList: MockData.mockUser.stars ?? [""])
+        starSort()
         refreshControl.endRefreshing()
     }
 }
