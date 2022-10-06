@@ -26,7 +26,6 @@ class ReviewDetailViewController: UIViewController {
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "person")
         imageView.layer.cornerRadius = 40.0
         return imageView
     }()
@@ -102,6 +101,13 @@ private extension ReviewDetailViewController {
     func configureUser() {
         userNameLabel.text = buyer.nickName
         userLocationAndDateLabel.text = buyer.detailLocation
+        buyer.thumbnailImage { [weak self] image in
+            guard let image = image else {
+                self?.userImageView.image = UIImage(named: "person")
+                return
+            }
+            self?.userImageView.image = image
+        }
     }
     func configureReviewContent() {
         contentLabel.text = match.review?.description

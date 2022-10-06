@@ -99,16 +99,19 @@ class ProfileUserInfoView: UIView {
     }()
     private lazy var buyCountLabel: UILabel = {
         let label = UILabel()
+        label.text = "0"
         label.font = .systemFont(ofSize: 18.0, weight: .medium)
         return label
     }()
     private lazy var sellCountLabel: UILabel = {
         let label = UILabel()
+        label.text = "0"
         label.font = .systemFont(ofSize: 18.0, weight: .medium)
         return label
     }()
     private lazy var bookmarkCountLabel: UILabel = {
         let label = UILabel()
+        label.text = "0"
         label.font = .systemFont(ofSize: 18.0, weight: .medium)
         return label
     }()
@@ -220,7 +223,6 @@ private extension ProfileUserInfoView {
         locationLabel.text = user.detailLocation
         desciptionLabel.text = user.description
         
-        bookmarkCountLabel.text = "0"
         user.thumbnailImage { [weak self] image in
             guard let image = image else {
                 self?.userImageView.image = UIImage(named: "person")

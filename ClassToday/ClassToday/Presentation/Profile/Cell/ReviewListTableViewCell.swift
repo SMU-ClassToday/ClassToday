@@ -14,7 +14,6 @@ class ReviewListTableViewCell: UITableViewCell {
     // MARK: - UI Components
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "person")
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 30.0
         return imageView
@@ -55,6 +54,7 @@ class ReviewListTableViewCell: UITableViewCell {
     // MARK: - setup
     func setupView(match: Match) {
         layout()
+        contentLabel.text = match.review?.description
         FirestoreManager.shared.readUser(uid: match.buyer) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -62,11 +62,17 @@ class ReviewListTableViewCell: UITableViewCell {
                 self.buyer = user
                 self.userNameLabel.text = user.nickName
                 self.locationDateLabel.text = user.detailLocation
+                user.thumbnailImage { [weak self] image in
+                    guard let image = image else {
+                        self?.userImageView.image = UIImage(named: "person")
+                        return
+                    }
+                    self?.userImageView.image = image
+                }
             case .failure(_):
                 print("getbuyer fail")
             }
         }
-        contentLabel.text = match.review?.description
     }
 }
 
