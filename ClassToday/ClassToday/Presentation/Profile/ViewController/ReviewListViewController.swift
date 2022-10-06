@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Cosmos
 
 class ReviewListViewController: UIViewController {
     // MARK: - UI Components

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Cosmos
 
 protocol ReviewInputViewControllerDelegate: AnyObject {
     func saveReview(review: ReviewItem)
@@ -61,31 +62,6 @@ class ReviewInputViewController: UIViewController {
         label.font = .systemFont(ofSize: 18.0, weight: .semibold)
         return label
     }()
-    
-    //TODO: - 별점 커스텀 슬라이더 만들기
-    private lazy var gradeTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "별점 선택"
-        textField.inputView = gradePickerView
-        textField.inputAccessoryView = pickerToolBar
-        return textField
-    }()
-    private lazy var gradePickerView: UIPickerView = {
-        let picker = UIPickerView()
-        picker.frame = CGRect(x: 100, y: 100, width: 200, height: 200)
-        picker.delegate = self
-        picker.dataSource = self
-        return picker
-    }()
-
-    private lazy var pickerToolBar: UIToolbar = {
-        let toolBar = UIToolbar()
-        toolBar.tintColor = .darkGray
-        toolBar.frame = CGRect(x: 0, y: 0, width: 0, height: 35)
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolBar.setItems([flexSpace, exitButton], animated: true)
-        return toolBar
-    }()
 
     private lazy var exitButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -94,7 +70,22 @@ class ReviewInputViewController: UIViewController {
         button.action = #selector(pickerExit)
         return button
     }()
-    private lazy var gradeStarView = GradeStarView(grade: 5.0)
+
+    private lazy var gradeStarView: CosmosView = {
+        let cosmosView = CosmosView()
+        cosmosView.rating = 5
+        cosmosView.settings.starSize = 40
+        cosmosView.settings.starMargin = 10
+        cosmosView.settings.fillMode = .half
+        cosmosView.settings.minTouchRating = 0
+        cosmosView.text = "5.0"
+
+        cosmosView.didTouchCosmos = { [weak self] rating in
+            self?.grade = rating
+            cosmosView.text = rating.toString()
+        }
+        return cosmosView
+    }()
     
     private lazy var descriptionTextField: UITextField = {
         let textField = UITextField()
@@ -109,7 +100,6 @@ class ReviewInputViewController: UIViewController {
             sojungLabel,
             gradeLabel,
             gradeStarView,
-            gradeTextField,
             descriptionTextField
         ].forEach { stackView.addArrangedSubview($0) }
         descriptionTextField.snp.makeConstraints {
@@ -233,7 +223,7 @@ extension ReviewInputViewController: UIPickerViewDelegate, UIPickerViewDataSourc
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        gradeStarView.updateStars(grade: gradeList[row])
-        grade = gradeList[row]
+//        gradeStarView.updateStars(grade: gradeList[row])
+//        grade = gradeList[row]
     }
 }

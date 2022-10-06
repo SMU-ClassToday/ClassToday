@@ -17,6 +17,7 @@ enum Icon {
     case search
     case category
     case star
+    case halfStar
     case fillStar
     case xmark
     case disclosureIndicator
@@ -39,6 +40,8 @@ enum Icon {
             return UIImage(systemName: "menucard")
         case .star:
             return UIImage(systemName: "star")
+        case .halfStar:
+            return UIImage(systemName: "star.leadinghalf.filled")
         case .fillStar:
             return UIImage(systemName: "star.fill")
         case .xmark:

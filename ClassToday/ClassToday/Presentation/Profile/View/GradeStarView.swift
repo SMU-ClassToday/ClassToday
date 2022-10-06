@@ -48,35 +48,55 @@ extension GradeStarView {
     func updateStars(grade: Double) {
         switch grade {
         case (0.0..<1.0):
-            starImageView1.image = Icon.star.image
+            if grade == 0.5 {
+                starImageView1.image = Icon.halfStar.image
+            } else {
+                starImageView1.image = Icon.star.image
+            }
             starImageView2.image = Icon.star.image
             starImageView3.image = Icon.star.image
             starImageView4.image = Icon.star.image
             starImageView5.image = Icon.star.image
         case (1.0..<2.0):
             starImageView1.image = Icon.fillStar.image
-            starImageView2.image = Icon.star.image
+            if grade == 1.5 {
+                starImageView2.image = Icon.halfStar.image
+            } else {
+                starImageView2.image = Icon.star.image
+            }
             starImageView3.image = Icon.star.image
             starImageView4.image = Icon.star.image
             starImageView5.image = Icon.star.image
         case (2.0..<3.0):
             starImageView1.image = Icon.fillStar.image
             starImageView2.image = Icon.fillStar.image
-            starImageView3.image = Icon.star.image
+            if grade == 2.5 {
+                starImageView3.image = Icon.halfStar.image
+            } else {
+                starImageView3.image = Icon.star.image
+            }
             starImageView4.image = Icon.star.image
             starImageView5.image = Icon.star.image
         case (3.0..<4.0):
             starImageView1.image = Icon.fillStar.image
             starImageView2.image = Icon.fillStar.image
             starImageView3.image = Icon.fillStar.image
-            starImageView4.image = Icon.star.image
+            if grade == 3.5 {
+                starImageView4.image = Icon.halfStar.image
+            } else {
+                starImageView4.image = Icon.star.image
+            }
             starImageView5.image = Icon.star.image
         case (4.0..<5.0):
             starImageView1.image = Icon.fillStar.image
             starImageView2.image = Icon.fillStar.image
             starImageView3.image = Icon.fillStar.image
             starImageView4.image = Icon.fillStar.image
-            starImageView5.image = Icon.star.image
+            if grade == 4.5 {
+                starImageView5.image = Icon.halfStar.image
+            } else {
+                starImageView5.image = Icon.star.image
+            }
         case (5.0...):
             starImageView1.image = Icon.fillStar.image
             starImageView2.image = Icon.fillStar.image
