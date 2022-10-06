@@ -12,7 +12,7 @@ class DetailUserCell: UITableViewCell {
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 40
+        imageView.layer.cornerRadius = 20
         return imageView
     }()
     private lazy var userNameLabel: UILabel = {
