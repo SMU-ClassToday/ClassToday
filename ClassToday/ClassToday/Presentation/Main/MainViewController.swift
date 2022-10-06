@@ -189,6 +189,12 @@ class MainViewController: UIViewController {
                 self?.data = data
                 self?.dataBuy = data.filter { $0.itemType == ClassItemType.buy }
                 self?.dataSell = data.filter { $0.itemType == ClassItemType.sell }
+
+                // 최신순 정렬
+                self?.data.sort { $0 > $1 }
+                self?.dataBuy.sort { $0 > $1 }
+                self?.dataSell.sort { $0 > $1 }
+                
                 DispatchQueue.main.async {
                     self?.classItemTableView.reloadData()
                     self?.classItemTableView.refreshControl?.endRefreshing()

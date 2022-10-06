@@ -66,6 +66,7 @@ class MapViewController: UIViewController {
     private var curLocation: Location? {
         return LocationManager.shared.getCurrentLocation()
     }
+    private var curKeyword: String?
     private var delegate: MapCategorySelectViewControllerDelegate?
     private var categoryData: [CategoryItem] = [] {
         willSet {
@@ -78,14 +79,24 @@ class MapViewController: UIViewController {
     private var classItemData: [ClassItem] = [] {
         willSet {
             mapView.removeMarkers()
+            var localDatas: [ClassItem] = []
+            newValue.forEach {
+                if $0.keywordLocation == curKeyword {
+                    localDatas.append($0)
+                }
+            }
+            localDatas.sort { $0 > $1 }
+            print(localDatas)
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.configureMapView(data: newValue)
-                self.mapClassListView.configure(with: newValue)
+                self.mapClassListView.configure(with: localDatas)
             }
         }
     }
     private var currentUser: User?
+    private var currentLocation: String?
+    private var naverMapAPIProvider = NaverMapAPIProvider()
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -106,9 +117,20 @@ class MapViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let location = curLocation else {
+            debugPrint("위치를 읽어올 수 없습니다.")
             return
         }
         setupMapView(location: location)
+        DispatchQueue.global().sync {
+            naverMapAPIProvider.locationToKeyword(location: location) { [weak self] result in
+                switch result {
+                case .success(let keyword):
+                    self?.curKeyword = keyword
+                case .failure(let error):
+                    debugPrint(error)
+                }
+            }
+        }
         if categoryData.isEmpty {
             fetchClassItem()
         }
@@ -225,28 +247,17 @@ extension MapViewController: MapCategoryViewDelegate {
 extension MapViewController: MapCategorySelectViewControllerDelegate {
     func passData(subjects: Set<Subject>) {
         categoryData = Array(subjects)
-        guard let curLocation = curLocation, !categoryData.isEmpty else {
-            FirestoreManager.shared.fetch(curLocation) { [weak self] data in
-                guard let self = self else { return }
-                self.classItemData = data
-            }
+        guard !categoryData.isEmpty else {
+            fetchClassItem()
             return
         }
-        NaverMapAPIProvider().locationToKeyword(location: curLocation) { [weak self] result in
+        FirestoreManager.shared.categorySort(categories: self.categoryData
+            .map{$0 as? Subject}
+            .compactMap{$0}
+            .map{$0.rawValue}
+        ){ [weak self] data in
             guard let self = self else { return }
-            switch result {
-            case .success(let keyword):
-                FirestoreManager.shared.categorySort(keyword: keyword,
-                                                     categories: self.categoryData
-                                                                .map{$0 as? Subject}
-                                                                .compactMap{$0}
-                                                                .map{$0.rawValue}) { [weak self] data in
-                    guard let self = self else { return }
-                    self.classItemData = data
-                }
-            case .failure(let error):
-                debugPrint(error)
-            }
+            self.classItemData = data
         }
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 
-struct ClassItem: Codable {
+struct ClassItem: Codable, Equatable {
     var id: String = UUID().uuidString
     let name: String
     let date: Set<DayWeek>?
@@ -96,5 +96,9 @@ struct ClassItem: Codable {
             text = " | 방금 전"
         }
         return text
+    }
+    
+    static func > (lhd: Self, rhd: Self) -> Bool {
+        return lhd.createdTime > rhd.createdTime
     }
 }

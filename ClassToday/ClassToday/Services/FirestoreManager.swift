@@ -217,6 +217,31 @@ class FirestoreManager {
         }
     }
     
+    /// Category 배열에 해당하는 ClassItem을 패칭합니다.
+    ///
+    /// - parameter categories: 카테고리 배열
+    /// - parameter completion: 수업 아이템 패칭 결과 클로저
+    func categorySort(categories: [String], completion: @escaping ([ClassItem]) -> ()) {
+        var data: [ClassItem] = []
+        FirestoreRoute.classItem.ref.whereField("subjects", arrayContainsAny: categories).getDocuments() { (snapshot, error) in
+            if let error = error {
+                debugPrint("Error getting documents: \(error)")
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let classItem = try document.data(as: ClassItem.self)
+                        data.append(classItem)
+                    } catch {
+                        debugPrint(error)
+                    }
+                }
+            }
+            completion(data)
+        }
+    }
+    
     //star
     func starSort(starList: [String], completion: @escaping ([ClassItem]) -> ()) {
         var data: [ClassItem] = []

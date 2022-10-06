@@ -43,14 +43,7 @@ class MapClassListView: UIView {
     }()
     
     // MARK: - Properties
-    private var datas: [ClassItem] = [] {
-        willSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.listView.reloadData()
-            }
-        }
-    }
+    private var datas: [ClassItem] = []
     weak var delegate: MapClassListViewDelegate?
     
     override init(frame: CGRect) {
@@ -81,12 +74,15 @@ class MapClassListView: UIView {
 
     func configure(with datas: [ClassItem]) {
         self.datas = datas
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.listView.reloadData()
+        }
     }
 }
 
 extension MapClassListView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(datas.count)
         return datas.count
     }
 
