@@ -1,0 +1,58 @@
+PODS:
+  - Alamofire (5.4.3)
+  - KakaoSDKAuth (2.11.1):
+    - KakaoSDKCommon (= 2.11.1)
+  - KakaoSDKCommon (2.11.1):
+    - KakaoSDKCommon/Common (= 2.11.1)
+    - KakaoSDKCommon/Network (= 2.11.1)
+  - KakaoSDKCommon/Common (2.11.1)
+  - KakaoSDKCommon/Network (2.11.1):
+    - Alamofire (~> 5.1)
+    - KakaoSDKCommon/Common (= 2.11.1)
+  - KakaoSDKUser (2.11.1):
+    - KakaoSDKAuth (= 2.11.1)
+  - Moya (15.0.0):
+    - Moya/Core (= 15.0.0)
+  - Moya/Core (15.0.0):
+    - Alamofire (~> 5.0)
+  - naveridlogin-sdk-ios (4.1.3)
+  - NMapsMap (3.15.0)
+  - Popover (1.3.0)
+  - SwiftLint (0.45.1)
+
+DEPENDENCIES:
+  - KakaoSDKAuth
+  - KakaoSDKCommon
+  - KakaoSDKUser
+  - Moya
+  - naveridlogin-sdk-ios
+  - NMapsMap
+  - Popover
+  - SwiftLint
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - KakaoSDKAuth
+    - KakaoSDKCommon
+    - KakaoSDKUser
+    - Moya
+    - naveridlogin-sdk-ios
+    - NMapsMap
+    - Popover
+    - SwiftLint
+
+SPEC CHECKSUMS:
+  Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
+  KakaoSDKAuth: bb2dfa7be30daa8403c9cfc8001aa6fde7a5b779
+  KakaoSDKCommon: 555e1bb46595b842ded01cf7888cc17bbae4e113
+  KakaoSDKUser: 08c0a4f40bebdebdf948a9e3d0e44ed5c2754f99
+  Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
+  naveridlogin-sdk-ios: b9d7c20677981177ed994ecb1c8c2b49f223277d
+  NMapsMap: f151761c088d6516064c59da03ab6503769486e6
+  Popover: 10e1d9528f81d9504df984b7b3f491292bc1822d
+  SwiftLint: 06ac37e4d38c7068e0935bb30cda95f093bec761
+
+PODFILE CHECKSUM: 35a4161ac955382323a56caab7f1bb0d4ba14546
+
+COCOAPODS: 1.11.3

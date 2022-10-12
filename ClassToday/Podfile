@@ -1,0 +1,19 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+  use_frameworks!
+
+def common_pods
+  pod 'SwiftLint'
+  pod 'Popover'
+  pod 'NMapsMap'
+  pod 'Moya'
+  pod 'naveridlogin-sdk-ios'
+  pod 'KakaoSDKCommon'
+  pod 'KakaoSDKAuth'
+  pod 'KakaoSDKUser'
+end
+
+target 'ClassToday' do
+  common_pods
+end
